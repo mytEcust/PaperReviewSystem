@@ -1,0 +1,777 @@
+132
+第 30 卷
+2014 年
+第 12 期
+6月
+农 业 工 程 学 报
+Transactions of the Chinese Society of Agricultural Engineering
+Vol.30 No.12
+Jun. 2014
+基于高光谱成像的苹果虫害检测特征向量的选取
+田有文 1，程
+怡 1，王小奇 2，栗庆吉 1
+（1. 沈阳农业大学信息与电气工程学院，沈阳 110866；
+2. 沈阳农业大学植物保护学院，沈阳 110866）
+摘 要：利用高光谱成像技术，明确苹果虫害无损检测的最优特征向量，以实现对苹果虫害的快速、准确、无损
+检测。本文首先对 646 nm 波长的特征图像进行阈值分割、膨胀与腐蚀运算获得掩膜图像，并利用掩模图像对高
+光谱图像进行掩模和主成分分析，对获得的 PC1（the first principal component，第一主成分）图像进行最大熵阈
+值分割以有效提取虫害区域。然后对比分析虫害区域与正常区域图像的纹理特征，提取灰度共生矩阵的 4 个方向
+的 4 个纹理参数（能量、熵、惯性矩和相关性），并且采用基于高光谱图像的光谱差值获取了 2 个特征波长对应
+的光谱相对反射率作为光谱特征。优化组合纹理特征和光谱特征成 4 个特征向量组，采用 BP（back propagation，
+反向传播）神经网络对正常苹果和虫害苹果进行检测。结果表明，融合 0 度方向的能量、熵、惯性矩和相关性的
+纹理特征和 646、824 nm 波段的相对光谱反射率的光谱特征进行检测识别效果最好，正常果的识别率为 100%，
+虫害果的识别率为 100%，并且速度快、误差小。该研究所获得的特征向量可为开发多光谱成像的苹果品质检测
+和分级系统提供参考。
+关键词：无损检测；主成分分析；图像处理；光谱特征；高光谱成像
+doi：10.3969/j.issn.1002-6819.2014.12.016
+文献标识码：A
+文章编号：1002-6819(2014)-12-0132-08
+中图分类号：TP391.41；TP274+.52
+田有文，程 怡，王小奇，等. 基于高光谱成像的苹果虫害检测特征向量的选取[J].农业工程学报，2014，30(12)：
+132－139.
+Tian Youwen, Cheng Yi, Wang Xiaoqi, et al. Feature vectors determination for pest detection on apples based on
+hyperspectral imaging[J]. Transactions of the Chinese Society of Agricultural Engineering (Transactions of the CSAE),
+2014, 30(12): 132－139. (in Chinese with English abstract)
+0
+引
+言
+中国是苹果生产大国，苹果的种植面积和总产
+量均居世界第一[1]。然而中国苹果在国际市场上，
+因为采后检测、分级技术落后等，导致品质较差、
+在国际市场上缺乏竞争力，苹果出口占总产量的比
+重非常低[2]。为了解决此问题，就必须严格把关中
+国苹果的缺陷检测，尤其是苹果虫害的检测。苹果
+在生长中，果实有时会受到食心虫等虫害的侵入，
+从而使其正常新陈代谢受到干扰，其生理机能、组
+织结构等被破坏，极大影响苹果的品质和销售，因
+此苹果虫害作为苹果质量分级的重要指标之一[3]，
+其检测尤为重要。害虫侵入苹果果实后，往往在其
+内部进行驻洞，在表面形成虫眼[4]。目前，中国对
+水果缺陷的检测仍停留在主要依靠人工目测、抽样
+切片或常规可见光机器视觉检测的阶段[5]，误判率
+收稿日期：2014-02-12
+修订日期：2014-06-03
+基金项目：农业部公益性行业（农业）科研专项资助项目（201103024）
+；
+辽宁省教育厅科学技术研究资助项目（L2011114）
+作者简介：田有文（1968－），女，辽宁沈阳人，副教授，博士后，中
+国农业工程学会会员（E041200502S）
+，主要从事图谱分析在农产品品质
+检测的应用研究。沈阳 沈阳农业大学信息与电气工程学院，110866。
+Email：youwen_tian10@163.com
+较高，且不能满足水果在线检测应具备的无损性、
+快速性、直观性等要求[6]。因此，亟需开发一种快
+速、无损、高效的苹果虫害检测方法。
+由于高光谱成像技术融合了图像处理和光谱
+分析的优点，可以快速、无损地检测研究对象内外
+部特性，因此近年来在农产品品质与分级中获得了
+广泛的应用[7-10]，尤其为农产品受虫害后的检测带
+来了新的途径和方法[11]。Ronald P. Haff等[12]研究了
+一种受果蝇侵染的芒果高光谱图像进行分析和识
+别其上斑点的方法，该方法经反复优化参数，最终
+结果为最低总体识别错误率为12.3%。Singh C B
+等 [13] 利用近红外光谱成像区分正常小麦与虫蛀小
+麦的损害，使用线性判别分析（linear discriminant
+analysis, LDA ） 和 二 次 判 别 分 析 （ quadratic
+discriminant analysis,QDA）对健康小麦与虫蛀小麦
+判别，结果表明正确分类率达85%～100%。Wang J.
+等 [14] 应用高光谱成像技术实现了对枣的外部虫害
+的检测，总体正确识别率为97%。Xing J等[15]利用
+高光谱透视图像和反射光谱数据研究酸樱桃的内
+部虫害（象鼻虫）的无损检测，采用偏最小二乘判
+别分析法正确识别樱桃的内部虫害的准确率分别
+为82.11%和81.3%。在国内吴龙国[16]等利用近红外
+第 12 期
+田有文等：基于高光谱成像的苹果虫害检测特征向量的选取
+高光谱成像系统采集正常长枣与虫眼枣图像，利用
+特征波长主成分分析法结合波段比算法进行虫眼
+枣识别，识别率达到90%。而国内外针对苹果虫害
+检测的研究尚鲜有报道。本文研究的目的是通过高
+光谱成像技术，探索有效提取能正确识别苹果虫害
+的特征向量，从而为后续实现苹果虫害的快速、无
+损检测，构建基于多光谱成像技术的苹果品质在线
+检测与分级系统提供理论依据。
+1
+材料与方法
+1.1
+试验材料
+本研究选取红富士苹果作为试验的研究对象。
+从沈阳市沈北新区苹果种植示范园采集苹果 160
+个。这些果实果型匀称，直径范围在 68.5～88 mm，
+质量范围在 128～211 g，其中 80 个为有虫害的苹
+果，虫孔直径约 2 mm，另外 80 个为正常苹果。从
+虫害和正常苹果中各随机拣选 50 个用于检测苹果
+虫害算法构建，其他样本用于算法的验证。
+1.2 高光谱成像系统
+本研究中高光谱成像系统如图 1 所示。整个系
+统由高光谱成像光谱仪（ImSpector V10E，Spectral
+Imaging Ltd）
+、一架 1 392 像素×1 040 像素的面阵
+CCD 相机（IGV-B1410M，IMPERX Incorporated）
+、
+一套位移台及控制平台（IRCP0076-1 COM）、两个
+150 W 的光纤卤素灯（3900 Illuminatior, Illumination
+Technologies）
+、一个暗箱（120 cm×50 cm×140 cm）
+和一台计算机（DELL Vostro 5560D- 1528）等组成。
+高光谱摄像头的光谱范围为 400～1100 nm，光谱分
+辨率为 2.8 nm。
+1. 相机 2.光谱仪 3.镜头 4.光源 5.样本 6.平移台 7.位移平台
+控制器 8.计算机
+1. Camera 2. Spectrometer 3. Shot 4. Light source 5. Sample
+6. Stages 7. Displacement platform controller 8. Computer
+Fig.1
+1.3
+图 1 高光谱成像系统示意图
+Schematic diagram of hyperspectral imaging system
+高光谱图像采集
+利用高光谱成像系统获取苹果高光谱图像，首
+先设定好物距、光源强度、镜头光圈度数、相机曝
+光时间、移动平台速度，以确保采集的图像清晰且
+133
+不失真。最终确定镜头到苹果表面的距离（即物距）
+为 260 mm，在高光谱图像数据采集软件 Spectral
+Image 中设定相机曝光时间为 68 ms，平台移动速度
+为 0.8 mm/s。然后将反射率为 99%标准白色校正板
+（Spectralon, Labsphere Inc.）进行采集得到全白的
+标定图像 IW，再拧上镜头盖且关闭光源采集到全黑
+的标定图像 ID。最后逐个将苹果放置于移动平台
+上，且有虫眼位对准镜头，若是正常苹果将赤道位
+对准镜头。通过高光谱图像数据采集软件 Spectral
+Image 将获得苹果每个空间位置的整个光谱区域的
+光谱信息。
+2
+高光谱图像数据处理方法
+数据处理采用 ENVI 4.7（Research System Inc.，
+美国）[17]、MATLAB 7.1The MathWorks Inc.，美
+国）[18]和 Excel 2011（Microsoft，美国）[19]软件。
+2.1 黑白板校正
+为了消除高光谱摄像头中暗电流及不均匀光
+强产生的噪声，应对高光谱成像装置进行黑白板校
+正。按照下列公式（1）计算可得校正后图像 R[20]。
+I −ID
+R= S
+× 100
+（1）
+IW − I D
+式中：R 为校正后的高光谱图像的相对反射率，%；
+IS 为原始的苹果高光谱图像；ID 为黑板标定图像；
+Iw 为白板标定图像。
+2.2 主成分分析
+主成分分析（ principal components analysis ，
+PCA）是非常有效的多变量分析技术[21]，常用来数
+据降维。由于采集的高光谱数据首尾有噪声，故本
+研究利用 PCA 只对可见—近红外（450～950 nm）
+光谱区域的苹果高光谱图像数据进行降维，以获得
+各 PC 图 像 。 根 据 苹 果 各 主 成 分 （ principal
+components，PC）图像表面虫害区域和正常区域的
+对比度，确定用于后续分割的 PC 图像。另外，根
+据苹果高光谱图像的虫害区域与正常区域各个波
+段的光谱反射率的差异，确定用于后续处理的特征
+波长，并以此确定单波段特征图像。
+2.3 图像分割方法
+图像分割是图像处理最重要的步骤之一，此过
+程的精确性很大程度上影响后续的数据处理。本研
+究分割的目的一是分割出苹果与背景，二是从苹果
+中分割出虫害部位。本文首先对特征图像采用 Otsu
+阈值分割方法形成二值化图像，并对其进行腐蚀膨
+胀处理，获取掩膜图像。然后对高光谱图像进行掩
+膜处理[22]，并对掩膜高光谱图像进行主成分分析，
+确定主成分图像。最后结合二值化图像对主成分图
+农业工程学报
+134
+像进行阈值分割，实现苹果虫害区域分割，从而确
+定虫害区域的像素点位置。该图像分割方法系列操
+作步骤如图 2 所示。
+连接网络[25]。它具有自组织、自学习、联想存储的
+功能和高速寻找优化解的能力，在模式识别、图像
+处理、人工智能等领域有广泛的应用。其主要特点
+是信号向前传递，误差反向传播[26]。对于苹果虫害
+检测问题，可以看作是输入苹果虫害特征到输出是
+否是虫害的非线性映射问题。通过将学习样本提供
+给 BP 神经网络，完成网络的训练后，即可根据苹
+果表面的纹理与光谱表现特征，通过神经网络的测
+试检测出苹果是否存在虫害。
+3
+3.1
+Fig.2
+图 2 图像分割流程图
+Flow chart of image segmentation
+2.4
+图谱特征分析
+通过观察得知，苹果表面虫害区域和正常区域
+的纹理有所差异，所以采用纹理特征来描述这种差
+异。区域灰度共生矩阵是描述图像纹理信息的有效
+特征，反映像素相对位置的空间信息[23]，用纹理图
+像中某方向相隔 d 像素距离的分别具有灰度级 i 和
+j 一对像素出现的概率来表示，即 p(i，j/θ，d)，记
+为 pij。本研究采用描述灰度共生矩阵 4 个纹理参数，
+即能量、熵、惯性矩和相关性，分别在 4 个方向 0、
+45°、90°、135°上的纹理特征，参数具体计算见文
+献[23]。
+通过观察发现，在苹果高光谱图像数据中，每
+点的像素都对应于一个全波段的光谱信息。如图 3
+所 示 ， 苹 果 表 面 虫 害 区 域 与 正 常 区 域 的 400 ～
+1 000 nm 光谱曲线有明显的差异，因此可以分别在
+可见光区域和近红外区域选取相对反射率差异比
+较大的波段的相对反射率作为光谱特征。
+Fig.3
+2.5
+图 3 光谱相对反射率曲线
+Curve of spectral relative reflectance
+检测模型
+BP（back propagation，反向传播）人工神经网
+络是前向神经网络的有监督学习算法[24]，是由输入
+层、输出层和若干中间隐含层组成的多层无反馈的
+2014 年
+结果与讨论
+感兴趣区域光谱分析
+在本研究中，分别提取了 80 个苹果虫害样本
+和 80 个正常苹果样本感兴趣区域（region of interest,
+ROI）的反射率光谱曲线。从图 3 中可以看出，虫
+害区域的反射率在整个光谱区域内都比正常区域
+的反射率低。其中 680 nm 处的吸收峰主要反映了
+苹果的表面颜色信息，受苹果表面叶绿素的吸收影
+响的[27]。苹果受虫害侵入后，在苹果表面形成孔洞，
+此处的叶绿素严重短缺，颜色与正常表面存在显著
+差别，故 680 nm 处的反射率出现明显的降低；而
+970 nm 处的吸收峰则主要反映了水果表面水分含
+量信息，受苹果表面的水分吸收影响[28]。苹果虫害
+区域水分比较短缺，故 970 nm 处的光谱反射率低
+于苹果正常区域的光谱反射率。
+3.2 苹果虫害区域的分割
+如图 3 所示，在波长 646 nm 处苹果表面虫害
+区域与正常区域的相对反射率有较大的差异，因此
+可选取 646 nm 为特征波长，选取 646 nm 波长的图
+像为特征图像，如图 4 a 所示。从图 4 a 中可以看出，
+苹果区域灰度值较高，而背景区域较低，故可应用
+阈值分割该图像得到二值化图像。但受苹果表面的
+“皮孔”与斑点的影响，分割后的苹果区域有些噪
+声，另外苹果边缘灰度值较低，分割后较小，对分
+割后的二值化图像进行膨胀与腐蚀运算，从而得到
+最终的二值化图像，即掩模图像，如图 4 b 所示。
+并应用此二值化图像对高光谱图像进行掩膜。然后
+对掩模后的图像进行主成分分析。从图 3 中可以看
+到苹果表面 400～500 nm 和 980～1 000 nm 范围内
+的噪声较大，所以选取 500～980 nm 之间的波段做
+主成分分析，得出主成分图 1（principal component
+1，PC1）、主成分图 2（principal component 2，PC2）
+、
+主成分图 3（principal component 3，PC3），分别如
+图 4 c、4 d 和 4 e 所示。从图中可以看出，PC2 图
+虫害区域的灰度值较高，与周围的界限比较明显，
+但图像中有与虫害区域相同的灰度值，故较难分割
+第 12 期
+田有文等：基于高光谱成像的苹果虫害检测特征向量的选取
+出虫害区域。PC3 图虫害区域的灰度值较低，与周
+围的界限比较模糊，而且图中有大量与虫害部位相
+似的灰度值。从图像 PC1 上可以明显看到一个黑
+点，即为虫害区域，与周围有非常明显的差异，有
+a.特征图像
+a. Feature image
+b.二值化图像
+b. Binary image
+c. PC1图
+c. PC1 image
+135
+利于苹果虫害区域的分割，所以选择 PC1 图作为后
+续处理的主成分图像。结合二值化图像对 PC1 图像
+采用最大熵阈值分割方法分割虫孔部位，从而确定
+苹果虫害位置，如图 4 f 所示。
+d. PC2 图
+d. PC2 image
+e. PC3图
+e. PC3 image
+f.分割图像
+f. Segmentation Image
+注：PC1 为主成分图 1，PC2 为主成分图 2，PC3 为主成分图 3。
+Note: PC1 is principal component 1 image, PC2 is principal component 2 image, PC3 is principal component 3 image.
+图 4 苹果虫害区域图像分割过程系列图像
+Fig.4 Flow chart of image segmentation
+3.3
+特征向量的提取
+苹果为类球形的物体，光照在整个苹果表面
+会呈现中间亮边缘暗的不均匀分布 [29]。为使后续
+的检测结果受光照不均的影响最低，根据 PC1 图
+像分割出虫害像素点的位置，提取其周围图像 80
+像素 ×65 像素的感兴趣区域图像。若是正常苹果，
+提取 PC1 图像苹果中间部分 80 像素 ×65 像素大小
+的感兴趣区域图像。然后对感兴趣区域图像进行
+纹理特征分析。在 MATLAB 中计算 4 个共生矩阵
+特征，即能量、熵、惯性矩和相关性，取距离为
+1，角度分别为 0、 45°、 90°和 135°，共 16 个纹
+理特征。 4 个方向的能量、熵、惯性矩、相关值
+变化趋势相同，故选取有代表性的 25 幅感兴趣
+区域图像的 0 度方向的纹理特征计算结果如图 5
+所示。前 12 个样本为虫害苹果的数据，后 13 个
+为正常苹果的数据。
+a.能量值
+a. Energy value
+b.熵
+b. Entropy
+c.惯性矩
+c. Moment of inertia
+d.相关性
+d. Relevance
+注：取 25 个样本，前 12 个为虫害样本，后 13 个为正常苹果样本。
+Note: Choose 25 samples, before 12 as the pest sample, after 13 as normal apple samples.
+图 5 共生矩阵纹理特征值
+Fig.5 Co-occurrence matrix eigenvalues
+由图 5a 可知虫害苹果的能量值与正常苹果的
+能量值有重叠，但总体上虫害苹果的平均能量值约
+为 0.17，而正常苹果的平均能量值高于虫害苹果的
+平均能量值，约为 0.22。这主要因为纹理越粗，能
+量值越大。正常苹果的纹理比虫害区域的纹理粗一
+些，所以正常苹果的平均能量值略高于虫害苹果的
+农业工程学报
+136
+平均能量值。由图 5b 可知虫害苹果的熵值大体上
+比正常苹果的熵值高，这主要因为图像的纹理越
+多，熵值越大。正常苹果表面光滑，有较少的纹理，
+所以熵值小一些。而虫害区域的纹理较多，所以熵
+值大一些。由图 5c 可知大部分样本虫害区域的惯
+性矩值与正常区域的惯性矩值分布在 0.1～0.6 之
+间，数值有些波动，但两个区域的平均惯性矩值相
+当，都为 0.26 左右。这是因为惯性矩反映图像的清
+晰度，虫害区域的纹理与正常区域的纹理具有同样
+清晰的特性，所以两个区域的平均惯性矩值总体上
+比较接近。由图 5d 可知虫害苹果的相关性值低于
+Table 1
+组别
+Group
+特征量
+Feature vector
+第1组
+Group one
+0、45°、90°和135°方向的
+能量、熵、惯性矩和相关性
+第2组
+Group two
+0度方向的能量、熵、
+惯性矩和相关性
+BP 神经网络检测分析
+本试验采用 BP 神经网络模型对苹果的虫害进
+行检测。首先将试验的 100 个训练样本的 4 组特征
+分别作为 BP 人工神经网络输入矢量，输入单元数
+与特征数一致。BP 人工神经网络隐层数为 1，含有
+6 个神经单元。输入层和隐层传递函数为正切 S 型
+传递函数。学习方式为加入趋势动量项的梯度下降
+特征组别
+Group of
+feature
+第1组
+Group 1
+第2组
+Group 2
+第3组
+Group 3
+第4组
+Group 4
+正常苹果的相关性值，这主要因为所研究的对象分
+布越均匀，相关性值越大。苹果正常部分纹理分布
+均匀，而虫害区域的纹理与周围部分存在一定差
+异，所以虫害苹果的相关性值低于正常苹果的相关
+性值。
+根据光谱特征选择原则，分别在可见光区域和
+近红外区域选取相对反射率差异比较大的 646 和
+824 nm 波段的光谱相对反射率作为光谱特征。
+为了确定检测苹果虫害最优的特征向量，本研
+究将纹理特征、光谱特征进行优化组合，分成 4 组，
+分别进行后续的检测试验，如表 1 所示。
+表 1 特征向量组合
+Feature vector combination
+3.4
+Table 2
+2014 年
+第3组
+Group three
+646 和824 nm 波段的
+相对光谱反射率
+表 2 虫害苹果和正常苹果的检测结果
+Detection results of insect pest apples and normal apples
+检测精度
+整体检测精度
+均方误差
+Detection Overall detection Mean squared
+accuracy/%
+accuracy/%
+error
+正常果
+Normal apples
+虫害果
+Pest apples
+正常果（50个）
+48
+2
+96
+虫害果（50个）
+0
+50
+100
+正常果（30个）
+验证集
+Validation set 虫害果（30个）
+16
+14
+53.3
+0
+30
+100
+训练集
+Train set
+正常果（50个）
+47
+3
+94
+虫害果（50个）
+2
+48
+96
+正常果（30个）
+验证集
+Validation set 虫害果（30个）
+20
+10
+66.7
+1
+29
+96.7
+正常果（50个）
+50
+0
+100
+虫害果（50个）
+0
+50
+100
+正常果（30个）
+验证集
+Validation set 虫害果（30个）
+30
+0
+100
+0
+30
+100
+正常果（50个）
+50
+0
+100
+虫害果（50个）
+0
+50
+100
+正常果（30个）
+验证集
+Validation set 虫害果（30个）
+30
+0
+100
+0
+30
+100
+训练集
+Train set
+训练集
+Train set
+训练集
+Train set
+0度方向的能量、熵、惯性矩和相关性、646
+和824 nm 波段的相对光谱反射率
+的训练函数，动量系数为 0.5。人工神经网络的训
+练精度设为 0.001，最大迭代次数 5 000。输出层传
+递函数为线性传递函数，包含 1 个神经元，若苹果
+带有虫眼，输出为−1；若为正常苹果，输出为 1。
+再将验证集中的测试样本通过训练好的 BP 神经网
+络模型进行检测。检测结果如表 2 所示。
+检测类型 Type of detection
+样本集（160个）
+Samples set
+第4组
+Group four
+检测时间
+Detection
+time/s
+98
+0.056
+13.42
+76.7
+2.031
+2.54
+95
+0.321
+11.48
+81.7
+1.64
+12.34
+100
+0.0064
+10.95
+100
+0.06
+11.27
+100
+0.0046
+11.34
+100
+0.036
+10.89
+第 12 期
+田有文等：基于高光谱成像的苹果虫害检测特征向量的选取
+表 2 检测结果表明，所有组别的虫害果被误检
+测为正常果的情况很少，检测精度为 96%以上；而
+正常果被误分为虫害果的情况比较多，尤其对验证
+集的检测，利用第 1 组和第 2 组特征向量检测的结
+果最差，分别为 53.3%和 66.7%；而利用第 3 组和
+第 4 组特征向量进行检测的效果最好，都达到
+100%。这是因为能量、熵、惯性矩、相关性纹理特
+征虽然在一定程度上能区分正常果与虫害果，但有
+些正常果受苹果表面斑点等因素的影响，有些纹理
+接近虫孔的纹理，从而被误识为虫孔。而第 3 组和
+第 4 组特征向量都包括光谱反射率的光谱特征，而
+光谱特征选择的是正常果与虫害果光谱反射率反
+差比较大的波段的光谱反射率，所以能比较好的区
+分正常果与虫害果。那么从均方误差和检测时间来
+看，利用第 4 组特征向量进行检测的均方误差小，
+检测时间短，故最终选择第 4 组特征向量作为检测
+正常果与虫害果的特征向量，即 0 度方向的能量、
+熵、惯性矩、相关性及 646 和 824 nm 波段的光谱
+相对反射率，共 6 个特征值。
+4
+结
+[参
+文
+献]
+[1]
+李光辉. 苹果近红外无损检测技术研究[D]. 杨凌：西
+[2]
+北农林科技大学，2012
+Li Guanghui. Using NIR Spectra in Non-Invasive
+Measurements of Apple[D]. Yangling: Northwest
+Agriculture and Forestry University, 2012. (in Chinese
+with English abstract)
+黄滔滔.基于 CT 技术的苹果内部品质无损检测研究[D].
+[3]
+杭州：浙江大学，2012
+Huang Taotao. Study of Nondestructive Test of Apple
+Internal
+Quality
+by
+Computer
+TomograpHy
+Technology[D]. Hangzhou: Zhejiang University, 2012.
+(in Chinese with English abstract)
+GB/T 18965-2008，地理标志产品：烟台苹果[S].
+[4]
+楚燕杰.苹果病虫害诊治原色图谱[M]. 北京：科学技术
+[5]
+赵娟，彭彦昆，Sagar Dhakal，等. 基于机器视觉的苹
+文献出版社，2011.
+果 外 观 缺 陷 在 线 检 测 [J]. 农 业 机 械 学 报 ， 2013 ，
+44(Supp.)：260－263.
+Zhao Juan, Peng Yankun, Sagar Dhakal, et al. On-line
+detection of apple surface defect based on image
+processing method[J]. Transactions of the Chinese
+Society for Agricultural Machinery, 2013, 44(Supp.):
+260－263. (in Chinese with English abstract)
+论
+本文采用高光谱成像技术，针对苹果虫害快
+速、无损、自动检测问题，优选出能够进行虫害检
+测的特征向量，研究表明：
+1）苹果的虫害区域和正常区域的反射光谱曲
+线存在明显差异，虫害区域的反射率在整个光谱区
+域内都比正常区域的反射率低，其中 680 和 970 nm
+处有吸收峰。
+2）通过 646 nm 波长的特征图像进行阈值分割、
+膨胀与腐蚀运算得到二值化图像。然后进行掩膜，
+对掩模后的图像进行主成分分析，并通过对获得的
+PC1 图像进行最大熵阈值分割，能有效地分割出虫
+害区域。
+3）利用 BP 神经网络对苹果虫害进行检测的结
+果表明，融合 0 度方向的能量、熵、惯性矩和相关
+性的纹理特征、646 和 824 nm 波段的相对反射率
+的光谱特征而组成的特征向量最优，正常果与虫害
+果识别率为 100%，并且速度快、误差小，有利于
+后续苹果虫害快速检测的多光谱图像系统的开发。
+对于苹果的果梗、花萼与缺陷进行有效的识别
+是在果品品质快速检测领域中一直存在的一个难
+题[30]，特别是针对具有相似形状和大小的果梗/花萼
+与虫害区域的情况，本文未对其检测进行研究，因
+此如何正确识别虫害区域与果梗、花萼将是未来研
+究的重点。
+考
+137
+[6]
+[7]
+[8]
+[9]
+刘娟娟. 基于红外和可见光图像融合的苹果缺陷检测
+方法研究[D]. 南昌：华东交通大学，2012
+Liu Juanjuan. The Defects Detection Based on the
+Apple’S Infrared and Visible Images’ Fusion[D].
+Nanchang: Traffic University of East China, 2012. (in
+Chinese with English abstract)
+Lorente D, Aleixos N, Gómez-Sanchis J, et al. Recent
+advances and applications of hyperspectral imaging for
+fruit and vegetable quality assessment[J]. Food
+Bioprocess Technol, 2012, 5(4): 1121－1142.
+Elmasry G, Kamruzzaman M, Sun D W, et al. Principles
+and applications of hyperspectral imaging in quality
+evaluation of agro-food products: A review[J]. Critical
+Reviews in Food Science and Nutrition, 2012, 52(11):
+999－1023.
+李江波，饶秀勤，应义斌. 农产品外部品质无损检测中
+高光谱成像技术的应用研究进展[J]. 光谱学与光谱分
+析，2011，31(8)：2021－ 2026.
+Li Jiangbo, Rao Xiuqin, Ying Yibin. Advance on
+application of hyperspectral imaging to nondestructive
+detection of agricultural products external quality[J],
+Spectroscopy and Spectral Analysis, 2011, 31(8): 2021－
+2026. (in Chinese with English abstract)
+[10] 朱荣光，马本学，高振江，等. 畜产品品质的高光谱图
+像无损检测研究进展[J]. 激光与红外，2011，41(10)：
+1067－1071.
+Zhu Rongguang, Ma Benxue, Gao Zhenjiang, et al.
+Research progress in nondestructive detection of
+livestock product quality based on hyperspectral
+138
+农业工程学报
+imaging[J]. Laser & Infrared, 2011, 41(10): 1067－1071。
+(in Chinese with English abstract)
+[11] 田有文，程怡，吴琼，等. 高光谱成像技术在农产品病
+虫害无损检测方面的研究进展[J]. 激光与红外，2013，
+[12]
+[13]
+[14]
+[15]
+43(12)：634－637
+Tian Youwen, Cheng Yi, Wu Qiong, et al. Research
+progress on hyperspectral imaging in nondestructive
+detection of agricultural products disease and pest[J].
+Laser & Infrared, 2013, 43(12): 1329－1335. (in Chinese
+with English abstract)
+Haff R P, Saranwong S, Thanapase W, et al. Automatic
+image analysis and spot classification for detection of fruit
+fly infestation in hyperspectral images of mangoes[J].
+Postharvest Biology and Technology, 2013, 86(1): 23－
+28.
+Singh C B, Jayas D S, Paliwal J, et al. Detection of
+insect- damaged wheat kernels using near-infrared
+hyperspectral imaging[J]. Journal of Stored Products,
+2009, 45 (3): 151－158.
+Wang J, Nakano K, Ohashi S, et al. Detection of external
+insect infestations in jujube fruit using hyperspectral
+reflectance imaging[J]. Biosystems engineering, 2011,
+108(4): 345－351.
+Xing J, Guyer D, Ariana D, et al. Determining optimal
+wavebands using genetic algorithm for detection of
+internal
+insect
+infestation
+in
+tart
+cherry[J].
+Instrumentation for Food Quality, 2008, 2(3): 161－167.
+[16] 吴龙国，何建国，刘贵珊，等. 基于NIR高光谱成像技
+术的长枣虫眼无损检测[J]. 发光学报, 2013，34(11)：
+1527－1532.
+Wu Longguo, He Jianguo, Liu Guishan, et al. Nondestructive detection of insect hole in jujube based on
+near-infrared hyperspectral imaging[J]. Chinese Journal of
+Luminescence, 2013, 34(11): 1527－1532. (in Chinese
+with English abstract)
+[17] 沈焕锋. ENVI 遥感影像处理方法[M]. 武汉：武汉大学
+出版社，2009.
+[18] 杨丹，赵海滨，龙哲，等. MATLAB 图像处理实例详
+解[M]. 北京：清华大学出版社，2013.
+[19] 黄崑，骆方，刘晓娟，等. Excel 统计分析基础教程[M].
+北京：清华大学出版社，2013.
+[20] Wu Di, Sun Dawen. Advanced applications of
+hyperspectral imaging technology for food quality and
+safety analysis and assessment A review Part I
+2014 年
+Fundamentals[J]. Innovative Food Science and Emerging
+Technologies, 2013, 19(4): 1－14.
+[21] Kamruzzaman M, ElMasry G, Sun D W. Application of
+NIR hyperspectral imaging for discrimination of lamb
+muscles[J]. Journal of Food Engineering, 2011, 104(3):
+332－340.
+[22] Baranowski P, Mazurek W, Pastuszka-Wozniak J.
+Supervised classification of bruised apples with respect to
+the time after bruising on the basis of hyperspectral
+imaging data[J]. Postharvest Biology and Technology,
+2013, 86(1): 249－258.
+[23] 章毓晋．图像工程（中册）：第二版[M]．北京：清华
+大学出版社，2007.
+[24] 王凌. 智能优化算法及其应用[M]. 北京：清华大学出
+版社，2001.
+[25] Fernandes A, Lousada J, Morais J, et al. Comparison
+between neural networks and partial least squares for
+intra-growth ring wood density measurement with
+hyperspectral imaging[J]. Computers and Electronics in
+Agriculture, 2013, 94: 71－81.
+[26] 边肇祺，张学工. 模式识别[M]. 北京：清华大学出版
+社，2000.
+[27] ElMasry G, Wang N, Vigneault C, et al. Early detection of
+apple bruises on different background colors using
+hyperspectral imaging[J]. LWT-Food Science and
+Technology, 2008, 41(2): 337－345.
+[28] Abbott J A, Lu R, Upchurch B L, et al. Technologies for
+non-destructive quality evaluation of fruits and
+vegetables[J]. Horticultural Review, 1997,20: 1－120.
+[29] 黄文倩，陈立平，李江波，等. 基于高光谱成像的苹果
+轻微损伤检测有效波长选取[J]. 农业工程学报，2013，
+29(1)：272－277.
+Huang Wenqian, Chen liping, Li Jiangbo, et al. Effective
+wavelengths determination for detection of slight bruises
+on apples based on hyperspectral imaging[J].
+Transactions of the Chinese Society of Agricultural
+Engineering (Transactions of the CSAE), 2013, 29(1):
+272－277. (in Chinese with English abstract)
+[30] 宋 怡 焕 . 苹 果果 梗 / 花 萼 与缺 陷 的 纹 理 特征 识 别 方
+法[D]. 杭州：浙江大学，2012.
+Song Yihuan. Apple Stem/Calvx and Defect
+Identification bv Their Texture Features[D]. Hang Zhou:
+Zhe Jiang University, 2012. (in Chinese with English
+abstract)
+第 12 期
+田有文等：基于高光谱成像的苹果虫害检测特征向量的选取
+139
+Feature vectors determination for pest detection on apples based on
+hyperspectral imaging
+Tian Youwen1, Cheng Yi1, Wang Xiaoqi2, Li Qingji1
+(1. College of Information and Electric Engineering, Shenyang Agricultural University, Shenyang 110866, China;
+2. College of Plant protection , Shenyang Agricultural University, Shenyang 110866, China)
+Abstract：Insect pestilence is one of the main defects of the apple industry, which could be caused by pest
+entrance during apple tree growth stages. Insect pest detection in apples is important for an automatic apple
+quality inspection and sorting system. In this study, we intended to determine the feature vectors that can be used
+for nondestructive detection of apple fruit insect pests and utilized hyperspectral imaging technology to carry out
+an effective method for rapid, non-invasive detection of the intact apples and insect pests. There were 160 samples
+of 80 intact and 80 insect infected ‘red Fuji’ apples to be investigated from an apple planting demonstration
+garden in the Shenbei New Area in Shenyang city. A hyperspectral imaging collection system with the wavelength
+range of 400-1 000 nm was established to acquire the hyperspectral images of these apple samples. Via the
+analysis of spectral reflectance of apple pest parts and the normal region, there were obvious differences in
+spectral reflectance at the 646 nm wavelength. So, the image of the 646nm wavelength was named the feature
+image. Then, the feature image was manipulated by threshold segmentation, dilation, and erosion operation, to
+obtain a mask image. The mask image was used for image analysis to mask and carried on principal component
+analysis. The optimum PC1 image was chosen and handled by the maximum entropy threshold segmentation to
+extract the pest region. Later, a comparative analysis of the texture feature of the insect infested region and the
+normal region on apples of the PC1 image, a region of interest (ROI) with 80 pixels×65 pixels of the PC1 image
+of each sample, was obtained. The texture features of the gray level co-occurrence matrix (of energy, entropy,
+moment of inertia and correlation) in four directions, which were 0, 45, 90, and 135 deg, respectively, were
+extracted. In addition, the spectral relative reflectance of the apple surface pests and normal regions, whether it
+was visible or near infrared region, had obvious difference. So the two spectral features of the spectrum relative
+reflectivity at 646 and 824 nm wavelength were acquired, which had larger relative reflectance differences
+between the apple surface pests and normal regions in the visible region and near infrared region, respectively.
+Feature vector selection was one of the key steps in detecting apple insect pests. For faster and more accurate
+detection of the apple insect pests, in this study, the optimization and integration of the texture features and the
+spectral feature vectors was analyzed. Four feature vector groups were posed respectively as the input vector of
+the BP neural network. The validation set of 30 normal apples and 30 insect infested apples was detected by using
+the BP neural network. The recognition rate was the highest when there was a fusion of the texture features of
+energy, entropy, moment of inertia, the correlation of 0 deg direction, and the spectral features of relative spectral
+reflectance with two feature wavelengths of 646 and 824 nm. A recognition rate of the normal apples and insect
+infested apples was 100 percent. Besides, in this case, the speed of detection is the fastest, and the MSE error is
+the smallest. Results show that the obtained feature vectors based on hyperspectral imaging technology can
+identify insect infestation effectively and provide a reference for apples quality detection and grading system
+using multispectral imaging.
+Key words: nondestructive examination; principal component analysis; image processing; spectral characteristic;
+hyperspectral imaging

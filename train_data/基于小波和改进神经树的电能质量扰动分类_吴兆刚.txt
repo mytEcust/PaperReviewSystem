@@ -1,0 +1,599 @@
+电力系统保护与控制
+第 42 卷 第 24 期
+2014 年 12 月 16 日
+Power System Protection and Control
+Vol.42 No.24
+Dec. 16, 2014
+基于小波和改进神经树的电能质量扰动分类
+吴兆刚 1，李唐兵 2，姚建刚 1，龚文龙 1，陈 强 3
+(1.湖南大学电气与信息工程学院，湖南 长沙 410082；2.江西省电力科学研究院，江西 南昌 330096；
+3.湖南湖大华龙电气与信息技术有限公司，湖南 长沙 410082)
+摘要：准确地识别和分类电能质量扰动对分析和综合治理电能质量问题具有重要意义。提出了一种基于小波和改进神经树的
+电能质量扰动分类方法。该方法利用小波分解扰动信号到各个频带，在基频频带、谐波频带和高频带上分别计算其能量值和
+小波系数熵作为特征值，另计算基波频带扰动过程的均方根作为特征的补充，融合能量值、熵和均方根值作为扰动判断的特
+征向量，规范化后输入到改进神经树分类器进行训练和分类。改进神经树分类器是由神经网络和决策树及其分类规则构成。
+仿真表明，该方法提取特征值的计算量小且融合后的特征向量能够很好地体现不同扰动信号之间的差异信息，构造的改进神
+经树分类器结合了神经网络和决策树在模式分类中各自的优点，结构简单且表现出良好的收敛性、全局最优性和泛化性，分
+类准确率较高，能够有效地识别七种常见的电能质量扰动。
+关键词：电能质量；扰动分类；小波变换；特征向量；改进神经树
+Power quality disturbance classification based on a wavelet and improved neural tree
+WU Zhao-gang1, LI Tang-bing2, YAO Jian-gang1, GONG Wen-long1, CHEN Qiang3
+(1. College of Electrical and Information Engineering, Hunan University, Changsha 410082, China;
+2. Jiangxi Electric Power Research Institute, Nanchang 330096, China;
+3. Hunan HDHL Electrical& Information Technology Co., Ltd., Changsha 410082, China)
+Abstract: Precise identification and classification for power quality disturbances is significantly important to analyze and
+comprehensively cope with power quality problems. Based on wavelet and improved neural tree techniques, a new classification
+methodology for power quality disturbances is proposed. In the method, the disturbance signal is decomposed into different
+frequency bands, whilst energy values and wavelet coefficient entropies of the base, harmonic and high frequency bands are
+calculated as eigenvalues respectively. The root mean produced in the disturbance process of the base wave band is calculated as a
+supplement, which is then combined with the energy values and wavelet coefficient entropies as eigenvectors for judging the
+disturbances. Thereafter the eigenvectors are normalized and input into the improved neural tree classifier, composed of neural
+network, decision trees and classification rules, for training and classifying. Simulation results demonstrate the method has a small
+amount of calculation to extract eigenvalues and the obtained eigenvectors can adequately reflect the difference information for
+different disturbance signals. The improved neural tree classifier combines respective superiorities of the neural network and decision
+tree in pattern classification, thus the classifier presents good convergence, global optimality and generalization, and can effectively
+identify seven common power quality disturbances with a simple structure and high accuracy.
+Key words: power quality; disturbances classification; wavelet transform; feature vector; improved neural tree
+中图分类号： TM71
+文献标识码：A
+文章编号： 1674-3415(2014)24-0086-07
+0 引言
+现代社会中，电能是一种最为广泛使用的能
+源，其应用程度成为一个国家发展水平的主要标志
+之一[1]。随着智能电网的发展，电力电子设备的广
+基金项目：江西省电力公司科技项目（赣电科 201350617）
+泛应用，电力系统电能质量扰动问题越来越受到人
+们重视。由于实际电能质量扰动种类繁多，特征很
+复杂，且信号差异又不是十分明显，海量的实时电
+网监测数据要用人工分类是不可能的，所以自动识
+别方法就成为电能质量扰动研究中的重点内容。
+快速和准确地对影响电网电能质量的各种扰
+吴兆刚，等 基于小波和改进神经树的电能质量扰动分类
+动信号进行分类是评价和改善电能质量的重要环
+节。目前最常用的电能质量扰动分类思路为：信号
+处理——特征提取——分类器分类。信号处理大体
+可以分为时域分析、频域分析和时频域分析。其中
+时频域分析的方法能很好地反映非平稳信号的特
+征，如短时傅里叶变换、小波分析、S变换等对电
+能质量扰动信号的检测和识别[2-4]，这些方法取得
+了很多显著成果，但也存在一些问题，如分析计算
+量大、信息冗余、特征提取复杂和特征向量维数过
+高等。本文构建的特征向量以小波分解的基频带、
+谐波频带和高频带为划分，融合了能量、熵值和有
+效幅值作为特征，提取算法计算量小、降低了信息
+的冗余和特征向量的维数，同时能表现出对不同扰
+动信号之间的有效区分。
+在模式分类中，决策树(Decision trees)和神经
+网络(Neural Networks)是有力的工具。这两种方法
+有着各自的优缺点。现有的运用较多的从上而下的
+决策树设计方法，是把单一特征分裂运用到每步的
+树型设计中，虽然这种算法引起很多学者的关注，
+但单特征分裂都会导致巨大的分类树规模且性能
+较低。另一方面，设计神经网络时，只根据训练集
+数据不能确定一个理想的隐含层及每个隐含层节
+点的数目。由于这些理由，这两种方法的结合——
+神经树(Neural tree)，结合了决策树和神经网络的
+各自的优点，已经开始被广泛研究[5]。本文以神经
+网络单层感知器和决策树及规则相结合，提出改进
+神经树的分类方法，有效地克服了复杂神经网络的
+过拟合问题，改善了决策树单特征分类树形复杂和
+低性能的特点，仿真证明了分类方法的有效性。
+1 小波变换和多分辨分析
+小 波 (Wavelet) 变 换 是 由 法 国 物 理 学 家
+Grossmann 与法国数学家 Morlet 等共同提出的，是
+当代应用数学中一个迅速发展起来的领域。与傅立
+叶变换、窗口傅立叶变换相比，小波是时间和频率
+的局部变换，其本质是度量被分析信号波形与所用
+小波波形的局部相似程度。
+1.1 连续小波变换
+假 设  (t )  L2 ( R ) ， 并 且 满 足 约 束 条 件
+
+|  ( ) |2
+c  
+d    和  (t )dt  0 的母小波时，
+| |
+对于任意函数 f (t )  L2 ( R ) 的连续小波变换式：
+Wf (a, b)  f , a,b 
+1
+
+| a|
+R
+f (t) * (
+t b
+)dt
+a
+(1)
+- 87 -
+式中：a 为伸缩参数；b 为平移参数。
+1.2 离散小波变换
+式(1)中参数 a、b 取连续值时是连续小波变换，
+主要应用于理论研究。在实际应用中， a 、b 作离
+散化处理，离散小波变换为
+W f ( a , b )  a0 m / 2 
+
+
+f (t ) m* , n ( a0 m t  nb0 )dt
+(2)
+式中： a  a0 m ； b  nb0 a0 m ；m、n 是整数； a0 是大
+于 1 的伸缩步长； b0  0 且与母小波形式有关。
+1.3 多分辨分析
+多分辨分析(MRA)是将信号通过高、低通滤波
+器分别得到信号的高、低频逼近分量；再对低频逼
+近分量进行分解，得到次高频逼近分量和低频逼近
+分量，并依此分解下去，最后得到不同尺度下的高
+频分量系数与最低尺度下的低频分量系数。对一维
+离散小波系数进行单支重构，分别得到高频带频率
+为 [ 2  ( j 1) FS , 2  ( j ) FS ] 的高频分量和低频带频率为
+[0， 2( J 1) FS ]，( J  j )的低频分量。其中： FS 为采
+样信号频率；J 为最大分解尺度。
+2 改进神经树介绍
+2.1 神经网络
+神经网络是一种模仿生物神经网络的结构和
+功能的数学模型，能在外界信息的基础上改变内部
+结构，是一种自适应系统。感知器(Perceptron)是生
+物神经细胞的简单抽象，为了模拟神经细胞行为，
+与之对应的感知器基础概念被提出，如权量（突
+触）、偏置（阈值）及激活函数（细胞体）。在人工
+神经网络领域中，感知器也被指为单层的人工神经
+网络，以区别于较复杂的多层感知器。作为一种线
+性分类器，单层感知器可说是最简单的前向人工神
+经网络形式。尽管结构简单，感知器能够学习并解
+决相当复杂的问题。
+2.2 决策树
+机器学习中，决策树是一个预测模型，它代表
+的是对象属性与对象值之间的一种映射关系。树中
+每个节点表示某个对象，而每个分叉路径则代表某
+个可能的属性值，而每个叶节点则对应从根节点到
+该叶节点所经历的路径所表示的对象的值。从数据
+产生决策树的机器学习技术叫作决策树学习，通俗
+说就是决策树。
+2.3 神经树及其改进算法
+神经树的基本模型是每个中间层节点都包含
+一个简单感知器的决策树。它主要包含训练和分类
+两个主要阶段。其训练算法总结如下：
+(1) 训练集的样本输入根节点中，它们被训练
+电力系统保护与控制
+- 88 -
+好的节点划分到各个子集合，当出现特定的状态
+时，这个过程停止。
+(2) 如果一个子集合中的所有样本是同类别
+的，构成一个叶节点，然后标记上相应的类别标签。
+(3) 如果一个或更多的子集合中含有不同类
+别的样本，一个新的节点会增加到神经树中，在下
+一层中学习训练这些子集合。返回第一步。
+(4) 当所有的节点变成叶节点时，训练停止。
+在分类阶段，每个节点都采用赢家通吃规则：
+x  类别i  (W j X )  (Wi X )，当 j  i 时。其中：
+ 是激活函数； W j 是从输入到第 i 个输出的连接
+权值向量； X 是输入模型的特征向量。这个规则
+决定了通过中间节点的路径以及叶节点的类别。
+改进神经树所用感知器如图1所示。训练阶段
+算法的流程如图2所示。
+…
+…
+图 1 感知器模型
+Fig. 1 Perceptron model
+算法描述如下：
+(1) 创造一个单层感应器，初始化权值，通过
+调整偏置使权值产生的超平面通过训练集的几何
+中心。
+(2) 输入训练集 /当前训练集至根节点 /中间节
+点。
+(3) 通过更新权值矩阵开始训练感知器，通过
+优化代价函数达到分类错误的最小化。
+(4) 样本被划分给最高的激活值所代表的类
+别。如果最高激活值与其他激活值的相差不大，且
+感应器的分类错误率很低，这个样本会被从训练集
+中移除。
+(5) 感知器划分训练集/当前训练集到 m 组，
+m  M (M 是类别标签的数目)，m 组为非空集。
+(6) 如果 m>1，一个新的 m 个子节点将产生。
+(7) 如果 m=1，当前训练集会划分两类 S1、S2，
+用分裂规则[6]产生这两个子节点。进入第(9)步。
+图 2 改进神经树算法流程图
+Fig. 2 Flowchart of an improved neural tree algorithm
+(8) 如果当前节点的分类不精确或划分不均
+衡（大部分的样本划分到了一个子集合），感知器
+权值将被初始权值替代。
+(9) 如果在子节点的所有样本都属于同一类
+别，那么这个节点就成为叶节点，被标记相应的类
+别标签。如果所有的子节点都成了叶节点，那么当
+前感知器分类将以 M 叶节点结束，每个样本对应
+一个类别的标签，否则返回第(2)步。
+(10) 如果所有当前节点都成为叶节点，运算
+结束。否则，返回第(2)步，训练其余感应器。
+ 是感知器输出值与样本目标输出值的平均绝
+1 K M K
+对误差；  
+  i 。
+KM K 1 i 1
+K为当前节点样本总数，  iK 是感知器输出 OiK
+吴兆刚，等 基于小波和改进神经树的电能质量扰动分类
+与目标输出 tiK 的绝对差：  iK  tiK  OiK , i  1, , M ，
+1 样本K 属于标签i
+。
+其他
+0
+K
+其中 ti  
+为了避免训练中出现过拟合现象，分类中应用
+了样本移除规则。训练阶段，感知器不能对某些少
+量的样本进行分类，这些样本需要专门的分类而使
+得分类树型复杂。当训练后的感知器有较好的分类
+性能时，此时可以定义一个标准把某些样本剔除出
+子节点训练集。这些样本可能是边界线上样本，或
+是被其他类别样本包围，这些样本有很强的不确定
+性，很难分类。移除训练集中某些样本：(1)样本特
+征向量区分不明显；(2)感知器的总体分类误差。第
+一个方面考虑分类的不确定性，通过检验样本是否
+有两个或更多的特征向量相差不大的可能性。第二
+个方面表示训练过程的可靠性。因此，如果有一个
+相关的不确定性存在于分类训练中，而且感知器性
+能可靠，考虑到这种样本很难分类，因而会被从子
+训练集中剔除掉。
+综上，算法中的分类器由简单神经网络单层感
+知器和决策树及其分类规则构成，本质上感知器是
+一个超平面分割归类工具，而事实上不同扰动信号
+特征在多维空间上有少量的重叠以及模糊边界问
+题，使用感知器分类会有一定的误差，论文结合决
+策树及其分类规则，使感知器形成树形结构实现超
+平面递归分类，从而实现扰动的分类。
+3 特征向量提取方法
+3.1 电能质量扰动模型及其数据生成
+常见的七种电能质量扰动是：电压暂升、电压
+暂降、电压中断、电压闪变、电压谐波、暂态脉冲、
+暂态振荡，数学模型参照文献 [7] ，采样频率为
+3 200 Hz。用 Matlab 产生常见七种扰动各 600 个样
+本和正常电压 600 个样本，每种扰动模型前 400 个
+样本作训练样本，后 200 个样本作分类样本。为了
+模拟实际情况，保证分析结果的可靠，每种扰动的
+参数（如扰动起止时间、幅值、持续时间等）在一
+个允许范围内随机变化，考虑到实际信号的噪声污
+染问题，在扰动信号中分别加入信噪比为 40 db、30
+db 和 20 db 的高斯白噪声。
+电能质量扰动标签设置：1）正常电压；2）电
+压暂升；3）谐波；4）闪变；5）电压暂降；6）电
+压中断；7）暂态脉冲；8）暂态振荡。
+3.2 提取特征向量
+本文选择 db4 作为母小波，对扰动信号进行 4
+层小波分解，获得扰动信号的各层小波分解系数，
+- 89 -
+从高频到低频的分解系数 D1、D2、D3、D4、A4，其
+频带依次是 800~1 600 Hz、400~800 Hz、200~400
+Hz、100~200 Hz、0~100 Hz。
+小波变换后的不同频带能量分布和小波熵可
+以作为扰动判断的特征值，扰动幅值可以作为特征
+的补充。本文选取的 7 个特征分别是：基频带的能
+量 E1；3、5、7 次谐波频带能量 E2；高频带能量
+E3；基频带的小波系数熵 S1；3、5、7 次谐波频带
+的小波系数熵 S2；高频带小波系数熵 S3；基波所
+在频带扰动过程中的有效值 R。扰动特征向量是由
+以上 7 个特征值融合而成。
+A4 (k ) 是 第 四 层 分 解 的 低 频 系 数 ， D1 (k ) 、
+D2 ( k ) 、 D3 ( k ) 、 D4 ( k ) 分别是第一层到第四层小波
+分解的高频系数。
+根据 Parseval 原理各层能量计算公式为
+Ej 
+N /2j
+ | D (k ) |
+2
+(3)
+j
+k 1
+式中： E j 是小波分解第 j 层的能量； D j ( k ) 是小波
+分解到第 j 层的小波系数。
+特征值 E1，E2，E3 表达式为
+N / 24
+ | A (k ) |
+E1 
+E2 
+E3 
+2
+(4)
+4
+k 1
+N / 24
+N / 23
+ | D (k ) |   | D (k ) |
+2
+4
+k 1
+N / 22
+2
+(5)
+2
+(6)
+3
+k 1
+N /2
+ | D (k ) |   | D (k ) |
+2
+2
+k 1
+1
+k 1
+小波能量特征不能完全反应每个扰动信号之间
+的差异，因此引进小波系数熵 Wj 作为特征补充，其
+定义为
+N /2j
+ D (k )
+(7)
+W j     j (k ) ln  j (k )
+(8)
+ j (k )  D j (k ) /
+k 1
+j
+N /2j
+k 1
+特征值 S1，S2，S3 表达式为
+N /2j
+S1  WA 4     A 4 (k ) ln |  A4 (k ) |
+(9)
+k 1
+S 2  W4  W3
+S3  W2 +W1
+(10)
+(11)
+为了更好地区分暂升、暂降、中断和其余的扰
+动信号，把基波所在频带扰动过程中的均方根 R 作
+为第七个特征量，与之前提取的六个特征量组成一
+组特征向量 V=[E1，E2，E3，S1，S2，S3，R]作为分
+类器的输入。
+- 90 -
+电力系统保护与控制
+4 分类步骤
+对扰动信号模型进行上述小波分解和特征值计
+算方法，提取特征向量 V 后，规范化输入改进神经
+树分类器进行训练和分类。
+4.1 参数的选取
+规范化所有扰动模型特征值到[-1，1]区间。感
+知器激活函数设置为对数 S 型传递函数(logsig)，最
+小代价函数选择平均绝对误差 (MAE) ，训练次数
+(Epoch)设为 500 次。初始化感知器，设置随机化权
+值系数向量 W，计算训练集特征向量的几何中心向
+量 T，计算偏置系数向量 B=-W.T，使分类初始超平
+面通过训练集的几何中心。
+分类节点 1 为二分类，其感知器是一个 7 输入
+2 输出网络，把训练样本的特征向量输入感知器 1
+训练。训练目标输出 1 为(1,0)T，对应标签 1、2、3、
+4 的集合；训练目标输出 2 为(0,1)T，对应标签 5、6、
+7、8 的集合。
+节点 2 为四分类，其感知器是一个 7 输入 4 输
+出网络，训练样本是节点 1 的输出 1 模型，把训练
+集特征向量输入感知器 2 训练。训练目标输出 1 为
+(1,0,0,0)T，对应标签 1；训练目标输出 2 为(0,1,0,0)T，
+对应标签 2；训练目标输出 3 为(0,0,1,0)T，对应标
+签 3；训练目标输出 4 为(0,0,0,1)T，对应标签 4。
+节点 3 为四分类，其感知器是一个 7 输入 4 输
+出网络，训练集是节点 1 的输出 2 模型，把训练样
+本特征向量输入感知器 3 训练。训练目标输出 1 为
+(1,0,0,0)T，对应标签 5；训练目标输出 2 为(0,1,0,0)T，
+对应标签 6；训练目标输出 3 为(0,0,1,0)T，对应标
+签 6；训练目标输出 4 为(0,0,0,1)T，对应标签 8。
+4.2 分类器结构
+通过训练样本分类训练，感知器 1、2、3 完成
+训练并保存参数（权值和偏置）
+，分类器构建完成。
+分类器结构如图 3 所示。
+5 仿真分析
+图 4~图 6 是 3 个感知器在 40 db 的噪声下训练
+阶段性能图，横坐标是迭代次数，纵坐标是平均绝
+对误差。从图中可以看到，前几次迭代误差下降的
+非常快，特别是第一次迭代，此后的迭代误差会逐
+渐减小，且逐步收敛。这表明在改进算法中，训练
+前调整感知器的权值和偏置（使权值和偏置产生的
+超平面通过训练集的几何中心）
+，效果是非常好的，
+这可以使迭代误差快速收敛。训练误差逐步收敛表
+明论文中提取的特征值和融合特征向量能很好地体
+现出不同扰动模型之间的差异，分类器结构简单且
+图 3 分类器结构图
+Fig. 3 Classification structure diagram
+图 4 感知器1的训练性能
+Fig. 4 Training performance of perceptron1
+图 5 感知器2的训练性能
+Fig. 5 Training performance of perceptron2
+图 6 感知器3的训练性能
+Fig. 6 Training performance of perceptron3
+表现出良好的收敛性、全局最优性和泛化性。
+表1是扰动信号中加入不同噪声后的分类精度。
+吴兆刚，等 基于小波和改进神经树的电能质量扰动分类
+从表1中可以看到，改进方法分类精度很高。随着扰
+动信号中加入的噪声逐步加强，平均分类精度有所
+下降，但不是很明显，而某些个别扰动类型的分类
+精度反而有所提升，比如正常电压的20 db分类精度
+为96%高于30 db的87%，电压中断的30 db分类精度
+为99%高于40 db的90.5%等等。平均精度下降是因
+为信号中的噪声对不同扰动特征向量之间的差异有
+影响，噪声越严重影响越大，在高维空间里有些向
+量会出现分界不明或者有重叠现象，这种情况是很
+难避免的，但可以通过增加高区分度的特征值融合
+来降低这种趋势，使在高噪音下得到更优的分类精
+度。改进神经树分类规则是一种最优分类原则，因
+而个别扰动类型的分类精度提高是正常的。
+表2是在40 db噪声水平下的不同分类方法平均
+精度的对比，体现出了本文提出的改进方法在分类
+精度上的提升。
+表 1 不同噪声下分类精度
+Table 1 Classification accuracy under different noise
+定义明确。文中构建的分类器是由三个单层感知器
+构成的树形结构以及改进神经树算法构成，简化了
+网络结构节点，其分类效率比多层复杂神经网络更
+高。改进算法的移除规则避免了训练过程的过拟合，
+使分类器具有良好的泛化性，且分类精度能始终保
+持最佳性能。四层小波分解、七个特征向量提取和
+三个单层感知器训练分类都很大程度地减少了计算
+量，这非常适应现代快速性检测技术的发展趋势。
+实验结果表明改进方法提高了分类精度，证明了该
+方法的有效性。
+参考文献
+[1]
+HE Zheng-you. Wavelet analysis in power system
+transient signal processing[M]. Beijing: China Electric
+Power Press, 2011.
+[2]
+陈春玲, 许童羽, 郑伟, 等. 多类分类 SVM 在电能质
+量扰动识别中的应用[J]. 电力系统保护与控制, 2010,
+38(13): 74-78.
+40 db
+30 db
+20 db
+正常电压
+100%
+87%
+96%
+电压暂升
+100%
+99%
+98%
+谐波
+99.5%
+100%
+99.5%
+闪变
+99%
+96.5%
+87%
+电压暂降
+97%
+88%
+94.5%
+电压中断
+90.5%
+99%
+91.5%
+暂态脉冲
+93%
+96%
+74%
+暂态振荡
+88%
+83.5%
+70.5%
+平均
+95.875%
+93.625%
+88.875%
+CHEN Chun-ling, XU Tong-yu, ZHENG Wei, et al.
+Application of multi-class classification SVM in power
+quality disturbances classification[J]. Power System
+Protection and Control, 2010, 38(13): 74-78.
+[3] 岳明道. 基于 S 变换和分类树的电网暂态电能质量扰
+动分类辨识[J]. 电力系统保护与控制, 2011, 39(9):
+32-37.
+YUE Ming-dao. Transient power quality disturbance
+classification and identification in grid based on S
+transform and classification trees[J]. Power System
+Protection and Control, 2011, 39(9): 32-37.
+表 2 不同方法的分类精度
+Table 2 Classification accuracy of different methods
+分类方法
+何正友. 小波分析在电力系统暂态信号处理中的应用
+[M]. 北京: 中国电力出版社, 2011.
+信噪比
+扰动类型
+- 91 -
+[4]
+张明, 李开成, 胡益胜. 基于多域特征提取和自适应
+神经-模糊推理系统的电能质量扰动识别[J]. 电力系统
+平均分类精度
+94%
+保护与控制, 2010, 38(24): 6-13.
+94%
+ZHANG Ming, LI Kai-cheng, HU Yi-sheng. Power
+小波包分解Shannon熵和决策树分类
+95.57%
+quality disturbances recognition based on multi-domain
+小波分解能量分布和神经网络[11]
+95.5%
+feature
+95.87%
+Protection and Control, 2010, 38(24): 6-13.
+[8]
+小波包分解熵和Fisher线性分类器
+小波分解主成分分析和概率神经网络[9]
+[10]
+改进方法
+[5]
+6 结论
+本文通过小波变换和特征值提取和融合，提出
+了改进神经树的电能质量扰动分类器，实现了常见
+的七种电能质量扰动信号的分类，在不同噪声水平
+下达到了较高的分类精度。分类效果体现出了这种
+特征值提取方法的有效性，融合后的特征向量能有
+效地表征出不同扰动信号之间的差异，且计算量小、
+extraction
+and
+ANFIS[J].
+Power
+System
+MICHELONI C, RANI A, KUMAR S, et al. A balanced
+neural tree for pattern classification[J]. Neural Networks,
+2012, 27: 81-90.
+[6]
+BISWAL B, BISWAL M, MISHRA S, et al. Automatic
+classification of power quality events using balanced
+neural tree[J]. IEEE Trans on Industrial Electronics, 2014,
+61(1): 521-530.
+[7]
+张全明, 刘会金. 最小二乘支持向量机在电能质量扰
+电力系统保护与控制
+- 92 -
+动分类中的应用[J]. 中国电机工程学报, 2008, 28(1):
+KONG Ying-hui, CHE Lin-lin, YUAN Jin-sha, et al. A
+106-110.
+power quality disturbance identification method based on
+ZHANG Quan-ming, LIU Hui-jin. Application of
+wavelet decomposition and decision tree algorithm in
+LS-SVM
+data mining[J]. Power System Technology, 2007, 31(23):
+in
+classification
+of
+power
+quality
+disturbances[J]. Proceedings of the CSEE, 2008, 28(1):
+106-110.
+[8]
+[9]
+王成山, 王继东. 基于小波包分解的电能质量扰动分
+78-82.
+[11] 秦英林, 田立军, 常学飞. 基于小波变换能量分布和
+神经网络的电能质量扰动分类[J]. 电力自动化设备,
+类方法[J]. 电网技术, 2004, 28(15): 78-82.
+2009, 29(7): 64-67.
+WANG Cheng-shan, WANG Ji-dong. Classification
+QIN
+method of power quality disturbance based on wavelet
+Classification of power quality disturbance based on
+packet decomposition[J]. Power System Technology,
+wavelet energy distribution and neural network[J].
+2004, 28(15): 78-82.
+Electric Power Automation Equipment, 2009, 29(7):
+何朝辉, 黄纯, 刘斌, 等. 基于小波系数 KPCA 和
+64-67.
+Ying-lin,
+TIAN
+Li-jun,
+CHANG
+Xue-fei.
+PNN 的电能质量扰动分类[J]. 电力系统及其自动化
+学报, 2010, 22(2): 76-81, 108.
+收稿日期：2014-03-06；
+HE Zhao-hui, HUANG Chun, LIU Bin, et al. Power
+作者简介：
+quality disturbances classification based on kernel
+principal component analysis of wavelet coefficients and
+probabilistic neural networks[J]. Proceedings of the
+CSU-EPSA, 2010, 22(2): 76-81, 108.
+[10] 孔英会, 车辚辚, 苑津莎, 等. 基于小波分解和数据挖
+修回日期：2014-04-09
+吴兆刚(1985-)，男，硕士研究生，研究方向为电能质
+量在线监测、配网规划；
+李唐兵(1983-)，男，硕士，从事高电压外绝缘技术研
+究工作；
+姚建刚(1952-)，男，教授，博士生导师，研究方向为
+掘中决策树算法的电能质量扰动识别方法[J]. 电网技
+电力市场、负荷预测、配电系统自动化、智能电网等。E-mail:
+术, 2007, 31(23): 78-82.
+yaojiangang@126.com

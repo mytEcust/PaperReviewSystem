@@ -1,0 +1,442 @@
+西北工业大学学报
+Journal of Northwestern Polytechnical University
+2016 年 8 月
+第 34 卷第 4 期
+Aug． 2016
+Vol． 34 No． 4
+一种基于 LDA 主题模型的话题发现方法
+郭蓝天，李扬，慕德俊，杨涛，李哲
+（ 西北工业大学 自动化学院，陕西 西安 710072）
+要： 话题发现是提取热点话题并掌握其演化规律的关键技术之一。针对社交网络中海量短文本
+信息具有高维性导致主题模型难以处理以及主题分布不均导致主题不明确的问题，提出一种基于
+摘
+LDA( latent dirichlet allocation) 主题模型的 CBOW-LDA 主题建模方法，
+通过引入基于 CBOW( continuous bag-of-word) 模型的词向量化方法对目标语料进行相似词的聚类，
+能够有效降低 LDA 模型输入文
+本的维度，
+并且使主题更明确。通过在真实数据集上计算分析，
+与现有基于词频权重的词向量化 LDA
+方法相比，
+在相同主题词数情况下困惑度可降低约 3% 。
+词： 词向量; LDA 模型; 话题发现; 困惑度
+中图分类号： TP391
+文献标志码： A
+文章编号： 1000-2758（2016）04-0698-05
+关
+键
+为了通过海量的社交网络数据及时的掌握热点
+话题和舆情的态势变化，需要对话题进行提取、追踪
+和预测。话题发现是解决该类问题的关键技术之
+一。LDA（ latent dirichlet allocation，隐性狄利克雷分
+布） 主题模型在新闻话题发现与检测方面获得了不
+错的效果，但由于社交网络文本 （ 如微博客短文本 ）
+存在高维性及主题分布不均等问题 ，加之 LDA 自身
+的局限性，导致以概率化词汇抽取为基础的 LDA 主
+题模型在处理社交网络文本方面还存在模型难以降
+［1-4］
+。
+维处理和主题不明确的问题
+CBOW 语言模型是 Mikolov 等［2］ 于 2013 年 提
+出的一种基于类前馈神经网络的语言模型 。它能利
+用文本词汇的上下文信息，通过模型训练将词转化
+为向量。通过向量空间上的相似度可以分析表示文
+本语义上的相似度。可作为词向量聚类方法用来寻
+找相似词汇，进而在有效表达语义信息的同时降低
+［4］
+模型处理的维度 。
+本文研究话题发现问题，通过对现有话题发现
+常用的 LDA 主题模型的局限性进行分析，提出一种
+基于 CBOW 语言模型的向量表示方法进行文本词
+相似性聚类，以聚类结果为基础利用 LDA 主题模型
+对文本进行隐含主题提取的话题发现方法 。
+1
+相关工作
+文献［4］提出一种将 LDA 与 VSM（ vector space
+model，向量空间模型 ） 结合的方法研究微博客话题
+发现。该方法基于 TF-IDF 的权重词向量，再将 2 种
+方法结果进行线性加权融合在一起，实现文本间相
+似度的计算。TF-IDF 向量方法仍然是对词频进行
+简单的概率统计，易受无用信息干扰。
+为了减少代词和介词等无用文本信息对话题抽
+取模型的干扰，文献［5］提出在微博话题检测过程
+中，
+将中文词性标注后输入 LDA 主题模型进行话题
+抽取。该方法试图通过剔除大量无关词汇，使向量
+空间的维度降低。
+利用 LDA 和基于神经网络语言模型的向量化
+方法进行文本的特征提取并对比分析 。实验结果表
+明，LDA 直 接 应 用 在 文 本 特 征 表 示 上 的 效 果 不 理
+想，同时也面临着高维度的问题；基于神经网络语言
+模型的向量化方法应用于文本表示过程中能够带来
+一定的效果提升。
+总结 LDA 模型的局限性主要表现在：
+收稿日期： 2016-03-19
+61303224、
+61403311） 与航空科学基金（20155553036、
+2013ZC53034） 资助
+基金项目： 国家自然科学基金（61402373、
+作者简介： 郭蓝天（1987—） ，西北工业大学博士研究生，主要从事数据挖掘及机器学习等研究。
+郭蓝天，等：一种基于 LDA 主题模型的话题发现方法
+第4 期
+· 699·
+1） 由于中文词义多样性，存在很多同义词、近
+义词、易混淆词等，致使基于概率化的单词抽取方法
+会存在文本的主题分散及主题混淆等问题 。
+2） 社交网络文本数据量大，主题更新速度快以
+及训练语料数据维度特别高 （ 通常上万维的向量 ） ，
+使得 LDA 主题模型规模很大，处理效率偏低。
+2
+2． 1
+基于 CBOW-LDA 的话题发现
+话题发现的基本流程
+话题发现的主要步骤为先根据聚类规则挖掘社
+会网络中的用户群组和抓取文本数据 。进行数据预
+处理后，提取特征和模型表示，将杂乱的非结构化文
+本转化为结构化数据。然后利用聚类算法对文本主
+题词进行相似度的计算和聚类，从而找出群组的话
+题并进行分析，该过程如图 1 所示。
+图2
+CBOW-LDA 算法框架
+法，形成了不同于传统词袋模型连续词袋模型 。
+CBOW 模型的主要思想是根据语料中词的上下
+文信息生成其对应的词向量，并映射到高维空间中
+后，以词向量在高维空间中的相互关系来计算词与
+词之间的相似度。 具体地，是将语料中的词通过左
+边的输入层映射到中间的投影层得到词典 。
+图1
+话题发现的示意图
+图3
+2． 2
+在话题发现过程中，CBOW-LDA 算法的主要功
+能是将文本的向量化后进行文本模型表示 。文本向
+量化是指将文本中的单词表示为多维向量的形式 ，
+然后输入 LDA 主题模型进行训练，得到文本的模型
+表示。算法核心思想是在 LDA 主题模型的文本表
+示基础上，利用词向量进行相似词聚类，这样做能使
+LDA 模型 的 处 理 维 度 降 低 的 同 时 改 善 主 题 分 散
+混淆。
+2． 3
+CBOW 语言模型
+CBOW-LDA 算法框架
+文本向量化
+与传统的 one-hot representation 向量表示法不
+同，CBOW 属于 distributed representation 的词向量表
+［7］
+示方式
+，该方法通过引入连续的分布式词表示方
+设有语料库 C 中的 t 个词汇 C（ t） 通过共享投影
+层，得到对应的唯一位置 W（ t），接着通过 W（ t） 的上
+下文信息来预测 W（ t） 。基本训练步骤如下
+1） 在输入层，通过窗口值 k 限定输入层中的上
+下文窗口大小，然后在读取窗口中的词 C（ t － k） ，
+C（ t － k + 1） ，…，C（ t + k － 1） ，C（ t + k） ，通过 hash
+表得到投影层的相应位置 W（ t － k） ，W（ t － k + 1） ，
+…，W（ t + k － 1） ，W（ t + k） ，这样就可得到某个词
+W（ t） 的上下文词汇 Context（ W（ t） ） ，因为 CBOW 的
+模型 的 目 标 是 在 已 知 当 前 词 W（ t） 的 上 下 文
+Context（ W（ t） ） 的情况下预测当前的词。
+2） 在中间的投影层，利用对 W（ t） 的上下文信
+西
+· 700·
+北
+工
+业
+大
+息 Context（ W（ t） ） 进行累加操作。用公式可表达为
+学
+学
+第 34 卷
+报
+［1，N］） 。从 θ 的多项式分布 Multi（ θ） 随机选择一个
+（1）
+主题 z，即得到文档 － 主题的分布。从主题 z 的多项
+式条件概率分布 Multi（ φ） 选择一个单词作为 w i ，即
+3 ） 从 中 间 的 投 影 层 到 右 边 的 输 出 层，利 用
+W（ t） 的上下文 Context（ W（ t） ） 建立条件概率表达
+得到主题 － 词语的分布。
+利用 Gibbs 抽样简化求解 θ 和 φ 的值。由贝叶
+式 P（ W（ t） | Context（ W（ t） ） ） ，用来表示生成 W（ t）
+的向量值。
+斯公式得到后验概率公式如下
+p（ z i ，z －i ，w | α，β）
+p（ z i | z －i ，w，α，β） =
+p（ z －i ，w | α，β）
+t +k
+V（ t） =
+Context（ W（ t） ）
+∑
+t －k
+CBOW 模型的优化目标函数取其对数似然函数
+L =
+lnP（ W（ t） |
+∑
+w∈C
+Context（ W（ t） ） ）
+（2）
+∝
+直接使用梯度下降求解的运算复杂度非常高 。通常
+使用负采样 （ negative sampling） 的方法进行替换能
+［8］
+简化求解计算
+模型中公式的表示为
+lnσ（ v'
+n k－i，m + α k
+∝
+k
+－i，m
+n w－i，k + β w
+．
+K
+（n
+∑
+k =1
+·v w（ t） ） +
+K
+（5）
+引入 θ 和 φ ，并积分可得
+p（ z i = k | z －i ，w，α，β）
+。根据负采样的原理，lnp（ w t + j | w t ）
+T
+w（ t +j）
+p（ z，w | α，β）
+p（ z －i ，w | α，β）
++ αk ）
+（6）
+V
+（n
+∑
+w =1
+w
+－i，k
++ βw ）
+（3）
+n k－i，m 表示文档 m 中属于该主题 k 的包含词语个数；
+E w k ～ P v（ w） 表示 Huffman 树中上下文不出现某个词的
+n w－i，k 表示 w i 属于主题 k 的次数； 获得每个单词的主
+题标号 k 后，需要的参数计算公式可表示为
+Ew ～ P
+∑
+k =1
+k
+ln（ σ（ － v'wTk ·v w（ t） ） ）
+v（ w）
+期望值，P v（ w） 表示整个语料中词频的分布，W k 表示
+该词 在 Huffman 树 各 层 中 非 目 标 词 组 的 节 点 向
+量和。
+得到 Huffman 树中路径概率最大的词向量后，
+通过训练整个文本的词汇得到最终的词向量集 。利
+用 cos 相似度计算词向量之间的相似度，记录相似
+词的 词 频 和 向 量，输 入 LDA 主 题 模 型 进 行 文 本
+建模。
+2． 4 文本的模型表示
+n km + α
+θ m，k =
+K
+n
+∑
+k =1
+k
+m
+，φ k，w =
+n wk + β
+n
+∑
+w =1
++ kα
+（7）
+V
+w
+k
++ Wβ
+w
+式中，V 表示词语的数量；n k 表示词项 w 在主题 k 中
+k
+出现的次数；n m 表述主题 k 在文档 m 中出现的次数。
+对于同一文本而言，由于 CBOW-LDA 算法进行
+了词向量的相似性聚类，实质是优化了 LDA 主题模
+型输入的文档 － 词语分布，以致使求解得到 θ 和 φ
+的结果产生了更新，得到了新的词项和主题项。
+LDA 主题模型是包含文档 － 主题 － 词语的 3
+［9］
+层贝叶斯模型，其中主题是隐含层
+。 与传统主题
+3
+实验及结果分析
+模型输入不同，CBOW-LDA 算法中 LDA 主题模型输
+入的语料是经过相似性聚类的文档 － 词语的分布，
+3． 1
+使 LDA 主题模型处理维度降低及主题更明确 。
+LDA 主题模型采用概率产生模式，将文本表示
+评价指标采用文本建模中常用的困惑度 （ perplexity） 来度量，困惑度越小，主题词被选中的概率
+为主题的混合分布 p（ z） 。LDA 的联合概率公式为
+越大，表 明 语 言 模 型 吻 合 度 越 好。 其 定 义 如 公 式
+（8） 所示
+N
+p（ θ，z | w，α，β） = p（ θ | α） ∏ p（ z n | θ） p（ w n | z n ，β）
+评价指标
+{
+n =1
+（4）
+主题模型生成文本的过程如下：
+1） 对于主题 z，根据 Dirichlet 分布 Dir（ β） 得到
+该主题上的一个单词多项式分布向量 φ；
+2） 根据 Dirichlet 分布 Dir（ α） 得到该文档的一
+个主题分布概率向量 θ；
+3） 对于该文档 N 个单词中的每个单词 w i （ i ∈
+Perplexity（ W） = exp －
+M
+ln（ p（ w m ） ）
+∑
+m =1
+M
+Nm
+∑
+m =1
+}
+（8）
+式中，W 为测试集，w m 为测试集文档 m 中可观测到
+的单词，p（ w m ） 表示模型产生文本 w m 的概率，N m 为
+文档 m 的单词数。
+郭蓝天，等：一种基于 LDA 主题模型的话题发现方法
+第4 期
+3． 2
+表2
+语料获取
+本文采集了新浪微博上有关 IT 互联网行业高
+管以及政府机关人员的微博语料，以及这个群组内
+主题数
+CBOW-LDA
+的关注情况数据。 数据集涉及约 6 000 名 用 户 在
+2015 年 3 月至 2015 年 4 月这 30 天内发表的约 43
+万条微博。以这期间的某一天为例，抓取到 14 536
+条微博，分析其包含词数多达 233 296。
+3． 3
+实验步骤与参数设置
+原始微博数据包含诸多无用信息，使用“Jieba”
+分 词 工 具 进 行 分 词 和 过 滤，得 到 的 词 典 库 包 含
+46 516 个词； 然后将其输入到 CBOW-LDA 模型使用
+Word2vec 0． 8 （2015 年 7 月 ） 开发向量程序进行向
+量化处理。
+Word2vec 的参数设置如表 1 所示，其中 Cbow =
+1 表示训练使用的是 CBOW 模型，Hs = 0 表示使用
+20
+TF-LDA
+· 701·
+2 种方法困惑度比较
+25
+30
+35
+40
+45
+50
+55
+60
+151 138 125 116 112 106 100 96
+92
+155 143 131 120 111 109 103 100 95
+可以看出，随着主题数不断增加，二者困惑度都
+相应降低。将二者差值的百分数取平均值得出，在
+该 20 ～ 60 个主题数的范围内，CBOW-LDA 方法困
+惑度降低了约 3% 。
+在相同参数下，将主题数 K 设为 30，观察困惑
+度随迭代次数的变化情况如图 4 所示。文本实验主
+题模型求解的迭代次数为 500 次，为了便于展示，仅
+截取迭代 300 次的数据。
+的是负采样简化求解计算。 词向量聚类中，相似度
+的阈值设为 0． 75。
+表1
+Word2vec 参数设置
+参数
+含义
+取值
+Size
+词向量维数
+50
+Window
+上下文窗口大小
+5
+Sample
+高频词亚采样阈值
+0
+Cbow
+是否使用 Cbow 算法
+1
+Hs
+是否使用层次 Softmax
+0
+CBOW-LDA 算法中的文本模型表示过程选用
+lda 1． 0． 3 的 Python 工具集作为 LDA 的实现工具。
+该工具处理速度较快，适合分析大规模语料。 已有
+图4
+困惑度随主题数目的变化情况
+从结果可以看出本文的 CBOW-LDA 方法虽然
+采用比 TF-LDA 更为复杂的向量化方法，但是收敛
+速度并没有随之减慢，表现出较好的响应能力。
+文献大多数将模型参数中的 α 和 β 设置为： α = 50 /
+K，β = 0． 01。K 为隐含主题词数，可根据文本规模和
+应用 场 景 做 相 应 调 整。 Gibbs 抽 样 迭 代 次 数 为
+500 次。
+所有参数设定好之后，程序便开始利用 Gibbs
+抽样算法对模型求解。程序运行完成后可得到参数
+θ 和 φ 的值，通过分析可得文本的主题词，进而总结
+语料的话题。
+3． 4
+结果分析
+图5
+在相同的参数设置和语料下，通过计算困惑度
+来度量模型的处理效果。对比方案参照文献［4］中
+基于 TF-IDF 的权重词向量 LDA 方法 （ 本文简写为
+TF-LDA） ，
+2 种方法困惑度随隐主题数目的变化情
+况如表 2 所示。
+4
+结
+困惑度随迭代次数的变化情况
+论
+文本针对社交网络中短文本信息的特点，提出
+西
+· 702·
+北
+工
+业
+大
+将文本深度表示模型的词向量化方法与 LDA 主题
+模型结合进行话题发现的方法。 通过对 LDA 模型
+的输入进行相似词的聚类，使得话题抽取模糊度更
+学
+学
+报
+第 34 卷
+低，
+话题含义的表达更加明确。 今后的研究工作将
+进一步深度研究和优化模型，加强话题发现的效果。
+参考文献：
+［1］ Cheng Xueqi，Yan Xiaohui，Lan Yanyan，et al． BTM： Topic Modeling Over Short Texts［J］． IEEE Trans on Knowledge and
+Data Engineering，2014，26（12） ： 2928-2941
+［2］ Mikolow Tomas，Yih Wentau Scott，Zweiq Geoffery． Linguistic Reqularities in Contrmcous Space Word Representations［C］∥
+Proceedings of the 12nd Conference of the North Anerican Chapter of the Association for Computational Linguistics，Atlanta，
+USA： NAACL，2013
+［3］ Dermouche M，Velcin J，Khouas L，et al． A Joint Model for Topic-Sentiment Evolution Over Time［C］∥Proceedings of 14 th
+IEEE International Conference on Data Mining． Shenzhen，China，2014
+［4］ Huang Bo，Yang Yan，Mahmood Amjad，et al． Microblog Topic Detection Based on LDA Model and Single-Pass Clustering［C］
+th
+∥Proceedings of 7 International Conference on Rough Sets and Current Trends in Computing． Chengdu，China，2012
+［5］ Darling M William，Song Fei． Probabilistic Topic and Syntax Modeling with Part-of-Speech LDA［J］． ArXiv：1303． 2826，2013
+［6］ Bai Xue，Chen Fu，Zhan Shaobin． A New Clustering Model Based on Word2vec Mining on Sina Weibo Users' Tags［J］． International Journal of Grid Distribution Computing，2014，7（3） ： 41-48
+［7］ Zhou Xinjie，Wan Xiaojun，Xiao Jianguo． Repre-Sntation Learning for Aspect Category Detection in Online Reviews［C］． Proceedings of the 29 th AAAI Conference on Artificial Intelligence． Austin，Texas，USA，2015
+［8］ Mikolov Tomas，Sutskever Hya． Distributed Representutions of Words and Phrases and Their Compositionality［C］∥Proceedings
+of the Ilth Newral Information Processing Systems Conference Lake Tahoe，USA： NIPS，2013
+［9］ Cao Ziqiang，Li Sujian，Liu Yang，et al． A Novel Neural Topic Model and Its Supervised Extension［C］∥Proceedings of the
+29 th AAAI Conference on Artificial Intelligence． Austin，Texas，USA，2015
+A LDA Model Based Topic Detection Method
+Guo Lantian，Li Yang，Mu Dejun，Yang Tao，Li Zhe
+（ School of Automation，Northwestern Polytechnical University，Xi＇an 710072，China）
+Abstract： Topic Detection is one of the most important techniques in hot topic extraction and evolution tracking．
+Due to the high dimensionality problem which hinders processing efficiency and topics mal-distribution problem
+which makes topics unclear，it is difficult to detect topics from a large number of short texts in social network． To
+address these challenges，we proposed a new LDA （ Latent Dirichlet Allocation） model based topic detection method called CBOW-LDA topic modeling method． It utilizes a CBOW（ Continuous Bag-of-Word） method to cluster the
+words，which generate word vectors and clustering by vectors similarity． This method decreases the dimensions of
+LDA output，and makes topic more clearly． Through the analysis of topic perplexity in the real-world dataset，it is
+obvious that topics detected by our method has a lower perplexity，comparing with word frequency weighing based
+vectors． In a condition of same number of topic words，perplexity is reduced by about 3% ．
+Keywords： word vectors； LDA model； topic detection； perplexity

@@ -1,0 +1,803 @@
+仪
+第 34 卷 第 6 期
+2013 年 6 月
+器
+仪
+表
+学
+报
+Chinese Journal of Scientific Instrument
+Vol. 34 No. 6
+Jun． 2013
+*
+基于统计和纹理特征的 SAS 图像 SVM 分割研究
+强，田
+陈
+杰，黄海宁，张春华
+（ 中国科学院声学所
+摘
+北京 100190）
+要： 合成孔径声呐图像可以有效反映海底的地形、地貌和底质等情况，但是单幅 SAS 图像通常对应一片较大的区域，需要
+按照某种性质将不同性质的区域分割开来，以有利于下一步的图像分析以及目标检测和识别。研究发现，不同底质区域的 SAS
+图像具有不同的统计和纹理特征，选取灰度直方图的均值、标准差、峰度等统计特性和灰度共生矩阵的能量、相关性、对比度、熵
+值等纹理特性用以描述 SAS 图像的不同区域。将选取的特征作为 SVM 的训练特征，进而得到 SVM 分类器，用于 SAS 图像分
+割。实验结果表明，SVM 算法可以很好地对 SAS 图像进行区域分割。
+关键词： 合成孔径声呐； 统计特征； 纹理特征； 图像分割
+中图分类号： TP751． 1
+文献标识码： A
+国家标准学科分类代码： 510． 4050
+Study on SAS image segmentation using SVM based
+on statistical and texture features
+Chen Qiang，Tian Jie，Huang Haining，Zhang Chunhua
+（ Institute of Acoustics，Chinese Academy of Sciences，Beijing 100190，China）
+Abstract： Synthetic aperture sonar （ SAS） images can effectively describe the topography，
+geomorphology and substrate of
+seabed； however，
+one single SAS image usually corresponds to a larger area； so it is necessary to segment the SAS image inwhich benefits further analyzing the image，
+and detecting and identifying
+to different regions according to certain property，
+the target． Study found that SAS images of different substrates have different statistical and texture features； in this paper，
+the statistical properties，
+such as the mean，
+standard deviation and kurtosis of the grey level histogram，
+as well as the texture features，
+such as the energy，
+correlation，
+contrast and entropy of the grey level co-occurrence matrix are selected and
+used to describe different regions of the SAS image． These selected features are used as the support vector machine （ SVM）
+training characteristics and the classifier is obtained for the SAS image segmentation． The experiment results show that the
+proposed SVM algorithm is a good segmentation method for the region segmentation of SAS image．
+Keywords： synthetic aperture sonar （ SAS） ； statistical feature； texture feature； image segmentation
+1
+引
+像。由于其高分辨特性，SAS 在水下研究领域具有很高
+的研究和应用价值。与普通声呐相比，SAS 利用基阵的
+言
+合成孔径声呐（ synthetic aperture sonar，SAS） 是一种
+高分辨率的水下成像声呐，可以获得高质量的海底图像
+［1］
+数据 。其中，合成孔径是一种不需要长接收阵就可以
+显著提高方位分辨率的技术，SAS 即通过合成孔径技术
+得到在方位向分辨率和距离向分辨率上都很高的水下图
+收稿日期： 2012-12
+Received Date： 2012-12
+* 基金项目： 国家自然科学基金（ 11174313） 资助项目
+线性运动以提高阵列孔径，从原理上说，SAS 图像的分辨
+率与工作频率无关，同时与作用距离也无关。因此。可
+以用较短的声呐基阵和较低的工作频率同时满足高分辨
+［2-3］
+。
+和远距离探测的需要
+单幅 SAS 图像通常对于一片性质相异区域，故需要
+进行图像分割。图像分割是将图像分成为物理上有意义
+1414
+仪
+器
+仪
+表
+学
+报
+第34 卷
+的各具特性的区域，即同一区域内部具有相同或者相似
+［4］
+的属性，而不同区域则具有不同或者相异的属性 。图
+效果，可以准确地将 SAS 图像不同区域分割出来。
+像分割是图像处理和计算机视觉的重要研究课题，是图
+2
+SAS 图像统计模型
+像分析、理解和目标识别等的关键技术，具有重要的研究
+意义和应用价值。在研究图像分割算法的过程中，必须
+SAS 图像中的相干斑噪声是一种乘性噪声，其与普
+结合所处理图像的特点及图像处理的目标。SAS 图像分
+割的目的是分离出感兴趣的区域或者目标，通常是 SAS
+通光学图像中的高斯噪声具有显著差别，故 SAS 图像不
+图像目标检测和识别等后续应用的重要基础。但由于受
+到相干斑噪声（ speckle） 的影响，图像分割一直是 SAS 图
+像处理与分析中的难点问题。
+建立 SAS 图像统计模型有利于对相干斑噪声、
+不同类
+型的海底底质特征、
+不同的纹理特征等图像信息进行有效描
+能像普通光学图像一样建模为高斯统计模型，而需要建
+［14］
+立适应相干斑噪声的统计模型 。相干斑噪声在降低
+图像质量的同时，还会增加 SAS 图像边缘检测、图像分割
+和目标识别等处理的难度。
+对于相干斑噪声模型的研究具有重要作用，其可以
+为 SAS 图 像 统 计 模 型 的 建 立 提 供 理 论 指 导 和 效 果 分
+［15］
+析
+。图 1 为 SAS 图像中不同区域的灰度直方图，从中
+述，
+从而有利于进行 SAS 图像的处理、
+分析和理解。基于统
+计模型的 SAS 图像处理的关键就是统计模型的建立，
+其在判
+可以看出不同区域的统计特性具有显著差别，可以用来
+定处理方法的最终性能时起决定性作用。由于 SAS 图像本
+进行图像分割。
+身成像机理复杂，
+因此准确地建模 SAS 图像是一项极富挑战
+性的任务，
+同时是一项具有实际意义的研究工作。
+纹理是一种物体表面所具有的内在特征，目前为止，
+［5-8］
+。但是作为
+还没有可以对其进行全面描述的合适模型
+图像纹理特征受到广泛的关注
+一种重要的人类视觉特征，
+和研究。通常认为，
+纹理特征就是纹理单元有规律的排列
+组合，
+其中图像中具有重复性、简单形状、强度一致性的区
+域称为纹理元素。通过对上述局部模式及其之间排列规
+［9-10］
+。研究发现［11］，不
+则的研究，可以进行图像纹理分析
+同的底质呈现在声呐图像中的纹理特征各不相同，而纹理
+是海底表面结构粗糙程度的直接反应，故可以利用其进行
+底质分类。对于岩石、
+沙和泥等纹理差别比较明显的声呐
+用肉眼就可以明显地分辨出来； 对于淤泥和黏土等
+图像，
+纹理差别较小的声呐图像则无法通过肉眼直接分辨。
+支持向量机（ support vector machine，SVM） 是新发展
+［12］
+起来的一种新的模式识别技术 ，其建立在统计学习的
+VC 维理论和结构风险最小原理基础上，适用于训练样本
+较少情况下的分类问题，具有结构简单、全局最优、泛化
+能力好、计算复杂度低等特点，而且具有较强的高维样本
+处理能力。由于 SVM 出色的学习性能，该技术已经成为
+机器学习界的研究热点，将其与 SAS 图形处理方面的研
+［13］
+究相结合，具有良好的研究和应用前景 。
+SAS 图像不同底质区域具有不同的统计特性和纹理
+特性，综合利用统计特性和纹理特性要比单独使用统计
+特性或者纹理特性更符合 SAS 图形不同区域的分类特
+点。将 SAS 图像的统计特性和纹理特性结合起来，共同
+组成 SVM 分类器的训练数据的特性，能够获得良好的分
+类性能。本文即选取均值、标准差、峰度等统计特性和灰
+度共生矩阵的能量、相关性、对比度、熵值等纹理特性作
+为 SAS 图像 SVM 分割的基础。实验结果表明，基于统计
+和纹理特征的 SAS 图像 SVM 分割方法具有良好的分割
+第6 期
+3
+陈
+强 等： 基于统计和纹理特征的 SAS 图像 SVM 分割研究
+纹理分析的特征参量：
+1） 角二阶矩 / 能量（ ASM）
+图像纹理分析
+ASM =
+而基于灰度共生矩阵（ grey level co-occurrence matrix，
+法，
+GLCM） 提取纹理特征的方法是一种典型的统计分析方法，
+本文即采用 GLCM 进行合成孔径声呐图像的表示和分析。
+GLCM 纹理提取方法具有较强的适应能力和稳健性，近年
+［16］
+来已越来越多地用于图像的检测和分类研究
+Haralick
+。
+用来描述图像灰度分布的均匀程度和纹理的粗细程度。
+如果 GLCM 的所有值都非常接近，则 ASM 值较小； 如果矩
+阵元素取值差别较大，
+则 ASM 值较大。
+当 ASM 值较大时，
+纹
+理粗，
+能量大； 反之，
+当 ASM 值小时，
+纹理细，
+能量小。
+2） 相关性（ COR）
+∑ ∑ ijP（ i，j）
+表明，GLCM 优于灰度游程长度法和光谱方法，是一种广
+泛 应 用 的 纹 理 统 计 方 法 和 纹 理 测 量 技 术。 P． P．
+实验结果表明： 在用于纹理分类的四种特征中，基于 GLCM 的统计特征比马尔科夫模型、分形维和 Gabor 滤波器
+i
+COR =
+－ μx μy
+（ 2）
+j
+σx σy
+∑ i∑ P（ i，j） ，μ
+式 中： μ x =
+i
+2
+x
+i
+=
+y
+j
+∑ （ i － μ ） ∑ P（ i，j） ，σ
+2
+y
+=
+j
+∑ j∑ P（ i，j） ，σ
+j
+2
+x
+=
+i
+2
+∑ （ j － μ ） ∑ P（ i，j） 。
+y
+j
+i
+相关性度量的是 GLCM 元素在行方向或者列方向上
+模型更适合纹理描述。
+3． 1
+（ 1）
+j
+角二阶矩（ 能量） 是 GLCM 所有元素的平方和，
+其可以
+于 1973 年首次提出灰度共生矩阵。研究
+Ohanian［18］于 1992 年比较了几种纹理测量技术的效果，
+2
+∑ ∑ P（ i，j）
+i
+纹理特征的表示和分析通常有统计法、结构法和模型
+［17］
+1415
+灰度共生矩阵的生成
+对图像中所以灰度值的像素数进行统计可以得到灰
+度直方图，而对图像中保持特定距离的 2 个像素分别具
+有的灰度进行统计可以得到灰度共生矩阵。假设（ x，y）
+的相似程度，其大小可以反映图像的局部相关性。当矩阵
+元素值相差较小时，COR 较大； 相反，当矩阵像素值相差
+较大时，COR 较小。如果图像具有某个方向的纹理，则该
+方向上的灰度共生矩阵的 COR 值较大。
+3） 对比度（ CON）
+为图像（ N × N） 中任意一像素点，（ x + a，y + b） 表示图像
+∑ ∑ （ i － j）
+2
+CON =
+（ x，y） 遍历整幅图像，则可以得到所有（ g1 ，g2 ） 值。假设
+对比度是 GLCM 主对角线附近的惯性矩，
+可以用来描述
+i
+P（ i，j）
+（ 3）
+中的另一像素点，设该像素点对的灰度值为（ g1 ，g2 ） 。令
+j
+图像的灰度级数为 k，则（ g1 ，g2 ） 的共有 k 种组合方式。
+是图像清
+矩阵中元素值的分布情况和图像的局部变化情况，
+对于整幅图像来说，统计得到（ g1 ，g2 ） 出现的次数，进而
+晰程度和纹理沟纹深浅程度的反映。如果纹理沟纹较深，
+则 CON 较大，
+图像较清晰； 反之，
+如果纹理沟纹较浅，
+则 CON
+2
+排列成一个方阵，再利用（ g1 ，g2 ） 的总次数将方阵归一
+化为出现的概率 P（ g1 ，g2 ） ，这样就可以得到图像的灰度
+共生矩阵。如果距离差分值（ a，b） 取不同的组合，那么便
+较小，
+图像较模糊。
+灰度差较大的像素对越多，
+则 CON 越大，
+CON 越大。
+即 GLCM 中远离对角线的元素值越大，
+得到不同条件下的灰度共生矩阵。
+4） 熵（ ENT）
+当 a = 1，b = 0 时，像素对是水平的，即对应 SAS 图
+像距离向的纹理特征； 当 a = 0，b = 1 时，像素对是垂直
+ENT = －
+的，即对应 SAS 图像方位向的纹理特征； 当 a = 1，b = 1
+时，像素对是沿右对角的，即对应 SAS 图像右对角方向的
+纹理特征； 当 a = 1，b = － 1 时，像素对是左对角的，即对
+应 SAS 图像左对角方向的纹理特征。
+3． 2
+∑ ∑ P（ i，j） log P（ i，j）
+i
+（ 4）
+j
+熵值是一种用来描述图像信息量的特征值，而纹理
+也属于图像信息。当 GLCM 中的元素具有最大的随机性
+时，GLCM 中的所有值几乎相等。当 GLCM 中元素分散
+分布时，熵值较大。图像中纹理的非均匀程度或者复杂
+程度可以用熵值表示，如果图像中没有任何纹理，则熵值
+灰度共生矩阵的特征
+较小； 如果图像中纹理复杂，则熵值较大。
+利用 GLCM 可以得到图像灰度关于方向、变化幅度、
+相邻间隔等方面的相关信息，用于分析研究图像的排列
+规则和局部模式等。为了更加直观方便地用 GLCM 描述
+纹理特征，通常不直接使用 GLCM，而是在 GLCM 的基础
+上计算其二次统计量。Haralick 等人根据 GLCM 定义了
+［19］
+14 个可以用于纹理分析的特征参数，而 Ulaby 等人
+4
+SAS 图像海底底质分析
+SAS 图像含有丰富的纹理特征，而灰度共生矩阵具
+有丰富的特征参数，可以从不同的角度对纹理进行细致
+的
+刻画。下面利用灰度共生矩阵的特征量，分别对泥底质
+研究则发现，在基于 GLCM 的 14 个纹理特征中，其中仅
+区域和沙底质区域的纹理特性进行比较分析。
+SAS 图像在距离向采用脉冲压缩原理成像，
+而在方位向
+有 4 个特征量是互不相关的。这 4 个特征量既便于计
+算，又能给出较高的分类精度，下面分别介绍这 4 个用于
+SAS 图像的灰度共生矩阵
+则采用合成孔径原理成像，
+因此，
+仪
+1416
+器
+仪
+表
+学
+报
+第34 卷
+在距离向和方位向具有不同的特性，
+即 SAS 图像的纹理在方
+程度，故泥底质区域的随机性要比沙底质大，显示出显著
+位向和距离向具有不同的特征。本文截取的泥底质区域和
+灰度共生矩阵的偏
+沙底质区域的大小均为 512 × 512 像素，
+的统计纹理特征。
+移取值范围是［1 80］，分别计算在各种偏移情况下的能量
+（ ASM） 、
+相关性（ COR） 、
+对比度（ CON） 和熵（ ENT ） 。
+图 2 即为灰度共生矩阵的特征量随距离向偏移而变
+化的情况。泥底质区域的能量要显著大于沙底质区域的
+作为和距离向偏移的比较，我们分析方位向偏移灰
+度共生矩阵的各个特征量，图 3 即为灰度共生矩阵的特
+征量随方位向偏移而变化的情况。对于灰度共生矩阵的
+能量、相关性、对比度和熵值，泥底质区域和沙底质区域
+能量，并且两种底质区域的能量并不随距离向偏移的增
+在距离向偏移和方位向偏移两种情况下几乎没有差别，
+这也说明 SAS 图像的距离向和方位向的灰度共生矩阵没
+大而变化。这说明泥底质区域的纹理较粗，能量大； 而沙
+有区别，在选择区分不同区域的特征量时，仅取一个方向
+底质区域的纹理较细，能量小。
+即可，或者取两个方向的平均值。
+图2
+图3
+灰度共生矩阵的特征（ 距离向）
+Fig． 3 The features of GLCM （ azimuth direction）
+Fig． 2 The features of GLCM （ range direction）
+在相关性方面，泥底质和沙底质的变化趋势一致，并
+灰度共生矩阵的特征（ 方位向）
+5
+SVM 基本原理
+且泥底质区域的相关性小于沙底质区域。泥底质和沙底
+质都是在距离向偏移较小时，相关性较高，然后随着距离
+向偏移的增大而迅速下降到零附近。相关性度量的是灰
+度共生矩阵元素行或列的相似程度，可以反映图像的局部
+相似性。这说明泥底质和沙底质的纹理结构单元都较小，
+随着距离向偏移的增大，相关性迅速减小，纹理特性也随
+之消失。
+泥底质和沙底质的对比度特征正好与能量特征相
+反，沙底质区域的对比度显著大于泥底质区域的对比度，
+SVM 是从线性可分情况下的最优分类超平面发展
+［20］
+，基本思想可以用图 4 描述［21-22］。图中圆圈和
+叉号分别代表 2 类样本，H 表示分类超平面，H0 和 H1 则
+而来的
+分别表示通过各类距离 H 最近的样本，且平行于 H 的超
+平面。H0 和 H1 到 H 的距离相等，它们之间的距离称为分
+类间隔，所谓最优分类超平面就是以最大间隔将 2 类样
+［23］
+本正确分开的超平面 。
+yi ） ，
+i = 1，
+…，
+n，
+x ∈ Rd ，
+y =
+设线性可分样本集为（ xi ，
+并且两种底质区域的对比度并不随距离向偏移的增大而
+［－ 1，
+1］是类别标号，
+d 表示空间维数［24］。
+d 维空间线性判别
+变化。对比度是灰度共生矩阵主对角线附近的惯性矩，
+分类超平面方程为：
+函数的一般形式为 g（ x） = w·x + b，
+w·x + b = 0
+（ 5）
+度量矩阵中值的分布情况和图像的局部变化情况，反映
+图像的清晰程度和纹理沟纹的深浅程度。也就是说沙底
+将判别 函 数 归 一 化，使 2 个 类 别 的 样 本 同 时 满 足
+质区域的纹理沟纹较深，效果清晰； 而泥底质区域的纹理
+下式：
+y i ［（ w·x i ） + b］ － 1 ≥ 0
+（ 6）
+此时的分类间隔为 2 / | w | ，因此，间隔最大等价于
+沟纹较浅，效果模糊。
+对于熵值的情况，泥底质区域的熵值较为稳定，几乎
+不随距离向偏移的增大而变化，并且始终保持在 0． 9 附
+近； 而沙底质区域的熵值则变动比较剧烈，并保持在 0． 5
+| w | 2 最小。在 2 类样本中，离分类超平面最近的点使
+式（ 6） 中 的等号成立，因为它们支撑了最优分类超平面，
+附近。熵值可以表示图像中纹理的非均匀程度或者复杂
+如图 4 中与 H0 和 H1 相交的样本点，这就是支持向量。
+第6 期
+陈
+强 等： 基于统计和纹理特征的 SAS 图像 SVM 分割研究
+{
+1417
+n
+∑a
+max Q（ a） =
+i
+－
+i =1
+1
+2
+n
+∑ a a y y （ x ·x ）
+i
+j
+i
+j
+i
+i，j = 1
+j
+（ 13）
+yT a = 0
+0 ≤ a i ≤ C，i = 1，…，n
+SVM 在 求 解 上 述 最 优 化 问 题 时，通 过 采 用 核 函 数
+K（ x i ，x j ） 代替训练样本的内积运算（ x i ，x j ） ，即：
+n
+Q（ a） =
+∑a
+－
+i
+i =1
+1
+2
+n
+∑ a a y y K（ x ·x ）
+i
+j
+i
+j
+i
+j
+（ 14）
+i，j = 1
+上述处理过程相当于将原输入空间变换到一个新的
+特征空间，并在新空间中求解最优线性分类平面。相应的
+判别函数为：
+n
+f（ x） = sgn｛ ∑ a *i y i K（ x i ·x） + b * ｝
+（ 15）
+i =1
+其中，核函数的主要形式有如下 4 种： 线性核函数、
+多项式核函数、径向核函数和 Sigmoid 核函数，本文采用
+图4
+SVM 分类示意图
+［16］
+的是 6 阶的多项式核函数 。SVM 训练数据形成的分
+类函数具有下面性质： SVM 是一组以支持向量为参数的
+Fig． 4 Schematic diagram of SVM classification
+要找到最优超平面，需要最优化如下目标函数：
+1
+min （ w） =
+（ w·w）
+（ 7）
+2
+式中： 约束条件如式（ 16） 所示。利用 Lagrange 乘子法可
+得到如下目标函数：
+非线性函数的线性组合，因此分类函数的表达式仅与支
+［25］
+持向量的数量有关，而独立于空间的维度 。在处理高
+维输入空间的分类时，SVM 尤为有效。
+6
+实验结果分析
+n
+1
+（ w·w） － ∑ ai ｛ yi ［（ w·xi ） +
+2
+i =1
+min L（ w，
+b，
+a） =
+（ 8）
+b］－ 1｝
+式中： a i 表示每个样本对应的 Lagrange 乘子。对上式中
+的 w 和 b 求偏导数，并令其等于零，可将原问题转化为如
+下对偶问题：
+{
+n
+∑a
+max Q（ a） =
+i
+－
+i =1
+1
+2
+n
+∑ a a y y （ x ·x ）
+i
+j
+i
+j
+i，j = 1
+i
+j
+（ 9）
+yT a = 0
+本文采用某湖试得到的合成孔径声呐图像进行算法
+验证，SAS 图像 SVM 分割流程如图 5 所示。首先选取训
+练图像，如图 6 所示，水底区域由淹没的农田与河道组
+成。该幅训练 SAS 图像上部为淹没的梯田，底质类型为
+泥，而下部为河道，底质类型为沙。由于 SVM 属于有监
+督机器学习方法，故需要人工提取图像特征，作为 SVM
+训练数据。
+a i ≥ 0，i = 1，…，n
+式（ 19） 即为线性不等式约束条件下的二次规划问
+*
+题，假设最优解为 a ，则最优分类函数为：
+n
+f（ x） = sgn｛ ∑ a *i y i （ x i ·x） + b * ｝
+（ 10）
+i =1
+*
+式中： sgn（·） 为符号函数； 支持向量的 a i 取值不为 0，非
+*
+*
+支持向量的 a i 取值为 0； b 是分类阈值。
+在线性 不 可 分 的 情 况 下，某 些 训 练 样 本 无 法 满 足
+式（ 16） 的条件，因此需要在条件中增加一个松弛项 ξ i ≥
+0，则式（ 16） 变为：
+y i ［（ w·x i ） + b］ － 1 + ξ i ≥ 0
+（ 11）
+目标函数变为：
+n
+min （ w，ξ） =
+1
+（ w·w） + C ∑ ξ i
+2
+i =1
+（ 12）
+式中： C 表示惩罚因子，可以控制对错分样本的惩罚程
+度，其对偶问题变为：
+图5
+SAS 图像分割算法流程图
+Fig． 5 Flow chart of the SAS image segmentation algorithm
+仪
+1418
+器
+仪
+表
+学
+报
+第34 卷
+在通过训练数据得到 SVM 分类器后，输入如图 8 所
+示的测试图像验证 SVM 分类器的效果。SVM 得到的初
+步分割结果有一些空洞和孤立点，如图 9 所示，表明上部
+农田存在部分与下面相同特性的区域。可以看出 SVM
+分类器较好地对测试图像进行了分割，准确地把上部的
+农田区与下部的河道区分割开。
+图6
+训练图像
+Fig． 6 Training image
+如图 7 所示，深色和浅色分别代表人工分割的 2 个
+区域。深色表示上部的农田区域，主要由泥底质组成，且
+地形变化剧烈。浅色表示下部的河道区域，主要由沙底
+质区域组成，且地形较为平缓。
+图7
+人工分割训练图像
+Fig． 7 The training image using artificial segmentation
+在输入训练图像后，需要提取图像的统计特征和纹
+7
+结
+论
+理特征，以作为 SVM 分类器的输入训练数据。根据以上
+计特性中的均值、标准差、峰度和灰度共生矩阵中的能
+SAS 图像含有丰富的统计信息和纹理信息，通过分
+析 SAS 图像统计特征和纹理特征的，可以用于 SAS 图像
+量、相关性、对比度、熵值等特征，构造如下特征向量：
+分割。支持向量机方法是基于统计学习理论的一种新的
+分析，为描述 SAS 图像不同底质类型的特征，充分利用统
+v = ｛ MEAN，STD，KUR，ASM，COR，CON，ENT｝
+（ 16）
+机器学习方法，其通过有限训练样本得到小误差分类器，
+对测试样本的测试误差较小，是一种具有最优泛化性能
+式中： MEAN、STD、KUR 分别为图像灰度直方图的均值、
+的学习机器。本文通过提取灰度直方图的均值、标准差、
+标准差和峰度，ASM、COR、CON、ENT 分别为灰度共生矩
+阵的能量、相关性、对比度和熵值。通过对特征向量进行
+峰度等统计特性和灰度共生矩阵的能量、相关性、对比
+度、熵值等纹理特性，作为 SVM 训练特征，得到 SVM 分
+训练，得到 SVM 分类器，然后即可以用于 SAS 图像分割。
+类器。通过对测试图像的处理，可以看到 SVM 方法能够
+第6 期
+陈
+强 等： 基于统计和纹理特征的 SAS 图像 SVM 分割研究
+较好地对 SAS 图像进行分割。
+参考文献
+［1 ］ 张春华，刘纪元． 合成孔径声呐成像及其进展［J］． 物
+1419
+［9 ］ PACE N G，GAO H． Swathe seabed classification［J］．
+IEEE Journal Oceanic Engineering，
+1988，
+13（ 2） ： 83-90．
+［10］ XUE X R，WANG X J，XIANG F，et al． A new method of
+SAR image segmentation based on the gray level co-occur-
+2006，
+35（ 5） ： 107-123．
+理，
+rence matrix and fuzzy neural network［C］． 2010 6th Inter-
+ZHANG CH H，LIU J Y． Synthetic aperture sonar imaging
+national Conference on Wireless Communications Networ-
+and its developments ［J］． Physics，2006，35 （ 5 ） ：
+king and Mobile Computing （ WiCOM） ，
+2010： 1-4．
+107-123．
+［2 ］ HAYES M P，GOUGH P T． Synthetic aperture sonar： A
+review of current status［J］． IEEE Journal of Oceanic Engineering，
+2009，
+34（ 3） ： 207-224．
+［3 ］ MYERS V，WILLIAMS D P． Adaptive multiview target
+［11］ KARPOVICH D． Development of module for an oceanographic knowledge discovery system［D］． Mississippi：
+Mississippi State University，
+1999．
+［12］ VAPNIK V N． The nature of statistical learning theory［M］．
+1995．
+New York： Springer-Berlag，
+classification in synthetic aperture sonar images using a
+［13］ LV W T，YU Q Z，YU W X． Water extraction in SAR ima-
+partially observable Markov decision process［J］． IEEE
+ges using GLCM and support vector machine［C］． 2010
+2012，
+37（ 1） ： 45-55．
+Journal Oceanic Engineering，
+IEEE 10th International Conference on Signal Processing
+［4 ］ 章毓晋． 图像工程（ 中册） 图像分析［M］． 2 版． 北京：
+2005： 74-75．
+清华大学出版社，
+（ ICSP） ，
+2010： 740-743．
+［14］ LI H CH，HONG W，WU Y R，et al． An efficient and flex-
+ZHANG Y J． Image engineering （ volume II ） Image
+ible statistical model based on generalized gamma distri-
+analysis［M］． 2nd ed． Beijing： Tsinghua University Press，
+bution for amplitude SAR images［J］． IEEE Transactions
+2005： 74-75
+［5 ］ 刘金平，
+桂卫华，
+牟学民，
+等． 基于 Gabor 小波的浮选泡沫
+图像纹理特征提取［J］． 仪器仪表学报，2010，31 （ 8） ：
+1169-1177．
+on Geoscience and Remote Sensing，2010，48 （ 6 ） ：
+2711-2722．
+［15］ AMIRMAZLAGHANI M，
+AMINDAVAR H． Two novel bayesian multiscale approaches for speckle suppression in SAR
+LIU J P，GUI W H，MU X M，et al． Flotation froth image
+images［J］． IEEE Transactions on Geoscience and Remote
+texture feature extraction based on Gabor wavelets［J］．
+Sensing，
+2010，
+48（ 7） ： 2980-2993．
+Chinese Journal of Scientific Instrument，2010，31 （ 8 ） ：
+1169-1177．
+［6 ］ 阳春华，任会峰，桂卫华，等． 基于泡沫纹理信度分配
+SVM 的矿物浮选工况识别［J］． 仪器仪表学报，2011，
+32（ 10） ： 2205-2210．
+YANG CH H，REN H F，GUI W H，et al． Performance
+recognition using texture credit distributed SVM for froth
+flotation process［J］． Chinese Journal of Scientific Instrument，
+2011，
+32（ 10） ： 2205-2210．
+［16］ CAMPS-VALLS G，MOOIJ J，SCHOLKOPF B． Remote
+sensing feature selection by kernel dependence measures［J］． IEEE Letters on Geoscience and Remote
+Sensing，2010 ，7 （ 3 ） ： 587 -591 ．
+［17］ HARALICK R M，SHANMUGAM K． Texture features for
+image classification［J］． IEEE Trans on Sys，Man，and
+Cyb，
+1973，SMC-3（ 6） ： 610-621．
+［18］ OHANIAN P P，
+DUBES R C． Performance evaluation for four
+1992．
+class of texture feature［J］． Pattern Recognition，
+［7 ］ 周平，李传富，符志鹏． 基于小波分解的脑 CT 图像纹
+［19］ ULABY F T，KOUYATE F，BRISCO B，et al． Textural in-
+理特 征 提 取［J］． 仪 器 仪 表 学 报，2010，31 （ 3 ） ：
+formation in SAR Images［J］． IEEE Transactions on Geo-
+644-650．
+science and Remote Sensing，
+1986，
+24（ 2） ： 235-245．
+ZHOU P，LI CH F，FU ZH P． Texture feature extraction of
+brain CT image based on wavelet decomposition［J］． Chinese Journal of Scientific Instrument，2010，31 （ 3 ） ：
+644-650．
+［8 ］ 黄战华，刘正，李金晶，等． 一种基于多通道 Gabor 滤波
+的纹理提 取 方 法［J］． 仪 器 仪 表 学 报，2009，30 （ 4 ） ：
+［20］ VAPNIK V． Estimation of dependencies based on empirical data［M］． 2nd ed． Springer-Verlag，
+2006．
+［21］ 刘国海，
+周大为，
+徐海霞，
+等． 基于 SVM 的微生物发酵过
+程软测量建模研究［J］． 仪器仪表学报，2009，30 （ 6） ：
+1228-1234．
+LIU G H，ZHOU D W，XU H X，et al． Soft sensor model-
+694-699．
+ing using SVM in fermentation process［J］． Chinese Jour-
+HUANG ZH H，LIU ZH，LI J J，et al． Texture extracting
+nal of Scientific Instrument，
+2009，
+30（ 6） ： 1228-1234．
+approach based on multichannel Gabor filters［J］． Chi-
+［22］ 吴建斌，田茂． 基于支持向量机的地雷识别研究［J］．
+nese Journal of Scientific Instrument，2009，30 （ 4 ） ：
+2009，
+30（ 7） ： 1487-1493．
+仪器仪表学报，
+694-699．
+WU J B，TIAN M． Soft sensor modeling using SVM in fer-
+仪
+1420
+器
+仪
+mentation process［J］． Chinese Journal of Scientific Instrument，
+2009，
+30（ 7） ： 1487-1493．
+表
+学
+报
+第34 卷
+作者简介
+2008 于中国科学技术大学获得
+陈强，
+［23］ 许文海，
+续元君，
+董丽丽，等． 基于水平集和支持向量机
+学士学位，现为中国科学院声学研究所博
+2012，
+33（ 1） ：
+的图像声呐目标识别［J］． 仪器仪表学报，
+士研究 生，主 要 研 究 方 向 为 水 声 通 信 技
+49-57．
+术等。
+XU W H，XU Y J，DONG L L，et al． Level-set and SVM
+E-mail： qchen04@ 163． com
+based target recognition of image sonar［J］． Chinese Jour-
+Chen Qiang received bachelor degree
+2012，
+33（ 1） ： 49-57．
+nal of Scientific Instrument，
+from University of Science and Technology of China （ USTC） in
+［24］ 石欣，雷璐宁，熊庆宇． 基于二次特征提取与 SVM 的
+2008． He is a Ph． D． candidate in Institute of Acoustics，Chinese
+异常 步 态 识 别［J］． 仪 器 仪 表 学 报，2011，32 （ 3 ） ：
+Academy of Sciences． His main research interest is underwater a-
+693-699．
+coustic communication technique．
+SHI X，LEI L N，XIONG Q Y． Abnormal gait recognition
+1991、
+1996 和 1999 年于西北
+黄海宁，
+based on quadratic feature extraction and support vector
+工业大 学 分 别 获 得 学 士、硕 士 和 博 士 学
+machine［J］． Chinese Journal of Scientific Instrument，
+位，现为中国科学院声学研究所研究员、
+2011，
+32（ 3） ： 693-699．
+博士生导师，主要研究方向为阵列信号处
+［25］ 王艳景，乔晓燕，李鹏，等． 基于小波包熵和支持向量
+机的运 动 想 象 任 务 分 类 研 究［J］． 仪 器 仪 表 学 报，
+2010，
+31（ 12） ： 2729-2737．
+理、水下 无 线 传 感 器 网 络 和 合 成 孔 径 声
+呐等。
+E-mail： hhn@ mail． ioa． ac． cn
+WANG Y J，QIAO X Y，LI P，et al． Classification of motor
+Huang Haining received B． Sc． ，M． Sc． and Ph． D． all from
+imagery task based on wavelet packet entropy and support
+Northwestern Polytechnical University in 1991，1996 and 1999，
+vector machines［J］． Chinese Journal of Scientific Instru-
+respectively． He is now a research fellow and Ph． D． student su-
+2010，
+31（ 12） ： 2729-2737．
+ment，
+pervisor in Institute of Acoustics，Chinese Academy of Sciences．
+His main research direction is array signal processing，underwater
+wireless sensor network and synthetic aperture sonar．

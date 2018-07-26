@@ -1,0 +1,599 @@
+Journal of Computer Applications
+计算机应用，2014，34( 8) : 2212 － 2216
+ISSN 1001-9081
+CODEN JYIIDU
+2014-08-10
+http: / / www． joca． cn
+文章编号：1001-9081（2014）08-2212-05
+doi：10． 11772 / j． issn． 1001-9081． 2014． 08． 2212
+基于特征向量的最小二乘支持向量机 PM2． 5 浓度预测模型
+李
+龙 ，马
+*
+磊，贺建峰 ，邵党国，易三莉，相
+艳，刘立芳
+( 昆明理工大学 信息工程与自动化学院，昆明 650500)
+( * 通信作者电子邮箱 jfenghe@ kmust． edu． cn)
+摘 要：针对大气中细颗粒物（ PM2． 5） 浓度预测的问题，提出一种预测模型。首先，通过引入综合气象指数综合
+考虑风力、湿度、温度等因素；然后，结合实际二氧化硫（ SO2 ） 浓度、二氧化氮（ NO2 ） 浓度、一氧化碳（ CO） 浓度和 PM10
+浓度等，构成特征向量；最后，利用特征向量和 PM2． 5 浓度数据来建立最小二乘支持向量机（ LS-SVM） 预测模型。经
+2013 年城市 A 和城市 B 环境监测中心的数据预测分析表明，引入综合气象指数后预测的准确性提高，误差降低近
+30% 。说明该模型能够较为准确地预测 PM2． 5 浓度，并具有较高的泛化能力。此外还分析了 PM2． 5 浓度与住院率、
+医院门诊量的关系，发现了它们的高度相关性。
+关键词：PM2． 5 浓度预测；综合气象指数；特征向量；相关性分析；最小二乘支持向量机
+中图分类号： TP391． 4； TP18
+文献标志码：A
+PM2． 5 concentration prediction model of
+least squares support vector machine based on feature vector
+*
+LI Long， MA Lei， HE Jianfeng ， SHAO Dangguo， YI Sanli， XIANG Yan， LIU Lifang
+( School of Information Engineering and Automation， Kunming University of Science and Technology， Kunming Yunnan 650500， China)
+Abstract: To solve the problem of Fine Particulate Matter ( PM2． 5) concentration prediction， a PM2． 5 concentration
+prediction model was proposed． First， through introducing the comprehensive meteorological index， the factors of wind，
+humidity， temperature were comprehensively considered; then the feature vector was conducted by combining the actual
+concentration of SO2 ， NO2 ， CO and PM10; finally the Least Squares Support Vector Machine ( LS-SVM) prediction model was
+built based on feature vector and PM2． 5 concentration data． The experimental results using the data from the city A and city B
+environmental monitoring centers in 2013 show that， the forecast accuracy is improved after the introduction of a
+comprehensive weather index， error is reduced by nearly 30% ． The proposed model can more accurately predict the PM2． 5
+concentration and it has a high generalization ability． Furthermore， the author analyzed the relationship between PM2． 5
+concentration and the rate of hospitalization， hospital outpatient service amount， and found a high correlation between them．
+Key words: Fine Particulate Matter ( PM2． 5 ) concentration prediction; comprehensive meteorological index; feature
+vector; correlation analysis; Least Squares Support Vector Machine ( LS-SVM)
+0
+引言
+细颗粒物（ Fine Particulate Matter，PM2． 5） 是指大气中空
+气动力学当量直径小于等于 2． 5 μm 的颗粒物，其数值越高，
+代表颗粒物浓度越高，意味着空气污染越严重。虽然 PM2． 5
+只是地球大气成分中含量很少的组成部分，但是它对空气质
+量和能见度等指标有重要影响。近期，我国多地出现雾霾天
+气，严重影响了人们的生活。二氧化硫、氮氧化物和 PM2． 5
+来空气质量监测有重要意义。
+预测 PM2． 5 的浓度，最重要的是分析各个影响因素与
+PM2． 5 之间的复杂关系。近年来，专家学者开展了一些相关
+［1］
+的研究工作。秦侠等
+提出了一种基于人工神经网络的方
+［2］
+法预测大气污染物浓度；陈柳等 提出了一种基于支持向量
+机（ Support Vector Machine，SVM） 和时间序列的大气污染浓
+［3］
+度预测模型；苏静芝等
+提出了一种加入气象因素的人工神
+［4］
+经网络的大气污染物浓度预测模型；陈俏等
+提出了一种基
+是雾霾的主要构成物质，PM2． 5 是其中加重雾霾污染天气的
+于支持向量机和回归法的大气污染物浓度预测模型；魏振钢
+罪魁祸首，成为了影响人们正常生活的重要指标，因此准确预
+3
+测 PM2． 5 的浓度（ 浓度量纲为 μg / m ，后文中提及的浓度均
+等
+以此单位计） 变得越来越重要。
+影响 PM2． 5 浓度的因素包括空气中二氧化硫（ SO2 ） 、二
+这些文献通过研究个别因素对大气污染物浓度的影响提
+出了预测方法，但是气象因素对于 PM2． 5 的影响是十分复杂
+氧化氮（ NO2 ） 、一氧化碳（ CO） 、可吸入颗粒物（ PM10） 含量、
+臭氧（ O3 ） 和气象因素等。预测 PM2． 5 浓度值变化规律对未
+分别考虑各个因素，则不能很好地体现多个因素相互作用对
+［5］
+提出一种基于高斯模型的大气污染物浓度预测模型；王
+［6］
+燕等
+提出一种基于箱模型的大气污染物浓度预测模型。
+的，实际情况中往往是不同气象因素相互影响的结果。如果
+收稿日期：2014-04-12；修回日期：2014-05-12。
+基金项目：国家自然科学基金资助项目（11265007） ；教育部留学回国人员科研启动基金资助项目（2010-1561） 。
+作者简介：李龙（1988 － ） ，男，黑龙江大庆人，硕士研究生，主要研究方向：数据挖掘； 马磊（1978 － ） ，男（ 回族） ，云南昆明人，讲师，硕士，
+主要研究方向：数据挖掘、生物信息学、医疗信息系统； 贺建峰（1965 － ） ，男，云南昆明人，教授，主要研究方向：数据挖掘、医学图像处理。
+第8 期
+李龙等：基于特征向量的最小二乘支持向量机 PM2． 5 浓度预测模型
+PM2． 5 浓度产生的耦合效应，也就不能准确建立预测 PM2． 5
+浓度的模型。
+本文旨在用与 PM2． 5 浓度相关性较强的因素组成气象
+特征向量，用对最小二乘支持向量机 （ Least Squares Support
+Vector Machine，LS-SVM） 模型进行训练，得到准确度较高的
+预测 PM2． 5 浓度模型。
+通过对文献的分析，本文引入了综合气象指数这一指标，
+［7］
+综合考虑了气象因素对 PM2． 5 的影响 。同时从 SO2 浓度、
+NO2 浓度、PM10 浓度、CO 浓度、臭氧（ O3 ） 的 1 h 浓度、O3 的
+8 h浓度等因素中选取出与 PM2． 5 浓度相关性较强的因素，用
+这些因素与综合气象因素组成特征向量，用特征向量和历史
+PM2． 5 浓度数据训练 LS-SVM 模型，再用训练得到的模型来
+对PM2． 5浓度进行预测。通过仿真研究探讨引入综合气象指
+LS-SVM 模型的预测效果，此外加入了 PM2． 5 浓度与日门
+数、
+于对文献的分析，本文将各因素分别进行了量化计算并整理
+本文提出的综合气象指数、二氧化硫 （ SO2 ） 浓度、二氧化氮
+（ NO2 ） 浓度等相关因素数据，最后选择相关性较强的因素构
+成特征向量。
+为了能够准确地得到 PM2． 5 浓度预测模型，必须要用可
+靠的相关性分析方法选准构成特征向量的因素，本文采用计
+算相关系数和绘制热度图两种方法来分析和验证各因素与
+PM2． 5 浓度相关性的大小。
+相关系数又称皮（ 尔逊） 氏积矩相关系数，该系数是说明
+两个因素之间相互关系密切程度的统计分析指标。相关系数
+用希腊字母 γ 表示，γ 值的范围在 － 1 和 + 1 之间：γ ＞ 0 为正
+相关；γ ＜ 0 为负相关；γ = 0 表示不相关。γ 的绝对值越大，相
+关程度越高。
+［8］
+相关系数计算公式
+诊量关系的讨论。
+γ =
+本文方法
+1
+1． 1
+数据选取
+国 PM2． 5 污染的典型城市。研究这些城市得出的结论具有
+一定的可推广性，故本文选取来自城市 A、B 和 C 的环境监测
+中心官方网站及该城市的医院的数据，进行相关问题的研究
+为：
+∑（ X － X） （ Y － Y） =
+槡∑（ X － X） （ Y － Y）
+∑X·∑Y
+∑XY －
+n
+2
+城市 A、B 和 C 均为我国重要的工业城市，雾霾天气时有
+出现。PM2． 5 浓度长期持续较高，空气污染情况严重，属于我
+2213
+2
+
+2
+2
+2
+X
+－
+X
+/
+n
+? ∑ （ ∑ ） 」 ∑Y －
+
+槡
+2
+（2）
+
+（ ）
+2
+（ ∑ Y） 
+∑ Y2 － n 
+∑Y
+本文运用 SPSS 统计软件对 PM2． 5 浓度与二氧化硫（ SO2 ）
+分析探讨。
+1． 2 综合气象指数
+目前影响空气中 PM2． 5 浓度的因素有很多，影响空气污
+染指数的主要因素可以归纳为 3 类：气象类、化学类和地理
+类。结合数据和实际情况分析，本文将空气湿度、风力、温度
+这 3 个因素与 PM2． 5 的形成机制相结合，提出综合气象指数
+公式这一新的概念。综合气象指数的公式为：
+D = 1． 8 × T + 0． 55（1 － H） + 3． 2W1 /2 + 27
+浓度、
+二氧化氮（ NO2 ） 浓度、一氧化碳（ CO） 浓度、PM10 浓度、
+O3 的 1 h 浓度、
+O3 的 8 h 浓度、综合气象指数等因素作相关性
+分析。如图 1 所示，
+可以看出：二氧化硫（ SO2 ） 浓度、二氧化氮
+（NO2 ）浓度、
+一氧化碳（ CO） 浓度、PM10 浓度与 PM2． 5 浓度呈
+O3 的 8 h 浓度、
+正相关；O3 的 1 h 浓度、
+综合气象指数与 PM2． 5
+浓度呈负相关；其中综合气象指数、二氧化硫（ SO2 ） 浓度、一氧
+（1）
+其中：D 为综合气象指数 （ 无量纲） ；T 为 平 均 气 温 （ 单 位 为
+℃ ） ；H 为平均相对湿度（ 单位为 % ） ；W 为平均风速（ 单位为
+PM10 浓度与 PM2． 5 浓度
+化碳（CO）浓度、
+一氧化碳（CO）浓度、
+相关性较强（相关系数绝对值大于 0． 6）。
+m / s） 。
+本文用统计产品与服务解决方案（ Statistical Product and
+Service Solutions，SPSS） 统计软件分析最高温度、最低温度、平
+均温度、最大风速、平均风速、最大湿度、平均湿度、最小湿度、
+综合气象指数与 PM2． 5 浓度的相关性。各因素与 PM2． 5 浓
+度的相关性用相关系数表示，绝对值大的因素相关性大。可
+以看出本文提出的综合气象指数与 PM2． 5 浓度的相关性最
+强，如表 1 所示。
+表 1 各气象因素与 PM2． 5 浓度的相关系数
+图1
+各影响因素与 PM2． 5 浓度的相关性比较
+气象因素
+相关系数
+气象因素
+相关系数
+热度图（ Heat Map） 是指将特征向量各个数据用不同颜
+平均湿度
+－ 0． 075 87
+最大气温
+－ 0． 680 77
+最大湿度
+－ 0． 066 63
+平均气温
+－ 0． 720 73
+最小湿度
+－ 0． 110 50
+平均风速
+色表示热度，从而体现个因素的相关性。热度图的好处在于
+直观地表现出了每一个特征与 PM2． 5 的相关情况。不同颜
+－ 0． 278 01
+最小气温
+－ 0． 710 80
+最大风速
+－ 0． 224 86
+综合气象指数
+－ 0． 736 43
+特征向量选取
+事实上，气象因素只是影响 PM2． 5 浓度的一项重要因
+素，其他 因 素 还 应 该 包 括 二 氧 化 硫 （ SO2 ） 浓 度、二 氧 化 氮
+1． 3
+（ NO2 ） 浓度、一氧化碳（ CO） 浓度和 PM10 浓度等。因此，基
+色表示不同的相关性，其中浅色代表相关系数为正，即正相
+关；深色代表相关系数为负，即负相关；白色代表不相关；同时
+颜色越深表示相关性越强。
+本文运用 Ｒ 软件对 PM2． 5 浓度与二氧化硫（ SO2 ） 浓度、
+二氧化氮（ NO2 ） 浓度、一氧化碳（ CO） 浓度、PM10 浓度、O3 的
+1 h 浓度、O3 的 8 h 浓度、综合气象指数等因素的相关性绘制
+了热度图（ 如图 2 所示） 。在图 2（ O 表示综合气象指数） 中，
+计算机应用
+2214
+将样本中 PM2． 5 浓度与其他因素相关系数的值按从高到低
+排序，以方便得到其与各因素之间的关系，用排序后的 PM2． 5
+浓度相关系数绘图得到颜色变化为从浅色到深色渐变的图
+像。可以看出综合气象指数的变化趋势较平滑，其热度图颜
+色呈现出从深色到浅色变化的趋势，即综合气象指数值高时，
+PM2． 5 浓度 低； 综 合 气 象 指 数 值 低 时 PM2． 5 浓 度 高； 其 与
+第 34 卷
+使得
+y i = w·φ（ x i ） + b + ξ i
+（3）
+其中：w 为权值向量，ξ i 为松弛变量，C 为惩罚因子，b 为偏差
+值，i 为天数。
+基于结构风险最小化原则确定决策函数参数 w、b，可等
+PM2． 5 成 负 相 关 关 系。二 氧 化 硫 （ SO2 ） 浓 度、二 氧 化 氮
+（NO2） 浓度、一氧化碳（ CO） 浓度、PM10 浓度变化趋势也较平
+效为求解以下优化问题：
+n
+1
+2
+min Ｒ = C∑ e2i +
+‖w‖
+2
+i =1
+滑，
+其热度图颜色呈现出从浅色到深色变化的趋势，即这几个
+指标值高时，PM2． 5 浓度高；这几个指标值低时 PM2． 5 浓度
+其中：Ｒ 为期望风险，e 为模型对训练样本的预测误差。
+在引入拉格朗日函数后，根据 Mercer 条件和最优化条件
+低，其与 PM2． 5 成正相关关系。其他指标呈现出的相关性趋
+KKT（ Karush-Kuhn-Tucker） 可以得到矩阵方程：
+势不明显。
+[ 01
+1T
+（4）
+]I [ ba ] = [ 0y ]
+（5）
+Ω+C
+其中：y = ［y1 ，y2 ，…，y i ］，a = ［a1 ，a2 ，…，a i］为模型的参数，
+Ω 中的元素为本文数据样本中的特征向量的数据 Ω ij = K（ x i ，
+－1
+x j ） （ i，j = 1，
+2，…，l） 。求解式（5） 后得到 LS-SVM 的函数估
+计为：
+l
+f（ x） =
+∑a K（ x ，x ）
+i
+i
+j
+（6）
++b
+i =1
+［10］
+。
+其中 K（ ） 为径向基函数（ Ｒadial Basis Function，ＲBF）
+最小二乘支持向量机求解线性方程，其解满足极值条件，
+但不能保证是全局最优解，最小二乘支持向量机具有更快的
+求解速度，求 解 所 需 的 计 算 资 源 较 少，故 本 研 究 选 择 使 用
+LS-SVM 建立模型。
+本文用特征向量和 PM2． 5 浓度作为样本对 LS-SVM 模型
+进行训练，构造的训练样本形式为｛ x i1 ，x i2 ，x i3 ，x i4 ，D i ，y i1 ｝ 。其
+中：x i1 、x i2 、x i3 、x i4 、D i 、y i1 分别代表二氧化硫（ SO2 ） 浓度、二氧
+化氮（ NO2 ） 浓度、一氧化碳（ CO） 浓度、PM10 浓度、综合气象
+图2
+各因素与 PM2． 5 浓度的热度图
+通过热度图分析得到结论与相关系数分析结论一致，相
+互验证结果显示了本文依据因素相关性选取出的特征向量的
+正确性。
+综合以上分析，本文选择综合气象指数、二氧化硫（ SO2 ）
+浓度、一氧化碳（ CO） 浓度、二氧化氮（ NO2 ） 浓度和 PM10 浓
+度构成特征向量。
+1． 4 模型的建立
+为了提高预测精度，选择合理的预测模型显得尤为重要。
+尽管研究表明用支持向量机（ Support Vector Machine，SVM）
+进行大气污染物浓度的预测具有突出的优点，但是该方法仍
+然存在一些问题，特别是 SVM 中有若干不等式，计算比较复
+杂。通过筛选，本文采用 LS-SVM 模型，它将 SVM 中的不等
+式约束转换成等式约束，极大地简化了计算，提高了模型的训
+［9］
+练效率 。LS-SVM 模型具有如下优势：1） 具有非线性和高
+维模式识别能力，可以识别影响 PM2． 5 产生及演变的因素之
+间的复杂关系；2） 针对 PM2． 5 浓度及其相关的监测数据较少
+指数和 PM2． 5 浓度。
+2
+2． 1
+仿真结果与分析
+模型预测结果对比
+［1］
+本研究通过查阅文献发现，秦霞等
+的研究误差较低但
+是泛化能力较低，国外文献中大多数研究 PM2． 5 浓度同各污
+［11 － 13］
+，研究某一城市 PM2． 5
+染物浓度的定性关系和空间分布
+浓度和其他污染物定量关系的文献较少，故本文选择在两城
+［14］
+市两方法之间比较。本文选取城市 A 环境监测站官方网
+站 2013-01-01—2013-09-19 的 PM2． 5 浓度数据和中国天气
+网的气象数据。将所得数据 分 成 训 练 组 （ 180 d） 和 测 试 组
+（32 d） 。使用训练组数据对 LS-SVM 模型训练得到训练后的
+模型，再用训练后的模型计算测试数据，得到测试值 PM2． 5
+浓度，将得到的结果与测试组真实的 PM2． 5 浓度对比，验证
+预测的准确度。
+当构成特征向量的因素只选取二氧化硫 （ SO2 ） 浓度、二
+氧化氮（ NO2 ） 浓度、一氧化碳（ CO） 浓度，不加入综合气象指
+力强，在模型训练完毕后，对于新的样本也能完成输入到输出
+数时，预测出的 PM2． 5 浓度如图 3（ a） ；加入综合气象指数因
+素后，预测出的 PM2． 5 浓度如图 3 （ b） 。将特征向量中有无
+的映射。
+在 LS-SVM 模型算法中，输入空间的函数估计可转换为
+综合气象指数的结果进行对比分析（ 即改进前与改进后进行
+对比分析） ；改进前后的仿真效果对比如图 3 所示。
+如下的最优问题：
+n
+1
+1
+2
+C∑ ξ2i
+min φ =
+‖w‖ +
+2
+2 i =1
+从图 3 来看，改进模型后的预测值走势更趋近于真实值，
+验证了使用改进后的特征向量（ 加入了二氧化硫（ SO2 ） 浓度、
+的情况，可以发挥其在解决小样本问题上的优势；3） 泛化能
+二氧化氮（ NO2 ） 浓度、一氧化碳（ CO） 浓度等因素） 训练 LS-
+李龙等：基于特征向量的最小二乘支持向量机 PM2． 5 浓度预测模型
+第8 期
+SVM 模型能很好地反映 PM2． 5 的产生及演变规律，说明该方
+式是有效的。
+2215
+标为测试数据时，模型改进前后的 MSE 和 ABS 分别降低了
+68% 和 47% ，如表 2 所示。
+表2
+城市
+A
+B
+城市 A 和 B PM2． 5 浓度预测模型改进前后误差对比
+参数
+改进前
+改进后
+误差降低比例 / %
+MSE
+624． 484 9
+443． 274 5
+29
+ABS
+20． 857 9
+15． 283 9
+27
+MSE
+160． 993 4
+50． 944 1
+68
+ABS
+10． 925 1
+5． 782 6
+47
+从表 2 可看出，本文所采用的预测方法其预测精度高于
+原有的不采用特征向量的预测法。因此，采用本文方法可得
+到更好的预测结果，并且通过不同城市的测试说明该模型具
+图3
+PM2． 5 浓度预测模型效果对比（ 城市 A）
+为了证明改进后的 LS-SVM 模型具有泛化能力，并进一
+步验证改进后的模型的有效性，本文选取与城市 A 地理位
+［15］
+置、
+气候条件不同的城市 B ，再次进行 PM2． 5 浓度预测，得
+出结果如图 4 所示。观察对比城市 B 预测曲线（ 图 4 中的实
+线） 与实 际 情 况 （ 图 4 中 的 虚 线） 相 符 程 度，发 现 对 城 市 B
+PM2． 5 浓度的预测有效，说明基于特征向量的 PM2． 5 浓度预
+测模型具有泛化能力。另外，图 4 将特征向量中有无综合气
+象指数的结果进行对比分析（ 即改进前与改进后进行对比分
+析） 。
+有一定的泛化能力。
+3
+PM2． 5 浓度与日门诊量、住院率的关系
+由于 2013 年 11—12 月雾霾天气席卷我国部分地区，使
+得呼吸系统、心脑血管疾病的发病率明显上升。故本文收集
+［16］
+城市 C
+某医院 2013-11-01—2013-11-30 医院每日门诊量、
+住院率数 据 和 该 地 区 该 时 间 段 的 PM2． 5 浓 度 数 据，使 用
+Excel 软件将其归一化处理后，与 PM2． 5 浓度与日门诊量、住
+院率分别进行比对，发现 PM2． 5 浓度与日门诊量、住院率曲
+线走势相趋近，如图 5 ～ 6 所示，其中：住院率是归一化后的住
+院率，其值超过 1 并不代表住院率超过 100% 。经观察易知，
+PM2． 5 与疾病发生的相关性极大［17 － 18］ 。
+图4
+PM2． 5 浓度预测模型效果对比（ 城市 B）
+模型预测结果评价
+本文使用均方误差（ Mean Squared Error，MSE） 和绝对误
+差（ Absolute Error，ABS） 对预测结果进行评价。
+均方误差是衡量“平均误差”的一种较方便的方法，
+可以评
+价数据的变化程度。数理统计中均方误差是指参数估计值与参
+MSE 是衡量“平均误差”的
+数真值之差平方的期望值，
+记为 MSE。
+MSE 可以评价数据的变化程度，
+MSE 的值越
+一种较方便的方法，
+小，
+说明预测模型描述实验数据具有更好的精确度。
+MSE 的计算公式如下：
+（7）
+MSE = E［（ y i － y^ i ） 2 ］
+2． 2
+图5
+PM2． 5 浓度与日门诊量（2013-11-01—11-30） 的关系
+*
+*
+绝对误差为准确值 x 与其近似值 x 之差，记为 e（ x ） =
+*
+*
+x － x，简记为 e 。但一般来说，不能准确知道 e（ x ） 的大小，
+*
+*
+*
+可以通过测量或计算 | e（ x ） | = | x －x | ≤ ε（ x ） 估计其
+*
+*
+绝对值的上界，ε（ x ） 叫作近似数 x 的绝对误差限，简称误
+*
+差限，简记为 ε 。
+ABS 的计算公式如下：
+ABS = y i － y^ i
+（8）
+其中 y i 和y^ i 表示真实值和预测值。
+*
+选取城市 A 环境监测指标进行测试时，模型改进前后的
+MSE 和 ABS 分别降低了 29% 和 27% ，选取城市 B 环境监测指
+图6
+PM2． 5 浓度与住院率的关系（2013-11-01—11-30）
+虽然 LS-SVM 模型能够建立 PM2． 5 浓度的以特征向量为
+调控因子的关系链———“特征向量 → PM2． 5 浓度”，但是该模
+multi-box model of prediction of atmospheric environment ［C ］ / /
+Proceedings of the 2007 China Environmental Science Society Annual Conference． Beijing: China Environmental Science Press，
+型所构建的 PM2． 5 关系链只能反映 PM2． 5 形成的过程，没有
+涉及 PM2． 5 与人类健康（ 如住院率、日门诊量） 等后续问题的
+2007: 621 － 625． ( 王燕，董丽，陈剑． 三维多箱模型预测大气环
+境的研究［C］ / / 2007 中国环境科学学会学术年会优 秀 论 文
+相关关系。事实上，PM2． 5 会对人类健康产生严重影响，已经
+成为不争的事实。下一步工作将会在本文基础上，对 PM2． 5
+的浓度变化给医院日门诊量、病人住院率带来怎样的影响进
+集． 北京: 中国环境科学出版社，2007: 621 － 625． )
+［7］
+and coarse
+nology， 2005， 39( 20) : 7768 － 7776．
+［8］
+YAN L． Correlation coefficient and partial correlation coefficient in
+the relevant analysis ［J］． Journal of Yunnan Institute of Finance，
+污染物浓度和气象因素一直是影响 PM2． 5 预测的主要
+2003， 19( 3) : 78 － 80． ( 严丽坤． 相关系数与偏相关系数在相关
+因素，分别分析单一气象因素的影响，不能很好地体现出多个
+气象因素产生的耦合效果对气象因素的影响规律。本文引入
+综合气象因素这一指标，在综合考虑 SO2 浓度、NO2 浓度、CO
+Fine ( PM2． 5)
+way: sources and processes ［J］． Environmental Science and Tech-
+和医疗数据中挖掘出它们内在的联系和实用信息的目的。
+结语
+CHAＲＲON A， HAＲＲISON Ｒ．
+( PM2． 5-10) particulate matter on a heavily trafficked London high-
+行更进一步的定量研究，进而实现从海量气象数据、环境数据
+4
+第 34 卷
+计算机应用
+2216
+分析中的应用［J］． 云南财贸学院学报，2003，19( 3) 78 － 80． )
+［9］
+HE H， ZHOU X， ZENG J． Short-term load forecasting simplified
+LS-SVM model and implementation ［ J ］． Computer Simulation，
+浓度和 PM10 浓度的基础上，将其与综合气象因素组合构成
+特征向量，使用特征向量和 PM2． 5 浓度值，建立 LS-SVM 模
+2011， 28( 1) : 302 － 306． ( 贺红林，周翔，曾劲松． 短期负荷预测
+型。通过城市 A 和城市 B 环境监测站的数据研究表明，使用
+306． )
+本文方法较为合理，同时预测精度较高，根据测试，预测结果
+的简化 LS-SVM 模型及实现［J］． 计算机仿真，2011，28( 1) : 302 －
+［10］
+YAN W， SHAO H． Support vector machines and comparison and
+比较逼近真实数据，模型泛化能力较强。
+另外，本文结合实际情况，对 PM2． 5 与医院门诊量等相
+application of least squares support vector machine ［J］． Control
+关指标进行了定性的分析，发现它们有高度的相关性，这为下
+一步的通过 PM2． 5 浓度预测日门诊量等工作奠定了一些基
+向量机和最小二乘支持向量机的比较及应用研究［J］． 控制与
+and Decision， 2003， 18( 3) : 358 － 360． ( 阎威武，邵惠鹤． 支持
+决策，2003，18( 3) : 358 － 360． )
+［11］
+础。
+tial and temporal variability of PM2． 5 concentrations using satellite
+虽然本文设计的模型预测效果较好，但是由于 PM2． 5 的
+形成机制十分复杂，影响 PM2． 5 浓度的未知因素仍然存在，
+这使得本文模型的预测数据与真实数据还有一定差距，仍存
+在改进与提高的空间。
+data， meteorology， and land use information ［J］． Environmental
+Health Perspectives， 2009， 117( 6) : 886 － 892．
+［12］
+QIN X， LEI L， YAO X． Methods to improve the generalization of
+［J］． Aerosol Science and Technology， 2001， 35( 1) : 602 － 610．
+［13］
+BP neural network applied in air pollution forecasting ［J］． Journal of
+the Air and Waste Management Association， 2002， 52 ( 9 ) : 1096
+雷蕾，姚小丽． 大气 污 染预 测中 提 高 BP 网 络 泛 化 能力的方法
+［2］
+CHEN L， WU D， CHEN Q． Wavelet analysis and support vector
+－ 1101．
+［14］
+cn / ． ( 西安市环境监测站． 空气质量日报［EB / OL］． ( 2013-09-
+sity of Science and Technology， 2010， 30 ( 6 ) : 726 － 730． ( 陈柳，
+西安科技大学学报，2010，30( 6) : 726 － 730． )
+［3］
+20) ［2014-01-05］． http: / / www． xianemc． gov． cn / ． )
+［15］
+( 武汉市环境监测站． 空气质量日报［EB / OL］． ( 2013-09-20 )
+tion forecasting application ［J］． Sichuan Environment， 2008， 27
+［2014-01-05］． http: / / www． whemc． cn / ． )
+( 2) : 98 － 101． ( 苏静芝，秦侠，雷蕾，等． 神经网络在空气污染预
+［4］
+［16］
+tion of atmospheric pollutants ［J］． Computer Technology and Devel-
+cn / ． ( 宁波市环境监测站． 空气质量日报［EB / OL］． ( 2013-12-
+opment， 2010， 20( 1) : 250 － 252． ( 陈俏，曹根牛，陈柳． 支持向量
+20) ［2014-01-05］． http: / / www． nbemc． gov． cn / ． )
+［17］
+［J］． Environment International， 2013， 54: 100 － 111．
+WEI Z， GUO Z， ZHANG L， et al． The application of an air pollution model based on the Gauss mode ［J］． China Ocean University:
+SHANG Y， SUN Z， CAO J， et al． ． Systematic review of Chinese
+studies of short-term exposure to air pollution and daily mortality
+( 1) : 250 － 252． )
+［6 ］
+Ningbo Environmental Monitoring Station． Daily air quality ［EB /
+OL］． ( 2013-12-20 ) ［2014-01-05 ］． http: / / www． nbemc． gov．
+CHEN Q， CAO G， CHEN L． SVM applied to predict the concentra-
+机应用于大气污染物浓度预测［J］． 计算机技术与发展，2010，20
+［5］
+Wuhan Environmental Monitoring Station． Daily air quality ［EB /
+OL］． ( 2013-09-20) ［2014-01-05 ］． http: / / www． whemc． cn / ．
+SU J， QIN X， LEI L， et al． Study of neural networks in air pollu-
+报中的应用研究［J］． 四川环境，2008，27( 2) : 98 － 101． )
+Xi'an Environmental Monitoring Station． Daily air quality ［EB /
+OL］． ( 2013-09-20) ［2014-01-05］． http: / / www． xianemc． gov．
+machine used in predicting atmospheric pollution ［J］． Xi'an Univer吴冬梅，陈俏． 小波分析及支持向量机应用于大气污染预测［J］．
+McKENDＲY I． Evaluation of artificial neural networks for fine particulate pollution ( PM10 and PM2． 5) forecasting ［J］． Journal of
+Beijing University of Technology， 2007， 33( 8) : 849 － 852． ( 秦侠，
+［J］． 北京工业大学学报，2007，33( 8) : 849 － 852． )
+TUＲPIN B， LIM H． Species contributions to PM2． 5 mass concentrations: revisiting common assumptions for estimating organic mass
+参考文献：
+［1］
+LIU Y， PACIOＲEK C， KOUTＲAKIS P． Estimating regional spa-
+［18］
+WANG D， WANG B， BAI Z． PM2． 5 pollution and daily mortality
+Natural Science， 2008， 38 ( 2 ) : 327 － 330． ( 魏 振 钢， 郭遵强， 张
+residents meta analysis of the relationship ［J］． Journal of Environ-
+琳，等． 基于高斯模式的大气污染模型的应用［J］． 中国海洋大学
+ment and Health， 2012， 29( 6) : 529 － 532． ( 王德庆，王宝庆，白
+学报: 自然科学版，2008，38( 2) : 327 － 330． )
+志鹏． PM2． 5 污染与居民每日死亡率关系的 Meta 分析［J］． 环
+WANG Y， DONG L， CHEN J． The study of three-dimensional
+境与健康杂志，2012，29( 6) : 529 － 532． )

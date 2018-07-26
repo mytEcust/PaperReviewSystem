@@ -1,0 +1,780 @@
+第 42 卷
+Vol． 42
+第2 期
+No． 2
+计 算 机 工 程
+Computer Engineering
+·人工智能及识别技术·
+文章编号： 1000-3428（ 2016） 02-0169-06
+2016 年 2 月
+February 2016
+文献标识码： A
+中图分类号： TP391
+基于词向量的中文词汇蕴涵关系识别
+张志昌，周慧霞，姚东任，鲁小勇
+（ 西北师范大学计算机科学与工程学院，兰州 730070）
+摘 要： 英文词汇蕴涵关系识别已有较多研究，并提出许多识别模型，但针对中文的词汇蕴涵关系获取则鲜有研
+究。为此，提出一种中文词汇蕴涵关系识别方法。利用词向量技术，在中文维基百科语料上进行训练，将词汇表示
+为词向量，设计各种基于词向量的分类特征，训练得到可用于名词词汇蕴涵关系分类的支持向量机分类模型。实
+验结果表明，与传统的余弦相似度方法相比，该方法以及设计的各种分类特征在词汇蕴涵关系识别方面具有明显
+优势。
+关键词： 文本蕴涵； 词汇蕴涵； 词向量； 蕴涵特征； 支持向量机
+2016，42（ 2） ：
+中文引用格式： 张志昌，周慧霞，姚东任，等． 基于词向量的中文词汇蕴涵关系识别［J］． 计算机工程，
+169-174．
+英文引用格式： Zhang Zhichang，Zhou Huixia，Yao Dongren，et al． Ｒecognition of Chinese Lexical Entailment Ｒelation
+Based on Word Vector［J］． Computer Engineering，
+2016，
+42（ 2） ： 169-174．
+Ｒecognition of Chinese Lexical Entailment Ｒelation Based on Word Vector
+ZHANG Zhichang，ZHOU Huixia，YAO Dongren，LU Xiaoyong
+（ School of Computer Science and Engineering，Northw est Normal University，Lanzhou 730070，China）
+【Abstract】Automatic recognition of English lexical entailment relation has many researches，and many recognition
+models are presented． But study on Chines lexical entailment is not sufficient while there have many studies on English
+lexical entailment from different points of view ． This paper proposes a recognition method of Chinese lexical entailment
+relation based on w ord vector，it uses word vector technology on Chinese Wikipedia corpora，and w ord is represented as
+w ord vector． Word vector based classification features are designed，and Support Vector M achine （ SVM ） model for
+Chinese noun lexical entailment classification is trained on manually created Chinese lexical entailment data set．
+Experimental results show that the method and designed classification features have good performance on lexical
+entailment relation recognition compared with traditional cosine similarity method．
+【Key words】textual entailment； lexical entailment； word vector； entailment feature； Support Vector M achine（ SVM ）
+DOI： 10． 3969 / j． issn． 1000-3428． 2016． 02． 031
+［1-3］
+1
+概述
+文本蕴涵识别 （ Ｒecognition Texutal Entailment，
+ＲTE） 是自然语言处理领域的重要研究内容之一［1］，
+任务是在给定 2 个句子或者段落 （ 称其中一个为文
+本 T，另一个为假设 H） 的条件下，判断 T 是否蕴涵
+H，或者 H 的含义是否能从 T 中推导出来。 文本蕴
+涵识别在信息检索、问答系统、机器翻译等方面都有
+重要应用。
+已有研究表明，词汇蕴涵知识越丰富，对文本蕴
+。因此，借助大规模文本语
+涵识别的帮助会越大
+料库，从中抽取大量的词汇蕴涵规则，则是提高文本
+蕴涵识别性能的关键。 而在抽取词汇蕴涵规则时，
+经常需 要 判 断 给 定 的 2 个 词 之 间 是 否 存 在 蕴 涵
+关系。
+本文针对判断中文词汇是否存在蕴涵关系的问
+题，首先利用词向量技术在中文维基百科语料进行
+训练，将词汇表示成词向量，然后基于词向量构造各
+种有效的分类特征，通过训练 SVM 分类器对候选名
+词词汇蕴涵关系对进行分类判断 。
+61163036，
+61363058） ； 西北师范大学青年教师科研能力提升计划基金资助项目（ NWNU基金项目： 国家自然科学基金资助项目 （ 61163039，
+LKQN-10-2，
+NWNU-LKQN-12-23） 。
+作者简介： 张志昌（ 1976 － ） ，男，副教授、博士，主研方向为自然语义处理、Web 挖掘； 周慧霞、姚东任，硕士研究生； 鲁小勇，工程师。
+E-mail： zzc@ nw nu． edu． cn
+收稿日期： 2015-08-17
+修回日期： 2015-09-16
+计
+170
+2
+算
+机
+相关研究
+对已有的词汇蕴涵识别方法进行总结，可分为
+4 类：
+（ 1） 基于规则的方法。 主要借助句子语法结构
+或百科知识库的特性来提取蕴涵规则。 如文献［4］
+从维基百科中获取英文词汇蕴涵规则，利用了英文
+句子的系动词和表语的表达特点、以及维基百科中
+含义相同或者相近、但表达形式不同的词汇之间的
+链接、重定向关系等。
+（ 2） 基于词典的方法。 从特定的词典中抽取蕴
+涵规则，一般是利用词典中的各种语义关系，如同义
+关系、上下位关系、部分与整体关系等。 如文献［5］
+从 WordNet 和 Word Similarity Database 抽取蕴涵规
+则。在 WordNet 中 dog 是 animal 的下位词，因此 dog
+蕴涵 animal。
+（ 3） 基于统计的方法。
+1） 基于语义相似度的蕴涵规则判定。一般是计
+算词汇间的某种蕴涵度量，若值高于一定阈值，则判
+定为有蕴涵关系。如文献［6-7］认为，如果词汇 u 的
+上下文是 v 的上下文的子集，则 u 蕴涵 v，以此提出
+判断词汇蕴涵程度的度量 WeedsPrec。 但 WeedsPrec
+方法会抽取到大量不太常用的词汇蕴涵规则，于是
+文献［7］提出用 WeedsPrec 结合文献［8］相似度来对
+稀有词汇进行均衡，给出新的度量方法 balPrec。 文
+献［9］利用词汇语义相似度进行类似蕴涵关系的本
+体匹配。文献［10］利用基于 WordNet 的动词语义相
+似度来学习模板蕴涵规则。 文献［11］认为，不仅要
+看词汇 u 的上下文有多大比例包含在 v 的上下文
+中，也 要 看 所 包 含 的 上 下 文 的 权 重，从 而 提 出
+balAPinc 方法。另外，文献［12］将维基百科网页表
+示成 词 汇-文 档 矩 阵，用 jLSI （ java Latent Semantic
+Indexing） 工具对矩阵进行潜在语义分析、构造词汇
+潜在语义向量，然后计算词汇的相似度值，若该值高
+于一定阈值，则该词对之间存在蕴涵关系。
+2） 基于统计机器学习分类的方法。文献［13］根
+“
+据 形容词修饰的名词短语蕴涵中心词 （ 如 big cat
+cat） ”这一特点，自动构建词汇蕴涵对训练语料，
+并通过词汇或短语在句子中的上下文，构建词汇点
+互信息矩阵，进而得到词汇语义空间向量，并以此为
+特征训练 SVM 分类器分类、识别新的蕴涵规则。 文
+献［14］通过对“动词对 ”构建可判断是否蕴涵的特
+征，包括句子间的连接词、子句间的依存关系等特
+征，训练 SVM 分类器识别词汇蕴涵。 文献［15］提出
+SimDiffs 方法，使用 2 种矩阵： 领域矩阵和函数矩阵，
+来构造 4 种相似度差，将这些差值作为分类特征训
+练分类模型。
+在以上各种方法中，规则方法虽然抽取到的词
+工
+程
+2016 年 2 月 15 日
+汇蕴涵规则准确率高，但对语言的覆盖灵活性差，且
+人工构造规则费时费力。 基于词典的方法，受限于
+词典规模，抽取到的词汇蕴涵规则也往往有限。 因
+此，基于统计机器学习的方法是研究的主流 。
+基于深度学习技术的词向量在各种应用中已经
+取得了不错的性能。因此本文针对中文的词汇蕴涵
+识别问题，基于中文维基百科语料训练词汇的词向
+量，
+然后构建基于词向量的各种分类特征，通过训练
+SVM 分类模型，
+对候选词汇蕴涵关系进行分类判别。
+本文方法有以下特点： （ 1） 基于词向量，构建适
+合词汇蕴涵关系分类的各种向量特征 ； （ 2） 通过训练
+SVM 分类器，将多种不同类型的特征综合在一起；
+（ 3） 根据对已有相关研究工作的调研 ，本文针对中文
+词汇蕴涵关系识别进行研究工作，并标注了一定规
+模的词汇蕴涵关系分类识别的训练和测试语料 。
+本文所构造的词汇蕴涵关系识别训练和测试数
+据集，以及在中文维基百科语料上训练得到的100 维
+的词向量、分类特征构造 python 程序源代码，均可在
+http： / / pan． baidu． com / s /1gdfIXuN 网址下载。
+3
+基于词向量的分类特征设计
+词汇的词向量表示
+判断 2 个词汇之间是否存在蕴涵关系时，仅根
+据词汇本身显然是无法进行的。 因此，以往研究都
+是借助一个较大规模的语料库，将词汇表示一种分
+布向量的形式，再根据向量之间的关系来判别词汇
+之间的关系。 如对一个词汇 w，常用的向量表示方
+法，一种是根据语料库中词汇 w 在特定上下文窗口
+2，…，N） ，计算 w 和
+中的所有上下文共现词 c i （ i = 1，
+每个共现词 c i 之间的共现次数值、点互信息 PMI 值
+等，得到 w 的向量表示 ＜ w1 ，w2 ，…，w N ＞ ，其中的每
+个分量对应一个上下文词。该方法的缺点是上下文
+窗口大小难以确定，向量的维数太高，无法解决一词
+多义、多词一义的问题。 还有一种是利用语料库构
+建词汇-文档矩阵 M 并进行奇异值 SVD 分解等，得
+到词汇的低维分布向量。该方法的缺点是对于大语
+料库，构建词汇-文档矩阵、进行奇异值分解降维，计
+算复杂性太高。
+而在近年来的研究中，根据文献［16］提出的词
+嵌入或者词向量思想，利用神经网络方法，通过在大
+规模语料库中进行训练，将每一个词映射成一个固
+定长度的短向量，则是词汇向量表示研究和应用的
+热点。依据这种思想开发的各种工具中，w ord2vec
+是 Google 在 2013 年开源的一款利用神经网络方法
+将词表征为 k 维实数值向量的高效工具，采用一个
+三层的神经网络“输入层-隐藏层-输出层 ”，对每个
+词根据词频进行 Huffman 编码，所有词频相似的词
+3． 1
+第 42 卷
+第2 期
+张志昌，周慧霞，姚东任，等： 基于词向量的中文词汇蕴涵关系识别
+汇隐藏层激活的内容基本一致，而出现频率越高的
+词语激活的隐藏层数目越少，因此有效降低了计算
+的复杂度。由于 w ord2vec 在计算上的高效性，被广
+泛应用在自然语言处理的很多应用中 。
+3． 2 分类特征
+本文通过对各种词汇蕴涵关系进行分析，发现
+确定词汇间存在蕴涵关系的因素较多，而单独的某
+个因素无法覆盖所有的蕴涵规律。 因此，通过训练
+SVM 分类器，将多种分类特征有机综合在一起，并
+通过大量实验来检测这些特征的有效性 。
+对于 2 个词或者短语 u 和 v，首先利用 word2vec
+将它们表示成维数相同的词向量 U = ＜ u1 ，u2 ，…，
+un ＞ 和 V = ＜ v 1 ，
+v2 ，
+…，
+v n ＞ 。根据词汇蕴涵关系的特
+点，
+所设计的分类特征有：
+（ 1） 向量差特征 f diff
+如果 2 个词汇或者短语各自的向量中在相同维
+度分量度上相差很小的特征越多，说明 2 个词越相
+似，进而说明它们具有蕴涵关系的可能性越大。 因
+此，将向量差特征定义如下：
+f diff = U － V = ＜ u1 － v 1 ，u2 － v 2 ，…，u n － v n ＞
+（ 1）
+（ 2） 向量乘特征 f mul
+具有蕴涵关系的 2 个词汇或者短语，它们在含
+义上一定有较强的相似之处，这体现在它们各自的
+向量上，就是在表达词汇含义的不同的维度上有很
+大的交集。如果某个特征经常出现在词汇的上下文
+中，则该特征在词汇的词向量中对应维度上的值就
+为正，否则为负。
+因此，对于词汇 u 和 v，对它们的词向量中相同
+分量上分别进行乘积，若这些乘积结果中正的分量
+越多、越大，说明这 2 个词汇的上下文交集越大，进
+而说明具有蕴涵关系的可能性越大 。基于此，将2 个
+词向量的各个分量分别相乘组成新的向量作为训练
+特征 f mul ，定义为：
+f mul = ＜ u1 × v 1 ，u2 × v 2 ，…，u n × v n ＞
+（ 2）
+（ 3） 向量和特征 f add
+如果体现词汇含义的某个特征经常出现在词汇
+的上下文中，则该特征在词向量的对应分量上为正。
+如果该特征是 2 个词汇 u 与 v 共同的重要特征，则
+对 u 与 v 的词向量相应分量求和，结果也应该为正。
+因此，构造向量和特征，将 2 个向量的各个分量分别
+相加组成新的向量，并作为训练特征，来反映 2 个词
+向量的共同上下文特点。向量和特征的定义如下：
+f add = U + V = ＜ u1 + v 1 ，u2 + v 2 ，…，u n + v n ＞
+（ 3）
+（ 4） 向量连接特征 f cat
+将 2 个词汇的词向量整体全部作为分类器的特
+171
+征，让分类器判别和寻找它们的相关性。 因此，构造
+向量连接特征，即将一个词的词向量连接到另一个
+词的词向量尾部组成新的向量作为训练特征。 向量
+连接 f cat 特征定义为：
+f cat = ＜ u1 ，u2 ，…，u n ，v 1 ，v 2 ，…，v n ＞
+（ 4）
+（ 5） balAPinc 特征 f bal
+文献［6］针对词汇蕴涵问题，提出了“分布一般
+性”的概念，即如果词汇 u 的上下文包含在词汇 v 的
+上下文中，则词汇 v 在含义分布上要比 u 更一般，也
+就是 u 蕴涵 v。因此，判断 u 是否蕴涵 v 的一个方法
+就是看 u 的上下文特征中有多大比例包含在 v 的上
+下文中。而文献［8］进一步提出，不仅要看 u 的上下
+文特征有多少包含在 v 的上下文中，也要看包含在 v
+的上下文特征集合中的特征对于 u 来说有多重要，
+同时也要 看 u 和 v 在 语 义 上 有 多 相 似。 据 此，文
+献［8］提出了 balAPinc 这种词汇蕴涵关系度量。
+通过 w ord2vec 已经得到了每个词的词向量，而
+且每个词的词向量中的各个分量对应相同的特征。
+因此，在 w ord2vec 生成的词向量基础上，对 balAPinc
+度量进行了一定的修改，并作为分类器的一项特征。
+对于词汇 u 和 v，将它们各自词向量的全部分量看作
+是 u 的上下文特征集合 F u 和 v 的上下文特征集合
+F v ，则 balAPinc 度量的定义如下：
+fbal = balAPinc（ u，
+v） = 槡APinc（ u，
+v） ·LIN（ u，
+v）
+（ 5）
+LIN 相似度的计算公式如下：
+LIN（ u，
+v） =
+∑ f∈F ∩F W u （ f） + W v （ f）
+∑ f∈F W u （ f） + ∑ f∈F W v （ f）
+u
+u
+v
+（ 6）
+v
+其中，W u （ f） 表示特征 f 在 u 的词向量中对应分量的
+权值； W v （ f） 同理。由于 2 个词的词向量每个维度对
+应相同的特征，因此规定，当 W u （ f） ＞ 0，记为 f ∈F u ；
+当 W u （ f） ＜ 0，记为 f F u ； 对于 v 的词向量，同理。
+对于 APinc 值的计算，本文的方法与 Kotlerman
+所提出的计算有所不同，通过以下所述过程得到。
+用 F w 表示词 w 的上下文集合，也就是词向量的
+所有分量组成的集合，| F w | 是词向量中分量大于 0
+的个数。将 F w 中的特征按它们在词向量中的分量
+值降序排序，有如下公式：
+rank（ f wr ，F w ） = r
+（ 7）
+其中，f wr 是 F w 中第 r 个特征。为了将 rank 值归一化
+到 0-1 区间，定义如下计算方法：
+rank（ f，F w ）
+if f ∈ F w
+1 －
+rel（ f，F w ） =
+Fw + 1
+（ 8）
+{
+0
+if f  F w
+另外，引入 inc （ r，F u ，F v ） 来表示一个特征集合，
+表示 F u 中的前 r 个特征也在 F v 中，定义如下：
+计
+172
+算
+机
+inc（ r，F u ，F v ） = ｛ f | rank（ f，F u ）
+（ 9）
+≤ r and f ∈ （ F u ∩ F v ） ｝
+由于每个词的词向量中的各个分量对应相同的
+特征，在式 （ 9） 中，对于词 u 和 v，u 和 v 的对应特征
+如果都大于 0，就将该特征计入 inc （ r，F u ，F v ） 中，否
+则不计入。对 inc 进行归一化：
+inc（ r，F u ，F v ）
+p（ r，F u ，F v ） =
+（ 10）
+r
+则将 APinc 的计算定义如下：
+Fu
+APinc（ u，v） =
+[ p（ r，
+F u ，F v） ·rel（ f ur ，F v ） ]
+∑
+r =1
+Fu
+（ 11）
+4
+实验与结果分析
+本文基于中文维基百科语料，利用 Google 提供
+的 w ord2vec 工具来训练各个词的词向量； 其次，需
+要构造词汇蕴涵关系训练和测试语料 ； 然后，基于
+3． 2 节所述的特征，利用 libsvm 工具，训练词汇蕴涵
+关系分类的 SVM 分类器； 最后，在测试语料上对训
+练得到的分类器性能进行综合评价，以检验本文方
+法以及各个分类特征的有效性。
+4． 1 数据集构建
+首先从维基百科的语料库中下载中文维基百科
+zhw iki-20150325-pages-articles． xml． bz2 数据集并用
+维基百科抽取器对其进行处理，得到 763 M B 语料。
+用 opencc 对语料进行繁体到简体的转换，去掉文本
+中的各种标签，用分词系统 ICTCLAS2015 对文本进
+行分词、词性标注。然后用 Google 提供的 w ord2vec
+对全部 语 料 进 行 训 练，分 别 得 到 100 维、200 维、
+300 维、
+400 维的词向量文件。
+从语料库所包含的全部名词中，随机找出一些
+语义范围比较大的词 （ 如“公司”、“酒 ”） 共 280 个，
+然后 利 用 w ord2vec 训 练 得 到 的 词 向 量，计 算 这
+280 个词与其他所有词的余弦相似度 ，得到每个词最
+相似的另外 10 个词。通过人工检查发现，这些相似
+词对中，很多词对之间并不存在蕴涵关系，这说明相
+似与蕴涵并不是等价关系。 从这些相似的 词 对 之
+中，手工抽取、构建了 1 400 个存在蕴涵关系的词对
+和1 400 个不存在蕴涵关系的词对，共 2 800 个词对。
+将 2 800 个词对分成两部分： 1 400 个作为训练
+集，其中 包 含 有 700 个 为 存 在 蕴 涵 关 系 的 词 对 和
+700 个为不存在蕴涵关系的词对； 另外的 1 400 对作
+为测试集，其中的蕴涵关系词对和非蕴涵关系词对
+比例和训练集相同。
+4． 2 评价指标
+为了方便定义准确率等评价指标，设一个 2 × 2
+的混淆矩阵 C = （ c ij ） 2 × 2，其中，c ij 表示词对实际属
+工
+程
+2016 年 2 月 15 日
+于类 i 但分类器将词对判别为类 j 的总的词对数目
+（ i，j ∈ ｛ 0，1｝ ） ，其中类 1 表示词对之间存在蕴涵关
+系，类 0 表示不存在蕴涵关系。 则分别定义准确率、
+召回率、F 值的如下：
+Pre 0 = c 00 / （ c 00 + c 10 ）
+（ 12）
+Pre 1 = c 11 / （ c 11 + c 01 ）
+（ 13）
+Ｒec 0 = c 00 / （ c 00 + c 01 ）
+（ 14）
+Ｒec 1 = c 11 / （ c 11 + c 10 ）
+（ 15）
+F0 = 2·Pre 0 ·Ｒec 0 / （ Pre 0 + Ｒec 0 ）
+（ 16）
+F1 = 2·Pre 1 ·Ｒec 1 / （ Pre 1 + Ｒec 1 ）
+（ 17）
+其中，Pre 0 ，Ｒec 0 ，F0 是针对不存在蕴涵关系的词对
+进行 分 类 识 别 的 准 确 率、召 回 率、F 值 评 价 指 标；
+Pre 1 ，Ｒec 1 ，F1 则针对存在蕴涵关系的词对进行分类
+识别的评价指标。对蕴涵与不蕴涵 2 个类别的准确
+率、召回率、F 值通过权值进行综合，定义如下：
+w 0 = （ c 00 + c 01 ） / （ c 00 + c 01 + c 10 + c 11 ） （ 18）
+w 1 = （ c 11 + c 10 ） / （ c 00 + c 01 + c 10 + c 11 ） （ 19）
+Pre = w 0 ·Pre 0 + w 1 ·Pre 1
+（ 20）
+Ｒec = w 0 ·Ｒec 0 + w 1 ·Ｒec 1
+（ 21）
+F = w 0 ·F0 + w 1 ·F1
+（ 22）
+其中，Pre，Ｒec，F 是对所有词对进行蕴涵关系分类
+识别的综合准确率、召回率、F 值评价指标。
+4． 3 结果分析
+基于 4． 1 节所述数据集，利用 w ord2vec 训练出
+的词向量，然后依照 3． 2 节所述的特征构造方法，在
+所构造的词汇蕴涵训练集上训练 SVM 分类器，最后
+在测试集上进行蕴涵关系分类测试与评 价。 选 用
+libsvm 作为训练 SVM 分类起的工具，训练时使用径
+向基核函数。 通过在训练集上进行交叉验证，选择
+libsvm 的参数 c = 32． 0，g = 0． 007 812 5。
+利用 w ord2vec 在中文维基百科语料上进行训
+练时，可以得到不同维度的词向量表示。 为了确定
+适合本文所提方法的词向量维度，用 3． 2 节所述的
+不同向量特征，训练并测试 SVM 词汇蕴涵关系分类
+识别模型的性能。
+表 1 给出了在 100 维、200 维、300 维、400 维的
+词向量表示条件下，基于向量差 f diff 、向量乘 f mul 、向
+量和 f add 、向量连接 f ca t 这 4 种不同分类特征时 SVM
+分类模型的 F 值。
+表1
+维度
+不同词向量维度、不同特征下的分类模型 F 值
+向量和 f add
+向量差 f diff 向量连接 f cat
+向量乘 f mul
+100
+0． 603
+0． 568
+0． 586
+0． 507
+200
+0． 597
+0． 567
+0． 542
+0． 496
+300
+0． 661
+0． 555
+0． 520
+0． 496
+400
+0． 575
+0． 544
+0． 556
+0． 466
+为了能更直观地观察不同向量维度对分类性能
+的影响，将表 1 中的数据以折线图的形式进行展示，
+如图 1 所示。
+第 42 卷
+图1
+张志昌，周慧霞，姚东任，等： 基于词向量的中文词汇蕴涵关系识别
+第2 期
+不同词向量维度在不同特征下分类模型 F 值对比
+从表 1 和图 1 可以看出 ，不同的词向量特征构
+造对词汇蕴涵关系的分类识别有一定的性能差异 。
+同时 ，当训练所得的词向量维度不同时 ，分类性能
+也会不同 。 总体来看 ，当词向量维度为 100 维 时 ，
+基于向量差 f diff 、向量连接 f cat 、向量乘 f mul 3 种特征
+中的任何一个特征进行词汇蕴涵关系分类 ，都能有
+相对其他维度词向量较好的性能表现 。 而且 ，当词
+向量为 100 维时 ，计算复杂度相对更小 。 因 此 ，在
+最 终的实验中 ，选择 100 维的词向量 ，通 过 对 基 于
+表2
+173
+词向 量 的 不 同 特 征 进 行 组 合 ，评 测 不 同 特 征 对
+SVM 分类器 性 能 的 影 响 。 在 评 测 时 ，综 合 比 较 拥
+有蕴涵关系词对分类的准确率 Pre 1 、召回率 Ｒec 1 、
+F 值 F 1 ； 对不具有蕴涵关系词对进行分类的准确率
+Pre 0 、召回 率 Ｒec 0 、F 值 F 0 ，以 及 F 0 和 F 1 的 综 合
+F 值。
+另外，如果 2 个词汇之间存在蕴涵关系，则它们
+之间一定有较高的相似度，因此选择向量余弦相似
+度方法为性能评价基准 （ baseline） 。 基于 100 维的
+词向量，对于测试集中的每一个词对 （ u，v ） ，计算词
+u 和 v 之间的余弦相似度，若该相似度超过阈值 （ 本
+文设阈值为 0． 7） ，则认为它们之间存在蕴涵关系。
+对测试集中所有词对依此分类后，得到余弦相似度
+方法时的各项性能评价指标。
+表 2 给出了在使用和组合不同的分类特征时，
+SVM 分类器在词汇蕴涵测试集上的性能情况。 从
+结果可以看出，除了 f mul 特征，选择其他任何特征或
+者特征组合，训练 SVM 分类器进行词汇蕴涵关系的
+有指导分类识别，性能都要比余弦相似度方法好。
+不同特征组合时的词汇蕴涵分类性能
+特征
+Pre 0
+Ｒec 0
+F0
+Pre 1
+Ｒec 1
+F1
+Pre
+Ｒec
+F
+f add
+0． 608
+0． 583
+0． 595
+0． 599
+0． 624
+0． 611
+0． 604
+0． 604
+0． 603
+f cat
+0． 622
+0． 469
+0． 535
+0． 574
+0． 716
+0． 637
+0． 598
+0． 592
+0． 586
+f diff
+0． 563
+0． 611
+0． 586
+0． 575
+0． 526
+0． 549
+0． 569
+0． 568
+0． 568
+f mul
+0． 507
+0． 529
+0． 517
+0． 507
+0． 486
+0． 496
+0． 507
+0． 507
+0． 507
+f bal
+0． 527
+0． 573
+0． 549
+0． 532
+0． 486
+0． 508
+0． 530
+0． 529
+0． 528
+f add + f diff
+0． 610
+0． 564
+0． 586
+0． 594
+0． 639
+0． 616
+0． 602
+0． 601
+0． 601
+f add + f cat
+0． 637
+0． 393
+0． 486
+0． 561
+0． 776
+0． 651
+0． 599
+0． 584
+0． 568
+f add + f mul
+0． 605
+0． 589
+0． 597
+0． 599
+0． 616
+0． 607
+0． 602
+0． 602
+0． 602
+f add + f bal
+0． 605
+0． 636
+0． 620
+0． 617
+0． 586
+0． 601
+0． 611
+0． 611
+0． 610
+f add + f bal + f diff
+0． 605
+0． 627
+0． 616
+0． 613
+0． 590
+0． 601
+0． 609
+0． 609
+0． 608
+f add + f bal + f cat
+0． 638
+0． 441
+0． 522
+0． 573
+0． 750
+0． 650
+0． 606
+0． 596
+0． 586
+f add + f bal + f mul
+0． 602
+0． 600
+0． 601
+0． 602
+0． 604
+0． 603
+0． 602
+0． 602
+0． 602
+f add + f bal + f diff + f mul
+0． 596
+0． 579
+0． 587
+0． 591
+0． 609
+0． 600
+0． 594
+0． 594
+0． 593
+余弦相似度
+0． 545
+0． 913
+0． 683
+0． 732
+0． 239
+0． 360
+0． 639
+0． 576
+0． 521
+图 2 以条形图的形式展示不同特征进行组合
+时，分类器对非蕴涵关系词对的分类 F 值 F0 、蕴涵
+关系词对分类的 F 值 F1 以及 F0 和 F1 的综合 F 值。
+图2
+不同特征组合时词汇蕴涵分类性能 F 值对比
+实验结果表明，在使用单个特征进行分类时，
+f add 特征的综 合 性 能 最 好，达 到 0． 603 的 F 值。 因
+此，在 f add 特征基础上再组合其他特征，发现 f add 和
+balAPinc 特征组合表现出最好的综合性能，F 值达
+到 0． 610。进一步地，在 f add 和 f bal 的基础上组合其他
+特征 ，发现性能反而均有所下降。 但相对来说，组
+合向量差特征 f diff 后，分类器综合 F 值为 0． 608，下降
+幅度较小。f add ，f add + f bal ，f add + f bal + f diff 3 种特征选择
+条件下相对其他特征组合情况的分类性能对比如
+图 2 所示。
+为了更加深入地检验组合特征对于词汇蕴涵性
+能的影响，将测试集中存在蕴涵关系但并非同义词
+1） ，i = 1，
+的所有词对及其类别标签 ｛ （ leftw i ，rightw i ，
+2，…，M ｝ 复制出来，并将这些词对的方向进行交换，
+计
+174
+算
+机
+形成 新 的 不 存 在 蕴 涵 关 系 的 词 对 及 类 别 标 签
+｛ （ rightw i ，leftw i ，－ 1） ，i = 1，2，…，M ｝ ，再将它们加
+入到测试集 中，形 成 扩 展 测 试 集。 然 后，利 用 f add ，
+f add + f bal ，f add + f bal + f diff 3 种特征组合分别训练分类
+器并在扩展测试集上进行评测，在 F0 ，F1 ，F3 种评价
+指标下的性能情况如表 3 所示。
+表3
+4 种特征组合时分类器在扩展测试集上的 F 值
+特征
+F0
+F1
+F
+f add
+0． 574
+0． 468
+0． 539
+f add + f bal
+0． 593
+0． 464
+0． 550
+f add + f bal + f diff
+0． 605
+0． 482
+0． 564
+f add + f bal + f diff + f mul
+0． 591
+0． 477
+0． 553
+从原始测试集和扩展测试集上的实验结果可以
+看出，组合了向量和特征 f add 和 balAPinc 特征 f bal 之
+后，要比单独用 f add 特征好； 在扩展测试集上的实验
+结果表明，f add ，f bal ，f diff 3 种 特 征 组 合 的 性 能 要 高 于
+f add ，f bal 2 种特征组合的性能，说明向量差特征 f diff 对
+具有蕴涵关系的词对之间蕴涵方向的识别有极大帮
+助，这和本文的直觉认识是一致的。 当一个词 u 蕴
+涵 v 但 v 不蕴涵 u 时，u 的词向量 U 与 v 的词向量 V
+的差 U － V，以及 V － U 应该有一定的规律性差异，
+这可以通过 f diff 特征来体现这种差异。
+5
+结束语
+词汇蕴涵关系在自然语言处理领域有着非常重
+要的应用价值。 本文提出利用词向量技术，设计基
+于词向量的各种词汇蕴涵关系分类特征，进行名词
+词对之间的蕴涵关系分类识别。 实验结果表明，本
+文提出的方法以及设计的各种分类特征，在词汇蕴
+涵关系识别方面相对于传统的余弦相似度方法具有
+明显的 优 势； 而“向 量 和 ”特 征、“向 量 balAPinc 特
+征”、“向量差”特征 3 种的组合，在名词词汇蕴涵关
+系识别方面有较好的性能。 同时，各种特征及其组
+合在测试集上的 F 值性能大部分都在 0． 6 以下，说
+明词汇蕴涵关系识别存在较大难度的研究问题。 在
+下一步工作中，需要设计和寻找更好的词汇蕴涵分
+类特征，并对词汇蕴涵关系进行更细的类别划分 。
+参考文献
+［1］ Androutsopoulos I， Malakasiotis P． A Survey of
+Paraphrasing and Textual Entailment Methods［J］． Journal
+of Artificial Intelligence Ｒesearch，2010，38 （ 1 ） ：
+135-187．
+工
+程
+2016 年 2 月 15 日
+［2］ 袁毓林，王 明 华． 文 本 蕴 涵 的 推 理 模 型 与 识 别 模
+2010，
+24（ 2） ： 3-13．
+型［J］． 中文信息学报，
+［3］ 盛雅琦，张 晗，吕 晨，等． 基于混合主题模型的文
+2015，
+41（ 5） ： 180-184．
+本蕴涵识别［J］． 计算机工程，
+［4］ Shnarch E，
+Dagan I． Lexical Entailment and Its Extraction from
+Wikipedia［D］． Israel，
+Jaffa： Bar-Ilan University，
+2008．
+［5］ Kouylekov M，Magnini B． Building a Large-scale Ｒepository of Textual Entailment Ｒules［C］/ / Pro-ceedings of the
+5th International Conference on Language Ｒesources and
+Evaluation． Genoa，
+Italy： ［s． n． ］，
+2006： 2437-2440．
+［6］ Weeds J，Weir D． A General Framework for Distributional Similarity ［C］/ / Proceedings of EMNLP ’03．
+Sapporo，Japan： ［s． n． ］，
+2003： 81-88．
+［7］ Weeds J，Weir D，McCarthy D． Characterizing Measures of
+Lexical Distributional Similarity［C］/ / Proceedings of the
+20th International Conference on Computational
+Linguistics） ． Geneva，Switzerland： ［s． n． ］，2004： 10151021．
+［8］ Lin Dekang． Automatic Ｒetrieval and Clustering of Similar
+Words［C］/ / Proceedings of COLING-ACL’98． Montreal，
+Canada： ［s． n． ］，
+1998： 768-774．
+［9］ 何 娟，高志强，陆青健，等． 基于词汇相似度的元素
+2006，
+32（ 16） ： 191-193．
+级本体匹配［J］． 计算机工程，
+［10］ Szpektor I，Dagan I． Learning Entailment Ｒules for Unary
+Templates［C］/ / Proceedings of the 22nd Inter-national
+Conference on Computational Linguistics． Manchester，UK： ［s．
+n． ］，
+2008： 849-856．
+［11］ Kotlerman L，Dagan I，Szpektor I，et al． Directional
+Distributional Similarity for Lexical Inference［J］． Natural
+Language Engineering，
+2010，
+16（ 4） ： 359-389．
+［12］ Kouylekov M，
+Mehdad Y，Negri M． Mining Wikipedia for
+Large-scale Ｒepositories of Context-sensitive Entail-ment
+Ｒules ［C］/ / Proceedings of the 7th Conference on
+International Language Ｒesources and Evaluation．
+Washington D． C． ，USA： IEEE Press，
+2010： 3550-3553．
+［13］ Baroni M，Bernardi Ｒ． Entailment Above the Word Level
+in Distributional Semantics［C］/ / Proceedings of the 13th
+Conference of the European Chapter of the Association for
+Computational Linguistics． Avignon，France： ［s． n． ］，
+2012： 23-32．
+［14］ Weisman H，Berant J． Learning Verb Inference Ｒules from
+Linguistically Motivated Evidence［C］/ / Proceed-ings of
+Joint Conference on Empirical Methods in Natural
+Language Processing and Computational Natural Language
+Learning． Jeju Island，Korea： ［s． n． ］，
+2012： 194-204．
+［15］ Turney P D，Mohammad S M． Experiments with Three
+Approaches to Ｒecognizing Lexical Entailment ［J］．
+Natural Language Engineering，
+2015，
+21（ 3） ： 437-476．
+［16］ Hinton G E． Learning Distributed Ｒepresentations of
+Concepts［C］/ / Proceedings of the 8th Annual Conference of the Cognitive Science Society． Hillsdale，USA：
+［s． n． ］，
+1986： 1-12．
+编辑 索书志

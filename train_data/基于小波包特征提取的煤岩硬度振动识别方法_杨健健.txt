@@ -1,0 +1,604 @@
+煤炭科学技术
+第 43 卷第 12 期
+2015 年
+12 月
+Vol． 43
+Coal Science and Technology
+Dec．
+No． 12
+2015
+基于小波包特征提取的煤岩硬度振动识别方法
+杨健健，姜 海，吉晓东，吴 淼
+（ 中国矿业大学（ 北京） 机电与信息工程学院，北京 100083）
+要： 针对现有煤岩硬度性状识别方法不能满足采煤机滚筒实现自动调高技术的需要 ，提出摇臂振
+动信号时频域能量特征识别煤岩硬度的方法 。采用自主研发并取得煤安认证的矿用振动加速度传感
+摘
+器开展井下测试，以综采工作面采煤机摇臂处实测振动加速度信号为研究对象 ，利用小波包信号分析
+方法，得到第 3 层 4 个频率成分的时频域分解信号，根据系数重构后的函数表达式，计算各个频段内
+的信号能量作为特征向量，确定采煤机截割煤岩时摇臂振动特征 。MG180 /420 － BWD 薄煤层采煤机
+在兖矿集团南屯煤矿测试结果表明 ，小波包时频域能量特征向量对截割煤岩硬度敏感 ，该特征向量间
+接判定截割工况效果良好。
+关键词： 煤岩硬度； 振动信号； 小波包； 特征向量
+中图分类号： TD421. 6
+文献标志码： A
+文章编号： 0253 － 2336（ 2015） 12 － 0114 － 04
+Vibration identification method of coal and rock hardness
+based on wavelet packet features
+Yang Jianjian，Jiang Hai，Ji Xiaodong，Wu Miao
+（ School of Electromechanic and Information，China University of Mining and Technology （ Beijing） ，Beijing 100083，China）
+Abstract： According to the available character identification method of the coal and rock hardness could not meet the requirements of the
+automatic height － adjustment technology realized by the cutting drum of the coal shearer，an identification method of the coal and rock
+hardness was provided with the energy features of the vibration signal time － frequency domain in the ranging boom． A self developed mine
+vibration accelerometer with a MA certificate was applied to the tests in the underground mine． With the vibration acceleration signal measured at the ranging boom of the coal shearer in the fully mechanized coal mining face as the study object，the wavelet packet signal analysis
+method was applied to have the solution signal of the time － frequency domain with four frequency contents from No． 3 strata． According to
+the function expression after the coefficient restructured，the signal energy at each frequency section was calculated as the eigenvector and
+was applied to determine the vibration features of the ranging boom during the coal and rock cutting period of the coal shearer． Based on the
+measured data of MG180 /420 － BWD thin seam shearer operated in Nantun Mine of Yanzhou Coal Mining Group，The results showed that
+the energy feature vector of the wavelet packet time － frequency domain would be sensitive to the hard．
+Key words： coal and rock hardness； vibration signal； wavelet packet； eigenvector
+［8］
+0
+引
+于煤岩性状识别具有一定的研究基础 。 虽然，比
+煤硬度低的软岩有少量存在，但大部分综采工作面
+言
+针对煤岩性状识别，国内外提出了雷达、射线、
+［1 － 4］
+，也有很多学者
+温度、红外等数十种方法和技术
+的煤、岩在硬度上有显著差别，体现在表征岩石硬度
+的普氏系数 f 的大小，表征普通岩石硬度的 f = 5 ～
+从不同角度考虑并分析了现有煤岩性状识别方法中
+［5 － 7］
+。 目前，基于振动测试方法用
+存在的诸多问题
+20，而表征煤硬度的 f = 2 ～ 4。 现有研究表明，振动
+识别煤岩性状的方法虽然已开展研究，并取得一定
+收稿日期： 2015 － 05 － 25； 责任编辑： 赵
+瑞
+DOI： 10． 13199 / j． cnki． cst． 2015． 12． 023
+基金项目： 国家重点基础研究发展计划（ 973 计划） 资助项目（ 2014CB046306）
+E － mail： yangjiannedved@ 163. com
+作者简介： 杨健健（ 1988—） ，男，
+山东济宁人，
+讲师。Tel： 010 － 62339113，
+引用格式： 杨健健，姜
+179．
+2015，
+43（ 12） ： 114 － 117，
+海，吉晓东，等． 基于小波包特征提取的煤岩硬度振动识别方法［J］． 煤炭科学技术，
+Yang Jianjian，Jiang Hai，Ji Xiaodong，et al． Vibration identification method of coal and rock hardness based on wavelet packet features［J］． Coal
+Science and Technology，
+2015，
+43（ 12） ： 114 － 117，
+179．
+114
+杨健健等： 基于小波包特征提取的煤岩硬度振动识别方法
+2015 年第 12 期
+程度的研究成果，但因没有适用于矿用环境的振动
+测试装置，该方法距离实用还有很多问题亟待解决 。
+测试人员记录滚筒截割煤、页岩顶板、泥岩底板时
+间，
+参照对应的典型工况 （ 煤 / 顶板 / 底板 ） 确定识别
+基于此笔者开展采煤机摇臂振动与煤岩硬度影响关
+系研究，利用自主研发的矿用本安型振动传感器 ，提
+煤岩性状的特征向量。
+2. 1 振动信号特征提取方法
+［9］
+出基于小波包 2 级分解摇臂振动信号研究方法 ，
+分析截割煤、顶板、底板振动信号时频域能量特征，
+为了得 到 摇 臂 振 动 信 号 分 析 中 高 频 率 分 辨
+率 ，笔 者 采 用 小 波 包 信 号 分 析 方 法 ，该 方 法 具 备
+实现采煤机摇臂振动信号间接识别截割煤岩性状方
+法在采煤机自适应截割控制方面的有效应用 。
+一组特定的小波函 数 族 ，解 决 了 小 波 函 数 分 析 振
+1
+采煤机摇臂振动机理
+滚筒作为直接受力部件，截齿截割煤岩，因为硬
+度的差异引起滚筒及摇臂的振动 ，分析截齿受力，确
+定力学模型参数分别为采高纵向阻力、采煤机牵引
+［10］
+方向阻力和截齿受力侧向阻力 。
+1. 1
+动冲 击 带 来 的 高 频 信 号 频 域 分 辨 率 低 的 问
+［8 － 9］
+。 将摇 臂 振 动 信 号 利 用 小 波 包 分 析 方 法
+题
+进行两级分解 ，得到第 3 层 4 个频率成分的时频
+域分解信号 。
+小波包两级分解后第 3 层信号重构函数的数学
+表达式为
+S2 = S20 + S21 + S22 + S23
+其中，S2j 为分解后第 3 层第 j 个频段信号重构
+摇臂振动产生原因
+摇臂产生振动的原因如下： 摇臂振动是由减速
+机构齿轮、轴传动引起的，为受迫振动或自激振动；
+（ 1）
+1，
+2，
+3。重构信号的能量 E2j 为
+函数，j = 0，
+n
+E2j =
+采煤机机身是由截割电动机引起、采煤机牵引造成
+的，为受迫振动或自激振动； 滚筒割煤岩振动是由于
+∫
+| S2j （ t） | 2 dt =
+X2jk （ t）
+∑
+k =1
+（ 2）
+其中： X jk 为第 3 层重构函数的系数； t 为时间； n
+截齿受力引起的，为受迫振动； 机身过煤是由大块煤
+岩撞击机身引起的，为受迫振动。 其中，截齿切 割
+为试验次数。根据能量信号确定特征向量 E 为
+E =［E20 ，E21 ，E22 ，E23 ］
+（ 3）
+煤岩产生的振动是 摇 臂 振 动 的 主 要 原 因 ，不 同 硬
+度的煤层 、顶底板岩 层 使 得 截 齿 的 受 力 产 生 很 大
+为便于计算，取经验值 K，对特征向量进行归一
+化处理，定义 E' 为归一化能量向量，E jk 为第 j 层能
+的 不 同 ，直 接 反 映 在 摇 臂 的 振 动 上 ，其 振 幅 超 过
+了允许范围会造成 设 备 零 故 障 ，采 煤 工 作 面 停 机
+量代数和。
+停产 。
+由式（ 3） 、式 （ 4） 可确定在割煤、割岩状态下的
+摇臂振动信号特征向量。 为完善特征库，需进行多
+1. 2
+振动测试内容
+利用矿用本安振动传感器测取摇臂处振动信
+号，分析不同硬度煤岩造成摇臂振动的影响关系 ，测
+1）
+E' = E jk / K ∈（ 0，
+次现场测试，确定割煤和割岩工况下的特征向量平
+均值 C j 为
+取振动信号来源于摇臂第一级减速机构处和采煤机
+机身。采煤机滚筒截齿处所受载荷为非平稳随机载
+荷，故拾取的振动信号应采用综合分析时频域特征
+的频谱分析方法。
+2
+振动信号特征提取方法及测试方法
+根据前文所述，建立摇臂振动信号特征库需解
+决以下技术问题： ①非平稳随机信号时域和频域特
+征不易明确分割提取，无法确定特征向量； ②煤矿综
+采工作面生产情况恶劣，非实测的模拟数据无法准
+（ 4）
+n
+Cj =
+E jk / n
+∑
+k =1
+（ 5）
+综上，提出基于小波包分解摇臂振动信号识别
+煤岩硬度方法，参照确定工况 （ 割煤 / 顶 / 底 ） ，提取
+不同频 段 能 量 特 征 值 作 为 间 接 识 别 截 割 介 质 的
+依据。
+测试方法
+采用 GBC1000 型矿用本安振动加速度传感器
+获取井下不同工况下 MG180 /420 － BWD 采煤机的
+2. 2
+确验证方法有效性。 基于上述原因，笔者提出了利
+振动数据，准确得到综采工作面采煤机摇臂工作振
+动数据。
+用矿用本安型振动传感器测取煤矿井下综采工作面
+［11］
+多种工况下的采煤机摇臂振动数据 ，分析实测振
+1） 工作面概况 。 顶板石灰岩的普氏系数 f 为
+9 ，底板铝质泥岩的 f 为 1 ～ 2 ，煤的 f 为 3 ，石 灰 岩
+动信号，提取摇臂振动特征识别煤岩硬度的方法 。
+的 f = 9 ，煤层柱状图如图 1 所示 。
+115
+煤炭科学技术
+2015 年第 12 期
+第 43 卷
+分解为 4 个频段（ A1—A4） ，结果表明割煤振动信号
+低频分量较集中，能量较大。
+图1
+Fig. 1
+煤层柱状图
+Coal seam histogram
+2） 确定 MG180 /420 － BWD 采 煤 机 的 摇 臂 及
+机身处 的 振 动 测 点 ，传 感 器 测 点 布 置 如 图 2 所
+图4
+Fig. 4
+割煤振动信号小波包分解时频域图
+Frequency domain of wavelet packet decomposition on
+coal cutting vibration signal
+示。
+求取 A1、A2、A3、A4 相 应 频 段 的 能 量 分 别 为
+344. 506 88、221. 570 56、67. 381 76、173. 027 84，对
+重构信号的系数进行计算，其值为无量纲值。 采煤
+图2
+Fig. 2
+采煤机机身传感器测点布置
+Layout of measurement point for shear sensor
+小波包振动信号特征提取的方法和矿用本安型
+振动加速度传感器的使用为研究煤矿井下摇臂振动
+与截割煤岩硬度关系奠定了基础 。
+3
+测试数据分析
+机截割煤层摇臂振动加速度小波包分解特征向量
+E =［344. 51，
+221. 57，
+67. 38，173. 03］。 得到该样本
+下的采煤机滚筒截割煤层时的摇臂处振动加速度信
+号的两级小波包分解的归一化特征向量 E' 为
+E' = T / K
+（ 5）
+根据多次测量，取经验值 K = 1 000。 由式 （ 5）
+可得：
+E' =［0. 345，
+0. 222，
+0. 067，
+0. 173］
+为研究摇臂振动与滚筒截割煤岩的定量影响关
+系，
+选取井下综采工作面现场测试数据，其中样本数
+据 1 对应割煤工况，样本数据 2 对应割岩 （ 顶板） 工
+3. 2
+况，
+振动信号采样频率为 10 kHz。采用 Mallat 快速算
+法，
+以 Daubechies 小波为基函数的二阶小波包变换分
+板岩层。割岩测点 1 采高方向振动加速度全程信号
+如图 5 所示。
+割岩工况测试
+选取样本 2 数据，对应截割工况为滚筒截割顶
+析采煤机摇臂振动加速度信号的局部时频域特征。
+3. 1 割煤工况测试
+样本 1 数据对应截割工况是采煤机滚筒空载下
+牵引一段时间，然后滚筒开始截割煤，测点 1 采高方
+向振动加速度全程信号如图 3 所示，g 为重力加速
+度。
+图5
+Fig. 5
+割岩工况测点 1 采高方向振动加速度全程信号
+Vibration acceleration signal process at point 1 along
+mining height direction under rock cutting condition
+样本 1 和样本 2 测试数据全程时域波形显示结
+果表明，采煤机割煤与割岩振动信号时域幅值差距
+图3
+Fig. 3
+割煤工况测点 1 采高方向振动加速度全程信号
+Vibration acceleration signal process along mining height
+divection at point 1 under coal cutting condition
+图 4 所示为截取割煤工况 （ 普氏系数 f = 3） 摇
+臂振动信号的小波包分解重构信号，经二阶小波包
+116
+较大。同样采用二阶小波包分解样本 2 数据为 4 个
+频段，较之采煤机割煤（ f = 3） 时振动加速度信号，冲
+击效应明显，如图 6 所示。
+被测对象为 MG180 /420 － BWD 薄煤层采煤机，
+整机体积小、质量小，滚筒截割硬度较高的顶板页岩
+（ f = 9） ，截齿所受瞬时激振力较大，能量集中，引起
+杨健健等： 基于小波包特征提取的煤岩硬度振动识别方法
+2015 年第 12 期
+分解的能量特征归一化向量，以及对比时域指标中
+的典型差异指标，见表 1。
+摇臂强烈的冲击振动。
+由表 1 可知，割岩工况下的摇臂振动信号小波
+包分解能量特征向量的各频段数值 2 倍，甚至 3 倍
+于割煤工况下的数值，时域指标中的有效值、均方差
+也有较大的增幅比，体现信号冲击特性的时域峭度
+图6
+割岩振动信号小波包分解时频域图
+Fig. 6
+Function wavelet packet decomposition
+on rock cutting condition
+如上所述，利用已有样本建立了不同硬度截割
+和脉冲指标增幅比最大。
+因此，通过监测摇臂振动信号小波包分解能量
+特征值以及时域指标峭度等特征值，实现对滚筒截
+割煤岩性状的准确识别，为实现采煤机滚筒自动调
+高技术提供参考。
+介质下的采煤机摇臂振动加速度信号时频域小波包
+表1
+Table 1
+Ｒanging boom vibration signal characteristic value under cutting coal / rock condition
+工况
+4
+割煤 / 岩工况摇臂振动信号特征值
+频域指标
+时域指标
+能量特征归一化向量
+有效值
+均方差
+峭度
+脉冲
+割煤（ f = 3）
+［0. 345，
+0. 222，
+0. 067，
+0. 173］
+0. 716 1
+0. 512 4
+0. 906 0
+7. 499 7
+割岩（ f = 9）
+［0. 756，
+0. 761，
+0. 3251，
+0. 379］
+0. 985 3
+0. 970 2
+24. 602 0
+23. 828 0
+增幅比（ 割岩 / 割煤） / %
+［119. 3，
+243. 5，
+383. 0，
+119. 0］
+37. 60
+89. 34
+2632. 7
+217. 7
+结
+语
+频域中考虑截 割 介 质 的 随 机 性 ，利 用 小 波 包
+提取的频域特征值 ，量 化 该 特 征 值 ，获 得 特 征 库 。
+通过测取摇臂处振 动 信 号 ，可 提 取 分 辨 不 同 截 割
+工 况 的 频 域 指 标 ，从 而 间 接 判 定 截 割 介 质 硬 度 。
+该方法适 用 于 顶 板 岩 层 硬 度 明 显 大 于 煤 层 硬 度
+的综采环境 ，对于岩 层 软 于 煤 层 的 环 境 还 有 待 进
+一步研究 。
+［4］ 刘春生，荆
+凯，万
+丰． 采煤机滚筒记忆程控液压调高系统
+2007（ 2） ： 142 － 146．
+的仿真［J］． 中国机械工程学报，
+Liu Chunsheng，Jing Kai，Wan Feng． Simulation of memory program med hydraulic control system for height adjustment of
+shearer’s drum［J］． Chinese Journal of Construction Machinery，
+2007（ 2） ： 142 － 146．
+［5］ 王增才，富
+强． 自然 γ 射线穿透煤层及支架顶梁衰减规律
+［J］． 辽宁工程技术大学学报： 自然科学版，
+2006，
+25（ 6） ： 804 －
+807．
+Wang Zengcai，Fu Qiang． Attenuation of natural γ ray passing
+through coal seam and hydraulic support［J］． Journal of Liaoning
+参考文献：
+［1］ 孙继平，佘
+Journal of China Coal Society，
+2008，
+33（ 7） ： 822 － 825．
+Technical University： Nature Science Edition，2006，25 （ 6 ） ： 804
+杰． 基于支持向量机的煤岩图像特征抽取与分类
+2013，
+38（ S1） ： 105 － 109．
+识别［J］． 煤炭学报，
+Sun Jiping，She Jie． Coal － rock image feature extraction and recog-
+－ 807．
+［6］ 王增才，孟惠荣． 支架顶梁对 γ 射线方法测量顶煤厚度影响研
+2002，
+31（ 3） ： 323 － 326．
+究［J］． 中国矿业大学学报，
+nition based on support vector machine［J］． Journal of China Coal
+Wang Zengcai，Meng Huirong． Influence of canopy of hydraulic
+Society，
+2013，
+38（ S1） ： 105 － 109．
+support upon measurting thickness of coal seam by natural gamma
+［2］ 汪玉凤，夏元涛，王晓晨 . 含噪超完备独立分量分析在综放煤
+2011，
+36（ S1） ： 212 － 216.
+岩识别中的应用［J］． 煤炭学报，
+Wang Yufeng，Xia Yuantao，Wang Xiaochen． Application on over
+complete ICA with noise in coal and rock identification of fullymechanized mining［J］． Journal of China Coal Society，2011，36
+（ S1） ： 212 － 216.
+［3］ 刘春生，杨
+秋，李春华． 采煤机滚筒记忆程控截割的模糊控
+2008，
+33（ 7） ： 822 － 825．
+制系统仿真［J］． 煤炭学报，
+Liu Chunsheng，Yang Qiu，Li chunhua． Simulation of shearer drum
+cutting with memory program controlling by fuzzy control［J］．
+ray［J］． Journal of China University of Mining ＆ Technology，
+2002，
+31（ 3） ： 323 － 326．
+［7］ 梁义维，熊诗波． 基于神经网络和 Dempster － Shafter 信息融合
+2003，
+28（ 1） ： 86 － 90．
+的煤岩界面预测［J］． 煤炭学报，
+Liang Yiwei，Xiong Shibo． Forecast of coal － rock interface based
+on neural network and dempster － shafter theory［J］． Journal of
+China Coal Society，
+2003，
+28（ 1） ： 86 － 90．
+［8］ 刘俊利，赵豪杰，李长有． 基于采煤机滚筒截割振动特性的煤
+2013，
+41（ 10） ： 93 － 95．
+岩识别方法［J］． 煤炭科学技术，
+（ 下转第 179 页）
+117
+王春荣等： 反渗透浓水用于水煤浆制备及其对流变性的影响
+［5］ 赵春霞，顾
+平，张 光 辉． 反 渗 透 浓 水 处 理 现 状 与 研 究 进 展
+2015 年第 12 期
+［13］ 高志芳，
+李辽沙，
+吴照金，
+等． 高炉瓦斯泥掺制水煤浆成浆性及
+［J］． 中国给水排水，
+2009，
+25（ 18） ： 1 － 5．
+2013，
+33（ 12） ： 33 － 37．
+燃烧特性的研究［J］． 环境科学学报，
+Zhao Chunxia，Gu Ping，Zhang Guanghui． Current status and re-
+Gao Zhifang，
+Li Liaosha，Wu Zhaojin，et al． Combustion characteris-
+search development of reverse osmosis concentrate treatment［J］．
+tics and slurry ability of coal water slurry prepared with blast furnace
+China Water ＆ Waste Water，
+2009，
+25（ 18） ： 1 － 5．
+［6］ 苏艳敏，郑化安，付东升，等． 煤化工反渗透浓水浓缩的研究现
+sludge［J］． Acta Scientiae Circumstantiae，
+2013，
+33（ 12） ： 33 － 37．
+［14］ 李
+安． 水煤浆技术发展现状及其新进展［J］． 煤炭科学技
+2014，
+20（ 1） ： 104 － 109．
+状［J］． 洁净煤技术，
+2007，
+35（ 5） ： 97 － 100．
+术，
+Su Yanmin，
+Zheng Huaan，
+Fu Dongsheng． Ｒesearch progress of desali-
+Li An． Development status and new development of coal water mixture
+nation － concentration of reverse osmosis drained waste water from coal
+chemical industry［J］． Clean Coal Technology，
+2014，
+20（ 1） ： 104 － 109．
+［7］ 孙项城，王
+军，侯得印，等． 膜蒸馏法浓缩反渗透浓水的试验
+technology［J］． Coal Science and Technology，
+2007，
+35（ 5） ： 97 －100．
+［15］ 邱学青，周明松，杨东杰，等． 麦草碱木素高效水煤浆分散剂
+2007（ 2） ： 31 － 34．
+的应用性能［J］． 中国造纸，
+2011，
+27（ 17） ： 22 － 25，
+30．
+研究［J］． 中国给水排水，
+Qiu Xueqing，
+Zhou Mingsong，
+Yang Dongjie，
+et al． Evaluation of utiliza-
+Sun Xiangcheng，Wang Jun，Hou Deyin． Study on concentration of
+tion performance of modified wheat straw alkali lignin as a dispersant of
+reverse osmosis concentrate by membrane distillation［J］． China
+coal － water slurry［J］． China Pulp ＆ Paper，
+2007（ 2） ： 31 －34．
+Water ＆ Wastewater，
+2011，
+27（ 17） ： 22 － 25，
+30．
+［8］ 张妍青． 反渗透浓水回用技术及运行探讨［J］． 石油化工安全
+2010（ 3） ： 49 － 51，
+69．
+环保技术，
+［16］ 郑福尔，刘以凡，刘明华． 利用高浓度印染废水制备水煤浆的
+2012（ 2） ： 85 － 87，
+91．
+研究［J］． 煤炭工程，
+Zheng Fuer，Liu Yifan，Liu Minghua． Study on high density dyeing
+Zhang Yanqing． Exploration of reusing technology and running of
+and printing waste water applied to preparation of coal water slur-
+conensed water form ＲO system［J］． Petrochemical Safety and En-
+ry［J］． Coal Engineering，
+2012（ 2） ： 85 － 87，
+91．
+viromental Protection Technology，
+2010（ 3） ： 49 － 51，
+69．
+［9］ 姜兴涛，姜成旭． 利用蒸发塘处置煤化工浓盐水技术［J］． 化工
+［17］ 徐志强，涂亚楠，孙南翔，等． 利用焦化废水制备水煤浆的试
+2013，
+39（ 6） ： 105 － 109，
+121．
+验研究［J］． 中国煤炭，
+2012（ S1） ： 276 － 278．
+进展，
+Xu Zhiqiang，Tu Yanan，Sun Nanxiang，et al． Experimental study
+Jiang Xingtao，Jiang Chengxu． Technology of disposal of condensed
+on the coal water slime preparation by using coking wastewater
+coal chemical saltwater by evaporation － pool［J］． Chemical Indus-
+［J］． China Coal，
+2013，
+39（ 6） ： 105 － 109，
+121．
+try and Engineering Progress，
+2012（ S1） ： 276 － 278．
+［10］ 王庚平，索
+超，张明霞，等． 反渗透浓水处理与利用技术研
+［18］ 尉迟唯，李保庆，李
+文，等． 煤质因素对水煤浆性质的影响
+［J］． 燃料化学学报，
+2007，
+35（ 2） ： 146 － 154．
+2011（ 22） ： 93 － 95．
+究概况［J］． 甘肃科技，
+Yuchi Wei，Li Baoqing，Li Wen，et al． Analysis of coal character-
+Wang Gengping，
+Suo Chao，
+Zhang Mingxia，et al． The concentrated
+istics on the properties of coal water slurry preparation with differ-
+overview of reverse osmosis water treatment and utilization technol-
+ent coal ranks［J］． Journal of Fuel Chemistry and Technology，
+ogy［J］． Gansu Science and Technology，
+2011（ 22） ： 93 － 95．
+2007，
+35（ 2） ： 146 － 154．
+［11］ 谢欣馨，朱玉琴． 工业废水和煤液化残渣制取水煤浆的研究
+［J］． 应用化工，
+2013，
+42（ 8） ： 1448 － 1450．
+［19］ 谢
+华，曾
+凡，许泽胜． 电解质对水煤浆流变快的影响［J］．
+1994（ 4） ： 12 － 13．
+煤炭加工与综合利用，
+Xie Xinxin，Zhu Yuqin． Study of preparing coal water slurry with
+Xie Hua，Zeng Fan，Xu Zesheng． The influence of electrolyte of
+industrial wastewater and coal liquefaction residue［J］． Applied
+coal － water slurry rheological fast［J］． Coal Processing ＆ Com-
+Chemical Industry，
+2013，
+42（ 8） ： 1448 － 1450．
+［12］ 王睿坤，刘建忠，胡亚轩，等． 水煤浆掺混湿污泥对浆体成浆
+2010，
+35（ S1） ： 199 － 204．
+特性的影响［J］． 煤炭学报，
+prehensive Utilization，
+1994（ 4） ： 12 － 13．
+［20］ 姚
+彬，张玉荣，杨鸿鹰． 水煤浆稳定剂研究现状［J］． 煤炭科
+2013，
+41（ 11） ： 124 － 128．
+学技术，
+Wang Ｒuikun，Liu Jianzhong，Hu Yaxuan，et al． Influence of wet
+Yao Bin，Zhang Yurong，Yang Hongying． Study status on stabilizer
+sludge on the slurrying properties of coal － water slurries［J］．
+of coal water slurry［J］． Coal Science and Technology，2013，41
+Journal of China Coal Society，
+2010，
+35（ S1） ： 199 － 204．
+（ 11） ： 124 － 128．
+
+［10］ 刘送永． 采煤机滚筒截割性能及截割系统动力学研究［D］．
+（ 上接第 117 页）
+Liu Junli，Zhao Haojie，Li Changyou． Coal － rock recognition
+2009．
+徐州： 中国矿业大学，
+method based on cutting vibration features of coal shearer drums
+Liu Songyong． Ｒesearch on cutting performance of shearer drum
+［J］． Coal Science and Technology，
+2013，
+41（ 10） ： 93 － 95．
+and cutting system dynamics［D］． Xuzhou： China University of
+［9］ 任
+芳． 基于多传感器数据融合技术的煤岩界面识别的理论
+2003．
+与方法研究［D］． 太原： 太原理工大学，
+Ｒeng Fang． Study on the theory and method of coal － rock
+Mining and Technology，
+2009．
+［11］ 杨健健，薛光辉，吴
+淼，等． 矿用本安型振动传感器的研制
+［J］． 煤炭科学技术，
+2013，
+41（ 2） ： 71 － 74．
+interface recognition based on multi － sensor data fusion
+Yang Jianjian，Xue Guanghui，Wu Miao． Ｒesearch and develop-
+technique［D］． Taiyuan： Taiyuan University of Technology，
+ment on mine intrinsic safe mode vibration sensor［J］． Coal Sci-
+2003 ．
+ence and Technology，
+2013，
+41（ 2） ： 71 － 74．
+179
