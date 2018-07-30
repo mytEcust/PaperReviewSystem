@@ -1,12 +1,18 @@
-Computer Engineering and Applications 计算机工程与应用
+Computer Engineering and Applications 
+
 2016，52（17）
+
 73
-⦾ 大数据与云计算 ⦾
-基于词向量的微博事件追踪方法
-张佳明，席耀一，王
-波，唐浩浩，李天彩
+
+⦾  ⦾
+
+
+，，
+
+，，
+
 ZHANG Jiaming, XI Yaoyi, WANG Bo, TANG Haohao, LI Tiancai
-解放军信息工程大学 信息系统工程学院，郑州 450001
+ ， 450001
 Institute of Information and System Engineering, PLA Information Engineering University, Zhengzhou 450001, China
 ZHANG Jiaming, XI Yaoyi, WANG Bo, et al. Method of micro-blog event tracking based on word vector. Computer
 Engineering and Applications, 2016, 52（17）：73-78.
@@ -19,602 +25,994 @@ extracting the keywords. Finally, the semantic similarities between micro-blogs 
 word vector, and the task of event tracking is completed according to the decision of pre-defined threshold. The experimental results show that the proposed method can make full use of semantic information contained by word vector, which
 can effectively improve the tracking performance compared with traditional methods.
 Key words：micro-blog; event tracking; short text; Skip-gram model; word vector; semantic information
-摘
-要：微博文本长度短，且网络新词层出不穷，使得传统方法在微博事件追踪中效果不够理想。针对该问题，提出
-一种基于词向量的微博事件追踪方法。词向量不仅可以计算词语之间的语义相似度，而且能够提高微博间语义相
-似度计算的准确率。该方法首先使用 Skip-gram 模型在大规模数据集上训练得到词向量；然后通过提取关键词建立
-初始事件和微博表示模型；最后利用词向量计算微博和初始事件之间的语义相似度，并依据设定阈值进行判决，完
-成事件追踪。实验结果表明，相比传统方法，该方法能够充分利用词向量引入的语义信息，有效提高微博事件追踪
-的性能。
-关键词：微博；事件追踪；短文本；Skip-gram 模型；词向量；语义信息
-文献标志码：A
-中图分类号：TP391
+
+
+：，，。，
+
+。，
+。 Skip-gram ；
+；，，
+。，，，
+。
+：；；；Skip-gram ；；
+：A
+
+：TP391
+
 doi：10.3778/j.issn.1002-8331.1412-0144
-引言
-息，实现即时分享，还可以通过微博对某一事件发表评
-随着 Web2.0 的发展，微博作为社交媒体的代表受
-论、表达观点并向其他网民施加影响 [1]。微博在为网民
-到了学术界、商业界以及政府部门的广泛关注。微博
-提供便捷服务的同时，也为不良信息、网络谣言甚至是
-（Micro-blog）是一个基于用户关系的信息共享、传播及
-反动言论提供了传播渠道。微博已经成为舆情监测和
-获 取 平 台 ，用 户 不 仅 能 够 以 140 字 以 内 的 文 本 发 布 消
-情报搜集的重要信息来源，吸引了大批学者对其进行研
+
+
+
+，，
+
+ Web2.0 ，
+
+、 [1]。
+
+、。
+
+，、
+
+（Micro-blog）、
+
+。
+
+    ，       140         
+
+，
+
 1
-基金项目：国家高技术研究发展计划（863）
-（No.2011AA7032030D）；全军军事研究生课题资助项目（No.2011JY002-158）；国家社
-会科学基金项目（No.14BXW028）。
-作者简介：张佳明（1989—），男，硕士研究生，研究方向：事件追踪与情感分析，E-mail：ZhangJM0629@163.com；席耀一（1987—），
-男，
-博士生，
-研究方向：
-基于时间线的事件追踪与摘要；
-王波（1970—），
-男，
-副教授，
-研究方向：
-网络协议分析、
-智能信息处理；
-唐浩浩（1990—），男，硕士研究生，研究方向：文本倾向性分析；李天彩（1990—），男，硕士研究生，研究方向：文本分割。
-收稿日期：2014-12-10
-修回日期：2015-02-13
-文章编号：1002-8331（2016）17-0073-06
-CNKI 网络优先出版：2015-06-16, http://www.cnki.net/kcms/detail/11.2127.TP.20150616.1342.017.html
+
+：（863）
+（No.2011AA7032030D）；（No.2011JY002-158）；
+（No.14BXW028）。
+：（1989—），，，：，E-mail：ZhangJM0629@163.com；（1987—），
+，
+，
+：
+；
+（1970—），
+，
+，
+：
+、
+；
+（1990—），，，：；（1990—），，，：。
+：2014-12-10
+
+：2015-02-13
+
+：1002-8331（2016）17-0073-06
+
+CNKI ：2015-06-16, http://www.cnki.net/kcms/detail/11.2127.TP.20150616.1342.017.html
+
 74
+
 2016，52（17）
-Computer Engineering and Applications 计算机工程与应用
-究 [2]。因此，研究如何快速准确地追踪事件相关博文，能
-用图划分的算法对文本进行聚类，完成事件的检测和追
-够辅助有关部门快速了解事件发展状况并及时作出舆
-踪。Yang 等 [9] 提出了事件演化的概念，综合考虑事件内
-情引导，对维护社会和谐稳定具有重要意义。
-容相似性、事件时间接近度、事件报道分布接近度来识
-微博文本长度短，存在特征稀疏的问题；而且句法
-结构不规范，网络用语和口语化普遍，使得与同一事件
-别事件间的演化关系。
+
+Computer Engineering and Applications 
+
+ [2]。，，
+
+，
+
+
+
+。Yang  [9] ，
+
+，。
+
+、、
+
+，；
+，，
+
+。
+
 2.2
-微博事件追踪
-相关的微博可能存在多种描述，这些描述在语义上是完
-在微博事件追踪任务中，基于文本分类的方法，需
-全相近的，但是在形式上可能有很大不同，单纯地比较
-要根据先验数据训练 SVM 分类器，当先验数据不足或
-特征之间形式上的相似度而忽略其语义信息，很容易造
-者先验数据特征不够丰富时，其追踪效果不够理想。因
-成大量博文漏检。上述问题影响了传统微博事件追踪
-此，目前使用较多的仍是基于查询向量的方法。Kwak
-方法的性能。
-等 [10] 指出可以利用微博上的话题标签很好地发现和跟
-词向量的基本思想是通过训练将每个词映射成 k
-踪事件。然而，对于不含话题标签或者话题标签很多的
-维的实数向量，通过词间的距离来判断它们之间的语义
-微博上述问题依然存在。Choi 等 [11] 提出了一种结合微
-相似度。词向量包含丰富的语义信息，可以通过多种方
-博时间信息的事件追踪模型，利用后续文档与初始事件
-式挖掘词与词之间的语义关系，
-在词语表示上更加准确 。
-之间的时间差来衡量二者之间的相关性，即二者时间越
-因此，本文提出一种基于词向量的微博事件追踪方法，
-相近越相关。但不同事件有不同的持续时间，该方法中
-通过词向量计算词语之间的语义相似度，能够提高微博
-针对不同事件的时间差阈值不易设定。
+
+
+
+，
+
+，，
+
+，，
+
+ SVM ，
+
+，
+
+，。
+
+。
+
+，。Kwak
+
+。
+
+ [10] 
+
+ k
+
+。，
+
+，
+
+。Choi  [11] 
+
+。，
+
+，
+
+，
+ 。
+
+，
+
+，，
+
+。，
+
+，
+
+。
+
 [3]
-间语义相似度计算的准确率，从语义层面完成事件追
-踪，相比传统方法可以有效提高事件追踪的性能。
-基于查询向量的方法，简单直观，然而该类方法通
-常只计算特征向量之间形式上的相似度，忽略了博文之
-间的语义信息，导致大量“语义相近、形式不同”的博文
+
+，
+，。
+
+，，
+，
+，“、”
+
 2
-相关工作
-事 件 追 踪 作 为 话 题 检 测 与 追 踪（Topic Detection
-and Tracking，TDT）研究的子任务，目的是对新闻数据
-流进行组织和利用，找出关于某个已知事件的后续报道
-或者相关文档 [4]。近年来，随着微博的迅速发展和普遍
-应用，关于微博的事件追踪也逐渐成为研究热点。
+
+
+            （Topic Detection
+
+and Tracking，TDT），
+，
+ [4]。，
+，。
+
 2.1
-新闻事件追踪
-研究者针对新闻事件追踪提出了很多方法，总体可
-以分为基于文本分类的方法和基于查询向量的方法。
-基于文本分类的方法是利用先验相关报道训练构
-建事件话题模型，进行有指导的学习，比较成功的有 k近邻 [5]、支持向量机（Support Vector Machine，SVM）[6-7]
-等。Yang 等 [5] 根据文档内容的相关性选择与当前报道
-最相似的 k 个先验报道作为最近邻，然后根据最近邻所
-被漏检。为此，王兰成等 [12]提出了一种基于 PageRank 的
-文本概念图算法（PageRank Text Concept Graph，
+
+
+，
+
+。
+
+，， k [5]、（Support Vector Machine，SVM）[6-7]
+。Yang  [5] 
+ k ，
+
+。， [12] PageRank 
+（PageRank Text Concept Graph，
 PTCG）
-算法，借鉴维基百科的语义相似度计算与词语共现关
-系，构建词语之间的文本概念图，并利用改进的 PageRank 算法完成事件追踪。然而该方法需要限定领域特征
-词，不适用于多事件追踪任务。也有很多研究者利用同
-义词词林 [13]、知网（HowNet）[14]和维基百科（Wikipedia）[15]
-作为语义知识来解决微博短文本特征稀疏和语义计算
-问题。然而，微博涉及领域广、更新速度快、网络用语普
-遍，同义词词林、知网均为人工编写，词语数量有限，其
-覆盖面和更新程度难以满足微博事件追踪的实际需
-求。例如，关于事件“光大证券乌龙事件”的微博“A 股
-下午跳水收盘”和“沪深两市也双双高位回落，并先后翻
-绿”，从字面上看这两句话并没有共现的词语，如果使用
-传统基于查询向量的方法计算这两句话的相似度，结果
-属事件类别综合判定当前报道论述的事件；基于支持向
-会是 0；即使引入外部语义知识库，由于“收盘”和“翻绿”
-量机的方法是通过先验数据训练 SVM 分类器，实现对
-这些词语是特定领域出现的新词，知识库中并没有这些
-后续文档的分类。潘渊等 [6] 等首先利用隐含语义分析
-词语，而剩下的词也没有存在明显的语义关系，因此也
-（Latent Semantic Indexing，LSI）完 成 文 本 特 征 降 维 及
-无法计算这两句话的语义相似度。
-语义表示，然后利用 SVM 进行事件追踪。Li 等 [7]首先使
-词向量通过大规模公开语料训练得到，不仅可以计
-用 KNN 算法提取重要特征，然后训练 SVM 分类器对后
-算词语之间的语义相似度，而且能够提高微博间语义相
-续文档进行分类，完成事件追踪。
-似度计算的准确率。例如在公开数据集上进行训练，可
-基于查询向量的方法是根据先验数据构建一个查
-以从时事新闻和财经点评等报道中的共现关系发现“收
-询向量，然后计算后续文档与该向量的相似度，并根据
-盘”和“翻绿”都与“证券”、
-“ 股票”一类的词有关，属于语
-相似度阈值进行判决，从而完成事件追踪。Zhao 等 [8] 首
-义比较相近的词。相比传统方法，词向量能够较好地识
-先采用向量空间模型（Vector Space Model，VSM）作为
-别出“语义相近，形式不同”的两个词语，进而可以计算
-文本表示模型，利用 TF-IDF 算法将文本表示成特征向
-出这两句话的语义相似度，提高微博间语义相似度计算
-量，然后利用余弦相似度构建文本之间的关系图，并使
-的准确率。
-张佳明，席耀一，王
-波，等：基于词向量的微博事件追踪方法
-基于词向量的微博事件追踪方法
+，
+，， PageRank 。
+，。
+ [13]、（HowNet）[14]（Wikipedia）[15]
+
+。，、、
+，、，，
+
+。，“”“A 
+”“，
+”，，
+，
+
+；
+
+ 0；，“”“”
+
+ SVM ，
+
+，
+
+。 [6] 
+
+，，
+
+（Latent Semantic Indexing，LSI）        
+
+。
+
+， SVM 。Li  [7]
+
+，
+
+ KNN ， SVM 
+
+，
+
+，。
+
+。，
+
+
+
+“
+
+，，
+
+”“”“”、
+“ ”，
+
+，。Zhao  [8] 
+
+。，
+
+（Vector Space Model，VSM）
+
+“，”，
+
+， TF-IDF 
+
+，
+
+，，
+
+。
+
+，，
+
+，：
+
+
+
 3
+
 75
-与之匹配。通过最大化条件概率，使得单词和语境之间
-本章首先给出基于词向量的微博事件追踪方法的
-的对应关系最大化，进而满足了基本假设。而满足条件
-概率最大化的单词向量，也就成为了单词语义的合理表
-基本流程，然后详细阐述其中的关键技术。
+
+。，
+
+
+
+，。
+，
+
+，。
+
 3.1
+
 2016，52（17）
-示。Skip-gram 模型中的每个词向量表征了上下文的分
-方法流程
-本文方法的基本流程如图 1 所示，主要包括训练词
-向量、初始事件和微博表示模型、相似度计算与事件追
-踪三个部分。
-布，其中 Skip 是指在一定窗口内的词两两都会计算概
-率，即使它们之间隔着一些词，例如“白色汽车”和“白色
-的 汽 车 ”很 容 易 被 识 别 为 相 同 的 短 语 。 本 文 使 用
-Skip-gram 模型在中文数据集上进行训练得到词向量，
-如图 2 所示。
-初始事件
-微博
-微博语料
-初始事件和微
-关键词
-博表示模型
-微博表示
-初始事件
-模型
-表示模型
-输入层
-投影层
-输出层
+
+。Skip-gram 
+
+
+ 1 ，
+
+、、
+。
+
+， Skip 
+，，“”“
+   ”            。    
+Skip-gram ，
+ 2 。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 w(t - 2)
-关键词
+
+
+
 w(t - 1)
-中文数
-据集
+
+
+
+
 w(t)
-训练词
-向量
+
+
+
+
 w(t + 1)
-词向量
-语义相似度计算
+
+
+
+
+
 w(t + 2)
+
 Y
+
 N
-大于阈值
-相似度计算
-与事件追踪
-相关微博
-图1
-不相关微博
-图2
-Skip-gram 模型包含输入层、投影层和输出层，其原
-理是假设存在一个 w1 w 2  wT 的词组序列，在已知当
-前词 w i 的前提下预测其上下文，目标函数如下所示：
+
+
+
+
+
+
+
+1
+
+
+
+2
+
+Skip-gram 、，
+ w1 w 2  wT ，
+ w i ，：
 G = å log p(Content(w i )|w i )
-基于词向量的微博事件追踪方法流程
+
+
+
 p(Context(w i )|w i ) =
-训练词向量：利用 Skip-gram 模型在大规模数据集
-上训练，得到能够准确表示词语语义的词向量。
-初始事件和微博表示模型：首先，对微博语料进行
-预处理；然后，定义特征权重计算公式，通过提取关键词
-建立初始事件和微博表示模型。
-相似度计算与事件追踪：利用词向量计算微博和初
-Skip-gram 模型
+
+： Skip-gram 
+，。
+：，
+；，，
+。
+：
+
+Skip-gram 
+
 Õ
+
 u Î Context(w i )
+
 （1）
 （2）
+
 p(u|w i )
-其中，Context(w i ) 表示与词 w i 距离小于 R（ R 一般取 5
-到 10 效果较好）的上下文。Skip-gram 模型中使用哈弗
-曼树（Huffman Tree）对输出层的结果进行表示，树的每
-一个叶子节点对应一个词，每个非叶子节点包含选择其
-始事件之间的语义相似度，并以此来衡量微博与事件是
-左右子节点的相对概率，每个词 w i 都可以通过一条从
-否相关，若相似度大于阈值，则可判定为二者相关；否则
-根节点出发的路径被访问到：
+
+，Context(w i )  w i  R（ R  5
+ 10 ）。Skip-gram 
+（Huffman Tree），
+，
+
+，
+
+， w i 
+
+，，；
+
+：
 L(u)
+
 p(u|w i ; θ) = Õ p(d ju |v(w i ) θ ju- 1)
-不相关。
+
+。
+
 3.2
-训练词向量
+
+
+
 1 - d ju
+
 p(d ju |v(w i ) θ ju- 1) =[σ(v(w i )T θ ju- 1)]
-目前对词向量的研究集中在词聚类、同义词判断和
-词性分析等任务，主要是利用词向量对词语进行表示，
+
+、
+，，
+
 σ(v(w i )T θ) =
-计算“北京”、
-“ 首都”、
-“ 贪官”和“腐败”这 4 个词语两两
-相似度明显高于其他组合。
+
+“”、
+“ ”、
+“ ”“” 4 
+。
+
 ×
 d ju
-然后计算词与词之间的语义相似度。例如使用词向量
-之间的相似度时，
-“ 北京”与“首都”、
-“ 贪官”与“腐败”的
+
+。
+，
+“ ”“”、
+“ ”“”
+
 （3）
+
 j=2
+
 H [1 - σ(v(w i )T θ ju- 1)]
+
 （4）
+
 1
+
 （5）
+
 1+e
+
 -v(w i )θ
+
 wi
-其 中 ，L(w i ) 表 示 从 根 节 点 到 词 w i 的 路 径 长 度 ，d j
+
+  ，L(w i )         w i      ，d j
 w
-Skip-gram 模型（http：
+
+Skip-gram （http：
 //code.google.com/p/word2vec）
-(d j i Î{0 1}) 表示路径中第 j 个节点对应的编码，v(w i )
-是 Mikolov 等 [3] 提出的一种基于神经网络的语言模型，
-表示词 w i 的词向量，θ j i 表示路径中第 j 个非叶子节点
-可以快速完成对数十亿词的大规模训练，得到的词向量
-引 入 了 丰 富 的 语 义 信 息 ，对 词 语 的 表 示 更 加 准 确 。
+
+(d j i Î{0 1})  j ，v(w i )
+
+ Mikolov  [3] ，
+
+ w i ，θ j i  j 
+
+，
+          ，          。
+
 w
+
 w
-对应的向量维度，σ(v(w)T θ j i ) 表示在第 j 个非叶子节点
+
+，σ(v(w)T θ j i )  j 
 w
-Skip-gram 模型存在一个基本假设：相似的单词拥有相
-选择其右边子节点的概率，1 - σ(v(w i )T θ j i ) 即为选择其
-似的语境。换言之，特定的语境只有特定的语义才能够
-左边子节点的概率。
-Computer Engineering and Applications 计算机工程与应用
+
+Skip-gram ：
+
+，1 - σ(v(w i )T θ j i ) 
+
+。，
+
+。
+
+Computer Engineering and Applications 
+
 2016，52（17）
+
 76
-使用 Skip-gram 模型训练得到的词向量除了引入语
-模型，具体表示形式为：
+
+ Skip-gram 
+
+，：
 V m ={w1 w 2  w j  w M }
-义信息计算词与词之间的相似度之外，一定程度上还满
-足加法组合运算（Additive Compositionality），在中文数
-据上进行测试，存在如下的关系：
-vector(“华盛顿”) » vector(“美国”)
+
+，
+（Additive Compositionality），
+，：
+vector(“”) » vector(“”)
+
 （6）
-vector(“中国”) + vector(“男篮”) » vector(“姚明”) （7）
-初始事件和微博表示模型
-本节通过提取关键词来建立初始事件和微博表示
-模型，关键词是关于事件的重要特征描述，既能反映事
-件的主要内容，又能将不同的事件区分开来。
+
+vector(“”) + vector(“”) » vector(“”) （7）
+
+
+
+
+，，
+，。
+
 3.3.1
-其中，M 表示该微博的关键词个数，w j 表示微博 d m 中
-第 j 个关键词。
-vector(“中国”) - vector(“北京”) +
+
+，M ，w j  d m 
+ j 。
+
+vector(“”) - vector(“”) +
+
 3.3
+
 3.4
-相似度计算与事件追踪
-本 节 以 Sim(V event V new ) 表 示 新 的 微 博 和 初 始 事 件
-之间的语义相似度，
-下面给出利用词向量计算 Sim(V event V new )
-的具体方法。
-在已知 V event 的前提下，由于新的微博长短不一，导
-致两个向量中词语数目不同 (L ¹ M ) 。为此，本节采用
-以下方法计算 Sim(V event V new ) 。
-初始事件表示模型
-为了避免微博“短文本”造成的特征稀疏问题，准确
-得到能够描述该事件的关键词，本节将事件包含的初始
-微博合并成一个文本 d event ，然后按照特征权重提取文
-当 L  M 时，按照下两式计算二者的语义相似度：
+
+
+   Sim(V event V new )           
+
+，
+ Sim(V event V new )
+。
+ V event ，，
+ (L ¹ M ) 。，
+ Sim(V event V new ) 。
+
+
+
+“”，
+，
+ d event ，
+
+ L  M ，：
 L
+
 Sim(V event V new )  = å MSim ij × W (ci d event )  ×
 i=1
+
 W (w j d new )  j Î[1 M ]
-本 d event 的关键词，具体计算方法如下：
+
+ d event ，：
 W (ci d event ) =
+
 tf (ci d event ) ´ ci pos
+
 å
+
 c Î d event
+
 （8）
+
 [tf (c d event ) ´ ci pos]2
-其中，W (ci d event ) 表示词语 ci 在 d event 中的权重，tf (ci d event )
-表示词语 ci 在 d event 中的词频，ci pos 表示词性标注加权
-值 ，词 性 标 注 加 权 将 特 征 按 词 性 进 行 加 权 ，具 体 定 义
-如下：
+
+，W (ci d event )  ci  d event ，tf (ci d event )
+ ci  d event ，ci pos 
+ ，                ，   
+：
 ci pos =
+
 {
+
 P “v”     or     “n”
 Q otherwise
+
 （9）
+
 MSim(v(ci ) v(w j ))   MSim(v(ci ) v(w M ))} （14）
-其中，W (ci d event )  和 W (w j d new )   分别表示初始事件 V event
-和微博 V new 中关键词 ci 和 w j 的权重，MSim ij 表示关键
-词 ci 和 w j 具有最大的语义相似度，MSim(v(ci ) v(w j )) 表
-示两个词的语义相似度，v(ci ) 和 v(w j ) 分别表示关键词
-ci 和 w j 的词向量，本节按照余弦相似度的计算公式计
-算 两 个 词 语 之 间 的 语 义 相 似 度 ，即 MSim(v(ci ) v(w j )) =
+
+，W (ci d event )   W (w j d new )    V event
+ V new  ci  w j ，MSim ij 
+ ci  w j ，MSim(v(ci ) v(w j )) 
+，v(ci )  v(w j ) 
+ci  w j ，
+
+             ， MSim(v(ci ) v(w j )) =
 v(ci ) × v(w j )
-他词性时权重取 Q 。由于虚词没有意义，而实词中的
+
+ Q 。，
+
 |v(ci )||v(w j )|
-名词和动词可以很好地反映微博的主要内容，因此赋予
-归一化，提高了重要关键词对事件区分的作用。
-P 的值较大，Q 的值较小，分别为 1.5 和 1。
-通过计算得到初始事件的关键词后，建立初始事件
-表示模型，具体表示形式为：
+
+，
+
+，。
+
+P ，Q ， 1.5  1。
+
+，
+，：
 V event ={c1 c 2  ci  c L}
+
 （10）
-其中，L 表示该初始事件包含的关键词个数，ci 表示第 i
-个关键词。
-。该计算方法适合长度较长的微博，且没有
-当 L > M 时，对于 V new 中每个关键词，分别计算它
-与 V event 中 关 键 词 的 语 义 相 似 度 并 取 最 大 值 MSim ij
+
+，L ，ci  i
+。
+
+。，
+
+ L > M ， V new ，
+ V event                MSim ij
 (i Î[1 L]) ：
 MSim ij = max{MSim(v(c1) v(w j )) MSim(v(c 2) v(w j )) 
 MSim(v(ci ) v(w j ))  MSim(v(c L) v(w j ))}（15）
-然后，统计满足 MSim ij  0.01 的个数 T ，并按下式
-微博表示模型
-对 于 微 博 数 据 D ={d1 d 2  d m  d| D |} ，本 节 按
-特征权重提取微博 d m 中的关键词，具体计算方法如下：
+
+， MSim ij  0.01  T ，
+
+
+
+      D ={d1 d 2  d m  d| D |} ，  
+ d m ，：
 W (w j d m) =
+
 （13）
+
 MSim ij = max{MSim(v(ci ) v(w1))  M Sim(v(ci ) v(w 2)) 
-其中，当 ci 为名词或者动词的时候权重取 P ，当 ci 为其
+
+， ci  P ， ci 
+
 3.3.2
+
 （12）
+
 tf (w j d m) ´ lg(N/n w + 0.01) ´ w j pos
 j
+
 å [tf (w d m) ´ lg(N/n w + 0.01) ´ w j pos]2
 wÎd
-计算两个向量集合之间的语义相似度：
+
+：
 Sim(V event V new ) =
 T
+
 （11）
+
 m
-其 中 ，W (w j d m) 表 示 词 语 w j 在 微 博 d m 中 的 权 重 ，
-tf (w j d m) 表示词语 w j 在微博 d m 中的词频，N 是数据集
-中微博总数，n w 表示出现词语 w j 的微博个数，w j pos 表
+
+  ，W (w j d m)     w j    d m     ，
+tf (w j d m)  w j  d m ，N 
+
+，n w  w j ，w j pos 
 j
-示词性标注加权值，设置方法参照 3.3.1 节。
-通过计算得到微博 d m 的关键词后，建立微博表示
+
+， 3.3.1 。
+ d m ，
+
 å (MSimij) k ×W (ci devent)  × W (w j d new) 
 k=1
+
   （16）
 T
-该计算方法适合长度较短的微博，特征非常稀疏，
-通 常 只 有 少 量 的 关 键 词 相 似 。 因 此 只 对 MSim ij  0.01
-（此时本文认为两个词语的语义很接近）的关键词进行
-语义相似度计算，且进行了归一化，避免了无关特征削
-弱关键词对事件区分的作用。
-将微博与初始事件之间的语义相似度作为微博与
-张佳明，席耀一，王
-波，等：基于词向量的微博事件追踪方法
+，，
+
+            。     MSim ij  0.01
+（）
+，，
+。
+
+
+，，
+
+，：
+
 2016，52（17）
+
 77
-初始事件的相关程度，即 Sim(V event V new ) 是衡量微博是
-对本文方法进行综合评价，包括不同方法的综合性能对
-否与事件相关的标准，若相似度大于判决阈值，则可判
-比、不同初始数据量的性能对比和不同相似度判决阈值
-定该微博与事件相关，从而完成事件追踪。由于可能存
-的性能对比。
-在微博 V new 同时与几个初始事件的相似度都大于阈值
-（1）不同方法的综合性能对比实验
-的情况，影响追踪性能，因此，在满足大于判决阈值 γ 的
-实验选取每个事件中最早出现的 5 条微博作为初
-基础上，选择相似度最大的一组，并将微博判决到该初
-始训练数据，将其余微博作为后续实验数据，并实现三
-始事件中，具体判决方式为：
-种方法进行对比实验，包括：
-ìmax{Sim(V event V new )  γ} 相关事件
+
+， Sim(V event V new ) 
+
+，
+
+，，
+
+、
+
+，。
+
+。
+
+ V new 
+
+（1）
+
+，，， γ 
+
+ 5 
+
+，，
+
+，，
+
+，：
+
+，：
+
+ìmax{Sim(V event V new )  γ} 
 í
-î其他 不相关事件
+î 
+
 （17）
-①SVM 方法：利用 TF-IDF 方法分别将初始训练数
-据和反例数据表示成词语向量，训练 SVM 分类器；然后
-利用训练好的分类器对后续实验数据进行分类，完成事
+
+①SVM ： TF-IDF 
+， SVM ；
+，
+
 4
 4.1
-件追踪。
-实验与分析
-②TF-IDF 方法：利用 TF-IDF 方法将初始训练数据
-实验数据及评价方法
-实验语料由上海交通大学信息内容分析国家工程
-实验室提供（ftp：//ftp.socialysis.org/pub/SJTU/dataset/microblog/microblog.rar）。从该微博语料中选择不同领域
-的 10 个 事 件 作 为 实 验 数 据 ，共 包 括 2 326 条 事 件 相 关
-微博（如表 1 所示）。此外，再从该微博语料中随机选取
-49 471 条数据作为反例。
-表1
-③PTCG 方法：实现文献[12]提出的 PTCG 方法，利
-用中文维基语义图实现语义相似度计算，完成事件追踪。
-本文方法中利用 Skip-gram 模型训练得到词向量，
-训练数据来源于“搜狗实验室”的全网新闻数据（http：//
-总体性能对比实验中，三种对比方法中的阈值参数均取
-序号
-事件名称
-数量
+
+。
+
+
+
+②TF-IDF ： TF-IDF 
+
+
+
+
+（ftp：//ftp.socialysis.org/pub/SJTU/dataset/microblog/microblog.rar）。
+ 10          ，   2 326     
+（ 1 ）。，
+49 471 。
 1
-中国好外婆
+
+③PTCG ：[12] PTCG ，
+，。
+ Skip-gram ，
+“”（http：//
+，
+
+
+
+
+
+
+
+1
+
+
+
 108
+
 2
-北京楼顶别墅主人
+
+
+
 359
-TF-IDF 相似度判决阈值取 0.3，PTCG 相似度判决阈值
+
+TF-IDF  0.3，PTCG 
+
 3
-斯诺登棱镜事件
+
+
+
 131
-取 0.35，本文方法相似度判决阈值取 0.05，初始事件关
+
+ 0.35， 0.05，
+
 4
-郑钧刘芸马尔代夫婚礼
+
+
+
 132
-键词个数 L 和微博关键词个数 M 分别取 8 个和 3 个效
+
+ L  M  8  3 
+
 5
-七夕，一起看英仙座流星雨
+
+，
+
 233
-果较好，结果如表 2 所示。
+
+， 2 。
+
 6
-光大证券乌龙事件
+
+
+
 480
+
 7
-埃及部队清场事件
+
+
+
 153
+
 8
-林丹 vs 李宗伟
+
+ vs 
+
 349
+
 9
-泰国白龙王病逝
+
+
+
 157
+
 10
-扮丑大赛
+
+
+
 224
-最 优 值（最 优 值 的 选 取 方 法 参 照 文 献 [12]），其 中 ，
-表2
-方法的性能进行评价。对于多事件追踪任务，实验采用
-加权平均值评价综合性能，计算方法如下：
+
+  （            [12]），  ，
+
+2
+
+。，
+，：
+
 åi | ei | ´ P(ei)
 ´ 100%
 åi | ei |
+
 F1 avg =
+
 2 ´ P avg ´ R avg
 P avg + R avg
-方法名称
-准确率
-召回率
-F1 值
+
+
+
+
+
+
+
+F1 
+
 SVM
+
 66.60
+
 84.64
+
 74.54
+
 TF-IDF
+
 97.57
+
 68.92
+
 80.78
+
 PTCG
+
 80.65
+
 66.78
+
 73.06
-本文方法
+
+
+
 84.98
+
 86.45
+
 85.71
-较差，是因为训练数据较少时，该方法难以训练出较好
-的 分 类 模 型 ，影 响 追 踪 性 能 。 TF-IDF 方 法 的 F1 值 为
+
+，，
+     ，      。 TF-IDF    F1  
 （18）
-80.78%，高于 SVM 方法，是因为微博短文本的特性，对
-事件的描述往往更加直接，因此取得了较好的性能。但
-召回率：
+
+80.78%， SVM ，，
+，。
+
+：
+
 å| ei | ´ R(ei)
 R avg = i
 ´ 100%
 åi | ei |
-微博事件追踪总体性能对比结果
+
+
 %
-由表 2 看出，SVM 方法的 F1 值仅为 74.54%，性能
-准确率：
-以 上 两 种 方 法 均 未 引 入 语 义 信 息 ，追 踪 性 能 受 限 。
+
+ 2 ，SVM  F1  74.54%，
+
+：
+
+              ，      。
 （19）
-PTCG 方法虽引入维基百科语义信息，但需要限制指定
-领域的特征词，使得其不适用于跨领域的多事件追踪任
-务，导致在对比实验中综合性能最差。本文方法得到了
+
+PTCG ，
+，
+，。
+
 （20）
-其中，| ei | 表示第 i 个事件的微博个数，P(ei ) 和 R(ei ) 分
-别表示第 i 个事件的准确率和召回率。
+
+，| ei |  i ，P(ei )  R(ei ) 
+ i 。
+
 4.2
-博所属事件。
-www.sogou.com/labs/dl/ca.html），包 含 3.79 亿 个 词 。 在
-实验数据
-本文利用准确率、召回率和 F1 值对微博事件追踪
+
+。
+
+www.sogou.com/labs/dl/ca.html），  3.79    。 
+
+
+
+、 F1 
+
 P avg =
-表示成词语向量，并通过计算余弦相似度值判断新的微
-实验设置与结果分析
-为了验证本文方法的有效性，分别从以下三个方面
-最 高 的 F1 值 85.71% ，综 合 性 能 明 显 优 于 几 种 对 比 方
-法。通过对比实验，本文方法能够充分利用词向量引入
-的丰富的语义信息，追踪性能达到最优。
-（2）不同初始数据量的性能对比实验
-微博事件追踪任务中，经常选取最早出现的少量报
-道作为事件的初始数据。为了验证不同方法对初始数
+
+，
+
+
+，
+
+   F1  85.71% ，            
+。，
+，。
+（2）
+，
+。
+
 2016，52（17）
+
 78
-Computer Engineering and Applications 计算机工程与应用
-据量的要求各不相同，分别利用其他两种方法在不同初
-可以计算词语之间的语义相似度，而且能够提高微博间
-始数据量上进行对比实验（由于 PTCG 不适用于多事件
-语义相似度计算的准确率。该方法首先使用 Skip-gram
-追踪任务，实验不再考虑 PTCG 方法）。三种方法的参
-模型在中文数据集上训练得到词向量；然后通过提取关
-数均按照实验（1）设置，结果如图 3 所示。
-键词建立初始事件和微博表示模型；最后利用词向量计
-算微博和初始事件之间的语义相似度，并依据设定阈值
+
+Computer Engineering and Applications 
+
+，
+
+，
+
+（ PTCG 
+
+。 Skip-gram
+
+， PTCG ）。
+
+；
+
+（1）， 3 。
+
+；
+，
+
 1.0
-进行判决，完成事件追踪。实验结果表明，相比传统方
-F1 值
+
+，。，
+
+F1 
+
 0.8
-法，该方法能够充分利用词向量引入的语义信息，有效
-提高微博事件追踪的性能。
+
+，，
+。
+
 0.6
-需要指出的是，微博中新词层出不穷，口语化普遍，
+
+，，，
 0.4
-SVM 方法
-TF-IDF 方法
-本文方法
+SVM 
+TF-IDF 
+
+
 0.2
 0
+
 1
-图3
-2
+
 3
+
+2
+
+3
+
 4
 5
 6
 7
-初始数据量个数
+
+
 8
+
 9
+
 10
-不同初始数据量对 F1 性能的影响
-使用 Skip-gram 模型在训练词向量时，会因为数据规模
-不够庞大，覆盖面不够广泛，影响追踪性能。因此，在实
-时更新的大规模数据集上训练词向量，提高微博事件的
-追踪性能，是下一步工作的重点。
-参考文献：
-由 图 3 看 出 ，SVM 方 法 对 初 始 数 据 量 的 依 赖 性 较
-大，当初始数据增多时性能得到较大提升。TF-IDF 方
-法的 F1 值随着初始数据的增多而缓慢提高。本文方法
-[1] 丁兆云，贾焰，周斌.微博数据挖掘研究综述[J].计算机研究
-与发展，2014，51（4）：691-706.
+
+ F1 
+
+ Skip-gram ，
+，，。，
+，
+，。
+
+：
+
+  3   ，SVM             
+，。TF-IDF 
+ F1 。
+
+[1] ，，.[J].
+，2014，51（4）：691-706.
 [2] Aiello L M，Petkos G，Martin C，et al.Sensing trending
-利用词向量表示词语，一定程度上丰富了语义信息，在
+
+，，
+
 topics in twitter[J].IEEE Transactions on Multimedia，
-初始数据量小的情况下依然具有较高的 F1 值，并且随
+
+ F1 ，
+
 2013，15（6）：1268-1282.
-着初始数据量的增大该方法仍保持优越的性能。
+
+。
+
 of word representations in vector space[C]//International
-（3）不同相似度判决阈值的对比实验
-相似度判决阈值的设定直接影响事件追踪的性能，
-为了得到合理的判决阈值，利用本文方法分别在不同相
-似度判决阈值下进行实验，结果如图 4 所示（初始数据
-量为 5）。
+
+（3）
+，
+，
+， 4 （
+ 5）。
+
 Conference on Learning Representations，2013.
 [4] Ma Nianli，Yang Yiming，Rogati M.Applying CLIR techniques to event tracking[M]//Information retrieval technology.Berlin/Heidelberg：Springer，2005：24-35.
 [5] Yang Yiming，Ault T，Pierce T，et al.Improving text cate-
+
 0.90
+
 gorization
+
 0.854 3 0.857 1
 0.837 1
 0.837 1
@@ -622,84 +1020,124 @@ gorization
 0.809 7
 0.780 7
 0.765 4
+
 0.85
 0.80
-F1 值
+F1 
+
 [3] Mikolov T，Chen K，Corrado G，et al.Efficient estimation
+
 0.75
+
 for
+
 event
+
 tracking[C]//Proceedings
+
 of the 23rd International Conference on Research and
 Development in Information Retrieval，2000：65-72.
-[6] 潘渊，李弼程，张先飞.LS-SVM：一种有效的新闻主题追踪
-方法[J].计算机应用研究，2008，25（9）：2661-2663.
+[6] ，，.LS-SVM：
+[J].，2008，25（9）：2661-2663.
+
 0.708 8
+
 0.70
+
 methods
+
 [7] Li Shuping，Zhao Jie，Song Zhichao，et al.Study on topic
 0.65
+
 0.653 3
+
 0.60
 0.597 0
 0.55
 0
-图4
+
+4
+
 0.02
+
 0.04
 0.06
 0.08
-相似度阈值
+
+
 0.10
+
 0.12
-不同相似度判决阈值时 F1 性能变化
-由图 4 看出，F1 值随着判决阈值的增加呈现凸抛
+
+ F1 
+
+ 4 ，F1 
+
 tracking system based on SVM[C]//Proceedings of 2011
 Fourth International Symposium on Knowledge Acquisition and Modeling，2011：83-87.
 [8] Zhao Qiankun，Mitra P，Chen Bi.Temporal and information
 flow based event detection from social text streams[C]//
 Proceedings of AAAI，2007，7：1501-1506.
-物线，当相似度判决阈值为 0.05 时 F1 值达到最优值；相
+
+， 0.05  F1 ；
+
 [9] Yang C，Shi Xiaodong，Wei C.Discovering event evolution
-似度判决阈值在 0.04~0.06 时，F1 值较为平衡，获得较
+
+ 0.04~0.06 ，F1 ，
+
 graphs from news corpora[J].IEEE Transactions on Sys-
-好的性能。
+
+。
+
 5
-总结
-微博文本长度短，且网络新词层出不穷，使得传统
-方法在微博事件追踪中效果不够理想。针对该问题，提
-出一种基于词向量的微博事件追踪方法。词向量不仅
+
+
+，，
+
+。，
+。
+
 tems，Man and Cybernetics，Part A：Systems and Humans，
 2009，39（4）：850-863.
 [10] Kwak H，Lee C，Park H，et al.What is twitter，a social
 network or a news media?[C]//Proceedings of the 19th
 International Conference on World Wide Web，2010：
 591-600.
-（下转 117 页）
-任晓奎，葛
+
+（ 117 ）
+
+，
+
 6
-君，孙兴海：基于压缩感知改进算法的 MIMO-OFDM 稀疏信道估计
-结束语
-本 文 根 据 MIMO-OFDM 信 道 特 性 ，提 出 了 一 种 基
-于压缩感知改进的新型匹配追踪算法，并将其应用到
-MIMO-OFDM 信道估计中。提出的算法无需预知信号
-的真实稀疏度，自适应地完成稀疏信号的重构。仿真结
-果表明，改进的算法有效地降低了信道估计中传统压缩
-采样匹配追踪算法的复杂度，并提高了抗噪性能和信道
-估计精度。
+
+，： MIMO-OFDM 
+
+
+    MIMO-OFDM     ，     
+
+，
+MIMO-OFDM 。
+，。
+，
+，
+。
+
 2016，52（17）
+
 117
-[7] 石光明，刘丹华，高大化，等.压缩感知理论及其研究进展[J].
-电子学报，2009，37（5）：1070-1081.
-[8] 方红，杨海蓉.贪婪算法与压缩感知理论[J].自动化学报，
+
+[7] ，，，.[J].
+，2009，37（5）：1070-1081.
+[8] ，.[J].，
 2011，37（12）：1412-1421.
-[9] 何雪云，宋荣方，周克琴.基于压缩感知的 OFDM 系统稀疏
-信道估计新方法研究[J].南京邮电大学学报：自然科学版，
+[9] ，，. OFDM 
+[J].：，
 2010，30（2）：60-65.
 [10] Qi Chenhao，Wu Lenan.A hybrid compressing sensing
 algorithm for sparse channel estimation in MIMO OFDM
 systems[J].IEEE Transactions on Signal Processing，2011，
-参考文献：
+
+：
 [1] Zhou Y，Wang J，Sawahashi M.Downlink transmission
 of broadband OFCDM systems—part I：hybrid detection[J].
 IEEE Transactions on Communications，2005，53（4）：
@@ -711,9 +1149,10 @@ IEEE Transactions on Signal Processing，2003，51（6）：
 [3] Maaref A，Aissa S.Impact of spatial fading correlation
 and keyhole on the capacity of MIMO systems with
 transmitter and receiver CSI[J].IEEE Transactions on Wireless Communications，2008，7（8）：3218-3229.
+
 58（1）：3488-3491.
-[11] 王妮娜，桂冠，苏冰涛，等.基于压缩感知的 MIMO-OFDM
-系统稀疏信道估计方法[J].电子科技大学学报，2013，42
+[11] ，，，. MIMO-OFDM
+[J].，2013，42
 （1）：59-62.
 [12] Bajwa W U，Haupt J，Sayeed A M，et al.Compressed
 channel sensing：a new approach to estimating sparse
@@ -722,43 +1161,69 @@ multipath channels[J].Proceedings of the IEEE，2010，98
 [13] Baraniuk R G.Compressive sensing[J].IEEE Signal Processing Magazine，2007，24（4）：118-120.
 [14] Cai T，Wang L，Xu G W.New bounds for restricted isometry constants[J].IEEE Transactions on Information Theory，
 2010，56（9）：4388-4394.
+
 [4] Li Weichang，Preisig J C.Estimation of rapidly time-varying
+
 [15] Needell D，Tropp J A.CoSaMP：iterative signal recov-
+
 sparse channel[J].IEEE J Ocean Eng，2007，32（4）：927-939.
+
 ery form incomplete and inaccurate samples[J].Applied
+
 [5] Donoho D L.Compressed sensing[J].IEEE Transactions on
 Information Theory，2006，52（4）：1289-1306.
 [6] Candes E J.Compressive sampling[C]//Proceedings of the
+
 and Computational Harmonic Analysis，2008，26（3）：
 301-321.
 [16] Blumensath T，Davies M E.Stagewise weak gradient
+
 International Congress of Mathematics.Madrid，Spain：the
+
 pursuits[J].IEEE Transactions on Signal Processing，2009，
+
 European Mathematical Society，2006：1433-1452.
+
 57（11）：4333-4346.
-（上接 78 页）
+
+（ 78 ）
 [11] Choi J，Croft W B.Temporal models for microblogs[C]//
 Proceedings of the 21st ACM International Conference on
+
 [15] Medelyan O，Milne D，Legg C，et al.Mining meaning
 from Wikipedia[J].International Journal of Human-Computer
 Studies，2009，67（9）：716-754.
+
 Information and Knowledge Management，2012：2491-2494.
+
 [16] Mikolov T，Sutskever I，Chen K，et al.Distributed repre-
-[12] 王兰成，刘晓亮.整合中文维基语义的网络论坛话题追踪
+
+[12] ，.
+
 sentations of words and phrases and their composition-
-方法研究[J].情报学报，2013，32（1）：22-27.
+
+[J].，2013，32（1）：22-27.
 [13] Zhang Xujie，Liu Zongtian，Liu Wei，et al.Event similarity
 computation in text[C]//2011 IEEE International Conferences on Internet of Things，and Cyber，Physical and
 Social Computing，2011：419-423.
+
 ality[C]//Neural Information Processing Systems Foundation，2013.
-[17] 席耀一，林琛，李弼程，等.基于语义相似度的论坛话题追
-踪方法[J].计算机应用，2011，31（1）：94-96.
+[17] ，，，.
+[J].，2011，31（1）：94-96.
 [18] Chen Xin，Zhang Yuqing，Cao Long，et al.An improved
+
 [14] Li Xiaoxian，Li Weijie，Liu Yun.Research based on the
+
 feature selection method for Chinese short texts clus-
+
 HowNet semantic expansion micro-blog hot topic detec-
+
 tering based on HowNet[M]//Computer engineering and
+
 tion system[J].Advanced Materials Research，2013，765：
+
 networking.[S.l.]：Springer International Publishing，2014：
+
 1502-1506.
+
 635-642.

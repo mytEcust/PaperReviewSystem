@@ -4,13 +4,37 @@
 """
 
 import os
+import shutil
 import json
 import textract
 import numpy as np
 
 PAPER_DIR = './paper_data/'
+TXT_DIR = './txt_data/'
 TRAIN_DIR = './train_data/'
 FORMAT_DIR = './format_data/'
+
+if os.path.isdir(TXT_DIR):
+    shutil.rmtree(TXT_DIR)
+os.makedirs(TXT_DIR)
+
+if os.path.isdir(TRAIN_DIR):
+    shutil.rmtree(TRAIN_DIR)
+os.makedirs(TRAIN_DIR)
+
+if os.path.isdir(FORMAT_DIR):
+    shutil.rmtree(FORMAT_DIR)
+os.makedirs(FORMAT_DIR)
+
+
+def is_chinese(word):
+    """
+    判断是否为中文字符
+    """
+    if word >= u'\u4e00' and word <= u'\u9fff':
+        return True
+    else:
+        return False
 
 
 def word_counter(file_data):
@@ -28,7 +52,7 @@ def word_counter(file_data):
         if is_word:
             count += 1
             is_word = False
-        if char >= u'\u4e00' and char <= u'\u9fff':
+        if is_chinese(char):
             count += 1
     return count
 
@@ -113,15 +137,14 @@ print("[START] switch paper to txt")
 for paper in os.listdir(PAPER_DIR):
     text = textract.process(PAPER_DIR+paper)
     content = str(text, encoding="utf-8").strip()
-    content = content.replace('\n\n', '\n')
-    with open(TRAIN_DIR+paper.split(".")[0]+'.txt', 'w') as f:
+    with open(TXT_DIR+paper.split(".")[0]+'.txt', 'w') as f:
         f.write(content)
 print("[DONE] switch paper to txt")
 
 
 print("[START] format paper")
-for paper in os.listdir(TRAIN_DIR):
-    with open(TRAIN_DIR+paper, 'r', encoding="utf-8") as f:
+for paper in os.listdir(TXT_DIR):
+    with open(TXT_DIR+paper, 'r', encoding="utf-8") as f:
         f = f.read()
         FORMAT_OBJ = {}
         FORMAT_OBJ['words'] = word_counter(f)
@@ -136,3 +159,18 @@ for paper in os.listdir(TRAIN_DIR):
     with open(FORMAT_DIR+paper.split(".")[0]+'.json', 'w') as f_format:
         f_format.write(json.dumps(FORMAT_OBJ))
 print("[DONE] format paper")
+
+print("[START] format train data")
+for paper in os.listdir(TXT_DIR):
+    with open(TXT_DIR+paper, 'r', encoding="utf-8") as f:
+        f = f.read()
+        content_list = list(f)
+        i = 0
+        while i < len(content_list):
+            if is_chinese(content_list[i]):
+                content_list[i] = ''
+            i += 1
+        content = ''.join(content_list)
+    with open(TRAIN_DIR+paper.split(".")[0]+'.txt', 'w') as f_train:
+        f_train.write(content)
+print("[DONE] format train data")

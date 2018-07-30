@@ -1,0 +1,785 @@
+2016 年 7 月 1 日
+第 39 卷第 13 期
+
+Jul. 2016
+Vol. 39 No. 13
+
+现代电子技术
+Modern Electronics Technique
+
+99
+
+doi：10.16652/j.issn.1004⁃373x.2016.13.024
+
+基于词向量的句子相似度计算及其应用研究
+郭胜国，邢丹丹
+（郑州财经学院 计算机系，河南 郑州
+摘
+
+450044）
+
+要：目前计算机辅助翻译在相似度计算方面存在很大的局限性，精度较低。针对特定领域，收集领域相关的训练
+
+语料，采用 Google 的 word2vec 进行英语和汉语的词向量模型构建，设计并实现汉语句子的相似度计算方法，提出基于词向量
+
+Jaccard 相似度与基于词向量依存句法相结合的相似度计算方法，实验结果显示其效果比传统方法有较大提升。最后，将相
+关英汉句子相似度算法以接口的形式封装，作为商品化软件华建 IAT 系统的相似度计算模块投入实际应用。
+关键词：计算机辅助翻译；相似度计算；词向量；IAT 系统
+中图分类号：TN711⁃34；TM417
+
+文章编号：1004⁃373X（2016）13⁃0099⁃04
+
+文献标识码：A
+
+Sentence similarity calculation based on word vector and its application research
+GUO Shengguo，XING Dandan
+
+（Department of Computer，Zhengzhou Institute of Finance and Economics，Zhengzhou 450044，China）
+
+Abstract：Currently，the computer aided translation has great limitation on similarity calculation，and its accuracy is low.
+
+For the specific field，the training corpus about the field was collected，and the word vector model of English and Chinese was
+
+constructed by using word2vec developed by Google to design and implement the similarity calculation method of Chinese sen⁃
+
+tences. The similarity calculation method of combining word vector Jaccard similarity with word vector dependent syntax is pro⁃
+posed. The experiment results show that effect of the proposed method has more improvement than that of the traditional method.
+
+The similarity algorithm of relevant English and Chinese sentences is packaged by means of interface form. The similarity calcu⁃
+lation module of Huajian IAT system was put into practical application as a commodity software.
+Keywords：computer aided translation；similarity calculation；word vector；IAT system
+
+近年来，机器翻译的需求量越来越大。从学术文献
+
+示。在翻译系统的整体构成上，相似度计算模块是计算
+
+翻译到搜索引擎跨语言检索，机器翻译都呈现出巨大的
+
+机辅助系统的核心部分 [4]。它主要完成输入句子与翻译
+
+需求空间。但是传统的机器翻译一直都存在较大的问
+
+记忆库的匹配并为用户提供参考功能。而翻译记忆库
+
+题，就是准确率过低。通过前期调查，现有的机器翻译
+
+则是计算机辅助翻译的基础构成，它主要用来对已翻译
+
+无法满足实际需求，同时随着“大数据”时代的到来，越
+
+的句子进行存储和检索。
+
+来越多的学者将目光转向了计算机辅助翻译 [1⁃2]。
+计算机的翻译结果仅仅作为一个辅助性的参考，最
+终的结果由使用者根据候选结果的好坏进行修改取舍，
+实例语料库可以结合具体领域进行分门别类的应用，使
+得其翻译效果进一步提升，从而更加契合用户的需要。
+由于领域性的差异，尤其是专业术语较多的时候，这一
+优点在特定领域的翻译中显得更加突出 [3]。
+
+1
+1.1
+
+计算机辅助翻译及句子相似度计算
+计算机辅助翻译技术
+计算机辅助翻译系统涉及到的技术构成如图 1 所
+收稿日期：2015⁃11⁃24
+
+图1
+
+1.2
+
+1.2.1
+
+计算机辅助翻译系统技术构成
+
+句子相似度计算算法
+基于共现词的相似度计算
+相似度不仅受到共现词汇数量的影响，同时还要结
+
+100
+
+2016 年第 39 卷
+
+现代电子技术
+
+合句子包含的词汇总数即句长进行度量，用公式可以更
+
+度来衡量两句话或短语的相似度 [7]。本文提出的基于词
+
+加直观地表达为：
+
+向量的 Jaccard 相似度计算算法则是将词汇的共现替换
+
+SimScore(I, R) =
+
+Inter(I, R)
+Union(I, R)
+
+（1）
+
+式中：Inter（I，R）是输入句子 I 和检索到的句子 R 之间共
+
+现的词汇数目;Union（I，R）是指两个句子单词构成的合
+
+集的词汇数目。由此得到的相似度一般将其叫做 Jac⁃
+
+为词向量的共现程度，也即语义共现程度。公式化表达
+如下：
+n
+
+CosDis(w1, w 2 ) =
+
+w1 ⋅ w 2
+=
+ w1  ×  w 2 
+
+card 相似度。
+
+∑w
+
+1i
+
+× w 2i
+
+i=1
+
+n
+
+∑(w
+
+1i
+
+)2 ×
+
+i=1
+
+改进的 Jaccard 方法不仅保留了计算句子共现词汇
+
+的影响因子，同时为每一个共现词汇加上了权重，一般
+
+SimScore Jaccard (I, R) =
+
+采用词汇的 TF⁃IDF 值 。具体公式如下所示：
+[5]
+
+Inter(I, R) æ
+ö
+SimScore(I, R) =
+log N ÷
+df
+Union(I, R) çè w ∈∑
+w ø
+Inter(I, R)
+
+（5）
+n
+
+∑(w
+
+2i
+
+∑min(max(α × CosDis(w, R)), 1)
+w∈I
+
+|I |+|R|
+
+∑min(max(α × CosDis(w, I)), 1)
+w∈R
+
+（2）
+
+式中：括号中的内容是共现词汇的 TF⁃IDF 权重加和；N
+
+)2
+
+i=1
+
+|I |+|R|
+
++
+
+（6）
+
+式（5）中 CosDis(w1, w 2 ) 用来计算两个词对应的词向量 w1
+
+是翻译记忆库中的实例句对总数；df w 是出现了词汇 w
+
+和 w 2 的余弦相似度，n 即为词向量的维度。式（6）中 ，
+
+的实例句对数目；log N 即为单词 w 的倒文档频率 IDF
+df w
+
+I, R 分别是用户当前输入的句子和系统从翻译记忆库中
+
+检索到的句子。 max(α × CosDis(w, R)) 是计算句子 R 中
+
+值，它越大则表明该词汇的重要程度越大，对相似度计
+
+所有词对应的词向量与 w 对应的词向量的余弦相似度
+
+算的贡献越大。
+
+中的最大值。参数 α 用来调整两个词向量之间余弦相
+
+1.2.2
+
+基于语义词典的相似度计算
+
+似度的放大系数，因为根据不同语料训练出来的词向量
+
+基于 WordNet 的句子相似度计算方法为：
+
+∑max SimValue(w, R) + ∑max SimValue(w, I)
+w∈I
+
+w∈R
+
+|I |+|R|
+
+模型是不同的，其计算结果也就会有一定的浮动，可以
+根据得到的词向量的不同进行设定调整。为了防止放
+（3）
+
+式中：max SimValue(w, I) 和 max SimValue(w, R) 是词汇 w
+和另外一个句子中每个词的语义相似度中最大的值，作
+
+大系数的放大效果超出实际表示范围[-1，1]，所以对其
+
+最大值进行了门限设置。
+
+基于词向量的 Jaccard 相似度计算和基于语义词典
+
+为该词汇与另一个句子的相似度。
+
+的 Jaccard 相似度计算有异曲同工之处，但前者表示的
+
+1.2.3
+
+将原来的布尔值改为词义的相似度来表示句子的
+
+和“work”之间在 WordNet 中是找不到其语义关系的，但
+
+编辑距离，将编辑距离除以两句中较长的一句的句子长
+
+是在词向量中，其余弦相似度达到 0.452 之多，而这在语
+
+义词典中是很少有做到的。其他诸如语义词典的不可
+
+度，最终得到句子的相似度：
+
+扩展性等弊病在词向量中是不存在的，这也是词向量的
+
+dis(I, R)
+SimScore(I, R) =
+max(I, R)
+
+2
+
+语义范围要远超过语义词典的表示范围，比如“worker”
+
+编辑距离
+
+（4）
+
+基于词向量的句子相似度计算算法
+
+2.1
+
+英语句子相似度计算算法设计
+在进行改进的华建 IAT 系统上，英语句子的原相似
+
+优势所在。
+2.1.2
+
+向量的编辑距离，计算句子的相似度为：
+SimScore edit_dis (I, R) = 1 -
+
+编辑距离相结合的方式设计的 [6]。将词向量引入到相似
+
+成：基于词向量的 Jaccard 相似度计算算法；基于词向量
+和编辑距离的相似度计算算法。
+2.1.1
+
+基于词向量的 Jaccard 相似度计算算法
+
+传统的 Jaccard 相似度度量算法是基于词汇的重叠
+
+将词向量应用到编辑距离中，进而得到本文所使用
+
+的基于词向量和编辑距离的相似度计算算法。基于词
+
+度计算算法是基于共现词汇相似度即 Jaccard 相似度和
+度计算上，本文设计的英语相似度计算算法由两部分构
+
+基于词向量和编辑距离的相似度算法
+
+2.1.3
+
+edit_ distance
+max(| I |, | R |)
+
+（7）
+
+综合相似度计算
+对于英语相似度计算主要由以下两部分构成 [8⁃9]：基
+
+于词向量的 Jaccard 相似度主要考量了相关词汇的共现
+
+程度，其中既有表层的相似度又有词义的相似度；而基
+于词向量的编辑距离不仅考虑了词汇本身的语义、语境
+
+第 13 期
+
+郭胜国，等：基于词向量的句子相似度计算及其应用研究
+
+相关性，还考量了句子结构的相似性 [10]。所以，尽管算
+法构成上比较简单，但是包含的相似度计算因素是多样
+的，综合两种算法的优势，将其加权求和构成英语句子
+最终的相似度计算算法：
+SimScore(I, R) = ρ1 SimScore Jaccard (I, R) +
+ρ 2 SimScore edit_dis (I, R)
+
+似，[0.2，0.3）为相似，[0.3，0.4）为较强相似，[0.4，1]基本
+
+相同；
+
+汉语：[0，0.25）为不相似，[0.25，0.4）为相似，[0.4，
+
+0.5）为非常相似，[0.5，1]基本等同。
+
+之所以汉语的各档相似度阈值设定得比英语高一
+
+（8）
+
+式中：ρ1 + ρ 2 =1，并且满足 0< ρ 2 ≤ ρ1 <1。
+
+2.2
+
+101
+
+汉语句子相似度计算算法设计
+
+（1）依存句法
+首先对输入句子 I 和 R 进行句法分析，得到句法分
+
+点，是因为汉语的训练语料更多，相应地，词汇之间的相
+似度比英文更加贴近实际情况。另一方面又可以看出
+英语和汉语的最低相似度阈值都很低，因为词向量的训
+练过程是结合具体语料进行的，语料的质量和方法本身
+的统计思想决定了方法相比人工判定是比较粗糙的。
+
+析结果 Ipar 和 Ppar。将两个句法分析结果中的依存对提
+
+3.2
+
+和 deppair[2]为 依 存 词 ，deppair[1]为 依 存 关 系 。 在 两 个
+
+定语言种类，因为要根据语言选择相应的词向量模型，
+
+句子依存对集合中，依存关系相同的依存对进行余弦相
+
+也便于系统更有针对性地进行实例检索。选定语言后，
+
+似 度 计 算 ，deppairI[0]和 deppairR[0]表 示 词 汇 对 应 的 词
+
+针对语言种类分别进行词向量模型的读取和加载。对
+
+度的阈值，可以根据模型的精度进行调整。当依存对中
+
+句子进行预处理，包括删除标点、大写还原等。特别要
+
+取出来，保存为三元组的依存对 deppair，其中 deppair[0]
+
+向量。SimilarityThreshold 是设 定的 词汇 之间 语义相 似
+的两个词语义相似度都达到阈值要求时，按照下式进行
+句子的相似度计算。
+SimScore dep (I, R) =
+
+∑
+
+min(α × max(CosDis(deppairI, DepSetR)), 1)
+
+deppairI ∈ DepSetI
+
+2 × max(| DepSetI |, | DepSetR |)
+
+将上述依存对中的词分别求余弦相似度，选取相似
+度最大的一组，对该组相似度求取算术平均值并用放大
+系数放大作为依存对的相似度。
+
+系统组成结构
+系统的组成结构如图 2 所示。翻译开始后，首先选
+
+于英语，下一步要对输入句子和检索出的 TopN 的实例
+
+说明的是，由于华建 IAT 系统的商用保密性原因，实验
+
+不能直接在该系统的实例库上进行。故本实验另外单
+独搭建系统进行效果测试，针对结果进行改进并最后将
+算法运用到华建 IAT 系统上。在实验系统中，使用基于
+
+词共现的 Jaccard 相似度（没有使用词向量）进行检索，
+返回 Top50 的实例。汉语的检索过程与此相同，只是在
+
+输 入 句 子 和 检 索 的 Top50 实 例 的 预 处 理 上 多 了 分 词 。
+为了使实验结果和实际使用效果尽量保持一致，分词使
+用了华建内部提供的分词工具。
+
+（2）汉语句子的综合相似度计算
+同英语句子的相似度计算一致，汉语句子的综合相
+似度计算采用两部分加权求和的方式进行。除了基于
+词 向 量 的 依 存 句 法 ，相 似 度 还 有 基 于 词 向 量 的 Jaccard
+
+相似度，二者共同构成本文提出的汉语句子相似度计算
+算法。公式如下：
+SimScore(I, R) = μ1 SimScore Jaccard (I, R) + μ 2 SimScore dep (I, R)
+
+式中：μ1 + μ 2 =1，0< μ 2 ≤ μ1 <1。
+
+3
+3.1
+
+图2
+
+算法实现和实验分析
+词向量模型训练
+使用的 word2vec 需要相应的语料进行词向量模型
+
+的训练。首先是 word2vec 的训练命令，对于得到的词向
+
+量模型，需要根据词向量的精度进行词汇之间相似度的
+阈值判定。这里根据常用同、近义词的余弦相似度测试
+结果进行设定。最终得到的阈值分别为：
+英 语 ：相 似 度 应 当 分 成 几 档 对 待 ，[0，0.2） 为 不 相
+
+3.3
+
+3.3.1
+
+系统结构图
+
+相似度计算实验
+实验数据
+为了尽量让实验结果客观、可信，本文英语的相似
+
+度 计 算 实 验 数 据 来 自 LDC2 的 收 费 语 料 LDC2013T03。
+该 语 料 来 自 NIST 2012 年 的 机 器 翻 译 评 测 。 本 文 将 这
+
+些同义句全部按组抽取排列。为了在长短句中有所均
+衡，随机从中抽取了 100 组，得到最后的测试语料，形式
+
+102
+
+2016 年第 39 卷
+
+现代电子技术
+
+如下所示：
+1. White dragon fruit has a reddish purple peel and white
+
+flesh；it has tiny black seeds distributed through the middle and is
+
+语为 2。其他两组参数为英汉句子相似度计算中 Jacca⁃
+rd 相似度和另一部分各占的比重。
+
+通过分析实验可以发现，词向量对算法效果的提升
+
+of so⁃so quality when eaten fresh.
+
+非常明显。基于词的相似度在不同语料库之间的表现
+
+ny black seeds distributed throughout and the quality is okay if eat⁃
+
+明基于词向量的方法不仅在性能上更好，同时其在不同
+
+2. White pitayas have purple⁃red skin and white flesh，with ti⁃
+
+en uncooked.
+
+3. White dragon fruit with purple reddish skin and white
+
+meat，with tiny black seeds distributed，average quality for eating
+
+fresh.
+
+4. A white pitaya is mauve ⁃ skinned with white flesh contain⁃
+
+ing fine black seeds，and of average quality when eaten fresh.
+
+1. At least they don′ t go out of their way to fleece Chinese
+
+people.
+
+2. At least they don′t specifically rip off Chinese people.
+3. At least they don′t exclusively rip off Chinese people.
+4. At least they do not rip off Chinese only.
+
+选取每组中的第一句作为基准句，其他三句作为第
+一句的相似句，用于测试。所有这 400 句先与 8 336 句
+
+差异（命中率之差）要比基于词向量的方法大一些，这表
+领域语料之间的稳定性和适应性也更强。
+3.4
+
+本文提出的方法是对华建 IAT 系统进行针对性的
+
+设计和实现。为了便于后续的维护，最终以接口的形式
+将相关方法整合给辅助翻译系统进行使用。考虑到系
+统在实际运行中对时效性的要求，采用 IronPython 完成
+
+.NET 平台上接口的实现，以保留 Python 对文本处理的
+
+优势。主要函数构成如下：
+
+W2V_Main （InputSentence，RetrivalSentencePairs，Languag⁃
+
+eType，ReturnNum）；
+
+EnSimilarityCompute（InputSentence，CompareSentence）；
+
+ChSimilarityCompute（InputSentence，CompareSentence）。
+
+同 样 是 NIST 2012 的 评 测 句 子 进 行 混 合 作 为 一 组 英 文
+
+测 试 语 料 ，然 后 又 与 9 600 句 华 建 语 料 库 中 的 句 子 混
+
+方法实现及应用
+
+其中，W2V_Main（）是.NET 平台进行调用的入口函
+
+合，共计 10 000 句，作为第二组英文测试语料。
+
+数，参数含义依次为：InputSentence 表示用户输入句子；
+
+近义句，所以采取了常用的相似度研究方法。从华建公
+
+排序实例句对；LanguageType 为输入句子的语言种类；
+
+汉语的测试语料由于没找到和英语类似的同义或
+
+司的语料库中随机选取 100 个句子，并自行构建 100 句
+
+对应的相似句子，即 100 组相似句对。将这 200 句相似
+
+RetrivalSentencePairs 为翻译记忆库检索出的 TopN 个待
+ReturnNum 表 示 需 要 返 回 的 已 排 序 句 子 的 数 目 。 通 过
+
+调 用 英 汉 对 应 的 相 似 度 计 算 模 块 ，其 返 回 结 果 为 Re⁃
+
+句 和 另 外 来 自 华 建 语 料 库 的 其 他 9 800 句 混 合 ，共 计
+
+turnNum 个已排序译文构成的数组。
+
+3.3.2
+
+的入口，其作用是返回用户输入句子 InputSentence 和系
+
+10 000 句作为汉语的测试语料。
+测试标准
+
+针对英语和汉语的测试语料情况，给出了相应的测
+
+试标准。对于英语的每一组相似句存在三句相似句，所
+以采用了两种测试方法分别进行。
+第一种是测试 Top5 中的 Top3 包含该组三句相似句
+
+中的数量所占百分比，即：
+
+Accuracy = 每组Top3中命中个数累加 300 × 100%
+
+第二种是测试 Top5 中的 Top1 在该组三句相似句中
+
+的数量所占百分比，即：
+
+Accuracy = 每组Top1中命中个数累加 100 × 100%
+
+汉语的测试标准同英语第二种测试标准相同。
+3.3.3
+
+实验结果及数据分析
+
+EnSimilarityCompute（）是英文句子相似度计算模块
+
+统 检 索 到 的 句 子 CompareSentence（句 对 中 的 源 语 言 句
+
+子）之间的相似度。ChSimilarityCompute（）则是汉语句
+子相似度计算模块的入口函数。这两个句子相似度计
+算 函 数 会 调 用 英 汉 对 应 的 预 处 理 函 数 、Jaccard 相 似 度
+函数（公用）、编辑距离相似度函数（英语）、依存句法相
+
+似度函数（汉语，通过 os.system（）进行调用并接收返回
+
+的分析结果），最后返回两部分加权求和得到的相似度
+计算结果。
+
+4
+
+结
+
+论
+
+本文采用基于词向量的相似度计算算法进行英汉
+
+在相似度算法中的参数包括六个：SimilarityThresh⁃
+
+old，α, ρ1, ρ 2 , μ1, μ 2。SimilarityThreshold 表 示 相 似 度 阈
+
+句式变化和句子长度等方面的不同进行有针对性的算
+
+值，通过对英汉的词向量模型进行分析比较，英语的相
+
+法设计。词向量的语境相似度在很大程度上增加了句
+
+似度阈值设定为 0.2，汉语的为 0.25。 α 为词向量之间
+
+子相似度计算的深度和广度，并且其优秀的语义相关性
+
+余弦相似度的放大系数，主要是帮助进行误差修正。通
+过对词向量的相似度精度进行测试，英语设定为 2.5，汉
+
+双语的句子相似度计算，并根据两种语言在使用习惯、
+
+也可以将同、近义词的使用纳入到相似度考虑的范畴。
+（下转第 107 页）
+
+第 13 期
+
+的聚类。因此改进的算法性能较好。
+
+4
+
+结
+
+107
+
+梁聪刚，等：微分进化算法的优化研究及其在聚类分析中的应用
+
+PCADE 在 性 能 方 面 有 了 很 大 的 提 升 ，值 得 进 一 步
+推广。
+
+论
+
+参
+
+微分进化算法利用自然界优胜劣汰的思想和简单
+的差分操作使得其在一定程度上具有自组织、自适应、
+自学习的特征。但微分进化算法跟其他进化算法一样
+存在早熟收敛等问题，因此对微分进化算法进行改进，
+提高其全局搜索能力和收敛速度，使之能够适应各种复
+杂的工程问题，这是一个值得深入研究的领域。
+本文通过研究国内外学者对微分进化算法的改进
+方法，提出了一种基于主成分的微分进化算法，该算法
+将种群空间映射到由主成分构成的种群空间，主成分空
+间中前 m 个主成分构成的个体可以直接进入下一代的
+进化，而其余的个体则从主成分空间和原始种群空间中
+挑选出适应度值高的进入下一代，这样的改进方法使得
+种 群 能 够 更 多 地 获 得 父 代 的 信 息，增 加 了 种 群 的 多 样
+性。通过数值实验证明该算法在收敛精度和收敛速度
+上都有很大的提高。该算法对聚类中心进行编码构成
+进化种群，利用 PCADE 算法更新种群，最终得到较好的
+聚 类 中 心 ，然 后 根 据 聚 类 中 心 对 样 本 进 行 聚 类 ，利 用
+
+IRIS 数据集进行试验，结果表明基于 PCADE 的 K⁃均值
+
+聚类算法在聚类问题中得到了较好的结果。
+
+从 上 述 两 个 方 面 来 看 ，该 改 进 的 微 分 进 化 算 法
+
+考
+
+文
+
+献
+
+[1] 李士勇，陈永强，李研.蚁群算法及其应用[M].哈尔滨：哈尔滨
+工业大学出版社，2004.
+
+[2] 胡中波，熊盛武，胡付高.改进的差分演化算法及其在函数优
+化中的应用[J].武汉理工大学学报，2007，29（4）：125⁃128.
+
+[3] 苏海军，杨煜普，王宇嘉.微分进化算法的研究综述[J].系统工
+程与电子技术，2008，30（9）：1793⁃1797.
+
+[4] 欧陈委.K⁃均值聚类算法的研究与改进[D].长沙：长沙理工大
+学，2011.
+
+[5] 孟凡军，李天伟，徐冠雷，等.基于 K⁃均值聚类算法的雾天识别
+方法研究[J].现代电子技术，2015，38（22）：56⁃58.
+
+[6] VOSS M S. Principal component particle swarm optimization
+
+[C]// Proceedings of 2005 IEEE Swarm Intelligence Sympo⁃
+sium. [S.l.]：IEEE，2005：401⁃404.
+
+[7] EBERHART R，SHI Y. Comparing inertia weights and constric⁃
+tion factors in particle swarm optimization [C]// Proceedings of
+
+2000 IEEE Congress on Evolutional Computation. La Jolla：
+
+IEEE，2000：84⁃88.
+
+[8] TASGETIREN M F，SUGANTHAN P N. A multi⁃populated dif⁃
+
+ferential evolution algorithm for solving constrained optimiza⁃
+tion problem [C]// Proceedings of 2006 IEEE Congress on Evo⁃
+lutionary Computation. Vancouver：IEEE，2006：33⁃40.
+
+作者简介：梁聪刚（1981—），男，河南南阳人，硕士，讲师。研究方向为偏微分方程。
+王鸿章（1979—），男，河南汝州人，硕士，讲师。研究方向为偏微分方程。
+
+􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊􀤊
+
+（上接第 102 页）
+
+[4] 王荣波，池哲儒.基于词类串的汉语句子结构相似度计算方法
+
+同时，汉语句子的依存句法很好地规避了汉语句式多变
+和句子长度对相似度的影响，在句子的整句范围内进行
+更加深入的相似性度量。
+参
+
+考
+
+文
+
+献
+
+[1] 侯 宏 旭 ，刘 群.基 于 实 例 的 汉 蒙 机 器 翻 译 [J].中 文 信 息 学 报 ，
+2011，21（4）：65⁃72.
+
+[2] LI Y N，LI H S，CAI Q，et al. A novel semantic similarity
+
+measure within sentences [C]// Proceedings of 2012 2nd Inter⁃
+
+[J].中文信息学报，2005，19（1）：21⁃29.
+
+[5] 黄河燕，陈肇雄.基于多策略的交互式智能辅助翻译平台总体
+设计[J].计算机研究与发展，2012，41（7）：1266⁃1272.
+
+[6] 李素建.基于语义计算的语句相关度研究[J].计算机工程与应
+用，2012，38（7）：75⁃76.
+
+[7] 张民，李生，赵铁军，等.一种汉语句子间相似度的度量算法和
+实现[J].计算机语言学进展与应用，1995（7）：152⁃158.
+
+[8] 梁晗，陈群秀，吴平博.基于事件框架的信息抽取系统[J].中文
+信息学报，2006，20（2）：40⁃46.
+
+national Conference on Computer Science and Network Techno⁃
+
+[9] 秦兵，刘挺，王洋，等.基于常问问题集的中文问答系统研究[J].
+
+[3] 李丹，许霄羽，杨悦.基于语义网技术的网络机器翻译研究[J].
+
+[10] 梁红玉，张平.LEX 在 ATLAS⁃C 翻译器设计中的应用[J].现代
+
+logy. Changchun，China：IEEE，2012：1176⁃1179.
+
+现代电子技术，2011，34（4）：107⁃109.
+
+哈尔滨工业大学学报，2013，35（10）：1179⁃1182.
+电子技术，2004，27（24）：102⁃104.
+
+作者简介：郭胜国（1982—），男，硕士研究生，讲师。研究方向为智能控制、计算机应用。
+邢丹丹（1982—），女，硕士研究生，讲师。研究方向为计算机应用。

@@ -1,77 +1,121 @@
-科技情报开发与经济
+
+
 SCI-TECH INFORMATION DEVELOPMENT ＆ ECONOMY
-2015 年 第 25 卷 第 2 期
-文章编号：
+
+2015   25   2 
+
+：
 1005－6033（2015）02－0145-04
-收稿日期：2014－11－18
-Word2vec 的工作原理及应用探究
-周 练
-（西安电子科技大学经济与管理学院，陕西西安，
+
+：2014－11－18
+
+Word2vec 
+ 
+（，，
 710071）
-摘
-要：研究了 Word2vec 的工作原理及应用，明确了统计语言模型的关键问题，分析
-了词向量的特点，并对神经网络语言模型、Log＿Linear 模型和 Log＿Bilinear 模型的基本
-原理进行了探讨，对 Word2vec 词向量训练框架的工作原理进行了详细分析，推导出了
-训练模型的目标函数，介绍了 Word2vec 工程的主要文件和训练参数，并将 Word2vec
-应用于中文词向量的训练。
-关键词：
-Word2vec；词向量；
-统计语言模型
-中图分类号：
+
+
+： Word2vec ，，
+
+，、Log＿Linear  Log＿Bilinear 
+， Word2vec ，
+， Word2vec ， Word2vec
+。
+：
+Word2vec；；
+
+：
 TP317
+
 1
-文献标识码：A
-有效地将一个词语表达成向量形式，为自然语言处理领域的应
-问题的提出
-用研究提供了新的工具。
-随着计算机应用领域的不断扩大，自然语言处理受到了人
-们的高度重视。机器翻译、语音识别以及信息检索等应用需求对
-计算机的自然语言处理能力提出了越来越高的要求。
+
+：A
+，
+
+
+
+。
+
+，
+。、
+。
+
 2
 2.1
-相关工作
-统计语言模型
-为了使计算机能够处理自然语言，首先需要对自然语言进
-统计语言模型是用于刻画一个句子出现概率的模型。给定
-行建模。自然语言建模方法经历了从基于规则的方法到基于统
-w2，…，wn），则概率 p
-一个由 n 个词语按顺序组成的句子 S=（w1，
-计方法的转变［1］。从基于统计的建模方法得到的自然语言模型
-（S）即为统计语言模型。通过贝叶斯公式，可以将概率 p（S）进行
-称为统计语言模型。有许多统计语言建模技术，包括 n－gram、神
-分解，即 p（S）=p（w1）
+
+
+
+
+，
+
+。
+
+。
+
+w2，…，wn）， p
+ n  S=（w1，
+
+［1］。
+
+（S）。， p（S）
+
+。， n－gram、
+
+， p（S）=p（w1）
 ·p（w2｜w1）
-·p（w3｜w12）…p（wn｜w1n-1）。所以，要计
-经网络以及 log＿linear 模型等。在对自然语言进行建模的过程
-算一个句子出现的概率，只需要计算出在给定上下文的情况下，
-中，会出现维数灾难、词语相似性、模型泛化能力以及模型性能
-下一个词为某个词的概率即可，即 p（wi｜context（w）
-当所有条件
+·p（w3｜w12）…p（wn｜w1n-1）。，
+
+ log＿linear 。
+
+，，
+
+，、、
+
+， p（wi｜context（w）
+
 i ）。
-等问题。寻找上述问题的解决方案是推动统计语言模型不断发
-通过连乘即可计算出 p
-概率 p（wi ｜context（w）
-i ）都计算出来后，
-展的内在动力。
-（S）。所以，统计语言模型的关键问题在于找到计算条件概率 p
-在对统计语言模型进行研究的背景下，Google 公司在 2013
-年开放了 Word2vec
-这一款用于训练词向量
+
+。
+
+ p
+ p（wi ｜context（w）
+i ），
+
+。
+
+（S）。， p
+
+，Google  2013
+ Word2vec
+
+
+
 ［2］
-的软件工具。
+
+。
+
 ［3］
+
 （wi｜context（w）
-i ）的模型。
+i ）。
 2.2
-Word2vec 可以根据给定的语料库，通过优化后的训练模型快速
-词向量
-词向量具有良好的语义特性，是表示词语特征的常用方式。
+
+Word2vec ，
+
+
+，。
+
 44444444444444444444444444444444444444444
-天津工业大学材料学专业（硕士），馆员，天津职业大学图书馆，
+
+（），，，
+
 ────────────────
-第一作者简介：贾
-茹，女，1980 年 11 月生，2007 年毕业于
-天津市北辰区洛河道 2 号，300402．
+：
+
+，，1980  11 ，2007 
+
+ 2 ，300402．
+
 Cleaning off the English Obstacles in Literature Retrieval
 Course in Higher Vocational College
 JIA Ru
@@ -82,6 +126,7 @@ applying the English education through in the whole course, combining the litera
 English course, and carrying out the bilingual teaching if possible.
 KEY WORDS: literature retrieval course; English obstacles; higher vocational college
 145
+
 Ä
 Ã
 Å
@@ -100,163 +145,267 @@ KEY WORDS: literature retrieval course; English obstacles; higher vocational col
 Æ
 Ç
 ÁÂÃÂÃÈÉÁÂÃÁÂÃÄÅÆÇÈÉÂÄÅÃÁÂÄÅÃÆÇÈÉÂÄÅÃÁÂ
-周 练
-Word2vec 的工作原理及应用探究
-本刊 E-mail:bjb＠sxinfo．net
-信息工作研究
-根据文献［3］表述，词向量每一维的值代表一个具有一定的语义
-型也是 Word2vec 训练模型的基础。根据文献［6］，Log＿Linear 模
-和语法上解释的特征。所以，可以将词向量的每一维称为一个词
-型的组成部分包括：
-语特征。词向量具有多种形式，
-distributed representation 是其中一
-（1）一个可能的输入集合 X；
-种。一个 distributed representation 是一个稠密、
-低维的实值向量。
-（2）一个有限的标记集合 Y；
-distributed representation 的每一维表示词语的一个潜在特征，该
-（3）一个指定模型中的特征和参数数目的正整数 d；
-特 征 捕 获 了 有 用 的 句 法 和 语 义 特 性 。 可 见 ，distributed
-representation 中的 distributed 一词体现了词向量这样一个特点：
-（4）一个将（x，
-y）映射到一个特征向量 （
-f x，y）的函数 f：
+
+ 
+
+Word2vec 
+
+ E-mail:bjb＠sxinfo．net
+
+
+
+［3］，
+
+ Word2vec 。［6］，Log＿Linear 
+
+。，
+
+：
+
+。，
+distributed representation 
+
+（1） X；
+
+。 distributed representation 、
+。
+
+（2） Y；
+
+distributed representation ，
+
+（3） d；
+
+               。   ，distributed
+
+representation  distributed ：
+
+（4）（x，
+y） （
+f x，y） f：
 X×
+
 Y→Rd；
-（5）一个参数向量 v∈Rd。
-将词语的不同句法和语义特征分布到它的每一个维度去表示。
-神经网络语言模型
+
+（5） v∈Rd。
+
+。
+
+
 2.3
-2003 年，Bengio 等
-Log＿Linear 模型定义了一个条件概率，即对于任意的 x∈X，
-提出一个基于 3 层神经网络的自然语
+
+2003 ，Bengio 
+
+Log＿Linear ， x∈X，
+
+ 3 
+
 ［4］
-言估计模型 NNLM （Neural Network Language Model），如图 1 所
-示。NNLM 可以计算某一个上下文的下一个词为 wt 的概率，即 p
-（wt=i｜context），词向量是其训练的副产物。
+
+ NNLM （Neural Network Language Model）， 1 
+。NNLM  wt ， p
+（wt=i｜context），。
+
 y∈Y，p（y｜x；
 v）=
-这里计算量很大
+
+
 tanh
-。其中，exp（x）=ex，v·（
+
+。，exp（x）=ex，v·（
 f x，y）=
 f x，
 y′）
 ）
 Σexp（v·（
+
 y′∈Y
+
 y）。
 ∑dk=1vkf（x，
 k
+
 （
-f x，y）是一个代表（x，y）的特征向量，
+f x，y）（x，y），
 y）
 （
 f x，
-y）的每一维 f（x，
+y） f（x，
 k
-第 i 个输出=P（wi =i｜context）
+
+ i =P（wi =i｜context）
 softmax
+
 exp（v·（
 f x，y））
-代表一个特征，每一个特征与 v 的一个维度 vk 相关联。v 中每一
-维的参数 vk 需要通过训练样本训练得到。
-在 Log＿Linear 模型基础上，Hinton［7］提出了 Log＿Bilinear 模
-型。Log＿Bilinear 模型与 Log＿Linear 模型的主要区别在于映射函
-数（
-f x，y）部分。在 Log＿Bilinear 模型中，
+
+， v  vk 。v 
+
+ vk 。
+
+ Log＿Linear ，Hinton［7］ Log＿Bilinear 
+
+。Log＿Bilinear  Log＿Linear 
+
+（
+f x，y）。 Log＿Bilinear ，
 （
 f x，
-y）将输入（x，y）直接
+y）（x，y）
+
 C（wt-2） C（wt-1）
+
 C（wt-n+1）
-映射成一个 d 维特征向量，而 Log＿Bilinear 模型直接使用输入 y
-对应的向量。通过借鉴神经网络语言模型中的层次化思想，
-矩阵 C
-共享参数
-wt-n+1 的索引
-wt-2 的索引
-图1
-wt-1 的索引
-神经网络语言模型
-NNLM 根据语料库 C 生成一个对应的词汇表 V。V 中的每一
-个词汇都对应着一个编号 i。为了确定神经网络的参数，需要通
-过语料库来构建训练样本并作为神经网络的输入。样本的构建
-过程为：对于 C 中的任意一个词 wi，获取其上下文 context（w）
-i （例
-如前 n-1 个词），从而得到一个元组（context（w）
+
+ d ， Log＿Bilinear  y
+
+。，
+
+ C
+
+
+wt-n+1 
+
+wt-2 
+
+1
+
+wt-1 
+
+
+
+NNLM  C  V。V 
+ i。，
+
+。
+
+： C  wi， context（w）
+i （
+ n-1 ），（context（w）
 w）
-以该元组作
+
 i ，
 i 。
-Hinton 提出了层次化的 Log＿Bilinear 模型，这也是 Word2vec 所
-使用的模型。
+
+Hinton  Log＿Bilinear ， Word2vec 
+
+。
+
 3
+
 3.1
-Word2vec 的工作原理
-Word2vec 的训练模型
-Word2vec 是 Mikolov 等［8－9］所提出模型的一个实现，可以用
-来快速有效地训练词向量。Word2vec 包含了两种训练模型，
-分别
-是 CBOW 和 Skip＿gram，如图 2 所示。
-为神经网络的输入进行训练。由图 1 可知，
-对于每一个词，NNLM
+
+Word2vec 
+Word2vec 
+
+Word2vec  Mikolov ［8－9］，
+
+。Word2vec ，
+
+ CBOW  Skip＿gram， 2 。
+
+。 1 ，
+，NNLM
+
 INPUT PROJECTION OUTPUT INPUT PROJECTION OUTPUT
 w（t-2）
 w（t-2）
-该向量即为词向量。NNLM 在输
-都将其映射成一个向量 C（w）
+
+。NNLM 
+ C（w）
 i ，
+
 w（t-1）
-出 层 上 的 softmax 归 一 化 函 数 为 p （wt ｜wt -1， … ，wt -n +2，
+
+    softmax       p （wt ｜wt -1， … ，wt -n +2，
 wt -n +1）=
 e
+
 ywt
+
 ∑e
 i
+
 yi
-，其中 yi 是下标为 i 的词语对应的未归一化的 log 概率值。
+
+， yi  i  log 。
+
 w（t-1）
+
 SUM
+
 w（t） w（t）
+
 w（t+1）
+
 w（t+1）
+
 w（t+2）
+
 w（t+2）
+
 CBOW
-图2
-可见，
-当词汇表很大时，softmax 的操作将非常耗时。为了解决这
-个问题，Bengio 等
-在 NNLM 的输出层上进行层次化改进，大大
+
+2
+
+，
+，softmax 。
+，Bengio 
+
+ NNLM ，
+
 ［5］
-提高了 NNLM 的计算效率。
-层次化操作的基本思想是对词语进行分类。例如，在包含
+
+ NNLM 。
+
+。，
+
 Skip-gram
-CBOW 和 Skip＿gram 模型
-从图 2 可以看出，CBOW 和 Skip＿gram 模型均包含输入层、
-投影层和输出层。其中，CBOW 模型通过上下文来预测当前词，
-Skip＿gram 模型则通过当前词来预测其上下文。Word2vec 提供了
-10 000 个词的词汇表的情况下，对于每一个概率 p（wt｜context），
-两 套 优 化 方 法 来 提 高 词 向 量 的 训 练 效 率 ， 分 别 是 Hierachy
-NNLM 的输出层要对 wt 的每个可能取值进行一次归一化，每个
-Softmax 和 Negative Sampling。将训练模型和优化方法进行组合
-取值总共需要计算 10 000 次。对词汇表中的词进行分类后，比如
-可得到 4 种训练词向量的框架，如表 1 所示。
-分为 100 个类别，每个类别为 100 个词。则对于 wt 的每个可能取
+
+CBOW  Skip＿gram 
+
+ 2 ，CBOW  Skip＿gram 、
+
+。，CBOW ，
+Skip＿gram 。Word2vec 
+
+10 000 ， p（wt｜context），
+
+                 ，    Hierachy
+
+NNLM  wt ，
+
+Softmax  Negative Sampling。
+
+ 10 000 。，
+
+ 4 ， 1 。
+
+ 100 ， 100 。 wt 
+
 3.2
-值，
-只需要进行 200 次计算即可，加速比达到 50。可以对词汇表
-3.2.1 CBOW＋HS 和 Skip＿gram＋HS
-进行更多层次的划分来提高计算的速度。
+
+，
+ 200 ， 50。
+
+3.2.1 CBOW＋HS  Skip＿gram＋HS
+
+。
 2.4
 146
-Word2vec 训练词向量的原理
-从 Word2vec ［10］ 的源码中可以归纳出 CBOW＋HS 和 Skip＿
-Log＿Linear 和 Log＿Bilinear 模型
-gram＋HS 模型的训练框架，如图 3 所示。根据文献［11］，总结得
-Log＿Linear 模型可用于自然语言建模。同时，Log＿Linear 模
-到两种训练框架的共同点和区别，如表 2 所示。
+
+Word2vec 
+
+ Word2vec ［10］  CBOW＋HS  Skip＿
+
+Log＿Linear  Log＿Bilinear 
+
+gram＋HS ， 3 。［11］，
+
+Log＿Linear 。，Log＿Linear 
+
+， 2 。
+
 Á
 Â
 Ã
@@ -276,212 +425,374 @@ Log＿Linear 模型可用于自然语言建模。同时，Log＿Linear 模
 Â
 Á
 ÄÅÆ
-Word2vec 的工作原理及应用探究
-周 练
-本刊 E-mail:bjb＠sxinfo．net
-表 1 word2vec 词向量训练框架
-框架中，vTw 指的是 context（w）中所有词对应词向量的累加，而在
-模型
+Word2vec 
+
+ 
+
+ E-mail:bjb＠sxinfo．net
+
+ 1 word2vec 
+
+，vTw  context（w），
+
+
+
 CBOW
+
 Skip_gram
+
 Hierachy Softmax
+
 CBOW+HS
+
 Skip_gram+HS
+
 Negative Sampling
+
 CBOW+NS
+
 Skip_gram+NS
+
 CBOW
-输入层 v ( context ( w))
+
+ v ( context ( w))
+
 v (context ( w))
-投影层
-信息工作研究
-Skip＿gram＋HS 中指的是 w 对应的词向量。Skip＿gram＋HS 框架的
-目标函数为 p（context（w）｜w）=
-CBOW＋HS 和 Skip＿gram＋HS 框架输出层的哈夫曼树构造过
+
+
+
+
+
+Skip＿gram＋HS  w 。Skip＿gram＋HS 
+
+ p（context（w）｜w）=
+
+CBOW＋HS  Skip＿gram＋HS 
+
 v ( w)
+
 v
+
 p（u｜w）。
-3.2.2 CBOW＋NS 和 Skip＿gram＋NS
+
+3.2.2 CBOW＋NS  Skip＿gram＋NS
+
 Skip_gram
+
 v (context ( w))
+
 ∏
+
 u∈context（w）
-程相对复杂。所以，CBOW＋NS 和 Skip＿gram＋NS 框架采用了一种
-替代的方法，即采用相对简单的负取样来提高词向量训练的速
+
+。，CBOW＋NS  Skip＿gram＋NS 
+
+，
+
 v
-度。
-对于 CBOW＋NS 框架，已知样本（context（w），w），则 w 为一
-个正样本，而词汇表中的其他词为负样本。可以采用不同的负采
-输出层
-样算法来选择负样本。在确定关于 context（w）的一个非空的负样
-本集合 NEG（w）后，对于词汇表中的任何词 w′，若 w′＝w，给其为
+
+。
+
+ CBOW＋NS ，（context（w），w）， w 
+
+，。
+
+
+
+。 context（w）
+ NEG（w）， w′， w′＝w，
+
 ...
-图3
-1 的标签，否则给其为 0 的标签。这样，正样本的标签为 1，负样
-CBOW＋HS 和 Skip＿gram＋HS 训练框架
-本的标签为 0。这里的标签可类比成 CBOW＋HS 框架输出层哈夫
-表 2 CBOW＋HS 和 Skip＿gram＋HS 训练框架对比
-对比项
-训练
+
+3
+
+1 ， 0 。， 1，
+
+CBOW＋HS  Skip＿gram＋HS 
+
+ 0。 CBOW＋HS 
+
+ 2 CBOW＋HS  Skip＿gram＋HS 
+
+
+
+
 CBOW+HS
-已知上下文，
-预测下一个词
-样本 （context（w），
+
+，
+
+
+ （context（w），
 w）
-曼树中非叶子节点的左右二分类编码。优化的目标函数可表示
+
+。
+
 Skip_gram+HS
-为 p（w）=
-投影层 输入层的 2c 个词向量的累加
-当前词 w 对应的词向量
+
+ p（w）=
+
+  2c 
+
+ w 
+
 p（u｜context（w））。
-对于 Skip＿gram＋NS 框架，已知样本（w，context（w）
-）。则对于
+
+ Skip＿gram＋NS ，（w，context（w）
+）。
+
 （context（w），w）
-输入层 词语 w 前后各 c 个词对应的词向量 当前词 w 对应的词向量
+
+  w  c   w 
+
 ∏
+
 u∈｛w｝∪NEG（w）
-已知当前词，
-预测上下文
-一个上下文词 w′，当 w′＝w，给其为 1 的标签，否则给其为 0 的标
-签。这里的标签同样可类比成 CBOW＋HS 框架输出层哈夫曼树
-中非叶子节点的左右二分类编码。则优化的目标函数为 p （w）=
-（恒等投影）
-以词语在语料库中的词频作为权值构造的一棵二叉树。叶子
-节点对应词汇表中的所有词语。假设叶子节点为 N 个，
-则非叶
-输出层 子节点为 N-1 个。叶子节点和非叶子节点均对应一个向量。其
-中叶子节点对应的向量即为词向量，而非叶子节点对应的向
+
+，
+
+
+ w′， w′＝w， 1 ， 0 
+。 CBOW＋HS 
+。 p （w）=
+
+（）
+
+。
+。 N ，
+
+
+  N-1 。。
+，
+
 ∏
+
 ∏
+
 p（w″｜w）。
+
 w'∈context（w）w″∈｛w′｝∪NEG（w′）
+
 4
-Word2vec 的应用
-Word2vec 项目介绍
-量是一个辅助向量。
+
+Word2vec 
+Word2vec 
+
+。
+
 4.1
-训练
-词汇表中词语对应的词向量，输出层非叶子节点对应的辅助
-4.1.1 Word2vec 的工程目录
-参数
-向量。
-从文献［10］中导出的 Word2vec 项目包含了若干个 C 语言
-在模型的训练过程中，
-梯度是训练参数更新的依据。为了获
-原文件和 linux 脚本。其中，与训练词向量相关的文件主要包括
-得梯度公式，需要构造出训练模型的目标函数。在 CBOW＋HS 框
+
+
+
+，
+
+4.1.1 Word2vec 
+
+
+
+。
+
+［10］ Word2vec  C 
+
+，
+。
+
+ linux 。，
+
+，。 CBOW＋HS 
+
 Word2vec.c、
-demo－word.sh 和 distance.c 3 个文件。Word2vec.c 文
-架的训练中，给定一个训练样本（context（w），w），则在输出层从
-件包含了 Word2vec 各个模型的实现，demo－word.sh 包含了模型
-根节点到词 w 的路径上，对于每一个非叶子节点均对应一个辅
-训练需要指定的参数列表，而 distance.c 文件可以计算不同词向
-助向量 θ 和一次二分类且左右两边各对应一个哈夫曼编码 l 。
-量间的余弦值。在 linux 平台下，通过 demo－word.sh 脚本即可启
-其中，j 表示从根节点到叶子节点 w 路径上非叶子节点的编号。
-动 Word2vec 进行词向量的训练。distance.c 文件以训练好的词向
-对于 l ，规定向左的分支对应 1，向右的分支对应 0。这样，通过
-量文件作为输入，可以获取与某个词语在语义上最相近的词语
-若干二分类后，最终可到达叶子节点 w。可将非叶子节点向左的
-列表。
-分支定义为负类，将向右的分支定义为正类。通过逻辑回归知
-4.1.2 Word2vec 的训练参数
+demo－word.sh  distance.c 3 。Word2vec.c 
+
+，（context（w），w），
+
+ Word2vec ，demo－word.sh 
+
+ w ，
+
+， distance.c 
+
+ θ  l 。
+
+。 linux ， demo－word.sh 
+
+，j  w 。
+
+ Word2vec 。distance.c 
+
+ l ， 1， 0。，
+
+，
+
+， w。
+
+。
+
+，。
+
+4.1.2 Word2vec 
+
 w
 j
+
 w
 j
+
 w
 j
-识，可以得到一个二分类被分成正类的概率为 σ（vTwθ）＝
+
+， σ（vTwθ）＝
+
 1
 -v θ ，
 1+e
 T
 ω
-Word2vec 提供了许多超参数来调整训练过程。不同参数的
-选择对生成的词向量的质量以及训练的速度有影响。Word2vec
-vTw 是 context（w）中包含的
-被分成负类的概率为 1-σ（vTwθ）。其中，
-可调整的参数如表 3 所示。
-词所对应词向量的累加和，而 θ 为非叶子节点对应的辅助向量。
+
+Word2vec 。
+。Word2vec
+
+vTw  context（w）
+ 1-σ（vTwθ）。，
+
+ 3 。
+
+， θ 。
+
 4.2
-沿着从根节点到叶子节点 w 的路径将每个非叶子节点的二分类
-概率相乘即为 p（w｜context（w）
+
+ w 
+ p（w｜context（w）
 ）。
-利用 Word2vec 训练中文词向量
-对于英文语料而言，Word2vec 可以根据词语之间的空格来
-识别不同的词语。但是，对于中文而言，
-Word2vec 不能直接识别。
-对于 Skip＿gram＋HS，给定一个训练样本（w，
-context（w）），其
-所以，要使用 Word2vec 来训练中文词向量，首先需要对中文语
-中 context（w）包含 2c 个词。可以将通过 w 预测 context（w）的问
-料进行分词。本文对搜狗 2012 年 6 月到 7 月的新闻数据进行分
-题，即 p（context（w）｜w）转换成 2c 个通过 w 预测下一个词为 u 的
-词来生成中文语料。将分好词的中文语料作为 Word2vec 的输入
-问题 p（u｜w），其中 u∈context（w）。p（u｜w）可以利用 CBOW＋HS 框
-文件并指定合适的训练参数，即可进行中文词向量的训练，如图
-架的思路来解决，即将 u 视为叶子节点。不同的是，
-在 CBOW＋HS
-4 所示。
+
+ Word2vec 
+，Word2vec 
+
+。，，
+Word2vec 。
+
+ Skip＿gram＋HS，（w，
+context（w）），
+
+， Word2vec ，
+
+ context（w） 2c 。 w  context（w）
+
+。 2012  6  7 
+
+， p（context（w）｜w） 2c  w  u 
+
+。 Word2vec 
+
+ p（u｜w）， u∈context（w）。p（u｜w） CBOW＋HS 
+
+，，
+
+， u 。，
+ CBOW＋HS
+
+4 。
 147
-Word2vec 的工作原理及应用探究
-周 练
-表3
-参数
+
+Word2vec 
+
+ 
+
+3
+
 train
-Word2vec 的训练参数
-说明
-参数
-输入文件的路
+
+Word2vec 
+
+
+
+
+
+
+
 output
-径
-window 窗口大小
+
+
+
+window 
+
 threads
+
 binary
+
 hs
-开启的线程数
-量
-本刊 E-mail:bjb＠sxinfo．net
+
+
+
+
+ E-mail:bjb＠sxinfo．net
+
 min-count
-是 否 用 binary
-模式保存数据
+
+   binary
+
+
 cbow
+
 https：
 //code.google. com/p/ word2vec/.
-说明
-参数
-输出文件位
+
+
+
+
+
+
+
 size
-置
-是 否 采 用
-softmax 体系
+
+
+   
+softmax 
+
 negative
-词语出现的
+
+
+
 alpha
-最小阈值
-是 否 采 用
-CBOW 算法
-信息工作研究
+
+
+   
+CBOW 
+
+
+
 classes
-说明
+
+
+
 ［3］
+
 Joseph
+
 Turian，Lev
+
 Ratinov，Yoshua
+
 Bengio.Word
-词向量
+
+
+
 representations：a simple and general method for semi －supervised
-的维数
+
+
+
 learning ［G］//Proceedings of the 48th Annual Meeting of the
-负样本
+
+
+
 Association for Computational Linguistics.Uppsala，Sweden：
 ［s.n］，
-的数量
-学习率
-初始值
-输出词
-类别
+
+
+
+
+
+
+
 2010：384－394.
 ［4］ Yoshua Bengio，
 Rejean Ducharme，Pascal Vincent，Christian
@@ -494,21 +805,28 @@ Barbados，
 January，06 －
 08，2005.
 ［6］ Michael Collins. Log－linear models［EB/OL］.［2014－09－15］.
-图4
+
+4
+
 http：//www.cs.columbia.edu/ ～mcollins/ logline ar.pdf.
-词向量的训练
-通过训练得到的词向量文件，可以计算出与某个词在语义
-上比较相近的词语。图 5 展示了与“中国”在语义上最接近的 5
-个词。
+
+
+
+，
+。 5 “” 5
+。
+
 ［7］ Mnih A，
 Hinton G. Three new graphical models for statistical
 language modelling ［G］// Proceedings of the 24th international
 conference on Machine learning.［S.l］：
 ［s.n］，2007：641-648.
 ［8］
+
 Tomas Mikolov，
 Kai Chen，
 Greg Corrado，et al. Efficient
+
 estimation of word representations in vector space［EB/OL］.［2014－
 09－19］. http：
 //arxiv.org/abs/1301.3781v3.
@@ -516,38 +834,53 @@ estimation of word representations in vector space［EB/OL］.［2014－
 Sutskever I，Chen K，
 et al.Distributed representations
 of words and phrases and their compositionality［C］//NIPS，Lake
-图5
 5
-与
-“中国”语义上最接近的 5 个词语
+
+5
+
+
+“” 5 
+
 Tahoe，USA，December，
 05－08，2013.
 ［10］ Tomas Mikolov.Word2vec code ［CP/OL］.［2014 －09 －18］.
-结语
+
+
+
 http：//word2vec.googlecode.com/ svn/trunk/.
-Word2vec 是 一 款 用 于 训 练 词 向 量 的 软 件 工 具 ， 提 供 了
-CBOW 和 Skip＿gram 两种训练模型。结合 hierarchy softmax 和
-［11］ 皮果提.Word2vec 中的数学原理 ［EB/OL］［2014－11－15］
+
+Word2vec                ，   
+CBOW  Skip＿gram 。 hierarchy softmax 
+
+［11］ .Word2vec  ［EB/OL］［2014－11－15］
 .
 .
 http：//blog.csdn.net/itplus/article/details/37969519.
-（责任编辑：
-薛培荣）
-negative sampling 优化技术，Word2vec 可以快速高效地将词语表
-达成向量。同时，由于词向量捕获了自然语言中词语之间的语义
+（：
+）
+
+negative sampling ，Word2vec 
+。，
+
 ────────────────
-第一作者简介：周 练，男，
-1988 年 9 月生，现为西安电子科
-特征，通过保存到文件中，词向量可以供其他相关应用研究使
-用。Word2vec 的出现为快速获取自然语言语义特征提供了可能，
-技大学经济管理学院情报学专业 2012 级在读硕士研究生，陕西
-从而促进了自然语言处理领域相关研究的发展。
-省西安市雁塔区太白南路 2 号西安电子科技大学北校区，
+： ，，
+1988  9 ，
+
+，，
+。Word2vec ，
+
+ 2012 ，
+
+。
+
+ 2 ，
 710071.
-参考文献
-［1］ 吴军.数学之美［M］.北京：
-人民邮电出版社，2012.
+
+
+［1］ .［M］.：
+，2012.
 ［2］ Tomas Mikolov.Word2vec project ［EB/OL］.［2014 －09 －18］.
+
 Exploration of the Working Principle and Application of Word2vec
 ZHOU Lian
 ABSTRACT：This paper studies the working principle and application of Word2vec，defines the key problems of

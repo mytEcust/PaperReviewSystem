@@ -1,0 +1,883 @@
+Journal of Computer Applications
+2016，
+36（ 10） ： 2794 － 2798
+计算机应用，
+
+ISSN 1001-9081
+CODEN JYIIDU
+
+文章编号： 1001-9081（ 2016） 10-2794-05
+
+2016-10-10
+http： / / www． joca． cn
+DOI： 10． 11772 / j． issn． 1001-9081． 2016． 10． 2794
+
+基于表示学习的中文分词
+*
+
+刘春丽，李晓戈 ，刘
+
+睿，范
+
+贤，杜丽萍
+
+（ 西安邮电大学 计算机学院，西安 710121）
+（ * 通信作者电子邮箱 lixg@ xupt． edu． cn）
+
+摘 要： 为提高中文分词的准确率和未登录词（ OOV） 识别率，提出了一种基于字表示学习方法的中文分词系统。
+首先使用 Skip-gram 模型将文本中的词映射为高维向量空间中的向量； 其次用 K-means 聚类算法将词向量聚类，并将
+聚类结果作为条件随机场（ CＲF） 模型的特征进行训练； 最后基于该语言模型进行分词和未登录词识别。对词向量的
+维数、聚类数及不同聚类算法对分词的影响进行了分析。基于第四届自然语言处理与中文计算会议（ NLPCC2015） 提
+供的微博评测语料进行测试，实验结果表明，在未利用外部知识的条件下，分词的 F 值 和 OOV 识 别 率 分 别 达 到
+95． 67% 和 94． 78% ，证明了将字的聚类特征加入到条件随机场模型中能有效提高中文短文本的分词性能。
+关键词： 表示学习； 词向量； 聚类； 条件随机场； 中文分词
+中图分类号： TP391． 1
+文献标志码： A
+
+Chinese word segment based on character representation learning
+*
+
+LIU Chunli，LI Xiaoge ，LIU Ｒui，FAN Xian，DU Liping
+（ College of Computer Science and Technology，Xi’an University of Posts and Telecommunications，Xi’an Shaanxi 710121，China）
+
+Abstract： In order to improve the accuracy and the Out Of Vocabulary （ OOV） recognition rate of the Chinese word
+segmentation，a Chinese word segmentation system based on character representation learning method was proposed． Firstly，
+the word in the text was mapped to a vector in a high-dimentioanl vecter space using Skip-gram model； then the K-means
+clustering algorithm was used to acquire clusters of the word vector，and the clustering results were regarded as features of
+Conditional Ｒandom Fields （ CＲF） model for training． Finally the CＲF model was used for word segmentation and OOV
+recognition． The influences of the word vector dimensions，the number of clusters and different cluster algorithm on word
+segmentation were analyzed． Experiments were conducted on the 4th CCF Conference on Natural Language Processing ＆
+Chinese Computing （ NLPCC2015 ） corpus． Experimental results show that the proposed system can effectively improve
+Chinese short text segmentation performance without using external knowledge，the F-value and the OOV recognition rate
+achieve to 95． 67% and 94． 78% respectively．
+Key words： representation learning； word vector； clustering； Conditional Ｒandom Field （ CＲF ） ； Chinese word
+segmentation
+
+0
+
+引言
+词是能够独立运用的最小语言单元。英文中，单词之间
+
+最 大 熵 马 尔 可 夫 模 型 （ Maximum Entropy Markov Model，
+MEMM） ［2］ 和条件随机场（ Conditional Ｒandom Field，CＲF） ［3］
+模型等。相对于 HMM 和 MEMM，CＲF 模型能灵活地选择特
+
+以空格作为自然分界符，而中文则是以字为基本的书写单位，
+
+征和控制训练数据的拟合程度。基于 CＲF 模型进行序列标
+
+词语之间没有明显的分界符，如果不进行分词，那么计算机就
+
+记的主要任务是针对特定的问题选择有效的特征来描述特定
+
+无法得知中文词语的确切边界，因而很难理解文本中所包含
+
+的语言内容。传统的 CＲF 模型中所用的特征表示大多都是
+
+的语义信息。因此，中文分词是中文自然语言处理的一项基
+
+基于词袋模型的，而这种模型会出现“词汇鸿沟”现象，即任
+
+础性工作，其在信息检索、文本自动分类及数据挖掘等领域具
+
+意两个词之间都是孤立的，即使是“话筒”和“麦克风”这样的
+
+有举足轻重的地位，是中文信息处理技术发展的技术瓶颈，研
+
+同义词也不能幸免于难。同时，使用词袋作为特征训练模型
+
+究中文分词具有十分重要的意义。
+
+时，低频词容易造成训练不足，也有可能出现过拟合。
+
+中文分词和未登录词（ Out Of Vocabulary，OOV） 识别都
+
+2006 年 Hinton 等［4］ 提出深度学习后，从大量未标记文本
+
+可以看作一个序列标记任务来完成，应用广泛的序列标注模
+
+中学习字表示的方法已经被证实对识别未登录词、命名实体
+
+［1］
+型主要有隐马尔可夫模型（ Hidden Markov Model，HMM） 、
+
+识别、词性 标 注
+
+［5］
+
+［6］
+
+和依存分析
+
+等 是 有 效 的。比 如： Mann
+
+收稿日期： 2016-03-24； 修回日期： 2016-06-21。
+基金项目： 国家自然科学基金资助项目（ 61373116） ； 陕西省普通高等学校重点学科专项
+资金资助项目（ 112-1602） ； 西安邮电大学研究生创新基金资助项目（ ZL2013-30） 。
+作者简介： 刘春丽（ 1990—） ，女，山西临汾人，硕士研究生，主要研究方向： 自然语言处理、文本数据挖掘； 李晓戈（ 1962—） ，男，安徽合肥
+人，教授，博士，主要研究方向： 自然语言处理、机器学习、数据挖掘； 刘睿（ 1992—） ，男，陕西咸阳人，硕士研究生，主要研究方向： 自然语言处
+理、大数据； 范贤（ 1991—） ，女，陕西咸阳人，硕士研究生，主要研究方向： 情感分析、大数据； 杜丽萍（ 1987—） ，女，陕西宝鸡人，硕士研究生，
+主要研究方向： 自然语言处理、大数据。
+
+第 10 期
+［7］
+
+等
+
+刘春丽等： 基于表示学习的中文分词
+
+提出一个半监督 CＲF 的方法来提高序列分词和词性标
+［8］
+
+注的准确率； Yu 等
+
+2795
+
+来表示，向量中的每一维表示某种隐含的句法或语义信息，目
+
+提出一个深层结构的 CＲF 序列标注模
+
+标是把对文本内容的处理简化为向量空间中的向量运算，计
+
+利用深度学习的方法进行中文分词和词性标
+
+算出字符在向量空间上的相似度，以此来表示文本语义上的
+
+注的任务，取 得 的 最 好 结 果 的 F 值 和 OOV 召 回 率 分 别 为
+
+相似度。本文使用 Google 基于深度学习的开源工具 word2vec
+
+［9］
+
+型； Zheng 等
+
+［10］
+
+95． 23% 和 72． 38% ； 来斯惟等
+
+将从大规模中文语料中学习
+
+d
+生成词向量。用 v c ∈ Ｒ 表示本文想要学习的字符的 d 维向
+
+得到的 语 义 向 量 应 用 到 有 监 督 的 中 文 分 词 中，最 终 取 得
+
+量； Context 表示当前字符的上下文，即当前字符前面和后面
+
+94． 90% 的 F 值和 81． 5% 的 OOV 召回率，证明了字向量加入
+
+各若干个字符（ 一般为 1 ～ 5 的一个随机数） 。根据神经语言
+
+的有效性。这种字表示方法是通过训练数据中的词来学习词
+
+模型
+
+［13］
+
+向量或词的聚类特征等字表示，然后通过这些字符表示特征
+
+的研究，可以通过最大化以下目标来优化并得到 v c ：
+
+∑log p（ v
+
+总结出词的特征，再在这种特征的基础上进一步进行模型的
+
+c
+
+| Context） =
+
+c
+
+∑log [
+
+学习，这样可以显著地提高分词的性能。
+本文提出了一个结合字表示和条件随机场的简单有效的
+
+c
+
+exp（ v Tc ·Context）
+
+∑exp（ v
+
+T
+w
+
+·Context）
+
+]
+
+（ 1）
+
+w
+
+半监督方法来提高中文分词的准确率和召回率。首先从大量
+
+由式（ 1） 可知，通过对目标概率模型 p（ v c | Context） 使用
+
+未标记的微博语料中学习中文字符的语义向量，基于这些语
+
+极大似然估计法，可求得最优化的 v c ，即本文想要学习的字符
+
+义向量作 K-means 聚类，同时对中文字符进行布朗聚类，然后
+
+向量。而 word2vec 认为 p（ v c | Context） 这个条件概率可以用
+
+再将这些字表示特征应用到 CＲF 模型中进行有监督的中文
+
+能量模型来表示，且定义了一个三非常简单的能量函数，即
+
+分词。与传统的分词方法相比，该方法着重从未标记文本中
+挖掘逐点互信息和访问多种特征。以 NLPCC2015 中的微博
+［11］
+
+分词任务提供的测试集
+
+作测试，本文取得的最好结果为
+
+95． 67% 的 F 值和 94． 78% 的 OOV 召回率。实验结果表明字
+符的表示学习方法对提高中文分词的准确率和召回率是有效
+
+1． 1
+
+·”表示两个向量的点积。为了计算条件概率 p（ v c |
+其中： “
+Context） ，需要把语料库里面所有的字符的能量都计算一次，
+T
+式（ 1） 中的归一化分母 ∑ exp（ v w ·Context） 即表示所有字
+w
+
+符（ 如词汇量） 的和。由此，再根据 v c 的能量，便可得到一个比
+
+的。
+
+1
+
+E（ v c ，Context） = － （ v c ·Context）
+
+值，这个比值即为出现 v c 条件概率。式（ 1） 的目标是在优化概
+
+字表示学习
+
+率模型的过程中为大量未标记文本生成了所有字符的向量表
+示。根据文献［5］，为了保证各个字符向量之间具有可比性，
+
+系统框架
+图 1 描述了系统的整体框架。首先，用空格将原始文本
+
+对这些字符向量进行了归一化。
+根据式（ 1） 学习得到的词向量特征是稀疏的、离散的，虽
+
+（ 没 有 分 隔 符 ） 的 每 个 字 分 开，如 给 出 一 个 句 子 S =
+［C0 C1 C2 C3 C4 ］，每个字为 C i ，将其分割为字块［C0 ，C1 ，C2 ，C3 ，
+
+然离散的特征可能更易集成到现有的自然语言处理（ Natural
+
+C4 ］； 其次，利用 Google 开源的深度学习工具 word2vec［12］ 对
+
+Language Processing，NLP） 系统中去，但却丧失了对实向量辨
+
+预处理后的语料进行学习得到字符的向量表示； 再次，利用
+
+别相似之处的能力，所以对这些实值向量进一步作 K-means
+
+K-means 聚类算法得到字的一种聚类类别，同时，使用布朗聚
+
+聚类。在每次迭代过程中，经典的 K-means 方法将数据对象
+
+类算法得到字的另一种聚类类别； 最后，将这两种不同的聚类
+
+归入相距中心点最近的一类，同时重新调整和计算这些类的
+
+结果作为 CＲF 的特征训练语言模型。
+
+中心点，直到中心点收敛于确定的位置。K-means 算法计算
+
+本文将 K-means 聚类类别和布朗聚类类别同时作为特征
+
+简单、有效，但也存在一些严重的不足，需要事先确定聚类的
+
+加入到 CＲF 模型中，可以降低某些不可靠特征造成的风险，
+
+数目，然而，在一般情况下，这个数目往往是不能准确得到的；
+
+也自然地解决了在缺乏词语分隔符的原始文本中进行表示学
+
+同时，聚类的结果和效率也往往会受到初始聚类中心位置的
+
+习的问题。
+
+影响，在数据维数较高时，聚类的质量也明显下降。本文使用
+的这种两步的聚类方法其中心向量是从 word2vec 中得出的，
+［14］
+
+并且实验结果验证了这种方法是有效的
+1． 3
+
+。
+
+基于聚类的字表示
+本文使用的基于聚类的表示方法是被广泛使用的布朗聚
+
+类算法，利用它来训练大量未标记的原始文本得到字的聚类
+特征。布朗聚类是一个分级聚类算法，这个算法通过最大化
+二元互信息对字组进行聚类，所以布朗聚类是一个基于类别
+2
+的两元语言模型。其运行的时间复杂度是 O（ V·K ） ，其中 V
+
+是词汇的大小，K 是聚类的个数。聚类的分级特性意味着可以
+在层次结构中选择若干个级别的词类别，这样可以弥补一些
+图1
+
+1． 2
+
+系统框架
+
+基于向量的字表示
+基于向量的字符表示学习是将一个字用一个低维实向量
+
+由少量字组构成的稀少类别。布朗聚类的一个缺点是其完全
+基于两字组统计数据，而并没有考虑更大的上下文字组的用
+法。以前的工作显示词聚类对一般的命名实体识别是一个好
+
+计算机应用
+
+2796
+［15］
+
+的特征
+
+，Turian 等［5］ 用于基于布朗聚类的字表示来提升命
+
+名实体识别在新闻领域的识别。本文采用布朗聚类，从一个
+
+2． 3
+
+第 36 卷
+实验结果及分析
+以基 于 字 符 级 不 加 特 征 的 CＲF 分 词 作 为 baseline。
+
+分层型字聚类算法中创建聚类特征，给每个字分配一个基于
+
+word2vec 及布朗聚类采用 NLPCC2015 分词任务中提供的微
+
+哈夫 曼 编 码 的 二 进 制 表 示，如 “秒 ”的 二 进 制 表 示 为
+
+博训练语料所得，其中含 10 000 个句子，共 215 567 个词。
+
+“0101100”，将这个二进制数作为这个字的聚类特征。
+本文使用的两种不同的聚类表示方法的区别在于对字的
+
+如图 2 所示，探讨了利用 word2vec 训练得到的不同维度
+的字向量以及 K-means 聚类类别数不同的情况下对分词结果
+
+表示方法不同，K-means 聚类算法是以字向量表示为基础的，
+
+的影响，图中以分词结果 F 值作为参考。从图 2 中曲线可看
+
+而布朗聚类则是基于字本身特征的二进制编码表示，在 2． 3
+
+出，当向量维度 d = 200，K-means 聚类类别数 k = 400 时分词
+
+节的实验结果分析中证明了这两种不同的字聚类表示特征对
+
+效果较好，F 值达到 94． 07% 。同时，随着字向量维度 d 值的
+
+分词结果产生了不同程度的影响。
+
+增大，分词结果 F 值显得更平滑，当 d = 50 时，分词结果 F 值
+
+2
+2． 1
+
+显得最不稳定，震荡较严重； 而当 d = 500 时，分词结果 F 值的
+
+实验及结果分析
+
+折线图近似为一条平滑的曲线，这意味着随着向量维度的增
+大，
+向量所表示的字得语义信息更为全面和准确，聚类特征表
+
+数据和初始化
+采用 NLPCC2015 中文微博文本分词任务提供的训练及
+
+现得更为良好，所以分词结果表现更趋于平滑。
+
+测试 语 料 作 为 本 文 的 训 练 及 测 试 语 料，其 中 训 练 语 料
+1． 96 MB（ 共 10 000 个句子，
+215 567 个词） ，测试语料 662 KB
+（ 共5 000个句子，
+106 843 个词） 。
+本文使用条件随机场开源工具 CＲF + +
+
+［16］
+
+完成中文微博
+
+数据上的分词处理。与其他分词方法类似，本文采用四词位
+标注集体系对汉字进行标注，即对于多字词，词首汉字标签为
+B，词尾汉字标签为 E，词中汉字标签为 M； 对于单字词，其标
+签为 S。有研究统计表明，在所有的语料中，90% 的词是由
+1 ～ 2个汉字组成，
+95% 的词是由 3 个或 3 个以下的字构成，
+99% 的词是由 5 个或 5 个以下的字构成［17］ ，也就是说中文词
+语的长度绝大多数在 5 字以内，所以本文采用 10 特征模板
+
+图2
+
+字符向量维度及 K-means 聚类个数
+
+从聚类结果中也可看出，当字向量维度增大时，聚类结果
+
+集，
+即以当前汉字为基础取其前后各两个汉字作为上下文，以
+
+中各类别所包含的字的语义表现得更为相近。如表 1 所示，
+
+5 字长度的上下文窗口来作特征信息统计。设当前字符为
+
+列出了在字向量维度分别为 50 和 200 时得到的与“海”“刘”
+
+C i ，上下文为 …C i －1 C i C i +1 …，baseline 特征实例［18］ 如下：
+
+最相近的字。可以看出，当字向量维度 d = 200 时，类别内部
+
+单字字符特征： C s （ i － 3 ＜ s ＜ i + 3） ；
+
+的字之间的相似度更近，语义更相关，而当字向量维度 d = 50
+
+双字字符特征： C s C s +1 （ i － 3 ＜ s ＜ i + 2） ；
+
+时，结果没有 d = 200 时的表现好。比如当 d = 50 时，与“海”
+
+字符双连词特征： C s C s +1 （ i － 2 ＜ s ＜ i + 2） ；
+
+字语义相近程度排在前十的字中出现了“莞”字。
+
+字符相同跳跃特征： C s = C s +1 （ i － 4 ＜ s ＜ i + 2） 。
+本文将字表示特征加入到 CＲF 模型中，例如，对于目标
+字符 C s ，分别提取基于字符的向量表示、K-means 和布朗聚类
+训练得到特征并加入到 CＲF 模型中。实验中字符的向量表
+
+表1
+字
+海
+
+d
+
+示是用 word2vec 训练得到的字符向量 Ｒ 。在这些字符向量
+的基础上利用 K-means 聚类，经过一组对比实验 （ 如图 2 所
+示） 可以得到，当向量维度 d = 200，K-means 聚类类别数 k =
+400 时分词效果较好，故在后续特征叠加的实验中均以此二
+值得到的结果进行叠加。对布朗聚类，本文采用聚类所得的
+二进制编码作为特征加入 CＲF 模型。
+2． 2
+
+评价标准
+本文选用的评测指标为准确率（ P） 、召回率（ Ｒ） 和综合
+
+评价指标 F 值。具体定义如下：
+系统正确识别的词语总数
+P =
+× 100%
+系统识别的词语总数
+Ｒ =
+
+系统正确识别的词语总数
+× 100%
+测试语料中的词语总数
+
+F =
+
+2 ×P×Ｒ
+× 100%
+P+Ｒ
+
+刘
+
+字向量维度不同时得到的与“海”“刘”最相近的字
+字向量维度
+
+相似的字
+
+50
+
+南琼廊岸屯湖潭河莞丘
+
+200
+
+琼岸潭滩湖岛河岭云峡
+
+50
+
+彭徐杰蔡李魏赵锡柯林
+
+200
+
+蔡彭徐魏宋蒋赵杰吕唐
+
+图 3 对比了布朗聚类与字向量分别为 200 维和 300 维时
+K-means 聚类在类别数不同时对分词结果的影响。由图 3 可
+以看出，当类别数 k = 200 时，布朗聚类对分词结果的影响达
+到峰值，此后分词效果随着 k 值的增加而递减。整体而言，当
+类别数 k 较小时，布朗聚类效果比 K-means 聚类效果更好，随
+着 k 值的增大，布朗聚类的效果要比 K-means 聚类的效果下
+降更快。
+综上可知，仅加入字向量的 K-means 聚类特征时，在 d =
+200，
+k = 400 时分词效果达到最优； 仅加入字的布朗聚类特征
+时，在 k = 200 时 CＲF 分词效果达到最优。所以本文以这两
+组最优的数据作参考，将这两种特征结合起来以达到 提 高
+CＲF 分词精度的目的。表 2 中所列 K-means 聚类以 d = 200，
+
+刘春丽等： 基于表示学习的中文分词
+
+第 10 期
+
+2797
+
+k = 400时数据作 参 考，布 朗 聚 类 以 k = 200 时 数 据 作 参 考。
+
+代人工设计特征的有监督的学习方法。未来的工作将从以下
+
+表 2中，w2v 为 加 入 的 利 用 word2vec 及 K-means 所 得 特 征，
+
+两个方面尝试： 1） 对语料中不同长度的字块进行表示学习，
+
+Brown 为布朗聚类所得特征。相对 baseline 结果而言，两种不
+
+比如 2-gram 字块和 3-gram 字块，将其加入到 CＲF 模型中，通
+
+同的字表示方法的加入均对分词结果有积极的作用，且布朗
+
+过多长度的表示学习来提高分词准确率； 2） 增加外部知识学
+
+聚类更优于 K-means 聚类。同时也可看出，当两者叠加使用
+
+习，扩大语料库，进行开放测试并提升其分词效果。
+
+时分词效果比任意只使用其中一种时的效果要好，此时 F 值
+
+参考文献：
+
+达到 94． 44% ，OOV 召回率达到92． 91% ，相对 baseline 分别提
+
+［1］ 魏晓宁． 基于隐马尔可夫模型的中文分词研究［J］． 电脑知识
+
+高了 1． 28 个百分点和 1． 41 个百分点，这说明这两种不同的
+
+与技术 （ 学 术 交 流 ） ，2007，4 （ 11 ） ： 885 － 886． （ WEI X N．
+
+聚类表示提供了不同的信息，弥补了各自部分的缺点。
+
+HMM-based of study on Chinese language classifying words ［J］．
+Computer Knowledge and Technology （ Academic Exchange ） ，
+2007，4（ 11） ： 885 － 886． ）
+［2］ ANDＲEW M，DAYNE F，FEMANDO P． Maximum entropy Markov models for information extraction and segmentation ［C］/ / Proceedings of the Seventeenth International Conference on Machine
+Learning． New York： ACM，2000： 591 － 598．
+［3］ LAFFEＲTY J，MCCALLUM A，PEＲEIＲA F． Conditional random
+fields： probabilistic models for segmenting and labeling sequence
+data ［C］/ / Proceedings of the 18th International Conference on
+
+图3
+
+布朗聚类与 K-means 聚类对分词结果影响的对比
+表2
+
+实验方案
+
+特征叠加实验结果
+
+Machine Learning． New York： ACM，2001： 282 － 289．
+［4］ HINTON G E，SALAKHUTDINOV Ｒ Ｒ． Ｒeducing the dimension-
+
+%
+
+ality of data with neural networks［J］． Science，2006，313（ 5786） ：
+504 － 507．
+
+准确率
+
+召回率
+
+F值
+
+OOV 召回率
+
+baseline
+
+93． 39
+
+92． 93
+
+93． 16
+
+91． 50
+
+baseline + w2v
+
+94． 24
+
+93． 89
+
+94． 07
+
+92． 51
+
+simple and general method for semi-supervised learning［C］/ /
+
+baseline + Brown
+
+94． 33
+
+94． 01
+
+94． 16
+
+92． 72
+
+Proceedings of the 48th Annual Meeting of the Association for
+
+baseline + w2v + Brown
+
+94． 57
+
+94． 30
+
+94． 44
+
+92． 91
+
+Computational Linguistics． Stroudsburg： Association for Computa-
+
+baseline + Dic
+
+94． 96
+
+95． 34
+
+95． 15
+
+94． 04
+
+baseline + w2v + Brown + Dic 95． 48
+
+95． 86
+
+95． 67
+
+94． 78
+
+［19］
+由于 OOV 词影响分词精度的主要因素 ，本文通过引
+入词典知识（ 表 2 中的 Dic） 来降低未登录词和交叠歧义对分
+
+［5］
+
+TUＲIAN J ，ＲATINOV L ，BENGIO Y ． Word representations ： a
+
+tional Linguistics，2010： 384 － 394．
+［6］ KOO T，CAＲＲEＲAS X，COLLINS M． Simple semi-supervised dependency parsing［C］/ / Proceedings of the 46th Annual Meeting of
+the Association for Computational Linguistics． Stroudsburg： Association for Computational Linguistics，2008： 595 － 603．
+
+词结果的影响，词典中的词均来源于 NLPCC 提供的已有正确
+标记序列的微博语料。测试结果显示，引用词典特征后，F 值
+
+［7］ MANN G S，MCCALLUM A． Generalized expectation criteria for
+
+和 OOV 召回率比 baseline 的结果分别提高了 1． 99 个百分点
+和 2． 54 个百分点，说明了词典引入的重要性。在引入词典特
+
+ceedings of the 2008 Meeting of the Association for Computational
+
+征的基础上叠加使用两种字表示特征后，F 值和 OOV 召回率
+比仅加入词典特征的结果分别提高了 0． 52 个百分点和 0． 74
+个百分点，这也体现了字表示对中文分词结果起改善作用。
+［20］
+在 NLPCC2015 分词任务中 Closed track 的部分中 Min
+等使用线性链条件随机场加规则过滤的方法取得了95． 03% 、
+95． 03% 、
+95． 03% 的准确率、召回率和 F 值，本文结果分别比
+0． 83 个百分点和 0． 64 个百分点，说
+其提高了 0． 45 个百分点、
+明本文方法可以有效改进中文分词。
+
+3
+
+结语
+本文探索了一种简单有效的分词方法，该方法分别使用
+
+字符的语义向量、K-means 聚类和布朗聚类得到不同的字符
+表示特征，再将这些字符表示特征应用到 CＲF 模型中做训
+练，以 NLPCC2015 分词任务提供的微博测评语料进行测试，
+最好的结果 准 确 率、召 回 率、F 值 及 OOV 识 别 率 分 别 达 到
+95． 48% 、
+95． 86% 、
+95． 67% 和 94． 78% 。实验结果表明，这种
+将字符表示特征加入到 CＲF 模型中的半监督方法对改善中
+文分词的结果是有效的，但是目前这种方法仍然无法完全取
+
+semi-supervised learning of conditional random fields［C］/ / ProLinguistics． Stroudsburg： Association for Computational Linguistics，2010： 1374 － 1377．
+［8］ YU D，WANG S，DENG L． Sequential labeling using deep-structured conditional random fields［J］． IEEE Journal of Selected Topics in Signal Processing，2010，4（ 6） ： 965 － 973．
+［9］ ZHENG X Q，CHEN H Y，XU T Y． Deep learning for Chinese
+word segmentation and POS tagging［C］/ / Proceedings of the 2013
+Conference on Empirical Methods in Natural Language Processing．
+Seattle： ［s． n． ］，2013： 647 － 657．
+［10］ 来斯惟，徐立恒，陈玉博，等． 基于表示学习的中文分词算法
+探索［J］． 中文信息学报，2013，27 （ 5 ） ： 8 － 14． （ LAI S W，
+XU L H，CHEN Y B，et al． Chinese word segment based on character representation learning ［J］． Journal of Chinese Information
+Processing，2013，27（ 5） ： 8 － 14． ）
+［11］ QIU X，QIAN P，YIN L，et al． Overview of the NLPCC 2015
+shared task： Chinese word segmentation and POS tagging for micro-blog texts （ 2015） ［EB / OL］． ［2015-03-10］． http： / / arxiv．
+org / abs /1505． 0759．
+［12］ word2vec［EB / OL］． ［2015-03-12］． https： / / code． google． com /
+p / word2vec / ．
+
+第 36 卷
+
+计算机应用
+
+2798
+
+［13］ MIKOLOV T，SUTSKEVEＲ I，CHEN K，et al． Distributed representations of words and phrases and their compositionality［EB /
+
+segmentation system ［J］． Acta Scientiarum Naturalium Universita-
+
+OL］． ［2015-03-10］． https： / / arxiv． org / abs /1310． 4546．
+
+tis Pekinensis，2016，52（ 1） ： 35 － 40． ）
+
+［14］ WU X，ZHOU J，SUN Y et al． Generalization of words for Chi-
+
+［15］
+
+word detection based on an improved PMI algorithm for enhancing
+
+［20］ MIN K Ｒ，MA C G，ZHAO T M，et al． BonsonNLP： an ensemble
+
+nese dependency parsing［C］/ / Proceedings of the 4th CCF Con-
+
+approach for word segmentation and POS tagging［C］/ / Proceed-
+
+ference on Natural Language Processing and Chinese Computing，
+
+ings of the 4th CCF Conference on Natural Language Processing ＆
+
+LNCS 9362． Berlin： Springer，2015： 36 － 46．
+
+Chinese Computing． Berlin： Springer，2015： 520 － 526．
+
+MILLEＲ S，GUINNESS J，ZAMANIAN A． Name tagging with
+word clusters and discriminative training［EB / OL］． ［2015-0310］． http： / / citeseerx． ist． psu． edu / viewdoc / summary？ doi =
+10． 1． 1． 105． 9395．
+
+［16］ CＲF + +［EB / OL］． ［2015-03-20］． http： / / sourceforge． net / projects / crfpp / ．
+［17］ GAO J F，LI M，WU A，et al． Chinese word segmentation and
+named entity recognition： a pragmatic approach［J］． Computational Linguistics，2005，31（ 4） ： 531 － 574．
+［18］ SUN X，WANG H，LI W． Fast online training with frequency-adaptive learning rates for Chinese word segmentation and new word
+detection［C］/ / Proceedings of the 50th Annual Meeting of the Association for Computational Linguistics． Stroudsburg： Association
+for Computational Linguistics，2012： 253 － 262．
+［19］ 杜丽萍，李晓戈，于根，等． 基于互信息改进算法的新词发现
+对中文分 词 系 统 改 进［J］． 北 京 大 学 学 报 （ 自 然 科 学 版 ） ，
+2016，52（ 1） ： 35 － 40． （ DU L P，LI X G，YU G，et al． New
+
+Background
+This work is partially supported by the National Natural Science Foundation of China （ 61373116） ，the Development Funds for the Key Subjects
+of the Universities in Shaanxi Province （ 112-1602） ，the Graduate Innovative Foundation of Xi ’an University of Posts ＆ Telecommunications
+（ ZL2013-30）
+LIU Chunli，born in 1990，M． S． candidate． Her research interests
+include natural language processing，text data mining．
+LI Xiaoge，born in 1962，Ph． D． ，professor． His research interests
+include natural language processing，machine learning，data mining．
+LIU Ｒui，born in 1992，M． S． candidate． His research interests include natural language processing，big data．
+FAN Xian，born in 1991，M． S． candidate． Her research interests
+include sentiment analysis，big data．
+DU Liping，born in 1987，M． S． candidate． Her research interests
+include natural language processing，big data．
+
+（ 上接第 2788 页）
+［12］ 冷亚军，陆青，梁昌勇． 基于结构相似性的协同过滤推荐算法
+
+ning trust mechanism with user preference［J］． Computer Engi-
+
+［J］． 小 型 微 型 计 算 机 系 统，2015，36 （ 10 ） ： 2266 － 2269．
+
+neering and Applications，2015，51 （ 10） ： 261 － 270． ）
+
+（ LENG Y J，LU Q，LIANG C Y． Collaborative filtering recom-
+
+［19］ 张珺，刘靖，叶新铭，等． 基于 CPN 的可信路由器发现协议
+
+mendation algorithm based on structure similarity［J］． Journal of
+
+建模与仿真分 析［J］． 系 统 仿 真 学 报，2012，24 （ 1 ） ： 1 － 7．
+
+Chinese Computer Systems，2015，36（ 10） ： 2266 － 2269． ）
+
+（ ZHAGN J，LIU J，YE X M，et al． Modeling and simulation of
+
+［13］ CHOI K，SUH Y． A new similarity function for selecting neighbors
+
+trusted router discovery protocol using colored Petri nets［J］． Journal of System Simulation，2012，24（ 1） ： 1 － 7． ）
+
+for each target item in collaborative filtering［J］． Knowledge-Based
+Systems，2013，37（ 1） ： 146 － 153．
+
+［20］ 于洪，李俊华． 一种解决新项目冷启动问题的推荐算法［J］．
+
+［14］ 朱锐，王怀民，冯大为． 基于偏好推荐的可信服务选择［J］．
+
+软件学报，2015，26（ 6） ： 1396 － 1406） ． （ YU H，LI J H． Algo-
+
+软件学报，2011，22 （ 5 ） ： 852 － 864． （ ZHU Ｒ，WANG H M，
+
+rithm to solve the cold-problem in new item recommendation［J］．
+
+FENG D W． Trustworthy services selection based on preference rec-
+
+Journal of Software，2015，26（ 6） ： 1396 － 1406． ）
+
+ommendation［J］． Journal of Software，2011，22（ 5） ： 852 － 864． ）
+［15］ 王磊，赵庆建，罗兴峰． 基于项目相关度的 STI 新群体冷启动
+推荐方法［J］． 小 型 微 型 计 算 机 系 统，2015，36 （ 3 ） ： 450 －
+453． （ WANG L，ZHAO Q J，LUO X F． Degree of item correlation
+based STI for new community cold start recommendation［J］． Journal of Chinese Computer Systems，2015，36（ 3） ： 450 － 453． ）
+
+Background
+This work is partially supported by the National Natural Science Foundation of China （ 61562086，
+61462079，
+61363083，
+61262088） ．
+ZHENG Jie，born in 1992，M． S． candidate． Her research interests
+include recommendation system，data mining．
+
+［16］ BOBADILLA J，OＲTEGA F，HEＲNANDO A． A collaborative fil-
+
+QIAN Yurong，born in 1980，Ph． D． ，associate professor． Her re-
+
+tering similarity measure based on singularities ［J］． Information
+
+search interests include grid computing，remote sensing image data pro-
+
+Processing and Management，2011，48（ 2） ： 204 － 217．
+
+cessing．
+
+［17］ 夏小伍，王卫平． 基于信任模型的协同过滤推荐算法［J］． 计
+
+YANG Xingyao，born in 1984，Ph． D． His research interests in-
+
+算机工程，2011，37 （ 21） ： 26 － 28． （ XIA X W，WANG W P．
+
+clude recommendation system，grid computing，cloud computing，trusted
+
+Collaborative filtering recommendation algorithm based on trust
+
+computing．
+
+model［J］． Computer Engineering，2011，37（ 21） ： 26 － 28． ）
+［18］ 王茜，王锦华． 结合信任机制和用户偏好的协同过滤推荐算
+法［J］． 计 算 机 工 程 与 应 用，2015，51 （ 10 ） ： 261 － 270．
+（ WANG Q，WANG J H． Collaborative filtering algorithm combi-
+
+HUANG Lan，born in 1988，M． S． candidate． Her research interests include big data，data mining，recommendation system．
+MA Wanzhen，born in 1992，M． S． candidate． Her research interests include high performance parallel computing．

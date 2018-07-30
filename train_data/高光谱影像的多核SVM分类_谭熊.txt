@@ -1,39 +1,57 @@
-仪
-第 35 卷 第 2 期
-2014 年 2 月
-器
-仪
-表
-学
-报
+
+
+ 35   2 
+2014  2 
+
+
+
+
+
+
+
+
+
+
+
 Vol. 35 No. 2
 Feb． 2014
+
 Chinese Journal of Scientific Instrument
+
 *
-高光谱影像的多核 SVM 分类
-谭
-（ 1． 信息工程大学地理空间信息学院
-摘
+ SVM 
+
+（ 1． 
+
+
 1，
 2
 1
 1
 1
-熊 ，余旭初 ，秦进春 ，魏祥坡
-郑州 450002； 2． 东华理工大学 江西省数字国土重点实验室
-南昌 330000）
-要： 以支持向量机为代表的核方法在高光谱影像处理中得到了广泛的应用。但高光谱影像的数据特点使单核学习模型的
-分类具有一定的局限性。提出了一种基于多核 SVM 的高光谱影像分类方法。该方法以线性加权求和核为多核组合方式，从简
-单多核学习模型的原始问题出发，通过迭代解算单个标准 SVM 优化问题来实现权系数的解算，最后利用一系列两类分类器组
-合解决多类分类问题。通过 AVIＲIS 和 PHI 影像 2 组实验，表明了高光谱影像的多核 SVM 分类方法的优势。
-关键词： 高光谱影像； 多核 SVM； 分类
-中图分类号： TP751
-文献标识码： A
-国家标准学科分类代码： 420． 2099
+ ， ， ，
+
+ 450002； 2．  
+
+ 330000）
+
+： 。
+
+。 SVM 。，
+， SVM ，
+。 AVIＲIS  PHI  2 ， SVM 。
+： ；  SVM； 
+： TP751
+
+： A
+
+： 420． 2099
+
 Multiple kernel SVM classification for hyperspectral images
 Tan Xiong1，2 ，Yu Xuchu1 ，Qin Jinchun1 ，Wei Xiangpo1
 （ 1． Institute of Surveying and Mapping，Information Engineering University，Zhengzhou 450002，China；
 2． Jiangxi Province Key Lab for Digital Land，East China Institute of Technology，Nanchang 330000，China）
+
 Abstract： Support vector machine is a typical kernel method，which has been widely applied in hyperspectral image processing． However，because of the characteristics of hyperspectral image data，the classification based on single
 kernel learning model has some limitations． In this paper，a hyperspectral image classification method based on multiple kernel SVM is proposed． The multiple kernel function is formed with the linear weighted combination of the single
 kernel functions． Then，the weights are calculated through solving the standard SVM optimization problem iteratively
@@ -42,215 +60,346 @@ used to achieve the multi-class classification． The experiments on the AVIＲI
 results prove the advantage of the hyperspectral image classification method based on multiple kernel SVM．
 Keywords： hyperspectral image； multiple kernel SVM； classification
 ［2-3］
-伪装、打击效果评估等军事领域
+
+、
+
 1
-引
-言
+
+
+
+
+
 。
-由于高光谱影像的光谱分辨率高，波段数多，使得波
-段间相关性强，冗余信息较多。若采用统计模式识别分
-高光谱遥感的出现是现代遥感技术的一个里程碑式
+
+，，
+，。
+
+
 ［1］
-的发展 。其高光谱分辨率的优势在于对地观测时可以
-类方法，在有限的训练样本条件下容易造成“Hughes 现
-象”。近年来，广大学者对以支持向量机（ support vecter
-获取众多连续波段的光谱影像，从而实现对地面目标的
-machine，SVM） 为代表的核方法展开了大量研究，在高维
-精细描述，达到识别地物的目的。高光谱影像具有光谱
-数据且训练样本有限的情况下取得了较好的分类结果，
-同时还避免了“Hughes 现象”。除 SVM 外，核方法还包
-分辨率高、光谱响应范围广、图谱合一、波段多、数据量大
-探、城市调查、环境监测、精准农业、灾害评估和专题图制
-括核 Fisher 判别分析（ kernel fisher discriminant analysis，
-KFDA） ［4］、核主 成 分 分 析 （ kernel principal cemponent a-
-作等民用领域，以及目标侦察、战场环境监测、伪装与反
-nalysis，KPCA） ［5-6］、广 义 判 别 分 析 （ generalized discrimi-
-等特点。目前已广泛用于植被调查、地质勘查、矿物勘
-收稿日期： 2013-06
+ 。
+
+，“Hughes 
+”。，（ support vecter
+
+，
+
+machine，SVM） ，
+
+，。
+
+，
+“Hughes ”。 SVM ，
+
+、、、、
+、、、、
+
+ Fisher （ kernel fisher discriminant analysis，
+KFDA） ［4］、     （ kernel principal cemponent a-
+
+，、、
+
+nalysis，KPCA） ［5-6］、      （ generalized discrimi-
+
+。、、
+
+： 2013-06
+
 Ｒeceived Date： 2013-06
-* 基金项目： 国家自然科学基金青年科学基金（ 41201477） 资助项目
-仪
+
+* ： （ 41201477） 
+
+
+
 406
-器
-仪
-表
-学
-nant analysis，GDA） ［7］、核独 立 主 成 分 分 析 （ kernel inde-
+
+
+
+
+
+
+
+
+
+nant analysis，GDA） ［7］、       （ kernel inde-
+
 n
+
 w，
 b，
 ξ
+
 ［9-11］
-以及高斯
-类（ kernel fuzzy C-neeans clustering，KFCM）
-过程（ Gaussian process，GP）
+
+（ kernel fuzzy C-neeans clustering，KFCM）
+
+（ Gaussian process，GP）
+
 1
 2
 ‖w‖ + C ∑ ξ i
 2
 i =1
+
 min
-pendence component analysis，KICA） ［8］、核模糊 C 均值聚
+
+pendence component analysis，KICA） ［8］、 C 
 ［12］
-第35 卷
-报
+
+35 
+
+
+
 s． t．
-等特征提取与分类技术。
+
+。
+
 x ） + b） ≥ 1 － ξ
 ； i = 1，
 2，…，n
 {ξy （≥w·φ（
 0
 i
+
 i
+
 i
+
 i
+
 （ 1）
-在高光谱影像分析处理中，由于地物种类的复杂性
-和多样性造成数据规模较大、样本分布的不规则，以及不
-同核函数或同一核函数不同参数具有不同的特性，性能
-通过拉 格 朗 日 函 数 法 可 推 导 出 原 始 问 题 的 对 偶
-问题：
-差异较大，若在同一特征空间中采用单核映射方式对所
-有样本进行处理并不合理。针对这些问题，可以利用多
-［13］
-核函数代替单核函数的学习方法，即多核学习方法
-α
+
 ，
-将不同样本的特征分量分别输入不同的核函数进行映
+、，
+，
+
+                 
+：
+
+，
+。，
+［13］
+
+，
+
+α
+
+，
+
+
+
 s． t．
-射，使数据在新的特征空间中得到更好的表达，从而提高
-学习性能和分类精度。
-多核学习组合方式主要包括直接求和核、加权求和
-核、加权多项式扩展核等线性组合方式以及核矩阵扩展
-组合。根据组合方式的不同，出现了大量多核学习的理
-论和方法。如二次约束二次规划法（ quadratic constrained
-quadratic programming，QCQP ） ［14］、类 序 列 最 小 最 优 化
-（ like sequential minimal optimization，类 SMO） 法［15-16］、半
-无限 线 性 规 划 （ Semi-infinite linear programming，SILP ）
+
+，，
+。
+、
+、
+。，
+。（ quadratic constrained
+quadratic programming，QCQP ） ［14］、       
+（ like sequential minimal optimization， SMO） ［15-16］、
+     （ Semi-infinite linear programming，SILP ）
 ［17-18］
-法
-和简单多核学习 （ simple multiple kernel leaming，
-SMKL） ［19］方法等。这些方法存在计算效率低和大样本
-数据处理困难等不足。
-根据高光谱影像数据的特性，本文主要采用加权求
-合的多核组合方式和 SMKL 的理论方法进行高光谱影像
-的分类，称为多核 SVM（ multiple kernel SVM，MKSVM） 分
+
+
+
+ （ simple multiple kernel leaming，
+
+SMKL） ［19］。
+。
+，
+ SMKL 
+， SVM（ multiple kernel SVM，MKSVM） 
+
 {
+
 n
+
 1
 2
+
 max －
-分类正确率。
+
+。
+
 2
 2． 1
-多核 SVM 高光谱影像分类
-SVM 分类
+
+ SVM 
+SVM 
+
 j =1
-使其线性可分，在高维特征空间中构造具有低 VC 维的
+
+， VC 
+
 i =1
+
 ∑α
+
 ∑α y
 i
+
 = 0
+
 i
+
 i =1
+
 i
+
 i =1
+
 （ 2）
+
 n
+
 ； i = 1，
 2，…，n
+
 0 ≤ αi ≤ C
-式中： k（ x i ，x j ） 为满足 Mercer 定理的正定核函数，C 为惩
-罚参数。常用的核函数包括线性核函数、多项式核函数
-（ polynomial kernel function，POLY） 、高 斯 径 向 基 核 函 数
-（ Gaussian radial basis function，GＲBF ） 和 Sigmoid 核 函
-数等。
+
+： k（ x i ，x j ）  Mercer ，C 
+。、
+（ polynomial kernel function，POLY） 、       
+（ Gaussian radial basis function，GＲBF ）  Sigmoid  
+。
 2． 2
-MKSVM 两类分类问题
-根据 Mercer 定理及其性质，如果 K1 和 K2 是在 X × X
+
+MKSVM 
+ Mercer ， K1  K2  X × X
+
 n
-上的核，X  Ｒ ，则下面的函数也是核函数：
+，X  Ｒ ，：
+
 1） K（ x，z） = K1 （ x，z） + K2 （ x，z）
 2） K（ x，z） = aK1 （ x，z）
-如果 X × X 上有 M 个核函数，则根据 1） 和 2） 可得下
-面的函数也是核函数：
+ X × X  M ， 1）  2） 
+：
 M
+
 M
+
 ∑d
+
 K（ x，z） =
+
 m =1
+
 m
+
 K m （ x，z） ，d m ≥ 0，∑ d m = 1 （ 3）
 m =1
-式（ 3） 是多核函数组合的最一般形式，是基核函数
-的加权线性凸组合，式中 K m 为基核函数，M 为基核函数
-个数，d m 为权系数。
-SMKL 的原始问题［20］ 描述如下：
+
+（ 3） ，
+， K m ，M 
+，d m 。
+SMKL ［20］ ：
 min
+
 w m，
 b，
 d
 ξ，
-SVM 核心思想是以结构风险最小化为原则，通过核
-函数把输入空间的非线性可分数据映射到高维特征空间
+
+SVM ，
+
+
 n
+
 ∑ ∑ α i α j y i y j k（ x i ，x j ） +
-类，并与基于径向基核函数和多项式核函数的单核 SVM
-分类器进行比较分析，结果表明 MKSVM 得到了较高的
+
+， SVM
+， MKSVM 
+
 n
+
 s． t．
-最优分类超平面作为判决面，使得 2 类数据到该平面的
-距离最大。
+
+， 2 
+。
+
 M
+
 1
 2
+
 {
+
 1
+
 ∑d
 m =1
+
 n
+
 2
 ‖w m ‖ H + C ∑ ξ i
 m
+
 m
+
 i =1
+
 M
+
 yi （ ∑ wm ·φ（ xi ） + b） ≥ 1 － ξi
 m =1
+
 ； i = 1，
 2，…，n
+
 ξi ≥ 0
 M
+
 ∑d
+
 m
+
 = 1，d m ≥ 0
+
 m =1
+
 （ 4）
-对于两类分类问题，设训练样本集 T = ｛ （ x1 ，y1 ） ，
-（ x2 ，y2 ） ，…，（ x n ，y n ） ｝ ，其中 x i ∈ χ = Ｒ n 为样本向量，
-观察式（ 4） ，将其整理为以 d m 为变量的优化问题：
-y i ∈Y = ｛ + 1，－ 1｝ 为类别号，n 为样本个数，假设存在
+
+， T = ｛ （ x1 ，y1 ） ，
+（ x2 ，y2 ） ，…，（ x n ，y n ） ｝ ， x i ∈ χ = Ｒ n ，
+
+（ 4） ， d m ：
+
+y i ∈Y = ｛ + 1，－ 1｝ ，n ，
+
 {
-一个映射 φ（ x i ） ，将数据 x i 从原始特征空间 χ 映射到高维
-特征空间 F 中，并引入松弛变量 ξ i ，则 SVM 的原始问题可
-表示为：
+
+ φ（ x i ） ， x i  χ 
+ F ， ξ i ， SVM 
+：
+
 min J（ d）
 d
+
 （ 5）
+
 M
+
 s． t．
+
 ∑d
 m =1
+
 J（ d） =
+
 m
+
 = 1，d m ≥ 0
-谭
-第2 期
+
+
+
+2 
 M
-熊 等： 高光谱影像的多核 SVM 分类
+
+ ：  SVM 
+
 n
+
  min 1 ∑ 1 ‖w m ‖2H + C ∑ ξ i
 i =1
  w ，b，ξ 2 m = 1 d m
@@ -262,47 +411,69 @@ i ∑ w m ·φ（ x i ） + b） ≥ 1 － ξ i （ i = 1，
 m =1
 ξ ≥ 0
 m
+
 m
+
 （ 12）
 d tm + γ t D t → d m t + 1
-式中： γ t 为更新步长，可通过一维线性搜索计算得到； D t
-为梯度下降方向。
-总结以上过程，MKSVM 两类分类算法描述为：
-MKSVM 两类分类算法：
+： γ t ，； D t
+。
+，MKSVM ：
+MKSVM ：
+
 i
+
 （ 6）
-由于式（ 5） 的目标函数 J（ d） 是一个标准的 SVM 问
-题，它是一个包含变量 d m 的凸优化问题，因此可通过拉
-格朗日函数将 J（ d） 转化为极大极小问题，则有：
+（ 5）  J（ d）  SVM 
+， d m ，
+ J（ d） ，：
 1
 2
+
 L（ w m ，b，ξ，α，υ） =
 n
+
 M
+
 n
+
 ∑
 m =1
+
 1
 2
 ‖w m ‖ H + C ∑ ξ i +
 dm
 i =1
 m
+
 M
+
 ∑α （ 1
 i
+
 － ξi － yi （
+
 i =1
+
 m
+
 ·φ m （ x i ） + b） ） +
+
 m =1
+
 ∑υ ξ
 i
+
 （ 7）
+
 i
+
 i =1
-式中： α i 、υ i 为拉格朗日系数。
-对式（ 7） 求 w m 、b、ξ 的微分，得：
+
+： α i 、υ i 。
+（ 7）  w m 、b、ξ ，：
+
  w L（ w m ，b，ξ，d，α，υ，λ，η） = 1 w m －
 dm
 
@@ -321,847 +492,1461 @@ m
 i
 i
 m
-再将式（ 8） 代入式（ 7） 可得：
+
+（ 8） （ 7） ：
 max －
 α
+
 s． t．
+
 {
+
 1
 2
+
 n
+
 n
+
 M
+
 ∑∑α α y y ∑d
 i
+
 j =1
+
 i
+
 j
+
 i
+
 j
+
 i =1
+
 m
+
 k m （ x i ，x j ） +
+
 m =1
+
 = 0
+
 i
-一般为多核个数；
-Step2： 对于第 t 次迭代： 利用式（ 1） 的组合核 k（ x i ，
-x j ） 通过解算标准 SVM 的方法计算 J（ d） ；
-Step3： 利用式（ 11） 计算梯度、梯度方向 D t 和最优步
-长 γt ；
-Step4： 根据式（ 12） 更新 d tm+1 ，用更新的 d tm+1 值形成新
+
+；
+Step2：  t ： （ 1）  k（ x i ，
+x j ）  SVM  J（ d） ；
+Step3： （ 11） 、 D t 
+ γt ；
+Step4： （ 12）  d tm+1 ， d tm+1 
+
 ∑α
+
 i =1
+
 i
+
 i =1
+
 （ 9）
-Step2 ～ Step4 直到达到停止迭代条件。
-KKT 条
+
+Step2 ～ Step4 。
+KKT 
 DG） ，
-迭代停止条件包括对偶误差（ duality gap，
-DG 的表达式为：
-件，Δd 达到阈值以及最大迭代次数。
-其中，
+（ duality gap，
+DG ：
+，Δd 。
+，
 n
+
 0 ≤ αi ≤ C
+
 i =1
+
 n
+
 ∑d
+
 m
-k m （ x i ，x j ） 的
+
+k m （ x i ，x j ） 
+
 m =1
+
 2． 3
+
 M
+
 ∑∑α
 j =1
+
 *
 i
+
 i =1
-MKSVM 多类分类问题
-标函数值求和所得，即：
+
+MKSVM 
+
+，：
 J（ d） =
+
 *
 α j y i y j ∑ d m k m （ x i ，x j ） +
 m =1
+
 *
 i
+
 k
-式中： K 表示 两 类 分 类 器 的 集 合； J k （ d） 是 第 k 个 两 类
-SVM 分类器的目标函数值。如果在多核 SVM 分类算法中
-目标函数已更新，则 J（ d） 的梯度为：
+
+： K         ； J k （ d）   k   
+SVM 。 SVM 
+， J（ d） ：
+
 （ 10）
+
 1
 J
 =－
 2
 d m
+
 i =1
+
 *
-若式（ 10） 的最优解 α 与 d m 无关，则 J（ d） 对 d m 的
-微分为：
+（ 10）  α  d m ， J（ d）  d m 
+
+：
 J（ d m ）
 1
 =－
 2
 d m
+
 （ 14）
+
 ∑ J （ d）
+
 n
+
 ∑α
+
 （ 13）
+
 m =1
+
 k∈K
-解，那么对于一个给定的 d m ，解算 J（ d） 表达式为：
+
+， d m ， J（ d） ：
 1
 2
+
 *
 *
 α j y i y j ∑ d m K m （ x i ，x j ） ≤ ε
-OAA） 和一对一法（ one-against-one，OAO） 。假设数据有 k
-类，OAA 法需要训练 k 个分类器； OAO 法则需要 k（ k －
+
+OAA） （ one-against-one，OAO） 。 k
+，OAA  k ； OAO  k（ k －
+
 *
+
 J（ d） = －
+
 j =1
+
 *
 i
-式中： ε 为阈值。
-标准 SVM 问题的对偶形式。如果 α 为式（ 9） 的一个最优
+
+： ε 。
+
+ SVM 。 α （ 9） 
 n
+
 M
+
 ∑∑α
 i =1
+
 j =1
+
 n
-了一个目标函数 J（ d） ，它可由每一两类分类器解算的目
+
+ J（ d） ，
+
 M
+
 n
+
 n
+
 max∑ ∑ α *i α *j y i y j K m （ x i ，x j ） －
 m
-1） /2 个分类器。对于 MKSVM 的多类分类问题，也可通
-过两类分类器来求解，不同的是 MKSVM 仅仅只多定义
+
+1） /2 。 MKSVM ，
+， MKSVM 
+
 ； i = 1，
 2，…，n
-式（ 9） 是包含组合核 k（ x i ，x j ） =
-的组合核函数；
-Step5： 判断是否满足迭代停止条件，若不满足，重复
-在 SVM 中，多类分类问题一般通过组合两类分类器
-来 建 立 分 类 超 平 面，主 要 有 一 对 多 法 （ one-against-all，
+
+（ 9）  k（ x i ，x j ） =
+
+；
+Step5： ，，
+
+ SVM ，
+       ，       （ one-against-all，
+
 n
+
 n
+
 ∑α y
+
 2，…，M） ，M
-Step1： 设置 d m 初值： d1m = 1 / M，（ m = 1，
+Step1：  d m ： d1m = 1 / M，（ m = 1，
+
 n
+
 ∑w
+
 407
+
 n
+
 n
+
 ∑∑∑α
 k∈K
+
 i =1
+
 *
 i，k
+
 *
 α j，k y i y j K m （ x i ，x j ）
+
 （ 15）
+
 j =1
+
 *
 *
-式中： α j，k （ α i，k ） 表示包含于第 k 个决策函数中的第 j（ i）
-个样本的拉格朗日系数。
+： α j，k （ α i，k ）  k  j（ i）
+
+。
 n
+
 n
+
 ∑∑α
 j =1
+
 *
 i
+
 *
 α j y i y j k m （ x i ，x j ）
+
 （ 11）
+
 i =1
+
 2． 4
-MKSVM 高光谱影像分类
-将 MKSVM 应用于高光谱影像分类时，由于影像数
-式（ 11） 为目标函数 J（ d） 的梯度。若每个基核函数
-都满足 Mercer 定理正定核条件，则 J（ d） 是一个严格的凸
-优化问题且可微，一旦 J（ d） 的梯度计算出来，则通过梯
-影响训 练 的 速 度。因 此，本 文 首 先 采 用 最 小 噪 声 分 离
-（ minimum noise fraction，MNF） 特征变换方法进行数据降
-度下降方向来更新满足约束的 d 值：
-维，然后在此基础上进行分类。基于 MKSVM 的高光谱
-据波段数多、维数大，模型训练时容易造成过大核矩阵，
-仪
+
+MKSVM 
+ MKSVM ，
+
+（ 11）  J（ d） 。
+ Mercer ， J（ d） 
+， J（ d） ，
+
+    。 ，           
+（ minimum noise fraction，MNF） 
+
+ d ：
+
+，。 MKSVM 
+
+、，，
+
+
+
 408
-器
-仪
-表
-学
-第35 卷
-报
+
+
+
+
+
+
+
+
+
+35 
+
+
+
 －4
 －4
 iter max = 200。
 0． 01，
 Δσ = 10 ，
 λ = 10 ，
-影像分类具体流程如图 1 所示。
-实验 1
+
+ 1 。
+
+ 1
+
 3． 2
-实验数据采用 1992 年 6 月 AVIＲIS 成像光谱仪获取
-的 Indiana 西北部地区植被影像（ Indian Pines image） ，该
-影像大小为 145 pixel × 145 pixel，空间分辨率约为 20 m，
-光谱覆盖范围为 400 ～ 2 500 nm，原始波段数为 224 个，
+
+ 1992  6  AVIＲIS 
+ Indiana （ Indian Pines image） ，
+ 145 pixel × 145 pixel， 20 m，
+ 400 ～ 2 500 nm， 224 ，
 33、
-97 和 161 波段共 220 个波段。该数据的假
-去除第 1、
-彩色图像和地面真实数据分别如图 2（ a） 、（ b） 所示，其类
-别和样本数量信息如表 1 所示。
-图1
-MKSVM 高光谱影像分类流程图
+97  161  220 。
+ 1、
+ 2（ a） 、（ b） ，
+ 1 。
+
+1
+
+MKSVM 
+
 Fig． 1 Flowchart of the MKSVM hyperspectral image
 classification scheme
-图2
-AVIＲIS 假彩色影像和地面真实数据
+2
+
+AVIＲIS 
+
 Fig． 2 AVIＲIS false color image and the reference data
+
 3
-实验与分析
-表1
-基于 SVM 的高光谱影像分类方法也是目前研究较
-多且分类效果较好的分类方法之一，因此，本文分别采用
-基于高斯径向基核函数和多项式核函数（ POLY） 的单核
-AVIＲIS 影像样本信息
-Table 1 AVIＲIS image sample information
-类别
-名称
-样本数量
-训练样本
-测试样本
-54
-27
-27
+
+
+
 1
-苜蓿
-SVM 分类方法与基于 MKSVM 的高光谱影像分类算法进
+
+ SVM 
+，，
+（ POLY） 
+
+AVIＲIS 
+
+Table 1 AVIＲIS image sample information
+
+
+
+
+
+
+
+
+
+
+54
+
+27
+
+27
+
+1
+
+
+
+SVM  MKSVM 
+
 2
-免耕玉米
+
+
+
 1 434
+
 100
+
 1 334
-行比较 分 析。 实 验 的 计 算 机 硬 件 环 境 为 Intel Corei5-
+
+  。            Intel Corei5-
+
 3
-少耕玉米
+
+
+
 834
+
 84
+
 750
+
 4
-玉米
+
+
+
 234
+
 117
+
 117
+
 5
-草地 / 牧草
+
+ / 
+
 497
+
 50
+
 447
+
 6
-草地 / 树木
+
+ / 
+
 747
+
 75
+
 672
-2410M CPU 2． 3 GHz、ＲAM 4． 0 GB，软件环境为 Windows
-7（ 64 位） 操作系统、MATLAB 2012b。
+
+2410M CPU 2． 3 GHz、ＲAM 4． 0 GB， Windows
+7（ 64 ） 、MATLAB 2012b。
 3． 1
-多核组合方式和参数设置
-在学习过程中，
-多核组合策略有 2 种： 一是单个核函数
-不同参数组成的多核； 二是不同核函数不同参数组成的多
-核。本文将分别采用这 2 种策略进行实验，
-另外基核函数主
+
+
+，
+ 2 ： 
+
+； 
+。 2 ，
+
+
 7
-草地 / 修剪牧草
+
+ / 
+
 26
+
 13
+
 13
+
 8
-干草料堆
+
+
+
 489
+
 49
+
 440
-要采用 ＲBF 核函数和 POLY 核函数，
-其表达式分别为：
+
+ ＲBF  POLY ，
+：
+
 9
-燕麦
+
+
+
 20
+
 10
+
 10
+
 （ 16）
+
 10
-免耕大豆
+
+
+
 2 468
+
 100
+
 2 368
+
 （ 17）
+
 11
-少耕大豆
+
+
+
 968
+
 97
+
 871
+
 12
-纯净大豆
+
+
+
 614
+
 62
+
 552
+
 13
-建筑-草地-树木
+
+--
+
 380
+
 38
+
 342
+
 14
-小麦
+
+
+
 212
+
 106
+
 106
+
 15
-森林
+
+
+
 1 294
+
 100
+
 1 194
+
 16
-石钢塔
+
+
+
 95
+
 48
+
 47
+
 2
+
 2
+
 k（ x，z） = exp（ － ‖x － z‖ /2σ ）
 k（ x，z） = （ x·z + 1）
+
 p
-式中： σ 为高斯核参数，p 为多项式系数。
-MKSVM 分类的参数主要包括惩罚系数 C、高斯核参
-在分类时需要进行
-数 σ、
-多项式系数 p 以及多核权系数 d m 。
-预先设置，
-在本文的实验中，权系数的初始值设置为 1 / M，
-M 为基核函数个数即不同核函数对应核参数个数总和，
+
+： σ ，p 。
+MKSVM  C、
+
+ σ、
+ p  d m 。
+，
+， 1 / M，
+M ，
 C
 －4
+
 －3
+
 4
+
 10 ，
 …，
 10 ｝ ，
-σ 的取值范围为
-的取值范围设置为｛ 10 ，
-p 的取值范围为｛ 1，
+σ 
+｛ 10 ，
+p ｛ 1，
 ｛ 0． 2，
 0． 4，
 …，
 2． 0｝ ，
 2，
-3｝ 。利用简单多
-核学习工具箱 SimpleMKL toolbox 通过梯度下降法选择最
-将该 AVIＲIS 影像的各类样本随机地分成训练样本
-优 d m 相对应的核参； C 值可通过训练样本的交叉验证获
-和测试样本。训练样本用于分类器的学习训练，测试样
-本用于分类精度的检测。影像经过 MNF 变换后，选择信
+3｝ 。
+ SimpleMKL toolbox 
+
+ AVIＲIS 
+
+ d m ； C 
+
+。，
+。 MNF ，
+
 4
-得，其最优值为 10 ； σ 和 p 取所有值。
-其他参数设置为： ε =
-谭
-第2 期
-熊 等： 高光谱影像的多核 SVM 分类
+
+， 10 ； σ  p 。
+： ε =
+
+
+
+2 
+
+ ：  SVM 
+
 409
-噪比较大的前 13 个分量作为实验数据，分别采用不同的
-多核组合方式和多类构造器，实验结果如表 2 所示。表
-中支持向量数量为每个参数对应基核函数支持向量个数
-总和，数字加粗部分表示分类正确率的最大值及其训练
-时间。
-表2
-AVIＲIS 影像 MKSVM 分类结果
+
+ 13 ，
+， 2 。
+
+，
+。
+2
+
+AVIＲIS  MKSVM 
+
 Table 2 Ｒesult of MKSVM classification for AVIＲIS image
-训练时间 / s
-多核组
-合方式
+ / s
+
+
+
 OAO
+
 OAA
-支持向量个数
+
+
 OAO
+
 OAA
-分类正确率 （ % ）
+
+ （ % ）
 OAO
+
 OAA
+
 ＲBF
+
 339． 9
+
 49． 3
+
 6 315
+
 4 224
+
 91． 17
+
 90． 11
+
 POLY
+
 24． 2
+
 18． 2
+
 2 095
+
 1 455
+
 85． 19
+
 78． 62
+
 ＲBF + POLY 336． 7
+
 45． 3
+
 6 293
+
 4 224
+
 91． 22
+
 90． 91
-为了 便 于 与 MKSVM 分 类 方 法 进 行 比 较 分 析，在
-SVM 分类中，惩罚系数 C 也设置为 10 4 ，高斯核参数 σ 和
-图3
-PHI 单波段灰度影像及样本分布
+
+    MKSVM          ，
+SVM ， C  10 4 ， σ 
+
+3
+
+PHI 
+
 Fig． 3 PHI gray image and the sample distribution
-表4
-PHI 影像样本信息
+4
+
+PHI 
+
 Table 4 HPI image sample information
-类别
+
+
 1
-名称
-房屋
+
+
+
+
 870
-数量
+
+
+
 2
+
 3
+
 4
-树木 水域 道路
+
+  
 234 1 176 453
+
 5
+
 6
+
 7
+
 8
-植被
+
+
 560
-裸土
+
+
 584
-其他
+
+
 315
-水泥地
+
+
 255
-多项式系数 p 分别取不同值时，影像的分类结果如表 3
-所示，数字加粗部分表示分类正确率的最大值及其训练
-时间。
-表3
-本和测试样本。训练样本用于分类器的学习训练，测试
-样本用于分类精度的检测。影像经过 MNF 变换后，选择
-AVIＲIS 影像 SVM 分类结果
-Table 3 Ｒesult of SVM classification for AVIＲIS image
-训练时间 / s
-SVM 参数
-支持向量个数
-将该 PHI 影像的各类样本按等分随机地分成训练样
-分类正确率（ % ）
-信噪比较大的前 5 个分量作为实验数据，得到的实验结
-果如表 5 所示，数字加粗部分表示分类精度的最优值及
-σ
-OAO
-OAA
-OAO
-OAA
-OAO
-OAA
-0． 2
-9． 2
-283． 0
-720
-803
-89． 88
-89． 59
-0． 4
-22． 5
-61． 5
-589
-558
-88． 11
-88． 22
-0． 6
-42． 1
-226． 2
-531
-508
-87． 76
-88． 68
-0． 8
-95． 8
-81． 8
-479
-537
-88． 39
-88． 56
-1． 0
-233． 6
-227． 5
-458
-549
-87． 31
-87． 94
-1． 2
-317． 6
-147． 1
-460
-587
-87． 65
-87． 02
-1． 4
-530． 9
-69． 7
-437
-607
-88． 22
-86． 56
-1． 6
-416． 0
-234． 2
-437
-642
-88． 62
-85． 94
-1． 8
-384． 8
-76． 6
-429
-666
-88． 51
-85． 13
-2． 0
-790． 8
-66． 9
-426
-680
-88． 28
-84． 11
-p
-OAO
-OAA
-OAO
-OAA
-OAO
-OAA
-1
-653． 3
-172． 6
-427
-711
-84． 85
-75． 41
-当惩罚系数 C 取值为 10 ，高斯核参数 σ 和多项式系
-数 p 分别取不同值时，该 PHI 影像 SVM 分类结果如表 6
-2
-819． 9
-9 998． 2
-422
-552
-87． 08
-86． 85
-所示，数字 加 粗 部 分 表 示 分 类 精 度 的 最 优 值 及 其 训 练
+
+ p ， 3
+，
+。
 3
-303． 3
-29 791
-417
-504
-87． 19
+
+。，
+。 MNF ，
+
+AVIＲIS  SVM 
+
+Table 3 Ｒesult of SVM classification for AVIＲIS image
+ / s
+
+SVM 
+
+
+
+ PHI 
+
+（ % ）
+
+ 5 ，
+ 5 ，
+
+σ
+
+OAO
+
+OAA
+
+OAO
+
+OAA
+
+OAO
+
+OAA
+
+0． 2
+
+9． 2
+
+283． 0
+
+720
+
+803
+
+89． 88
+
+89． 59
+
+0． 4
+
+22． 5
+
+61． 5
+
+589
+
+558
+
+88． 11
+
+88． 22
+
+0． 6
+
+42． 1
+
+226． 2
+
+531
+
+508
+
+87． 76
+
+88． 68
+
+0． 8
+
+95． 8
+
+81． 8
+
+479
+
+537
+
+88． 39
+
+88． 56
+
+1． 0
+
+233． 6
+
+227． 5
+
+458
+
+549
+
+87． 31
+
+87． 94
+
+1． 2
+
+317． 6
+
+147． 1
+
+460
+
+587
+
+87． 65
+
+87． 02
+
+1． 4
+
+530． 9
+
+69． 7
+
+437
+
+607
+
+88． 22
+
+86． 56
+
+1． 6
+
+416． 0
+
+234． 2
+
+437
+
+642
+
+88． 62
+
+85． 94
+
+1． 8
+
+384． 8
+
+76． 6
+
+429
+
+666
+
+88． 51
+
+85． 13
+
+2． 0
+
+790． 8
+
+66． 9
+
+426
+
+680
+
+88． 28
+
+84． 11
+
+p
+
+OAO
+
+OAA
+
+OAO
+
+OAA
+
+OAO
+
+OAA
+
+1
+
+653． 3
+
+172． 6
+
+427
+
+711
+
+84． 85
+
+75． 41
+
+ C  10 ， σ 
+ p ， PHI  SVM  6
+
+2
+
+819． 9
+
+9 998． 2
+
+422
+
+552
+
 87． 08
-时间。
-其训练时间。
-表5
-PHI 影像 MKSVM 分类结果
+
+86． 85
+
+，                  
+
+3
+
+303． 3
+
+29 791
+
+417
+
+504
+
+87． 19
+
+87． 08
+
+。
+
+。
+5
+
+PHI  MKSVM 
+
 Table 5 Ｒesult of MKSVM classification for PHI image
-训练时间 / s
-多核组
-合方式
+ / s
+
+
 ＲBF
-支持向量个数
-分类正确率（ % ）
+
+
+
+（ % ）
+
 OAO
+
 OAA
+
 OAO
+
 OAA
+
 OAO
+
 OAA
+
 7． 9
+
 2． 9
+
 592
+
 426
+
 94． 70
+
 94． 55
+
 POLY
+
 3． 8
+
 3． 0
+
 208
+
 365
+
 93． 82
+
 92． 57
+
 ＲBF + POLY
+
 9． 1
+
 2． 6
+
 592
+
 426
+
 94． 70
+
 94． 55
+
 4
+
 3． 4
 3． 3
-实验 2
-实验分析
-实验数据由推扫式成像光谱仪 PHI-1307 于 2009 年
-从表 2 和表 3 的实验结果可以看出： 采用 ＲBF-POLY
-组合核 函 数 和 多 个 核 函 数 参 数 的 多 核 分 类 器 （ ＲBF +
-5 月获取的山东省某码头的航空高光谱影像，空间分辨
-率约为 1 m，原始数据共有 130 个波段，光谱分辨率优于
-POLY-MKSVM） 分类正确率最高，一对一法多类分类器
-组合达到 91． 22% ，一对多法为 90． 91% 。分别优于基于
-5 nm，光谱覆盖范围 400 ～ 1 000 nm，截取 616 像素 × 731
-ＲBF 单核函数 SVM（ ＲBF-SVM） 89． 88% 和 89． 59% 的分
-像素大小的区域作为实验数据。单波段灰度影像及样本
-分布如图 3 所示。根据目视判读，在影像上共有八类地
-类精 度 和 基 于 POLY 单 核 函 数 SVM （ POLY-SVM ）
-81． 79% 和 87． 08% 的分类精度。由于多项式系数越大，
-物，采集样本的数量信息如表 4 所示。
-POLY 函数计算量就越大，因此 POLY-SVM 分类器训练
-仪
+
+ 2
+
+
+
+ PHI-1307  2009 
+
+ 2  3 ：  ＲBF-POLY
+                 （ ＲBF +
+
+5 ，
+ 1 m， 130 ，
+
+POLY-MKSVM） ，
+ 91． 22% ， 90． 91% 。
+
+5 nm， 400 ～ 1 000 nm， 616  × 731
+
+ＲBF  SVM（ ＲBF-SVM） 89． 88%  89． 59% 
+
+。
+ 3 。，
+
+     POLY     SVM （ POLY-SVM ）
+81． 79%  87． 08% 。，
+
+， 4 。
+
+POLY ， POLY-SVM 
+
+
+
 410
-器
-仪
-时间过长，效率较低； 而其他几种多核分类器的平均训练
-表 6 PHI 影像 SVM 分类结果
+
+
+
+
+
+，； 
+ 6 PHI  SVM 
 Table 6 Ｒesult of SVM classification for PHI image
-训练时间 / s
+ / s
 OAA
-高斯核参数 σ OAO
+ σ OAO
 0． 2
 1． 5
 18． 3
-学
-报
-第35 卷
-练速度上占有一定的优势。
-在本文提出的分类方法中，只利用了影像的光谱信
-时间与 ＲBF-SVM 分类器相差不大。
-SVM 参数
-表
-支持向量个数
+
+
+
+
+
+35 
+
+。
+，
+
+ ＲBF-SVM 。
+
+SVM 
+
+
+
+
 OAO
 OAA
-分类正确率（ % ）
+
+（ % ）
 OAO
 OAA
-息而忽略了其丰富的空间信息，因此，下一步研究重点将
-针对联合光谱和空间信息的高光谱影像多核学习分类方
-法进行研究。
-参考文献
+
+，，
+
+。
+
+
+
 146
+
 162
+
 94． 52
+
 94． 07
+
 0． 4
+
 28． 3
+
 327． 4
+
 117
+
 97
+
 94． 30
+
 92． 92
+
 0． 6
+
 6． 2
+
 154． 6
+
 104
+
 86
+
 94． 67
+
 93． 42
+
 0． 8
+
 8． 5
+
 153． 2
+
 102
+
 90
+
 94． 57
+
 93． 47
+
 1． 0
+
 2． 1
+
 67． 1
+
 94
+
 87
+
 93． 82
+
 93． 82
+
 YU X CH，
 FENG W F，
 LIN L X． Hyperspectral remote sens-
+
 1． 2
+
 3． 2
+
 2 244． 6
+
 95
+
 94
+
 94． 05
+
 93． 97
+
 ing———A new opportunity for surveying and mapping［J］．
+
 1． 4
+
 6． 9
+
 500． 4
+
 97
+
 99
+
 94． 40
+
 94． 17
+
 1． 6
+
 0． 9
+
 254． 3
+
 99
+
 101
+
 94． 27
+
 94． 10
+
 1． 8
+
 3． 9
+
 54． 1
+
 96
+
 101
+
 94． 30
+
 94． 02
+
 2． 0
+
 0． 9
+
 92． 5
+
 93
+
 109
+
 94． 17
+
 93． 92
-多项式系数 p OAO
+
+ p OAO
+
 OAA
+
 OAO
+
 OAA
+
 OAO
+
 OAA
-［1 ］ 余旭初，冯伍法，林丽霞． 高光谱———遥感测绘的新机
+
+［1 ］ ，，． ———
 2006，
 23（ 2） ： 101-105．
-遇［J］． 测绘科学技术学报，
+［J］． ，
+
 Journal of Zhengzhou Institute of Surveying and Mapping，
 2006，
 23（ 2） ： 101-105．
-［2 ］ 谭熊，余旭初，张鹏强，等． 一种基于模糊混合像元分
-解的高光谱影像分类方法［J］． 测绘科学技术学报，
+［2 ］ ，，，． 
+［J］． ，
+
 1
+
 27． 7
+
 129． 4
+
 93
+
 294
+
 93． 95
+
 83． 15
+
 2013，
 30（ 3） ： 279-283．
+
 2
+
 8． 0
+
 308． 4
+
 95
+
 91
+
 94． 25
+
 93． 45
+
 TAN X，YU X CH，ZHANG P Q，et al． A classification al-
+
 3
+
 70． 7
+
 1 130． 2
+
 89
+
 90
+
 94． 60
+
 93． 32
+
 gorithm for hyperspectral images based on fuzzy mixed
 pixel decomposition［J］． Journal of Geomatics Science and
-在实验 2 的表 5 和表 6 中，ＲBF + POLY-MKSVM 分
-类器较其他的多核或单核 SVM 分类器分类精度相比，精
+
+ 2  5  6 ，ＲBF + POLY-MKSVM 
+ SVM ，
+
 Technology，
 2013，
 30（ 3） ： 279-283．
-［3 ］ 杨国鹏，余旭初，冯伍法，等． 高光谱遥感技术的发展
-度并没有显著的提高，基本保持在同一水平。但是，在训
-练时间上，ＲBF + POLY-MKSVM 分类 器 训 练 时 间 短，分
+［3 ］ ，，，． 
+
+，。，
+，ＲBF + POLY-MKSVM       ，
+
 2008（ 10） ： 1-4．
-与应用现状［J］． 测绘通报，
-别为 9． 1 s 和 2． 6 s，在同一分类精度条件下，训练时间优
-于 ＲBF-SVM 的 6． 2 s 和 500． 4 s 以 及 POLY-SVM 的
+［J］． ，
+
+ 9． 1 s  2． 6 s，，
+ ＲBF-SVM  6． 2 s  500． 4 s   POLY-SVM 
+
 ment and application of hyperspectral ＲS technology［J］．
-70． 7 s和 1130． 2 s，计算效率上得到了提高。
-通过以上实验结果的分析，可得出如下结论：
-1） 在 MKSVM 分类中，ＲBF + POLY-MKSVM 分类器
-的训练速度与 ＲBF-MKSVM 分类器基本相当，比 POLYMKSVM 分类器 低； 分 类 精 度 与 ＲBF-MKSVM 分 类 器 相
-当，但较 POLY-MKSVM 分类器高。
-2） 与 SVM 单核分类方法相比，MKSVM 的分类方法
-在模型训练速度和分类正确率上都优于前者，尤其在一
-对多的多类分类器组合上优势较明显。
-3） 无论是 MKSVM 还是 SVM 分类方法，一对一的多
-类分类器构造法在模型训练速度和分类精度上都优于一
-对多法。
+
+70． 7 s 1130． 2 s，。
+，：
+1）  MKSVM ，ＲBF + POLY-MKSVM 
+ ＲBF-MKSVM ， POLYMKSVM  ；      ＲBF-MKSVM    
+， POLY-MKSVM 。
+2）  SVM ，MKSVM 
+，
+。
+3）  MKSVM  SVM ，
+
+。
+
 4
-结
+
+
+
 YANG G P，YU X CH，FENG W F，et al． The developBulletion of Surveying and Mapping，
 2008（ 10） ： 1-4．
-［4 ］ 杨国鹏，余旭初，陈伟，等． 基于核 Fisher 判别分析的
-高光谱遥 感 影 像 分 类［J］． 遥 感 学 报，2008，12 （ 4 ） ：
+［4 ］ ，，，．  Fisher 
+     ［J］．    ，2008，12 （ 4 ） ：
 579-585．
 YANG G P，YU X CH，CHEN W，et al． Hyperspectral remote sensing image classification based on kernel fisher
 discriminant analysis［J］． Journal of Ｒemote Sensing，
 2008，
 12（ 4） ： 579-585．
-［5 ］ 沈照庆，陶建斌． 基于模糊核主成分分析的高光谱遥
-感影像特征提取研究［J］． 国土资源遥感，2009 （ 3） ：
+［5 ］ ，． 
+［J］． ，2009 （ 3） ：
 41-44，
 49．
 SHEN Z Q，TAO J B． Hyperspectral remote sensing image
 feature extraction based on fuzzy kernel principal component analysis［J］． Ｒemote Sensing for Land ＆ Ｒesources，
-论
-本文提出了一种基于 MKSVM 的高光谱影像分类方
-法。该方法以高斯径向基核函数和多项式核函数为基核
+
+
+
+ MKSVM 
+。
+
 2009（ 3） ： 41-44，
 49．
-［6 ］ 王瀛，郭雷，梁楠． 基于优选样本的 KPCA 高光谱图像
+［6 ］ ，，．  KPCA 
 2011，
 40（ 6） ： 847-851．
-降维方法［J］． 光子学报，
+［J］． ，
 WANG Y，GUO L，LIANG N． A dimensionality reduction
 method based on KPCA with optimized sample set for hy-
-函数，将不同参数的核函数以线性加权组合的方式形成
+
+，
+
 perspectral image ［J］． Acta Photonica Sinica，2011，
-多核来代替单核函数，采用梯度下降法迭代解算每个标
-准 SVM 优化问题来计算多核权系数，最后利用一系列两
+
+，
+ SVM ，
+
 40（ 6） ： 847-851．
-类分类器组合实现高光谱影像的分类。通过 AVIＲIS 和
-PHI 高光谱影像实验表明，MKSVM 在分类精度和模型训
-［7 ］ 杨国鹏，余旭初，周欣，等． 基于广义判别分析的高光
-谱影 像 特 征 提 取［J］． 大 连 海 事 大 学 学 报，2008，
+
+。 AVIＲIS 
+PHI ，MKSVM 
+
+［7 ］ ，，，． 
+     ［J］．        ，2008，
 34（ 3） ： 59-63．
-第2 期
-谭
-熊 等： 高光谱影像的多核 SVM 分类
+
+2 
+
+
+
+ ：  SVM 
+
 YANG G P，YU X CH，ZHOU X，et al． Hyperspectral im-
+
 ［15］
+
 411
+
 BACH F． Consistency of the group Lasso and multiple
+
 age feature extraction based on generalized discriminant
+
 kernel learning［J］． Journal of Machine Learning Ｒe-
+
 analysis［J］． Journal of Dalian Maritime University，
 2008，
+
 search，
 2008（ 9） ： 1179-1225．
+
 34（ 3） ： 59-63．
-［8 ］ 谢勤岚． 结合类可分性和遗传算法的核 ICA 特征选
+［8 ］ ．  ICA 
+
 ［16］ BACH F，LANCKＲIET G，JOＲDAN M． Multiple kernel
 learning，conic duality，and the SMO algorithm［J］． Pro-
+
 2009，
-择［J］． 武汉理工大学学报： 交通科学与工程版，
+［J］． ： ，
+
 ceedings of the 21st International Conference on Machine
+
 33（ 4） ： 772-775．
+
 Learning，
 2004： 41-48．
+
 XIE Q L． Feature selection using KICA combining class
+
 ［17］ SONNENBUＲG S，ＲTSCH G，SCHFEＲ C，et al． Large
+
 separability and genetic algorithm［J］． Journal of Wuhan
+
 scale multiple kernel learning［J］． Journal of Machine
+
 University of Technology： Transportation Science ＆ Engineering，
 2009，
 33（ 4） ： 772-775．
-［9 ］ 康家银，纪志成，龚成龙． 一种核模糊 C 均值聚类算法
+［9 ］ ，，．  C 
 2010，
 31（ 7） ： 1657-1663．
-及其应用［J］． 仪器仪表学报，
+［J］． ，
+
 Learning Ｒesearch，
 2006，
 7（ 1） ： 1531-1565．
@@ -1169,79 +1954,119 @@ Learning Ｒesearch，
 In Proceedings of the 24th International Conference on
 Machine Learning （ ICML 2007） ，
 2007： 1191-1198．
+
 KANG J Y，JI ZH CH，GONG CH L． Kernelized fuzzy
+
 ［19］ ＲAKOTOMAMONJY A，BACH F，CANU S，et al． More
+
 C-means clustering algorithm and its application［J］． Chi-
+
 efficiency in multiple kernel learning［J］． Proceedings of
+
 nese Journal of Scientitlc Instrument，2010，3l （ 7 ） ：
+
 the 24th Annual International Conference on Machine
+
 1657-1663．
-［10］ 徐海霞，刘国海，周大为，等． 基于改进核模糊聚类算
+［10］ ，，，． 
+
 Learning （ ICML 2007） ，
 2007： 775-782．
 ［20］ ＲAKOTOMAMONJY A，BACH F，CANU S，et al． Simple
-法的 软 测 量 建 模 研 究［J］． 仪 器 仪 表 学 报，2009，
+
+       ［J］．      ，2009，
+
 MKL［J］． Journal of Machine Learning Ｒesearch，2008：
+
 30（ 10） ： 2226-2231．
+
 1-34．
+
 XU H X，
 LIU G H，
 ZHOU D W，
 et al． Soft sensor modeling
 based on modified kernel fuzzy clustering algorithm［J］． Chi-
-作者简介
-谭熊（ 通讯作者） ，分 别 于 2008 、2011
+
+
+（ ） ，   2008 、2011
+
 nese Journal of Scientific Instrument，2009，30 （ 10 ） ：
-年在信息工程大学获得学士和硕 士 学 位，
+
+   ，
+
 2226-2231．
-现为信息工程大学博士研究生，主 要 研 究
-［11］ 赵春晖，齐滨． 基于模糊核加权 C-均值聚类的高光谱
+
+，   
+
+［11］ ，．  C-
 2012，
 33（ 9） ： 2016-2021．
-图像分类［J］． 仪器仪表学报，
+［J］． ，
 ZHAO CH H，QI B． Hyperspectral image classification
 based on fuzzy kernel weighted C-means clustering［J］．
-方向为高光谱遥感影像处理与应 用、模 式
-识别等。
+
+ 、 
+。
 E-mail： kjadetx@ 163． com
 Tan Xiong （ Corresponding author ） received bachelor and
+
 Chinese Journal of Scientific Instrument，2012，33 （ 9 ） ：
+
 master degrees both from Information Engineering University in
+
 2016-2021．
+
 2008 and 2011，respectively； now，he is a Ph． D． candidate in
-［12］ 姚伏天，钱云涛，李吉明． 空间约束半监督高斯过程下
+
+［12］ ，，． 
 2012，
-的高光谱图像分类［J］． 浙江大学学报： 工学版，
+［J］． ： ，
 46（ 7） ： 1295-1300．
 YAO F T，QIAN Y T，LI J M． Semi-supervised learning
+
 Information Engineering University，and majors in hyperspectral
 image remote sensing and pattern recognition．
-余旭初，分别于 1983、1990 和 1997 年
-在解放军测绘学院获得学士、硕士和博士学
+， 1983、1990  1997 
+、
+
 based gaussian processes for hyperspectral image classifi-
-位，现为信息工程大学教授、博士生导师，主
+
+，、，
+
 cation［J］． Journal of Zhejiang University： Engineering
-要研 究 方 向 为 摄 影 测 量 与 遥 感、模 式 识
+
+           、  
+
 Science，
 2012，
 46（ 7） ： 1295-1300．
-别等。
-［13］ 汪洪桥，孙富春，蔡艳宁，等． 多核学习方法［J］． 自动
+
+。
+
+［13］ ，，，． ［J］． 
 2010，
 36（ 8） ： 1037-1050．
-化学报，
+，
 WANG H Q，SUN F CH，CAI Y N，et al． On multiple ker-
+
 E-mail： xuchu_yu@ sina． com
 Yu Xuchu received bachelor，master and doctor degrees all
 from Institute of Surveying and Mapping in 1983，1990 and 1997，
+
 nel learning methods［J］． Acta Auto Matica Sinica，
 2010，
+
 respectively； now，he is a professor and Ph． D． supervisor in In-
+
 36（ 8） ： 1037-1050．
+
 formation Engineering University； his main research direction is
+
 ［14］ LANCKＲIET G，
 CＲISTIANINI N，
 ELGHAOUI L，
 et al． Learning the kernel matrix with semi-definite programming［J］． Journal of Machine Learning Ｒesearch，
 2004（ 5） ： 27-72．
+
 photogrammetry and remote sensing，and pattern recognition．

@@ -1,35 +1,56 @@
-第 42 卷 第 6 期
-自 动 化 学 报
-2016 年 6 月
+ 42   6 
+
+    
+
+2016  6 
+
 Vol. 42, No. 6
+
 ACTA AUTOMATICA SINICA
+
 June, 2016
-基于词向量语义分类的微博实体链接方法
-冯 冲1
-石 戈1
-郭宇航 1
-龚 静1
-黄河燕 1, 2
-摘 要 微博实体链接是把微博中给定的指称链接到知识库的过程, 广泛应用于信息抽取、自动问答等自然语言处理任务
-(Natural language processing, NLP). 由于微博内容简短, 传统长文本实体链接的算法并不能很好地用于微博实体链接任务.
-以往研究大都基于实体指称及其上下文构建模型进行消歧, 难以识别具有相似词汇和句法特征的候选实体. 本文充分利用指
-称和候选实体本身所含有的语义信息, 提出在词向量层面对任务进行抽象建模, 并设计一种基于词向量语义分类的微博实体
-链接方法. 首先通过神经网络训练词向量模板, 然后通过实体聚类获得类别标签作为特征, 再通过多分类模型预测目标实体的
-主题类别来完成实体消歧. 在 NLPCC2014 公开评测数据集上的实验结果表明, 本文方法的准确率和召回率均高于此前已报
-道的最佳结果, 特别是实体链接准确率有显著提升.
-关键词
-词向量, 实体链接, 社会媒体处理, 神经网络, 多分类
-引用格式
+
+
+ 1
+
+ 1
+
+ 1
+
+ 1
+
+ 1, 2
+
+  , 、
+(Natural language processing, NLP). , .
+, . 
+, , 
+. , , 
+.  NLPCC2014 , 
+, .
+
+
+, , , , 
+
+
 DOI
-冯冲, 石戈, 郭宇航, 龚静, 黄河燕. 基于词向量语义分类的微博实体链接方法. 自动化学报, 2016, 42(6): 915−922
+
+, , , , . . , 2016, 42(6): 915−922
+
 10.16383/j.aas.2016.c150715
+
 An Entity Linking Method for Microblog Based on Semantic
 Categorization by Word Embeddings
 FENG Chong1
+
 SHI Ge1
+
 GUO Yu-Hang1
+
 GONG Jing1
+
 HUANG He-Yan1, 2
+
 Abstract As a widely applied task in natural language processing (NLP), named entity linking (NEL) is to link a given
 mention to an unambiguous entity in knowledge base. NEL plays an important role in information extraction and question
 answering. Since contents of microblog are short, traditional algorithms for long texts linking do not fit the microblog
@@ -41,603 +62,903 @@ the entities as features. Then, the candidates are disambiguated through predict
 classifiers. Lastly, we test the method on dataset of NLPCC2014, and draw the conclusion that the proposed method gets
 a better result than the best known work, especially on accurancy.
 Key words
+
 Word embedding, entity linking, social media processing, neural network, multiple classifiers
+
 Citation Feng Chong, Shi Ge, Guo Yu-Hang, Gong Jing, Huang He-Yan. An entity linking method for microblog based
 on semantic categorization by word embeddings. Acta Automatica Sinica, 2016, 42(6): 915−922
-微博是一种通过关注机制分享简短实时信息的
-广播式的社交网络平台, 已成为目前最流行的社交
-收稿日期 2015-10-29
-录用日期 2016-05-03
+
+
+, 
+ 2015-10-29
+ 2016-05-03
 Manuscript received October 29, 2015; accepted May 3, 2016
-国家重点基础研究发展计划 (973 计划) (2013CB329303), 国家高技
-术研究发展计划 (863 计划) (2015AA015404), 国家自然科学基金 (61
-502035), 高等学校博士学科点专项科研基金 (20121101120026) 资助
+ (973 ) (2013CB329303), 
+ (863 ) (2015AA015404),  (61
+502035),  (20121101120026) 
 Supported by National Basic Research Program of China (973
 Program) (2013CB329303), National High Technology Research
 and Development Program of China (863 Program) (2015AA015
 404), National Natural Science Foundation of China (61502035),
 and Specialized Research Fund for the Doctoral Program of
 Higher Education (20121101120026)
-本文责任编委 柯登峰
+ 
+
 Recommended by Associate Editor KE Deng-Feng
-1. 北京理工大学计算机学院 北京 100081 2. 北京市海量语言信息
-处理与云计算应用工程技术研究中心 北京 100081
+1.   100081 2. 
+  100081
 1. College of Computer Science and Technology, Beijing Institute of Technology, Beijing 100081 2. Beijing Engineering
 Research Center of High Volume Language Information Processing and Cloud Computing Applications, Beijing 100081
-平台之一. 截至 2014 年 9 月 30 日, 微博的月活跃
-用户已经达到 1.67 亿, 用户每天产生的微博数目达
-到 2 亿[1] . 如何从海量微博中自动地及时分析、获得
-信息已成为研究和应用热点问题, 微博实体链接是
-其中关键任务之一.
-微博实体链接是指将微博中已经识别出的实
-体指称链接到知识库中的一个具体真实实体的过
-程[2−3] . 例如, 微博 “在我眼中, 科比还是比乔丹棒
-的” 中, “乔丹” 作为实体指称, 在知识库中有 6 个
-实体义项. 实体链接的目标就是要确定, 这里的 “乔
-丹”, 指代的是知识库中哪个实体义项.
-以往实体链接研究主要集中在新闻等长文, 对
-于微博等短文本的研究工作刚起步. 微博具有两个
-特点[4] : 1) 内容非常简短, 通常每篇至多包含 140
-个字符; 2) 格式不规范, 经常出现口语和缩写等灵活
-自
+
+.  2014  9  30 , 
+ 1.67 , 
+ 2 [1] . 、
+, 
+.
+
+
+[2−3] . ,  “, 
+” , “” ,  6 
+. ,  “
+”, .
+, 
+. 
+[4] : 1) ,  140
+; 2) , 
+
+
+
 916
-动
-化
-的非正式表达. 传统的长文本实体链接方法主要从
-实体指称的上下文中抽取特征用于实体消歧, 但是
-因为微博内容简短, 传统方法难以抽取有效特征.
-针对微博文本上下文不足的问题, 部分工作借
-助微博的结构特点扩充微博的上下文. Jiang 等[5]
-利用 Twitter 中的转发、回复以及同一用户的其他
-帖子扩充上下文进行情感分类. Shen 等[6] 利用同一
-个 Twitter 用户的数据对其兴趣建模, 提高与用户
-兴趣模型一致性高的候选实体的权重. Guo 等[2] 利
-用类似主题的微博建模来对候选实体进行消歧. Liu
-等[7] 利用指称上下文 – 实体上下文、指称上下文 –
-指称上下文、实体上下文 – 实体上下文的文本相似
-度来对实体消歧.
-以上方法虽然能够改善微博实体链接中上下文
-特征匮乏的状况, 但本质上受限于对更多微博数据
-资源 (用户的转发、回复和其他微博等内容) 的获取,
-增加了处理开销. 如果缺乏符合建模要求的数据, 仍
-难建立有效模型[8] .
-本文从充分利用指称和候选实体本身所含有的
-语义信息入手, 提出假设 “一条微博中的名词, 包括
-实体指称, 位于相近的语义空间”, 从而把微博实体
-链接问题转化为语义空间中的分类问题. 以 NLPCC
-2014[9] 评测数据集中的微博样本 “好怀念当时的那
-支队伍啊！弗朗西斯、麦迪、巴蒂尔、大姚、斯科拉、
-穆托姆博、诺瓦克” 为例, “大姚” 是 “姚明” 和 “姚
-晨” 的别名. 两人都是媒体热点人物, 实体指称具有
-类似的词汇和语法特征, 传统方法难以识别. 而考察
-指称与上下文中其他名词的语义距离则可进行有效
-区分. 统计 577 条微博训练数据, 得出结果如表 1
-所示.
-表1
+
+
+
+
+
+. 
+, 
+, .
+, 
+. Jiang [5]
+ Twitter 、
+. Shen [6] 
+ Twitter , 
+. Guo [2] 
+. Liu
+[7]  – 、 –
+、 – 
+.
+
+, 
+ (、) ,
+. , 
+[8] .
+
+,  “, 
+, ”, 
+.  NLPCC
+2014[9]  “
+！、、、、、
+、” , “”  “”  “
+” . , 
+, . 
+
+.  577 ,  1
+.
+1
 Table 1
-训练集数据统计
-学
-报
-42 卷
-链接的准确率[10] , 但由于微博是短文本, 从微博本
-身很难加入更多的特征, 因此从实体链接的另一方
-面入手, 将知识库中的实体表征为含有语义、语法信
-息的分布式向量, 从语义分类层面对微博进行建模
-和实体消歧.
-本文的主要贡献是提出了一种基于神经网络和
-多分类回归模型的命名实体链接方法, 将微博中上
-下文名词与对应的待链接实体映射到同一个语义主
-题空间, 并以此训练分类模型对实体进行语义消歧.
-其创新之处在于, 从神经网络语言模型的角度, 以分
-类器分类预测的方式提出了实体消歧方法, 不仅能
-够充分地利用上下文语义信息, 也能够利用实体的
-语义分类信息来进行消歧, 并降低了获取训练语料
-的难度.
-本文结构如下: 第 1 节介绍本文提出的方法; 第
-2 节是实体链接部分; 第 3 节是实验部分; 最后是结
-论和展望.
-1 词向量语义分类方法
-1.1 任务描述
-本文用 M = (m1 , m2 , · · · , mn ) 表示微博中给
-定的一些指称, 用 E = (ee1 , e 2 , · · · , e n ) 表示与指称
-对应的候选实体的集合. 则实体链接的任务是将给
-定的指称 mi 链接到候选实体集合 e i 中某个无歧义
-实体 e ij 的过程. 基于前述假设, 词向量语义分类模
-型的目标是获得语义分类特征.
+
+
+
+
+
+
+
+42 
+
+[10] , , 
+, 
+, 、
+, 
+.
+
+, 
+
+, .
+, , 
+, 
+, 
+, 
+.
+:  1 ; 
+2 ;  3 ; 
+.
+
+1 
+1.1 
+ M = (m1 , m2 , · · · , mn ) 
+,  E = (ee1 , e 2 , · · · , e n ) 
+. 
+ mi  e i 
+ e ij . , 
+.
+
 SCW Emi = f (mi , n i )
+
 (1)
-其中, n i 是指称 mi 对应微博中的名词集合.
-1.2 词向量语义分类模型构建 (SCWE)
+
+, n i  mi .
+
+1.2  (SCWE)
+
 Statistics in training data
-1.2.1 词向量语义模板构建
-平均每条微博中名词个数
+
+1.2.1 
+
+
+
 7.91
-同一语义类别名词个数超过 7 的微博
+
+ 7 
+
 34
-同一语义类别名词个数超过 6 的微博
+
+ 6 
+
 81
-同一语义类别名词个数超过 5 的微博
+
+ 5 
+
 207
-同一语义类别名词个数超过 4 的微博
+
+ 4 
+
 416
-同一语义类别名词个数超过 3 的微博
+
+ 3 
+
 502
-从 统 计 数 据 可 以 看 出, 平 均 每 条 微 博 中 含 有
-7.91 个名词, 同一语义类别名词个数超过 3 的微博
-占训练数据的 87 %, 验证了假设 “一条微博中的名
-词位于相近的语义空间” 的合理性.
-基于以上假设, 利用知识库中实体的深层语义
-信息, 基于词向量对微博进行建模和实体消歧. 传统
-的方法已经验证, 足够多的语义特征可以提高实体
-图 1 是本文的词向量语义分类模型. 其中神经
-网络部分采用的是 CBOW 模型[11] . CBOW 是一
-个三层神经网络模型, 从左至右依次是输入层、隐含
-层和输出层. 其基本思想是通过训练将每个词映射
-成含有语义、语法信息的 K 维实数向量 (K 是可选
-参数, 一般为 50 ∼ 200), 通过向量之间的距离 (例如
-欧氏距离、cosine 相似度等) 来判断它们之间的语
-义相似度. 该模型是对语言模型进行建模, 在建模的
-同时获得词语在分布式向量空间上的表示.
-假设语料库是由 S 个句子组成的一个句子序
-列, 整个语料库有 V 个词, Tj 表示第 j 个句子的词
-个数, 则对整个语料库来说, 该模型的目标函数可以
-表示为
+
+        ,         
+7.91 ,  3 
+ 87 %,  “
+” .
+, 
+, . 
+, 
+
+ 1 . 
+ CBOW [11] . CBOW 
+, 、
+. 
+、 K  (K 
+,  50 ∼ 200),  (
+、cosine ) 
+. , 
+.
+ S 
+,  V , Tj  j 
+, , 
+
+
 l(θ) = log L(θ) =
-6期
-冯冲等: 基于词向量语义分类的微博实体链接方法
-图1
+
+6
+
+: 
+
+1
 Fig. 1
+
 arg max
+
 1
 v
+
 s
-词向量语义分类模型
+
+
+
 Model of semantical categorization by word embeddings
+
 Tj
-克尔 · 乔丹” 所对应的向量, 通过公式
+
+ · ” , 
+
 log p(wij |contextij )
 j=1
+
 917
+
 arg max(cos(mi , C))
+
 ij=1
+
 (2)
-通过随机梯度下降对目标函数求解, 即可将语
-料库中 V 个词表示为含有深层语义特征的分布式向
-量.
+, 
+ V 
+.
+
 (3)
-计算与迈克尔 · 乔丹最接近的类别, 得出迈克尔 · 乔
-丹所属类别为 3, 于是可将 si 迈克尔 · 乔丹表示成
-向量 (0, 0, 0, 1, 0, 0, 0, 0, 0, 0).
-1.2.2 特征选择
-对于给定的训练数据集, 用 T = (t1 , t2 , · · · , tn )
-表示训练数据集中的每条微博, S = (s1 , s2 , · · · , sn )
-表示与微博相对应的, 已经链接到知识库的无歧义
-实体的集合. 基于假设 “一条微博中的所有名词, 包
-括实体指称, 位于相近的语义空间”, 抽取训练集中
-的名词, 通过第 1.2.1 节中方法获得词向量模板, 将
-抽取的名词表示为分布式向量, 得到名词向量集合
-N . 分布式向量中含有深层语义信息, 对集合 N 用
-k-means[12] 进行聚类, 获得 k 个中心点 C = (c1 , c2 ,
-· · · , ck ) 作为 k 个特征 (其中 k 为 k-means 聚类核
-心个数). 同时, 通过计算每个词到 k 个中心点的距
-离, 获得集合 N 中每个词的类别标签.
-1.2.3 训练数据特征化
-由第 1.2.2 节中得到的每个名词的标签, 可以把
-集合 T 中的微博 ti 表示成 k 维向量, 把 ti 中的每
-个名词类别出现的频数作为该维特征上的权值.
-如图 2 所示, 选取 k = 10, 即选取 10 维特征.
-乔丹、科比、奥尼尔、艾弗森对应的聚类标签为 3,
-球员对应聚类标签为 1, 退役对应聚类标签为 5. 则
-可以将这条微博表示为 (0, 1, 0, 4, 0, 1, 0, 0, 0, 0). 与
-这条微博相对应的, 已经链接到知识库中的无歧义
-实体 si 为 “迈克尔 · 乔丹”, 从向量模板中找出 “迈
-图2
+
+ · ,  · 
+ 3,  si  · 
+ (0, 0, 0, 1, 0, 0, 0, 0, 0, 0).
+
+1.2.2 
+,  T = (t1 , t2 , · · · , tn )
+, S = (s1 , s2 , · · · , sn )
+, 
+.  “, 
+, ”, 
+,  1.2.1 , 
+, 
+N . ,  N 
+k-means[12] ,  k  C = (c1 , c2 ,
+· · · , ck )  k  ( k  k-means 
+). ,  k 
+,  N .
+
+1.2.3 
+ 1.2.2 , 
+ T  ti  k ,  ti 
+.
+ 2 ,  k = 10,  10 .
+、、、 3,
+ 1,  5. 
+ (0, 1, 0, 4, 0, 1, 0, 0, 0, 0). 
+, 
+ si  “ · ”,  “
+
+2
 Fig. 2
-训练数据示例
+
+
+
 Example of the training data
-通过上述过程我们可以把训练集合中的微博和
-对应的待链接实体表示成 k (k 为所选取特征个数)
-维的向量对.
-1.2.4 多分类模型训练
-相关工作表明[13−15] , 在实际运用中, 逻辑回归
-分类器跟 SVM、随机森林等分类模型效果接近, 但
-逻辑回归分类器算法复杂度最低. 因此, 该部分
-我们采用逻辑回归分类器构建分类模型. 用 T (t∗1 ,
-t∗2 , · · · , t∗n ) 表示特征化后的微博集合, 用 S(s∗1 , s∗2 ,
-· · · , s∗n ) 表示特征化后与微博相对应的, 已经链接到
-知识库的无歧义实体的集合. 其中, t∗i 和 s∗i 均为 k
-维向量. 在特征化训练数据并将之用向量表示后, 可
-以将问题转化为多分类问题. 这样做的意义在于, 既
-利用了微博待链接实体跟该条微博中的名词之间的
-关系, 又利用了实体的词向量语义特征.
-令
+
+
+ k (k )
+.
+
+1.2.4 
+[13−15] , , 
+ SVM、, 
+. , 
+.  T (t∗1 ,
+t∗2 , · · · , t∗n ) ,  S(s∗1 , s∗2 ,
+· · · , s∗n ) , 
+. , t∗i  s∗i  k
+. , 
+. , 
+
+, .
+
+
 x = t∗i = (x0 , x1 , · · · , xk−1 )
 y=
+
 s∗i
+
 = (y0 , y1 , · · · , yk−1 )
+
 (4)
 (5)
-自
+
+
+
 918
-动
-化
-x, y ) 为一个观测样本. 可以得出 y = ci (ci 是第
-则 (x
-1.2.3 节选取的特征, 取值范围为 [0, 1, 2, · · · , k − 1])
-的条件概率:
+
+
+
+
+
+x, y ) .  y = ci (ci 
+ (x
+1.2.3 ,  [0, 1, 2, · · · , k − 1])
+:
 egei (x)
+
 P (y = ci |x) =
 1+
+
 k−1
+
 e
+
 (6)
+
 gei (x)
-学
-报
-42 卷
-法, 有的是别名 (如小飞侠)、昵称 (如大姚), 有的是
-全名的一部分或是缩写 (如北京理工、北理工、北
-理等). 因此, 首先需要对微博中出现的指称映射到
-一种标准的表达形式. 具体地, 构建一个同义词词
-表[17] (见表 2) 来解决这个问题. 其中, Key 值表示
-实体的不规则指称, Value 表示标准实体.
+
+
+
+
+
+42 
+
+,  ()、 (), 
+ (、、
+). , 
+. , 
+[17] ( 2) . , Key 
+, Value .
+
 j=1
-表2
-由此可以得出相应的多分类逻辑回归[16] 模型:
+
+2
+
+[16] :
+
 Table 2
+
 P (y = ci |x)
 =
 gci (x) = log
 1 − P (y = ci |x)
 βm0 + βm1 x1 + · · · + βm(k−1) xk−1
+
 (7)
-同义词表举例
+
+
+
 Examples of synonym lexicon
-文中实体表示
-标准实体表示
+
+
+
+
+
 (Key)
+
 (Value)
-迈克尔乔丹
-飞人
-通过构造似然函数对模型求解. 把 n 个独立的
-观测样本记作 (Xi , Yji ), i = 1, 2, · · · , n. 利用上面
-规定, 得出如下似然函数:
+
+
+
+
+.  n 
+ (Xi , Yji ), i = 1, 2, · · · , n. 
+, :
 n
-篮球之神
-迈克尔 · 杰弗里 · 乔丹
-迈克尔 · 乔丹
+
+
+ ·  · 
+
+ · 
+
 Michael Jordan
 Michael Jeffrey Jordan
-乔丹
+
+
 (π0 (Xi )y0i π1 (Xi )y1i · · · πk−1 (Xi )yk−1i )
+
 l(β) =
 i=1
+
 (8)
-其中, πj (Xi ) = P (y = j|Xi ). 对等式两端取对数整
-理可以得到如下的对数似然函数:
+, πj (Xi ) = P (y = j|Xi ). 
+:
 k−1
-将实体指称标准化之后, 需要为待消歧的命名
-实体构建一个候选实体列表. 本文构建了歧义词表
-(见表 3), 表 3 中存储的是实体的标准形式 (Key) 及
-其对应的无歧义实体列表 (List).
+
+, 
+. 
+( 3),  3  (Key) 
+ (List).
+
 n
+
 L(β) =
+
 yji log(πj (Xi ))
+
 (9)
-表3
+
+3
 Table 3
-歧义词表举例
+
+
+
 Examples of ambiguity lexicon
+
 j=0 i=1
-通过梯度下降法对似然函数求解, 至此得到训
-练好的词向量语义分类模型.
-标准实体表示
-无歧义真实实体
+
+, 
+.
+
+
+
+
+
 (Key)
+
 (List)
-苹果 (果树)
-苹果 (果实)
-2 实体链接过程
-苹果 (公司)
-苹果
-苹果 (人物)
-2.1 任务描述与特征选择
-苹果 (动漫角色)
-微博实体链接是将微博中给定的实体指称链接
-到知识库中无歧义实体的过程. 本文选取两个特
-征进行实体消歧, 词向量语义分类特征 (Semantic
-categorization by word embeddings, SCWE) 和实
-体流行度特征 (Entity frequency, EF). 实体链接过
-程表述如下:
+ ()
+ ()
+
+2 
+
+ ()
+
+
+
+ ()
+
+2.1 
+
+ ()
+
+
+. 
+,  (Semantic
+categorization by word embeddings, SCWE) 
+ (Entity frequency, EF). 
+:
+
 E ∗ = arg max [λ cos(SCW Emi , eij ) +
 ∀eij e i
+
 (10)
+
 (1 − λ)f (eij )]
-苹果 (歌曲)
-在链接阶段, 需要对扩充后的候选实体列表
-进行消歧, 本文通过词向量语义分类特征和实体
-流行度特征进行消歧. 词向量语义分类特征由第
-二部分构建的模型获得, 实体流行度特征[4] 则由
-Wikipedia 页面中实体在所有描述页面中出现的次
-数来度量 (见表 4), 并根据经验对实体流行度的权值
-进行设置 (见表 5).
-表4
+
+ ()
+
+, 
+, 
+. 
+, [4] 
+Wikipedia 
+ ( 4), 
+ ( 5).
+4
+
 ∗
-其中, E 表示候选实体的最终得分, eij 表示指称
-mi 对应的候选实体, f (eij ) 表示候选实体流行度得
-分, λ 表示词向量语义分类特征的权重.
-2.2 实体链接过程
-图 3 所示是整个实体链接的过程. 整个过程可
-以分为三个部分: 实体指称标准化、候选实体扩充
-和实体消歧. 微博中许多实体有若干不同的名称、提
+
+, E , eij 
+mi , f (eij ) 
+, λ .
+
+2.2 
+ 3 . 
+: 、
+. 、
+
 Table 4
-实体流行度表举例
+
+
+
 Examples of entity frequency
-无歧义真实实体
-实体出现次数
+
+
+
+
+
 (Entity)
-苹果 (果树)
-苹果 (果实)
-苹果 (公司)
-苹果 (人物)
+ ()
+ ()
+ ()
+ ()
+
 (Frequency)
 26
 39
 158
 2
-6期
-冯冲等: 基于词向量语义分类的微博实体链接方法
-图3
+
+6
+
+: 
+
+3
 Fig. 3
-表5
+
+5
 Table 5
+
 919
-实体链接过程
+
+
+
 Process of entity linking
-实体流行度权值
-和, 并输出结果最高的候选实体作为最终链接实体. 如果加
+
+
+
+, . 
+
 Weights of entity frequency
-权和小于阈值 α, 则返回标记 NIL.
-流行度排行
-一
-二
-三
-四
-五
-权值
+
+ α,  NIL.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 1.0
+
 0.8
+
 0.7
+
 0.6
+
 0.5
-综上所述, 本文提出的基于词向量语义分类的
-微博实体链接过程的算法如下.
-算法 1. 基于词向量语义分类的微博实体链接方
-法
-输入. 微博及其对应的待链接实体
-输出. 链接到知识库的无歧义实体
-步骤 1. 根据知识库中的同义词表, 对 M 中的指称进行
-描述标准化, 得到标准化后的指称集合.
-步骤 2. E = (ee1 , e 2 , · · · , e n ), 并对 e i 中的候选实体按
-流行度排序. 当 |eei | = 0 时, 说明知识库中没有相应的实体,
-即指称 mi 是不可链接的, 返回标签 NIL; 当 |eei | = 1 时, 直
-接返回唯一候选实体作为最终链接实体; 当 |eei | > 1 时, 执行
-步骤 3 和步骤 4.
-步骤 3. 再通过计算各候选实体到该标签的余弦距离得
-到各候选实体的语义分类特征.
-步骤 4. 按式 (10) 计算每个候选实体两个特征的加权
-3 实验
-3.1 数据集描述
-本文建立同义词表、歧义词表、实体流行度表
-以及训练的词向量模板所用数据均为 Wikipedia[18] ,
-使用的数据版本是 2015 年 7 月 19 日的中文百科.
-通过规则对知识库抽取信息并进行统计, 获得数据
-规模如表 6 所示.
-表6
+
+, 
+.
+ 1. 
+
+. 
+. 
+ 1. ,  M 
+, .
+ 2. E = (ee1 , e 2 , · · · , e n ),  e i 
+.  |eei | = 0 , ,
+ mi ,  NIL;  |eei | = 1 , 
+;  |eei | > 1 , 
+ 3  4.
+ 3. 
+.
+ 4.  (10) 
+
+3 
+3.1 
+、、
+ Wikipedia[18] ,
+ 2015  7  19 .
+, 
+ 6 .
+6
 Table 6
-实验数据规模
+
+
+
 Scale of experiment data
-数据类型
-数据规模
-同义词表 Key 总数
+
+
+
+
+
+ Key 
+
 4 293 406
-同义词表 Value 总数
+
+ Value 
+
 1 948 277
-歧义词表 Key 总数
+
+ Key 
+
 213 764
-歧义词表 Value 总数
+
+ Value 
+
 2 354 687
-实体总数
+
+
+
 4 369 348
-自
+
+
+
 920
-动
-化
-实验中选取 NLPCC 2014[9] 中文实体链接评测
-任务训练集中包含的 177 条中文微博数据和人工标
-注的 400 条新浪微博数据 (从抓取的 10 000 条数据
-中随机抽取标注) 作为训练数据, 从剩余的 9 600 条
-微博中随机抽取 100 条标注作为验证集, 测试集使
-用 NLPCC 2014 官方提供测试集, 共包含 1 152 个
-实体指称.
-3.2 实验设计
-1) 选取链接效果好的算法进行对比. 通过对比
-验证本文算法是否有效. 该部分选取 NLPCC 2014
-评测中的最优方法 (NLPCC)[19] 、基于上下文概率
-模型的实体链接方法 (EF*)[20] 以及基于维基百科
-和搜索引擎 (CMEL)[21] 方法进行对比.
-NLPCC 采用百度百科分类属性和实体流行度
-相结合的方法进行消歧, EF* 在概率模型基础上添
-加平滑方法, CMEL 采用结合维基百科实体描述页
-面和搜索引擎结果相结合的方法进行实体消歧.
-实验过程中, 对所有方法均采用相同的资源模
-板和预处理. 首先用训练集数据训练得到多分类回
-归模型, 再用验证集进行模型调参, 得到最优权重 α
-= 1.4, λ = 0.6, 最后在测试集进行方法验证. 选取
-准确率 (Precision)、召回率 (Recall) 以及 F1 值作
-为评价指标. 其中, in-KB 部分表示知识库中已收录
-实体的准确率, NIL 表示未收录到知识库中的实体
-链接准确率. 对比实验结果如表 7 和表 8 所示.
-表7
-in-KB 实验结果
+
+
+
+
+
+ NLPCC 2014[9] 
+ 177 
+ 400  ( 10 000 
+) ,  9 600 
+ 100 , 
+ NLPCC 2014 ,  1 152 
+.
+
+3.2 
+1) . 
+.  NLPCC 2014
+ (NLPCC)[19] 、
+ (EF*)[20] 
+ (CMEL)[21] .
+NLPCC 
+, EF* 
+, CMEL 
+.
+, 
+. 
+, ,  α
+= 1.4, λ = 0.6, . 
+ (Precision)、 (Recall)  F1 
+. , in-KB 
+, NIL 
+.  7  8 .
+7
+
+in-KB 
+
 Table 7
+
 Results of in-KB
-系统
-准确率
-召回率
-F1 值
+
+
+
+
+
+
+
+F1 
+
 NLPCC
+
 0.7927
+
 0.8488
+
 0.8198
+
 SCWE + EF
+
 0.8137
+
 0.8593
+
 0.8358
+
 EF∗
+
 0.7641
+
 0.8142
+
 0.7884
+
 CMEL
+
 0.7951
+
 0.8345
+
 0.8143
-表8
+
+8
 Table 8
-系统
-NIL 实验结果
+
+
+NIL 
 Results of NIL
-准确率
-召回率
-F1 值
+
+
+
+
+
+F1 
+
 NLPCC
+
 0.9024
+
 0.8653
+
 0.8835
+
 SCWE + EF
+
 0.9144
+
 0.8763
+
 0.8949
+
 EF∗
+
 0.8871
+
 0.8648
+
 0.8758
+
 CMEL
+
 0.8543
+
 0.8694
+
 0.8461
-实验结果中, 粗体部分表示本文方法. 实验表
-明, 本文方法在准确率、召回率方面均明显优于其他
-三种算法, 特别是准确率有显著提升. 而本文方法与
-学
-报
-42 卷
-NLPCC、EF* 和 CMEL 方法的主要区别在于本文
-方法加入词向量语义分类特征, 实验结果的提升表
-明词向量语义分类特征是有效的. 例如, 评测数据样
-例 “好怀念当时的那支队伍啊！弗朗西斯、麦迪、巴
-蒂尔、大姚、斯科拉、穆托姆博、诺瓦克”, NLPCC
-和 EF∗ 将 “大姚” 链接至 “姚晨”, 而本文方法将该
-指称链接至 “姚明”.
-2) 不同比重下的词向量语义分类特征 (SCWE)
-对链接结果的影响. 本文采用 SCWE 和实体流行度
-特征 (EF) 两个特征, 选取不同的 λ 进行实验结果
-比对. 结果如表 9 和表 10 所示.
-表9
-in-KB 实验结果
+
+, . 
+, 、
+, . 
+
+
+
+
+
+42 
+
+NLPCC、EF*  CMEL 
+, 
+. , 
+ “！、、
+、、、、”, NLPCC
+ EF∗  “”  “”, 
+ “”.
+2)  (SCWE)
+.  SCWE 
+ (EF) ,  λ 
+.  9  10 .
+9
+
+in-KB 
+
 Table 9
+
 Results of in-KB
-λ值
-准确率
-召回率
-F1 值
+
+λ
+
+
+
+
+
+F1 
+
 0
+
 0.7532
+
 0.8016
+
 0.7766
+
 0.2
+
 0.7621
+
 0.8158
+
 0.7880
+
 0.4
+
 0.7943
+
 0.8375
+
 0.8153
+
 0.6
+
 0.8137
+
 0.8593
+
 0.8358
+
 0.8
+
 0.8032
+
 0.8432
+
 0.8227
+
 1.0
+
 0.7983
+
 0.8488
+
 0.8228
-表 10
-NIL 实验结果
+
+ 10
+
+NIL 
+
 Table 10
+
 Results of NIL
-λ值
-准确率
-召回率
-F1 值
+
+λ
+
+
+
+
+
+F1 
+
 0
+
 0.8432
+
 0.8532
+
 0.8482
+
 0.2
+
 0.8643
+
 0.8713
+
 0.8678
+
 0.4
+
 0.8917
+
 0.8732
+
 0.8824
+
 0.6
+
 0.9148
+
 0.8762
+
 0.8951
+
 0.8
+
 0.9032
+
 0.8754
+
 0.8891
+
 1.0
+
 0.9013
+
 0.8743
+
 0.8876
-从实验结果看, 当 λ = 0 时, 链接方法中只选取
-了实体流行度作为特征, 此时 F1 值最低. 随着 λ 的
-增长, F1 值也随之增长. 在 λ = 0.6 时, F1 值最高.
-λ > 0.6 之后, F1 值开始降低. 表明本文构建的实
-体链接方法效果的提升依赖于词向量语义分类特征.
-为了更清晰地表示 F1 值与参数 λ 之间的关系, 构
-建图 4.
-3) 词向量语义分类特征与聚类特征数目 k 的关
-系. 只采用 SCWE 模型进行实体链接, 选取不同的
-k 值来观测模型与 k 之间的关系. 如图 5 所示, 当 k
-= 10 时, 模型取得最高的 F1 值, 在 5 ∼ 15 之间, k
-值的变化对模型的预测效率影响不大. 但 k = 20 时,
-SCWE 的 F1 值大幅度下降. 通过对评测数据中每
-条微博含有的名词数目进行统计, 发现每条微博中
-6期
-冯冲等: 基于词向量语义分类的微博实体链接方法
-平均有 7.91 个名词. 分析认为当 k = 20 时 F1 值
-下降是由于特征选取过多, 训练数据稀疏所致.
+
+,  λ = 0 , 
+,  F1 .  λ 
+, F1 .  λ = 0.6 , F1 .
+λ > 0.6 , F1 . 
+.
+ F1  λ , 
+ 4.
+3)  k 
+.  SCWE , 
+k  k .  5 ,  k
+= 10 ,  F1 ,  5 ∼ 15 , k
+.  k = 20 ,
+SCWE  F1 . 
+, 
+
+6
+
+: 
+
+ 7.91 .  k = 20  F1 
+, .
+
 921
+
 ence on Empirical Methods in Natural Language Processing. Seattle, USA: Association for Computational Linguistic, 2013. 863−868
 3 Yang Jin-Feng, Yu Qiu-Bin, Guan Yi, Jiang Zhi-Peng. An
 overview of research on electronic medical record oriented
 named entity recognition and entity relation extraction.
 Acta Automatica Sinica, 2014, 40(8): 1537−1562
-(杨锦锋, 于秋滨, 关毅, 蒋志鹏. 电子病历命名实体识别和实体关系
-抽取研究综述. 自动化学报, 2014, 40(8): 1537−1562)
+(, , , . 
+. , 2014, 40(8): 1537−1562)
 4 Shen W, Wang J Y, Han J W. Entity linking with a knowledge base: issues, techniques, and solutions. IEEE Transactions on Knowledge and Data Engineering, 2015, 27(2):
 443−460
-图 4 本文方法在不同参数 λ 下的 F1 值
+
+ 4  λ  F1 
 Fig. 4 F1 scores of the combined measure with
 the λ parameter
+
 5 Jiang L, Yu M, Zhou M, Liu X H, Zhao T J. Targetdependent twitter sentiment classification. In: Proceedings
 of the 49th Annual Meeting of the Association for Computational Linguistics: Human Language Technologies. Portland, Oregon, USA: 2011. 151−160
 6 Shen W, Wang J Y, Luo P, Wang M. Linking named entities
@@ -649,31 +970,36 @@ York, USA: ACM, 2013. 68−76
 linking for tweets. In: Proceedings of the 51st Annual Meeting of the Association of Computational Linguistics. Sofia,
 Bulgaria: Association for Computational Linguistics, 2013.
 1304−1311
-图5
+
+5
 Fig. 5
-SCWE 在不同参数 k 下的 F1 平均值
+
+SCWE  k  F1 
 F1 scores of SCWE with the k features
-4 结论与展望
-基于微博中名词位于相近的语义空间的假设,
-本文提出了利用词向量语义分类对微博实体进行语
-义消歧的思路, 设计了完整的实体链接方法, 并在
-NLPCC 2014 发布的评测数据上进行验证. 实验结
-果表明使用本文提出的基于词向量语义分类的实体
-链接方法, 链接效果优于 NLPCC 已公开的最好结
-果, 链接准确率有显著提升. 后续工作主要集中在两
-点, 一是结合词向量和图模型进行实体链接, 二是探
-索不同的多分类模型在实体链接中的应用.
+
+4 
+,
+
+, , 
+NLPCC 2014 . 
+
+,  NLPCC 
+, . 
+, , 
+.
+
 References
 1 Chinese Microblog Service. Sina Weibo User Development
 Report in 2014 [Online], available: http://www.199it.com/
 archives/324955.html. November 24, 2015
-(中国微博服务. 2014 年新浪微博用户发展报告 [Online], available: http://www.199it.com/archives/324955.html. November 24, 2015)
+(. 2014  [Online], available: http://www.199it.com/archives/324955.html. November 24, 2015)
 2 Guo Y H, Qin B, Liu T, Li S. Microblog entity linking by
 leveraging extra posts. In: Proceedings of the 2013 Confer-
+
 8 Odbal, Wang Zeng-Fu. Emotion analysis model using compositional semantics. Acta Automatica Sinica, 2015, 41(12):
 2125−2137
-(乌达巴拉, 汪增福. 一种基于组合语义的文本情绪分析模型. 自动
-化学报, 2015, 41(12): 2125−2137)
+(, . . 
+, 2015, 41(12): 2125−2137)
 9 NLPCC [Online], available: http://tcci.ccf.org.cn/conference/2014/pages/page04 sam.html. October 31, 2015
 10 Hachey B, Radford W, Nothman J, Honnibal M, Curran J
 R. Evaluating entity linking with Wikipedia. Artificial Intelligence, 2013, 194: 130−150
@@ -689,16 +1015,21 @@ we need hundreds of classifiers to solve real world classification problems? Jou
 14 Mao Yi, Chen Wen-Lin, Guo Bao-Long, Chen Yi-Xin. A
 novel logistic regression model based on density estimation.
 Acta Automatica Sinica, 2014, 40(1): 62−72
-(毛毅, 陈稳霖, 郭宝龙, 陈一昕. 基于密度估计的逻辑回归模型. 自
-动化学报, 2014, 40(1): 62−72)
+(, , , . . 
+, 2014, 40(1): 62−72)
+
 922
-自
-动
-化
+
+
+
+
+
+
+
 15 Zhou Xiao-Jian. Enhancing ε-support vector regression
 with gradient information. Acta Automatica Sinica, 2014,
 40(12): 2908−2915
-(周晓剑. 考虑梯度信息的 ε-支持向量回归机. 自动化学报, 2014,
+(.  ε-. , 2014,
 40(12): 2908−2915)
 16 King G, Zeng L C. Logistic regression in rare events data.
 Political Analysis, 2001, 9(2): 137−163
@@ -710,20 +1041,21 @@ Language to Information Systems. Salford, UK: Springer,
 comzhwikilate-stzhwiki-latest-pages-articles.xml.bz2. October 31, 2015
 19 Zhu Min, Jia Zhen, Zuo Ling, Wu An-Jun, Chen FangZheng, Bai Yu. Research on entity linking of Chinese microblog. Acta Scientiarum Naturalium Universitatis
 Pekinensis, 2014, 50(1): 73−78
-(朱敏, 贾真, 左玲, 吴安峻, 陈方正, 柏玉. 中文微博实体链接研究.
-北京大学学报 (自然科学版), 2014, 50(1): 73−78)
+(, , , , , . .
+ (), 2014, 50(1): 73−78)
 20 Guo Yu-Hang. Research on Context-based Entity Linking
 Technique [Ph. D. dissertation], Harbin Institute of Technology, China, 2014.
-(郭宇航. 基于上下文的实体链指技术研究 [博士学位论文], 哈尔滨
-工业大学, 中国, 2014.)
+(.  [], 
+, , 2014.)
 21 Meng Z Y, Yu D, Xun E D. Chinese microblog entity linking system combining Wikipedia and search engine retrieval
 results. In: Proceedings of the 3rd CCF Conference on Natural Language Processing and Chinese Computing. Berlin
 Heidelberg: Springer, 2014. 449−456
-冯 冲 北京理工大学计算机学院副研
-究员. 2005 年获中国科学技术大学计算
-机科学系博士学位. 主要研究方向为自
-然语言处理, 信息抽取, 机器翻译. 本文
-通信作者.
+
+  
+. 2005 
+. 
+, , . 
+.
 E-mail: fengchong@bit.edu.cn
 (FENG Chong Associate professor
 at the College of Computer Science and
@@ -731,22 +1063,26 @@ Technology, Beijing Institute of Technology. He received
 his Ph. D. degree from the Department of Computer Science, University of Science and Technology of China in
 2005. His research interest covers natural language processing, information extraction, and machine translation.
 Corresponding author of this paper.)
-学
-报
-42 卷
-石 戈 北京理工大学计算机学院博士
-研究生. 主要研究方向为自然语言处理,
-实体链接, 问答系统.
+
+
+
+
+
+42 
+
+  
+. ,
+, .
 E-mail: shige713@126.com
 (SHI Ge
 Ph. D. candidate at the
 College of Computer Science and Technology, Beijing Institute of Technology.
 His research interest covers natural language processing, entity linking, and question answering
 system.)
-郭宇航 北京理工大学计算机学院讲师.
-2014 年获哈尔滨工业大学计算机科学与
-技术学院博士学位. 主要研究方向为自
-然语言处理, 信息抽取, 机器翻译.
+ .
+2014 
+. 
+, , .
 E-mail: guoyuhang@bit.edu.cn
 (GUO Yu-Hang Lecturer at the
 College of Computer Science and Technology, Beijing Institute of Technology.
@@ -754,18 +1090,18 @@ He received his Ph. D. degree from Harbin Institute of
 Technology in 2014. His research interest covers natural
 language processing, information extraction, and machine
 translation.)
-龚 静 北京理工大学计算机学院硕士
-研究生. 主要研究方向为自然语言处理,
-机器翻译, 问答系统.
+  
+. ,
+, .
 E-mail: gongjing@bit.edu.cn
 (GONG Jing Master student at the
 College of Computer Science and Technology, Beijing Institute of Technology.
 Her research interest covers natural language processing, machine translation, and question answering system.)
-黄河燕 北京理工大学计算机学院教授.
-1989 年获中国科学院计算技术研究所计
-算机科学与技术博士学位. 主要研究方
-向为自然语言处理和机器翻译社交网络
-与信息检索, 智能处理系统.
+ .
+1989 
+. 
+
+, .
 E-mail: hhy63@bit.edu.cn
 (HUANG He-Yan Professor at the
 College of Computer Science and Technology, Beijing Institute of Technology. She received her

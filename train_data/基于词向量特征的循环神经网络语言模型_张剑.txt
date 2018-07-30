@@ -1,37 +1,58 @@
-第 28 卷 第 4 期
-2015 年 4 月
-模式识别与人工智能
+ 28   4 
+2015  4 
+
+
 PＲ ＆ AI
+
 Vol． 28
 Apr．
-基于词向量特征的循环神经网络语言模型
-张
-剑
-屈
-丹
-李
-（ 中国人民解放军信息工程大学 信息系统工程学院
-摘
-要
+
+
+
+
+
+
+
+
+
+
+
+
+（  
+
+
+
+
+
 No． 4
 2015
+
 *
-真
-郑州 450001）
-循环神经网络语言模型能解决传统 N-gram 模型中存在的数据稀疏和维数灾难问题，但仍缺乏对长距离
-信息的描述能力． 为此文中提出一种基于词向量特征的循环神经网络语言模型改进方法． 该方法在输入层中增加
-特征层，改进模型结构． 在模型训练时，通过特征层加入上下文词向量，增强网络对长距离信息约束的学习能力． 实
-验表明，文中方法能有效提高语言模型的性能．
-关键词
-语音识别，语言模型，循环神经网络，词向量
-中图法分类号
+
+
+ 450001）
+
+ N-gram ，
+
+． ． 
+，． ，，． 
+，．
+
+
+，，，
+
+
+
 TP 391
+
 DOI 10． 16451 / j． cnki． issn1003-6059． 201504002
+
 Ｒecurrent Neural Network Language Model Based on
 Word Vector Features
 ZHANG Jian，QU Dan，LI Zhen
 （ Institute of Information System Engineering，The PLA Information Engineering University，
 Zhengzhou 450001）
+
 ABSTＲACT
 The recurrent neural network language model（ ＲNNLM） solves the problems of data sparseness and
 dimensionality disaster in traditional N-gram models． However，the original ＲNNLM is still lack of long
@@ -41,582 +62,792 @@ added into the input layer． Contextual word vectors are added into the model w
 reinforce the ability of learning long－distance information during the training． Experimental results show
 that the proposed method effectively improves the performance of ＲNNLM．
 Ke y Words
+
 Speech Ｒecognition，Language Model，Ｒecurrent Neural Network，Word Vector
-* 国家 863 计划项目（ No． 2012AA011603） 、国家自然科学基金项目（ No． 61175017） 资助
-收稿日期： 2014－02－27； 修回日期： 2014－03－27
-1988 年生，硕士研究生，主要研究方向为语音识别、自然语言处理． E-mail： Crsmx_23@ 163． com． 屈丹，
-作者简介 张剑，男，
-1974 年生，博士，副教授，主要研究方向为语音识别、智能信息处理． 李真，女，
-1982 年生，硕士，讲师，主要研究方向为语
-女，
-音识别、智能信息处理．
-模式识别与人工智能
+
+*  863 （ No． 2012AA011603） 、（ No． 61175017） 
+： 2014－02－27； ： 2014－03－27
+1988 ，，、． E-mail： Crsmx_23@ 163． com． ，
+ ，，
+1974 ，，，、． ，，
+1982 ，，，
+，
+、．
+
+
+
 300
+
 1
-引
-28 卷
-增强网络对长距离信息的学习，提高语言模型的精
-度． 该方法的优势是可在神经网络中较方便地利用
-言
-语言模型是自然语言处理中最重要的组成部
-分，在语音识别、机器翻译、信息检索等领域有着广
-泛的应用，其中最具代表性的是 N-gram 语言模型．
-但目前 N-gram 模型的发展逐渐陷入瓶颈，性能提高
-缓慢，且代价昂贵，因此神经网络语言模型 （ Neural
-Network Language Model，NNLM） 等高级语言模型逐
+
+
+
+28 
+
+，
+． 
+
+
+
+
+，、、
+， N-gram ．
+ N-gram ，
+，， （ Neural
+Network Language Model，NNLM） 
 ［1］
-渐成为研究的热点
+
+
+
 ．
-随着深度学习 （ Deep Learning） 理论的 不 断 发
-展，神经网络在自然语言处理，尤其是语言模型中的
+
+ （ Deep Learning）    
+，，
 ［2］
-应用开始受到关注． Bengio 等 率先提出利用神经
-网络构建语言模型的方法，通过对词的分布式表达
-（ Distributed Ｒepresentation） 巧妙解决数据稀疏对统
-计建模的影响，同时克服模型参数的维数灾难问题 ．
-其训练的神经网络语言模型无需使用传统 N-gram
-模型中复杂的平滑算法，具备较好的模型性能，在
-Associated Press （ AP） News 数据集上的对比实验表
-明，相比 Kneser-Ney 平滑的 N-gram 模型，NNLM 的
-性能有明显的提高．
-其他复杂的高级模型，这在传统的 N-gram 类模型中
+
+． Bengio  
+，
+（ Distributed Ｒepresentation） 
+， ．
+ N-gram
+，，
+Associated Press （ AP） News 
+， Kneser-Ney  N-gram ，NNLM 
+．
+
+， N-gram 
 ［9］
-经常使用到，如引入语言学信息和主题特征等 ．
-本 文 利 用 连 续 词 袋 （ Continuous Bags-of-Words，
-CBOW） 模型和 Skip-gram 模型获取上下文相关的词
-向量，改进原有循环神经网络语言模型，并在 Penn
-Treebank 数据库上进行困惑度测试，在微软语料库
-和 Wall Street Journal 语料库上进行语音识别实验．
-实验表明，本文方法可提高神经网络语言模型性能 ，
-有效降低语言模型在测试集上的困惑度，对连续语
-音识别系统的性能也有较大幅度的提高 ．
+， ．
+        （ Continuous Bags-of-Words，
+CBOW）  Skip-gram 
+，， Penn
+Treebank ，
+ Wall Street Journal ．
+， ，
+，
+ ．
+
 2
-神经网络模型结构
-ＲNNLM 的网络结构包含输入层（ Input Layer） 、
-隐含层 （ Hidden Layer） 和输出层 （ Output Layer） 3
-个部分，输入向量 w（ t） 代表 t 时刻时输入词，采用
-One-hot 编码（ 也称为 1-of-N 编码） ，维数与词汇表大
-小相同． 隐含层 s（ t） 为网络的状态，表示 t 时刻时上
-下文的历史信息，输出向量 y（ t） 表示待预测词在词
-但前馈神经网络语言模型在输入层上仍采用
-N－1 个词作为历史信息，并未解决长距离信息建模
+
+
+ＲNNLM （ Input Layer） 、
+
+ （ Hidden Layer）  （ Output Layer） 3
+， w（ t）  t ，
+One-hot （  1-of-N ） ，
+．  s（ t） ， t 
+， y（ t） 
+
+
+N－1 ，
 ［3－4］
-能力差的问题． 为此，Mikolov 等
-利用循环神经
-汇表上的概率分布． U、V、W 分别为各层之间的权值
-矩阵．
-网络训练语言模型，通过隐含层的循环获得更多的
-上下文信息，同时降低模型的参数个数，称为循环神
-在 t 时刻，网络的输入由当前词向量 w（ t） 和前
-一时刻的隐含层输出 s（ t － 1） 构成，联合计算下一
-经网络语言模型 （ Ｒecurrent NNLM，ＲNNLM） ，并进
-行一系列改进． ＲNNLM 的优势在于能利用更多的
-个隐含层，通过隐含层循环的方式，可利用更长的上
-下文信息，更好地表示自然语言，其性能优于传统的
-上下文信息进行词的预测，对语言具有更好的建模
-能力． 但文献［5］的理论研究表明，循环神经网络中
-前馈神经网络语言模型，近年来被大量使用于语音
+． ，Mikolov 
+
+
+． U、V、W 
+．
+
+，
+，，
+
+ t ， w（ t） 
+ s（ t － 1） ，
+
+ （ Ｒecurrent NNLM，ＲNNLM） ，
+． ＲNNLM 
+
+，，
+，，
+
+，
+． ［5］，
+
+，
 ［10 －11］
 ．
-识别、机器翻译、语言理解等领域
-存在消失梯度 （ Vanishing Gradient） 问题，使得基于
-梯度的训练算法对长距离信息的学习变得困难 ． 模
-在实际应用中，循环神经网络的消失梯度问题
-使网络不能较好学习较长距离的信息，其影响在传
-型性能分析表明 ＲNNLM 的性能类似于 N 为 8 或 9
+、、
+
+ （ Vanishing Gradient） ，
+ ． 
+
+，
+，
+
+ ＲNNLM  N  8  9
 ［6］
-的超长距离前馈神经网络模型 ．
-递过程中较易丢失． 这是因为在循环网络中，时间上
-因此，如何提高 ＲNNLM 对长距离上下文的学
-习能力需更进一步的研究． 目前学者们进行的研究
-主要有 2 种： 1） 优化训练算法，利用高阶信息，避免
-消失梯度问题，使误差传递的层数更多，达到学习更
+ ．
+
+． ，
+
+， ＲNNLM 
+． 
+ 2 ： 1） ，，
+，，
 ［7］
-长距离信息的目的，如 Hessian-free 优化方法 ； 2）
-利用 Long Short-Term Memory 改进神经网络，采用门
-控神经元 （ Gating Neurons） 锁存多重时序中的误差
+
+， Hessian-free  ； 2）
+ Long Short-Term Memory ，
+ （ Gating Neurons） 
 ［8］
-信号传递 ．
-隔得较远的输入的微小变化对网络训练几乎不会产
-生影响，即使远距离输入发生较大变化时 ，其产生的
-影响仍存在不能被梯度检测到的问题，这就使得在
-一些特定情况下，基于梯度的训练算法对长距离依
-赖的学习变得困难． 本文采用的是一种类似模型结
-合的方法，通过将上下文相关词向量直接加入到原
-有神经网络中，提高网络对长距离信息的学习能力 ，
-避免网络训练中的消失梯度问题 ．
-因此，本文改进原有网络结构，在输入层中增加
-一个特征层 （ Feature Layer） ，并通过权值矩阵 F、G
-本文从模型结合的角度研究上述问题，提出基
-于词向量特征的循环神经网络语言模型． 通过计算
-分别与隐含层和输出层相连，网络结构如图 1 所示．
-基于长距离历史的上下文词向量，并将其作为网络
-的一个输入特征进行神经网络语言模型的训练中 ，
-此时网络的输入变为
+ ．
+
+
+， ，
+，
+，
+． 
+，
+， ，
+ ．
+，，
+ （ Feature Layer） ， F、G
+
+，
+． 
+
+， 1 ．
+
+，
+ ，
+
+
 x（ t） = w（ t） + s（ t － 1） + f（ t） ．
-4期
-张
-剑
-等： 基于词向量特征的循环神经网络语言模型
+
+4
+
+
+
+
+
+： 
+
 301
-在特征层中，输入向量 f（ t） 为词的上下文相关
-向量，其中包含更多的长距离信息，是对输入向量
+
+， f（ t） 
+，，
+
 ［12］
-提 出，通 常 称 为 Word
-种表 示 法 最 早 由 Hinton
-Ｒepresentation． 这种方法将词用一种低维实数向量
-w（ t） 的一个补充，可使词概率的计算更准确． 采用
-随机梯度下降法训练网络，此时输出向量 y（ t） 表示
-待预测词在给定当前词 w（ t） 、上下文 s（ t －1） 和特
-表示，优点在于相似的词在距离上更接近 ，能体现出
-不同词之间的相关性，从而反映词之间的依赖关系．
-征向量 f（ t） 下的概率分布． 改进后的 ＲNNLM 计算
-同时，较低的维度也使特征向量在应用时有一个可
-接受的复杂度． 因此，新近提出的许多语言模型，如
-公式为
+ ，    Word
+      Hinton
+Ｒepresentation． 
+
+w（ t） ，． 
+， y（ t） 
+ w（ t） 、 s（ t －1） 
+
+， ，
+，．
+
+ f（ t） ．  ＲNNLM 
+
+，
+． ，，
+
+
 s（ t） = f（ Uw（ t） + Ws（ t － 1） + Ff（ t） ） ，
-潜在语义分析 （ Latent Semantic Analysis，LSA） 模型
-和潜 在 狄 利 克 雷 分 布 （ Latent Dirichlet Allocation，
+
+ （ Latent Semantic Analysis，LSA） 
+        （ Latent Dirichlet Allocation，
+
 y（ t） = g（ Vs（ t） + Gf（ t） ） ，
-其中，f（ z） 为 sigmoid 激活函数：
+，f（ z）  sigmoid ：
 f（ z） = （ 1 + e －z ） －1 ，
-g（ z） 为 softmax 激活函数，
+g（ z）  softmax ，
 g（ z m ） =
+
 ezm
 ．
 ∑ ezm
 k
-LDA） 模型，及目前流行的神经网络模型等，都采用
-这种方法表示词向量．
-连续词袋模型和 Skip-gram 模型
-本文选择 CBOW 模型和 Skip-gram 模型获取上
+
+LDA） ，，
+．
+ Skip-gram 
+ CBOW  Skip-gram 
 ［13］
-下文相关词向量． 这两种模型由 Mikolov 等 提出，
+．  Mikolov  ，
+
 3． 2
-旨在以较小的计算复杂度获取词的分布式表示 ． 在
-传统神经网络模型的基础上，针对训练复杂度过大
-的问题进行改进，采用一种 Log-linear 模型结构，去
-除神经网 络 的 非 线 性 隐 含 层，同 时 将 神 经 网 络 中
-N-gram模型的训练和词向量的计算分开，提高训练
-效率，其模型结构如图 2 所示．
-图1
+
+ ． 
+，
+， Log-linear ，
+        ，       
+N-gram，
+， 2 ．
+
+1
 Fig． 1
-结合特征层的 ＲNNLM 结构
+
+ ＲNNLM 
+
 Structure of ＲNNLM with feature layer
+
 3
-词向量特征
+
+
+
 3． 1
-词向量定义
-在自然语言处理中，要将自然语言理解的问题
-转化为机器学习的问题，就需将自然语言的符号数
-学化，其中最直观和常用的方法是 One-hot 表示法．
-这种方法将每个词表示为一个很长的向量 ，其维数
-是词汇表大小，其中绝大多数元素为 0，只有一个维
-度的值为 1，这个维度就代表当前的词．
-在自然语言处理中，常将 One-hot 表示采用稀
-疏的方式进行存储，即为每个词分配一个数字 ID．
-该方法因其简单易用，广泛应用于各种自然语言处
-理任务中，如 N-gram 模型中就采用这种词向量表示
+
+
+
+，
+，
+， One-hot ．
+ ，
+， 0，
+ 1，．
+， One-hot 
+， ID．
+，
+， N-gram 
+
 （ a） CBOW
-图2
+2
 Fig． 2
+
 （ b） Skip-gram
-CBOW 和 Skip-gram 模型结构
+
+CBOW  Skip-gram 
+
 Architectures of CBOW and Skip-gram model
-从结构图中可看出，CBOW 的模型架构类似于
-前馈神经网络模型，但去除隐含层，只包括输入层、
-投影层（ Projection Layer） 和输出层． 输入层、输出层
-表示每个词的词向量，均采用分布式表示，维数一般
-为 50 或 100，投影层维数为 D，窗长 C 表示上下文
-长度． 在训练时与前馈神经网络模型的区别如下 ： 输
-法． 但这种表述方法也存在一定问题 ： 其表示的任意
-入层的词向量在投影层上的投影不再按顺序排列 ，
-而是进行合并，采用均值表示单个词向量，达到降低
-两个词之间是孤立的，无法表示这两个词之间的依
-赖关系，从词向量上看不出两个词是否相关 ； 采用稀
-计算量的目的． 词在历史信息中的顺序不影响其在
-投影层中的表示，因此这种结构称为连续空间中的
-疏表示法，在处理某些任务，如构建 N-gram 模型时，
-会引起维数灾难问题．
-词袋模型． 此外，由于无需进行语言模型概率的计
-算，模型可利用未来的信息 w（ t+1） 、w（ t+2） 等训练
-而 在 深 度 学 习 中，一 般 采 用 分 布 式 表 示
-（ Distributed Ｒepresentation） 的方法表示词 向 量，这
-当前词 w（ t） ，真正实现根据上下文得到最优的词
-向量．
-模式识别与人工智能
+
+，CBOW 
+，，、
+（ Projection Layer） ． 、
+，，
+ 50  100， D， C 
+．  ： 
+
+．  ： 
+
+ ，
+，，
+
+，
+， ； 
+
+． 
+，
+
+，， N-gram ，
+．
+
+． ，
+， w（ t+1） 、w（ t+2） 
+
+      ，        
+（ Distributed Ｒepresentation）   ，
+
+ w（ t） ，
+．
+
+
+
 302
-Skip-gram 模型的结构则与 CBOW 模型相反，其
-采用当前词 w（ t） 训练上下文的词向量，目的是得到
-有利于预期周围词的词向量，用以表征上下文信息，
-可理解为根据上下文分类当前词 ．
-这两种词向量各有优势，CBOW 模型在语法测
-试中准确性更高，表明其通过对上下文的学习，获得
-28 卷
-验，最终选取窗长为 30 的词向量训练语言模型． 在
-这一窗长下，词向量不仅可完整表示一句话内的词
-关联信息，也能有效表示句子间的上下文信息 ，得到
-的语言模型性能最优．
-实验中训练 3 组 ＲNNLM，隐含层神经元个数采
-用 10 或 100，类别层个数为 100，并在开发集和测试
-更多的语法信息； Skip-gram 模型在语义测试中性能
-更好，说明其词向量的区分性更好，对单个词的信息
-集上分别计算模型的困惑度，实验结果如表 1 所示．
-为对比语言模型性能，还采用 Kneser-Ney 平滑的 5-
-描述更准确．
-gram 模型．
-这两种模型的共同优点在于能从规模数据中得
+
+Skip-gram  CBOW ，
+ w（ t） ，
+，，
+ ．
+，CBOW 
+，，
+
+28 
+
+， 30 ． 
+，
+， ，
+．
+ 3  ＲNNLM，
+ 10  100， 100，
+
+； Skip-gram 
+，，
+
+， 1 ．
+， Kneser-Ney  5-
+
+．
+
+gram ．
+
+
 ［14］
-到高质量的词向量，Mikolov 等
-向量维数为 1 000 时，可在十亿级的数据量下完成
-词向量的训练，这在以往是难以想象的． 对海量数据
-的有效利用使所得词向量具有更高的精度 ，能更好
-描述对不同词之间的相关性． 同时，这两个模型得到
-的词向量也能描述词和短语之间的相关性 ，对句子
-中存在的长距离的词之间的关系进行有效表达 ．
+
+，Mikolov 
+
+ 1 000 ，
+，． 
+ ，
+． ，
+ ，
+ ．
+
 4
-实验及结果分析
-为验证本文语言模型的性能，通过一系列的实
-验进行验证，包括 Penn Treebank 语料库上的困惑度
-实验，在微软语料库和 Wall Street Journal 语料库上
-的连续语音识别实验． 实验采用的评价指标是语言
-模型的困惑度 （ Perplexity，PPL） 和语音识别系统的
-词错误率 （ Word Error Ｒate，WEＲ） ． 具体的实验设
-置及实验结果如下．
-4． 1 Penn Treebank 困惑度实验
+
+
+
+，
+， Penn Treebank 
+， Wall Street Journal 
+． 
+ （ Perplexity，PPL） 
+ （ Word Error Ｒate，WEＲ） ． 
+．
+4． 1 Penn Treebank 
 4． 1． 1
-表1
-的实验表明，在词
-实验设置
-Penn Treebank 语料库［15］ 是国际上广泛采用的
-一个英文树库，由宾夕法尼亚大学建立，常用来进行
-词性标注、句法分析等自然语言处理任务，在语言模
-型领域也被广泛采用． 在实验时采用相同的实验设
-置（ 相同的训练、开发和测试数据，及相同的词汇限
-制） ，这也有利于对比不同的语言模型技术 ．
-实验中 Penn Treebank 语料划分如下： 0 ～ 20 节
-为训练集，包含 93 万个 Tokens； 21 ～ 22 节为确认数
-据，
-作为开发集，包含 7． 4 万个 Tokens； 23 ～ 24 节为
-测试集，包含 8． 2 万个 Tokens； 词汇表大小限制为 1
-万，集外词采用标号〈unk〉表示．
-实验结果
-实验中采用 CBOW 模型和 Skip-gram 模型在训
+
+1
+
+，
+
+
+
+Penn Treebank ［15］ 
+，，
+、，
+． 
+（ 、，
+） ， ．
+ Penn Treebank ： 0 ～ 20 
+， 93  Tokens； 21 ～ 22 
+，
+， 7． 4  Tokens； 23 ～ 24 
+， 8． 2  Tokens；  1
+，〈unk〉．
+
+ CBOW  Skip-gram 
+
 Table 1
-Penn Treebank 语料库上困惑度实验结果
+
+Penn Treebank 
+
 Experimental results of perplexity test on Penn Treebank
 corpus
-语言模型
+
 5-gram （ KN5）
-困惑度
-开发集 测试集
+
+
+ 
 148． 0
 141． 2
+
 ＲNN 10
 ＲNN 10 + CBOW 50
 ＲNN 10 + Skip-gram 50
+
 252． 8
 202． 9
 187． 1
+
 239． 3
 192． 2
 179． 1
+
 ＲNN 100
 ＲNN 100 + CBOW 50
 ＲNN 100 + Skip-gram 50
+
 158． 9
 140． 9
 133． 2
+
 151． 1
 134． 6
 127． 0
-表 1 中，KN5 表 示 采 用 Kneser-Ney 平 滑 的 5gram 模型，ＲNN 10 和 ＲNN 100 分别表示隐含层神
-经元 个 数 采 用 10 和 100 的 循 环 神 经 网 络 模 型，
-CBOW 50 和 Skip-gram 50 分别代表词向量维数为
-50 的模型． ＲNN +CBOW、ＲNN +Skip-gram 分别表示
-采用两 种 模 型 进 行 词 向 量 扩 展 的 循 环 神 经 网 络
-模型．
-从表 1 中可看出，本文方法可提高神经网络语
-言模型的性能，其在开发集和测试集上的困惑度均
-有明显降低． 在隐含层神经元个数较小 （ 隐含层大
-小为 10） 时，结合词向量对模型性能的提高更明显 ．
-在开发集上，ＲNN-CBOW 模型相比原有 ＲNN 模型，
-困惑 度 由 252． 8 降 至 202． 9，下 降 19． 7% ； 采 用
-Skip-gram 模型时，困惑度降低到 187． 1，下降幅度更
-大，达到 26% ． 而当隐含层神经元个数增多时，随着
-原有模型训练更充分，结合词向量特征对性能的提
-高进 一 步 减 弱． 在 开 发 集 上，两 种 方 法 相 比 原 有
-ＲNN 模型，困惑度分别下降 11% 和 16． 3% ．
-为进一步验证本文方法的性能，将本文方法与
-其他语言模型对比． 在相同的实验条件下，选取文献
+
+ 1 ，KN5     Kneser-Ney    5gram ，ＲNN 10  ＲNN 100 
+     10  100         ，
+CBOW 50  Skip-gram 50 
+50 ． ＲNN +CBOW、ＲNN +Skip-gram 
+                 
+．
+ 1 ，
+，
+．  （ 
+ 10） ， ．
+，ＲNN-CBOW  ＲNN ，
+   252． 8   202． 9，  19． 7% ；  
+Skip-gram ， 187． 1，
+， 26% ． ，
+，
+    ．     ，       
+ＲNN ， 11%  16． 3% ．
+，
+． ，
+
 4． 1． 2
-［16］中的结果对比，ＲNNLM 的隐含层大小为 300，
-词向量的维数为 50，窗长为 30． 实验中每个模型除
-练集上训练上下文相关的词向量 （ 维数为 50） 在窗
-长范围为 10 ～ 50 的条件下，选取不同的窗长进行实
-单独测试困惑度外，还与 Kneser-Ney 平滑的 5-gram
-模型进行结合，计算在测试集上的困惑度． 具体结果
-4期
-张
-剑
-等： 基于词向量特征的循环神经网络语言模型
-如表 2 所示．
-表2
+
+［16］，ＲNNLM  300，
+ 50， 30． 
+
+ （  50） 
+ 10 ～ 50 ，
+
+， Kneser-Ney  5-gram
+，． 
+
+4
+
+
+
+
+
+： 
+
+ 2 ．
+2
 Table 2
+
 303
-实验中声学特征采用 13 维 MFCC 参数及其一
-阶和二 阶 差 分，共 39 维 特 征 矢 量 语 音 信 号． 采 用
-不同语言模型在测试集上的性能对比
+
+ 13  MFCC 
+   ， 39         ．  
+
+
 Performance comparison of different language models
 on test set
-语言模型
-困惑度
+
+
+
 + KN5
-Hamming 窗处理，帧长 25 ms，帧移 10 ms 声学模型
-为有调音节的声韵模型，共 187 个模型基元，采用三
-状态自左向右无跨越的隐马尔科夫模型 （ HMM） ． 由
-于语音中存在协同发音现象，在声韵母结构上，上下
+
+Hamming ， 25 ms， 10 ms 
+， 187 ，
+ （ HMM） ． 
+，，
+
 5-gram （ GT5）
 5-gram （ KN5）
-单个
+
+
 165． 2
 141． 2
+
 －
 －
-文相关三音子（ Triphone） 的声韵母结构语言模型的
-训练数据为语料库的语音标注文件，采用 SＲILM 工
-平滑最大熵模型
-随机森林模型
-结构化模型
+
+（ Triphone） 
+， SＲILM 
+
+
+
+
+
 142． 1
 131． 9
 146． 1
+
 138． 7
 131． 3
 125． 5
-具包训练得到 Kneser-Ney 平滑的 3-gram 和 4-gram
-模型．
-前馈经神经网络模型
-句法神经网络模型
-循环神经网络语言模型
+
+ Kneser-Ney  3-gram  4-gram
+．
+
+
+
+
 ＲNN + CBOW LM
 ＲNN + Skip-gram LM
+
 140． 2
 131． 3
 124． 7
+
 116． 7
 110． 0
 105． 7
+
 118． 7
 112． 6
+
 99． 4
 97． 3
-表 2 中列出多种不同语言模型的实验结果． Ngram 模型由 SＲILM 工具包训练得到，采用目前流行
-的两种平滑算法，其中，Kneser-Ney 平滑 （ KN5） 的性
-能优于 Good-Turing 平滑 （ GT5） ． 最大熵模型、随机
-森林模型和结构化模型是 N-gram 模型的一些扩展，
-采用不同方法改进 N-gram 模型． 而神经网络类模型
-则由前馈神经网络模型 （ Feedforward Neural Network
-LM） 、句法神经网络模型 （ Syntactical Neural Network
-LM） 和循环神经网络语言模型组成．
-通过实验对比发现，神经网络类语言模型的性
-能普遍优于 N-gram 类模型，其中句法神经网络模型
+
+ 2 ． Ngram  SＲILM ，
+，，Kneser-Ney  （ KN5） 
+ Good-Turing  （ GT5） ． 、
+ N-gram ，
+ N-gram ． 
+ （ Feedforward Neural Network
+LM） 、 （ Syntactical Neural Network
+LM） ．
+，
+ N-gram ，
+
 ［17］
-本实验采用 Kaldi 工具箱
-搭建连续语音识别
-系统，基线系统采用 3-gram，在基于加权有限状态机
-（ Weighted Finite State Transducer，WFST） 的解码器
-中构建静态解码网络，进行一次解码，利用 Latticeto-nbest 工具提取 N-best 列表，在二次解码中，采用
-Kneser-Ney 平滑的 4-gram 和循环神经网络语言模
-型进行 N-best 重打分，得到最终的识别结果． 采用
-测试集上的词错误率（ WEＲ） 作为系统的评价指标．
-在实 验 中，ＲNNLM 的 隐 含 层 个 数 为 100 和
-200，词向量的维数为 50，窗长为 30，将模型送入解
-码器进行实验． 表 3 给出不同语言模型的系统识别
-结果．
-表3
+
+ Kaldi 
+
+
+
+， 3-gram，
+（ Weighted Finite State Transducer，WFST） 
+，， Latticeto-nbest  N-best ，，
+Kneser-Ney  4-gram 
+ N-best ，． 
+（ WEＲ） ．
+  ，ＲNNLM        100 
+200， 50， 30，
+．  3 
+．
+3
 Table 3
-不同语言模型在微软语料库上的词错误率
+
+
+
 WEＲ of different language models on Microsoft corpus
-语言模型
-基线系统
+
+
 4-gram
-词错误率 / %
+
+ / %
 16． 45
 16． 31
-ＲNN 模型，困惑度进一步下降． ＲNN + Skip-gram 模
-型在两项测试中的困惑度 （ 112． 6 和 97． 3） 均为最
+
+ＲNN ，． ＲNN + Skip-gram 
+ （ 112． 6  97． 3） 
+
 ＲNN 100
 ＲNN 100 + CBOW 50
 ＲNN 100 + Skip-gram 50
+
 15． 91
 15． 90
 15． 76
-低，具备最好的模型性能，进一步说明本文方法的有
-效性．
+
+，，
+．
+
 ＲNN 200
 ＲNN 200 + CBOW 50
 ＲNN 200 + Skip-gram 50
+
 15． 64
 15． 63
 15． 45
-和循环神经网络模型由于能表示更多的长距离依赖
-关系，具备更好的模型性能而被采用． 本文方法改进
+
+
+，． 
+
 4． 2
-连续语音识别实验
-在该 章 节 中，选 取 两 个 国 际 上 常 用 的 语 料
-库———微软语料库和 Wall Street Journal（ WSJ） 语料
-库进行连续语音识别实验，验证本文语言模型在连
-续语音识别系统中的性能． 针对两个语料库的实验
-设置和实验结果如下．
-从表 3 可 看 出，结 合 Skip-gram 模 型 改 进 的
-ＲNNLM 的系统具有最低的识别词错误率． 从识别
-结果看，在隐含层为 100 时，系统识别的词错误率为
-15． 76% ，与原有 ＲNNLM 相比，性能提高 0． 97% ； 与
+
+
+   ，           
+
+——— Wall Street Journal（ WSJ） 
+，
+． 
+．
+
+ 3   ，  Skip-gram     
+ＲNNLM ． 
+， 100 ，
+15． 76% ， ＲNNLM ， 0． 97% ； 
+
 4． 2． 1
-基线系统相比，相对提高 4． 19% ． 在隐含层为 200
-时，ＲNN-Skip-gram 模 型 的 识 别 词 错 误 率 为
-15． 45% ，在 ＲNN 语言模型基础上提高 1． 21% ； 与
-个汉语连续语音识别语料库，其训练集由 100 个年
-龄在 18 ～ 40 岁间的男性录音组成，共 19 688 句，约
-基线系统相比，相对提高 6． 08% ． 说明 Skip-gram 词
-向量的加入可使 ＲNNLM 的识别性能进一步提高，
-33 h 的语音数据； 测试集为另外 25 个男性录音，共
-500 句语音； 采样频率为 16 kHz，采用 16 bit 线性脉
-而 CBOW 模型特征对 ＲNN 语言模型的连续语音识
-别结果并未有明显改善，还需进一步的实验验证其
-冲编码调制（ Pulse Code Modulation，PCM） 量化．
-性能．
-基于微软语料库的实验
-微软语料库 Speech Corpora （ Version 1． 0） 是一
-模式识别与人工智能
+
+， 4． 19% ．  200
+，ＲNN-Skip-gram          
+15． 45% ， ＲNN  1． 21% ； 
+
+， 100 
+ 18 ～ 40 ， 19 688 ，
+
+， 6． 08% ．  Skip-gram 
+ ＲNNLM ，
+
+33 h ；  25 ，
+500 ；  16 kHz， 16 bit 
+
+ CBOW  ＲNN 
+，
+
+（ Pulse Code Modulation，PCM） ．
+
+．
+
+
+ Speech Corpora （ Version 1． 0） 
+
+
+
 304
-基于 WSJ 语料库的实验
-Wall Street Journal（ WSJ） 语料库是一个国际上
+
+ WSJ 
+Wall Street Journal（ WSJ） 
+
 4． 2． 2
-广泛使用的英文语料库，适用于进行大词汇量连续
-语音识别实验． 其训练集包含 WSJ0 和 WSJ1 两部
-分，共 81． 3 h 语音数据，测试集由 Eval92 和 Dev93
-组成．
-实验设置与微软语料库类似，针对 WSJ-20K 语
-音识别任务进行实验，采用 SI-284 数据训练得到传
-统 HMM-GMM 模型，利用 Kaldi 自动生成的问题集
-进行三音子状态聚类，共 4 368 个不同的绑定状态．
-语言模型训练数据包含 37 MB 的 Tokens．
-在不同的隐含层个数下训练神经网络模型，观
-察词向量对模型性能的影响，采用的词向量维数为
-50，窗长为 30． 训练选择的隐含层大小分别为 30、
+
+，
+．  WSJ0  WSJ1 
+， 81． 3 h ， Eval92  Dev93
+．
+， WSJ-20K 
+， SI-284 
+ HMM-GMM ， Kaldi 
+， 4 368 ．
+ 37 MB  Tokens．
+，
+，
+50， 30．  30、
 100、
-200 和 300，不同循环神经网络模型在开发集上
-的困惑度如图 3 所示．
-28 卷
-更好的识别效果，在 Eval92 和 Dev93 测试集上其识
-别性 能 在 原 有 ＲNNLM 基 础 上 进 一 步 提 高． 在
-Eval92 测试集上，隐含层个数 为 30 时，结 合 Skipgram 词向量的 ＲNNLM 识别的词错误率为 7． 67% ，
-相比 ＲNN 和基线系统分别提高 1． 41% 和 12． 2% ；
-隐含 层 个 数 为 100 时，词 错 误 率 为 7． 21% ，相 比
-ＲNNLM 和基线系统分别提高 2． 2% 和 17． 5% ． 在
-Dev93 测试集上可得到类似的实验结果 ．
-表4
+200  300，
+ 3 ．
+
+28 
+
+， Eval92  Dev93 
+     ＲNNLM        ． 
+Eval92 ，  30 ，  Skipgram  ＲNNLM  7． 67% ，
+ ＲNN  1． 41%  12． 2% ；
+     100 ，     7． 21% ， 
+ＲNNLM  2． 2%  17． 5% ． 
+Dev93  ．
+4
 Table 4
-不同语言模型在 WSJ 语料库上的词错误率
+
+ WSJ 
 WEＲ of different language models on WST corpus
 %
-语言模型
+
+
 Eval92
+
 Dev93
-基线系统
+
+
 4-gram
+
 8． 74
 8． 35
+
 12． 29
 11． 57
+
 ＲNN 30
 ＲNN 30 + CBOW 50
 ＲNN 30 + Skip-gram 50
+
 7． 78
 7． 64
 7． 67
+
 11． 39
 11． 28
 11． 23
+
 ＲNN 100
 ＲNN 100 + CBOW 50
 ＲNN 100 + Skip-gram 50
+
 7． 37
 7． 30
 7． 21
+
 11． 26
 10． 77
 10． 93
-ＲNN-CBOW 模型对系统的识别性能也有明显
-改善． 在 Eval92 测试集上，隐含层为 30 时，其词错
-误率为 7． 64% ，相比 ＲNN 和基线系统分别提高 1．
-8% 和 12． 6% ； 隐含层为 100 时，词错误率相比 ＲNN
-和基线系统分别提高 0． 95% 和 16． 5% ．
-图3
+
+ＲNN-CBOW 
+．  Eval92 ， 30 ，
+ 7． 64% ， ＲNN  1．
+8%  12． 6% ；  100 ， ＲNN
+ 0． 95%  16． 5% ．
+3
 Fig． 3
-不同隐含层的 ＲNNLM 在有效数据上的困惑度
+
+ ＲNNLM 
 Perplexity of ＲNNLM with different hidden layer sizes
 on valid data
-与微软 语 料 库 的 实 验 结 果 相 比，本 文 方 法 在
-WSJ 语料库上对系统识别性能的提升更明显． 这说
-明在语料库数据更大时，词向量的训练更充分，对长
-距离上下文信息的描述也更准确，对语言模型的性
-从图 3 可看出，两种模型词向量的引入都能明
-显降低 ＲNNLM 的困惑度，其中 Skip-gram 模型的性
-能提高也更大． 尤其是 ＲNN-CBOW 模型，在大词汇
-量语音识别系统中，其性能相比小词汇量识别系统
-能略优于 CBOW 模型． 当隐含层较小时，这种方法
-对模型困惑度的降低更明显，而随着神经元个数的
-有明显提高，证明此方法的有效性，也说明训练数据
-量的大小对词向量的性能有一定影响 ．
-增大，加入特征向量使模型性能的提高幅度减小 ． 这
-说明在隐含层较小时，特征向量的加入对网络的影
-为更准确对比不同识别系统的性能，排除测试
-数据随机性对实验结果造成的干扰，得到更可靠的
-响更大，可更好提高模型的性能． 随着网络本身训练
-更充分，影响开始减弱．
-结论，在 WSJ 上对不同模型的识别结果进行统计假
-设检验． 利用 NIST 提供的 SCTK 工具包对词错误率
-为进一步验证本文方法的性能，选择隐含层个
-数为 30 和 100 的语言模型进行语音识别实验，采用
-进行显著性测试（ Significance Test） ，包括： 配对句子
-分词 错 误 率 （ Matched Pair Sentence Segment Word
-100-Best 重 打 分 进 行 二 次 解 码，根 据 在 Eval92 和
-Dev93 上的词错误率，对比不同模型对识别性能的
-Error） 测试，简称 MP 测试； 符号成对比较说话人词
-准 确 率 （ Signed Paired Comparison Speaker Word
-影响． 实验结果如表 4 所示． 表 4 中，基线系统为一
-4-gram 表示采用 4-gram 模型重
-次解码的识别结果，
-Accuracy） 测试，简称 SI 测试； Wilcoxin 符号秩说话
-人词准确率（ Wilcoxin Signed Ｒank Speaker Word Ac-
-打分的识别结果．
-从表 4 可看出，本文方法训练的语言模型具有
-curacy） 测试，简称 WI 测试． 测试结果如表 5 所示．
-表 5 中的每项给出对应的两种语言模型的测试
-4期
-张
-剑
-等： 基于词向量特征的循环神经网络语言模型
-结果，其中，“MP ∶ ＲNN-CBOW”表示在 MP 测试中，
-ＲNN-CBOW 词错误率更低； “MP ∶ ＲNN”表示在 MP
-测试中，ＲNN 模型的词错误率更低，识别结果的不
-同是由于测试数据的随机性造成的． 从表 5 中可看
-3 种显著性测试结果均表明，在 5% 的显著性水
-出，
-平下，本文提出的两种词向量改进的 ＲNN 模型均优
-于传统的 N-gram 模型和原有 ＲNN 模型，肯定本文
-方法的有效性．
-表5
+
+          ，    
+WSJ ． 
+，，
+，
+
+ 3 ，
+ ＲNNLM ， Skip-gram 
+
+．  ＲNN-CBOW ，
+，
+
+ CBOW ． ，
+，
+
+，，
+ ．
+
+， ． 
+，
+
+，
+，
+
+，． 
+，．
+
+， WSJ 
+．  NIST  SCTK 
+
+，
+ 30  100 ，
+
+（ Significance Test） ，： 
+    （ Matched Pair Sentence Segment Word
+
+100-Best         ，   Eval92 
+Dev93 ，
+
+Error） ， MP ； 
+   （ Signed Paired Comparison Speaker Word
+
+．  4 ．  4 ，
+4-gram  4-gram 
+，
+
+Accuracy） ， SI ； Wilcoxin 
+（ Wilcoxin Signed Ｒank Speaker Word Ac-
+
+．
+ 4 ，
+
+curacy） ， WI ．  5 ．
+ 5 
+
+4
+
+
+
+
+
+： 
+
+，，“MP ∶ ＲNN-CBOW” MP ，
+ＲNN-CBOW ； “MP ∶ ＲNN” MP
+，ＲNN ，
+．  5 
+3 ， 5% 
+，
+， ＲNN 
+ N-gram  ＲNN ，
+．
+5
 Table 5
-不同语言模型词错误率的显著性测试结果
+
+
+
 Significance test results for WEＲ of different language
 models
-传统 N-gram
+
+ N-gram
+
 ＲNNLM
+
 305
+
 Czech Ｒepublic，2011： 5528－5531
 ［5］ Bengio Y，Simard P，Frasconi P． Learning Long-Term Dependencies with Gradient Descent Is Difficult． IEEE Trans on Neural Networks，1994，5（ 2） ： 157－166
 ［6］ Son L H，Allauzen A，Yvon F． Measuring the Influence of Long
@@ -626,35 +857,46 @@ of the NAACL-HLT Workshop： Will We Ever Ｒeally Ｒeplace the Ngram Model？ 
 Hessian-Free Optimization ［EB / OL］． ［2014 － 02 － 10］． http： / /
 www． icml-2011． org / papers /532_icmlpaper． pdf
 ［8］ Sundermeyer M，Schlüter Ｒ，Ney H． LSTM Neural Networks for Language Modeling［EB / OL］．［2014－02－10］． http： / / www－i6． informatik．
+
 ＲNN-CBOW
+
 ＲNN-Skip-gram
+
 MP ∶ ＲNN-CBOW
 SI ∶ ＲNN-CBOW
 WI ∶ ＲNN-CBOW
+
 MP ∶ ＲNN-Skip-gram
 SI ∶ ＲNN-Skip-gram
 WI ∶ ＲNN-Skip-gram
+
 MP ∶ ＲNN-CBOW MP ∶ ＲNN-Skip-gram
 SI ∶ ＲNN-Skip-gram
 SI ∶ ＲNN-CBOW
 WI ∶ ＲNN-CBOW WI ∶ ＲNN-Skip-gram
+
 rwth － aachen． de / publications / download /820 / Sundermeyer － 2012．
 pdf
 ［9］ Shi Y，Wiggers P，Jonker C M． Towards Ｒecurrent Neural Networks
 Language Models with Linguistic and Contextual Features / / Proc of
 the 13th Annual Conference of the International Speech Communication Association． Portland，USA，2012： 1664－1667
 ［10］Auli M，Galley M，Quirk C，et al． Joint Language and Translation
+
 5
-结 束 语
+
+  
+
 Modeling with Ｒecurrent Neural Networks / / Proc of the Conference on Empirical Methods in Natural Language Processing． Sea-
-本文提出一种结合词向量特征的循环神经网络
-语言模型改进方法，通过引入词关联信息的方法解
-决模型中存在长距离信息的学习问题，改善语言模
-型的性能，并进行困惑度测试和连续语音识别实验 ．
-实验表明本文方法可有效改善语言模型性能 ，降低
-识别系统的平均词错误率． 在今后的研究工作中，将
-重点关注如下方面： 提高词关联信息的准确率，考虑
-更长的关联信息，句子关联信息的有效利用．
+
+
+，
+，
+， ．
+ ，
+． ，
+： ，
+，．
+
 ttle，USA，2013： 1044－1054
 ［11］ Yao K，Zweig G，Hwang M Y，et al． Ｒecurrent Neural Networks
 for Language Understanding ［EB / OL］． ［2014－02－10］． http： / /
@@ -665,33 +907,58 @@ Proc of the 8th Annual Conference of the Cognitive Science Society． Amherst，
 Word Ｒepresentations in Vector Space［EB / OL］． ［2014 － 02 －
 10］． http： / / arxiv． org / pdf /1301． 3781． pdf
 ［14］ Mikolov T，Sutskever I，Chen K，et al． Distributed Ｒepresenta-
-参
-考
-文
-献
+
+
+
+
+
+
+
+
+
 tions of Words and Phrases and Their Compositionality ［EB / OL］．
 ［2014－02－10］． http： / / papers． nips． cc / paper /5021-distributed-
+
 ［1］ Schwenk H． Continuous Space Language Models． Computer Speech
 and Language，2007，21（ 3） ： 492－518
+
 representations-of -words -and -phrases -and -their -compositionality ．
 pdf
+
 ［2］ Bengio Y，Ducharme Ｒ，Vincent P，et al． A Neural Probabilistic
+
 ［15］ Marcus M P，Marcinkiewicz M A，Santorini B． Building a Large
+
 Language Model． Journal of Machine Learning Ｒesearch，2003，3：
+
 Annotated Corpus of English： the Penn Treebank． Computational
+
 1137－1155
+
 Linguistics，1993，19（ 2） ： 313－330
+
 ［3］ Mikolov T，Karafiát M，Burget L，et al． Ｒecurrent Neural Network
+
 ［16］ Mikolov T，Deoras A，Kombrink S，et al． Empirical Evaluation
+
 Based Language Model / / Proc of the 11th Annual Conference of the
+
 and Combination of Advanced Language Modeling Techniques
+
 International Speech Communication Association． Makuhari，Japan，
+
 ［EB / OL］． ［2014 － 02 － 14］． http： / / www． fit． vutbr． cz / ～
+
 2010： 1045－1048
 ［4］ Mikolov T，Kombrink S，Burget L，et al． Extensions of Ｒecurrent
+
 imikolov / ～ rnnlm / is 2011_emp． pdf
 ［17］ Povey D，Ghoshal A，Boulianne G，et al． The Kaldi Speech Ｒe-
+
 Neural Network Language Model / / Proc of the IEEE International
+
 cognition Toolkit ［EB / OL］．［2014－02－10］． http： / / homepages．
+
 Conference on Acoustics ，Speech and Signal Processing ． Prague ，
+
 inf． ed． ac． uk / aghoshal / pubs / asru11-kaldi． pdf

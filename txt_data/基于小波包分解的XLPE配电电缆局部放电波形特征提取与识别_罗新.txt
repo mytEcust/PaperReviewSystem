@@ -1,0 +1,1333 @@
+DOI:10.13296/j.1001-1609.hva.2013.11.020
+
+· 110 ·
+
+第 49 卷 第 11 期
+2013 年 11 月
+
+Vol.49 No.11
+Nov. 2013
+
+High Voltage Apparatus
+
+基于小波包分解的XLPE配电电缆局部放电波形特征
+提取与识别
+罗
+
+新1，
+
+牛海清1，
+
+（1. 华南理工大学电力学院， 广州
+
+胡日亮2，
+
+刘
+
+访2，
+
+吴炬卓1
+
+510641 ； 2. 广东电网公司东莞供电局， 东莞
+
+523129 ）
+
+摘要： XLPE 中压电缆局部放电（partial discharge ）带电检测获得的信号可能源于电缆本体、电缆终端头，也可
+能来自于与之连接的开关柜中的电晕放电或表面放电等等。 由于不同来源的 PD 信号，对设备的危害不同，其
+判断标准也有所不同，故有必要对 PD 信号来源进行识别。 笔者利用小波包分解技术对试验获得的大量 PD 波
+形数据进行去噪和特征提取。 使用 PD 信号在不同尺度下的能量谱、Shannon 熵、对数能量熵以及 1.5 阶标准熵
+组成 4 组特征向量；将提取出的特征向量分别作为 BP 神经网络分类器的输入，对 PD 信号进行识别，并得到以
+下结论：以提取的各特征向量对 PD 信号进行识别，平均识别率均在 90% 附近；能量谱、Shannon 熵、对数能量熵
+对于表面放电的识别率相对较低，1.5 阶标准熵对于表面放电识别率高但对于电缆本体 PD 信号识别率较低。
+提出使用能量谱和 1.5 阶标准熵组合特征向量对 PD 信号进行识别， 效果优于单独使用各特征向量进行识别，
+识别率高达 97%。
+关键词： 局部放电； 小波包； 特征向量； 神经网络； 模式识别
+中图分类号： TM83
+
+文献标志码： A
+
+文章编号：1001-1609 （2013 ）11-0110-07
+
+Feature Extraction and Pattern Recognition of Partial Discharge of XLPE Distribution
+Cable Based on Wavelet Packet Decomposition
+
+LUO Xin1，NIU Hai-qing1，HU Ri-liang2，LIU Fang2，WU Ju-zhuo1
+（
+1. Faculty of Electric Power, South China University of Technology，Guangzhou 510641，China；
+2. Dongguan Power Bureau of Guangdong Power Grid Corporation，Dongguan 523129，China）
+
+Abstract: The signal of online partial discharge（
+PD）detection of XLPE cable may come from the cable, its end
+joint, or the switchgear connected with it. PD from different source does different harm to electric equipment, and is
+recognized with different criteria. Therefore, it is necessary to recognize the source of PD. Based on wavelet packet
+decomposition, four eigenvectors, i.e. energy spectrum, Shannon entropy, logarithmic energy entropy, and 1.5-order
+norm entropy, are extracted in this paper. These eigenvectors are taken as the input of BP neural network to recognize
+PDs. The conclusions are as follows: 1）the recognition rates of BP neural network with respective four eigenvectors
+are all around 90% ; 2）for surface discharge, the recognition rate with energy spectrum, Shannon entropy or
+logarithmic energy entropy is relatively low, while the recognition rate with 1.5-order norm entropy is high, however it
+is relatively low for cable PD. An improved method is proposed by taking the combined eigenvector of energy
+spectrum and 1.5-order norm entropy as the input of BP neural network, thus the recognition rate reaches 97%.
+Key words: partial discharge；wavelet packet；eigenvector；neural network；pattern recognition
+
+0
+
+中， 其早期劣化和使用寿命很大程度上取决于绝
+
+引言
+
+缘 介 质 的 树 枝 状 老 化 。 而 PD 检 测 是 绝 缘 状 态 评
+
+交 联 聚 乙 烯 (XLPE) 电 缆 广 泛 应 用 于 城 市 配 网
+
+估 的 有 效 方 法 之 一 ， CIGRE 、 IEEE 以 及 IEC 等 国
+际 电 力 权 威 机 构 一 致 推 荐 PD 检 测 是 作 为 XLPE
+
+收稿日期：2013-06-16 ；
+
+修回日期：2013-07-19
+
+电 力 电 缆 绝 缘 状 况 评 价 的 最 佳 方 法 [1] 。 PD 检 测 可
+
+研究与分析
+
+罗 新，牛海清，胡日亮，等. 基于小波包分解的 XLPE 配电电缆局部放电波形特征提取与识别
+
+· 111 ·
+
+分为带电和离线两种方式。 离线检测虽然具有精
+
+的选 择 相 应 的 频 带 ，使 之 与 信 号 频 谱 相 匹 配 ，从 而
+
+度高、噪声水 平低等优点 ，但 需 要 停 电 检 测 ，在 供
+
+提高了时频分辨率。 小波包把信号按频带进行分
+
+电可靠性要求越来越高的大背景下， 难以实现对
+
+解 , 可以在特征提取时获得任意频带内的信息，增
+
+电 缆 的 定 期 巡 检 。 因 此 电 力 电 缆 的 PD 带 电 检 测
+
+加了提取信息的含量 , 因而小波包在波形特征向量
+
+成 为 目 前 研 究 的 热 点 。 PD 带 电 检 测 中 ，各 高 压 设
+
+提取方面更有优势 [17-18]。
+
+备 均 处 于 带 电 运 行 状 态 ， 对 电 缆 PD 信 号 的 检 测
+
+笔者运用小波包分解技术将试验获得的各种
+
+造成很大干扰。 另一方面检测到的放电脉冲可能
+
+PD 波形数据进行去噪和特征提取，使用神经网络分
+
+来自电缆本体、 电缆终端头、 也可能来自与其连
+
+类器进行识别，并对基于各个特征向量的神经网络
+
+接 的 其 他 设 备 ( 如 开 关 柜 等 ) 。 由 于 不 同 来 源 的 PD
+
+识别效果进行比较， 寻找能够反映不同来源 PD 信
+
+信号， 对设备的危害不同， 其判断标准也有所不
+
+号特征的最优特征向量。
+
+同 ，所 以 对 PD 信 号 的 识 别 就 显 得 尤 为 重 要 。 特 征
+提 取 是 PD 识 别 的 第 一 步 ， 特 征 选 取 的 好 坏 直 接
+
+1
+
+影响到识别的效果。
+
+在配电电缆 PD 在线检测中， 电缆终端与开关
+
+目前，PD 特征提取的方法主要分为两大类：统
+计特征法和时域分析法
+
+典型局部放电数据
+
+柜相连接， 所检测到的 PD 脉冲信号可能来自电缆
+
+。 基于统计特征法的模式
+
+也可能来自开关柜。 这些脉冲可以分为几种典型模
+
+识别目前实际应用较多， 一般针对 PD 的各种统计
+
+式：电缆本体 PD( 包括中间接头 ) 、电缆终端头 PD 、开
+
+分布谱图进行，常用的方法有 n-q-φ 三维谱图分析
+
+关柜中的电晕放电、开关柜中的表面放电。 文中所
+
+法、分 形 维 数 法 、灰 度 图 像 识 别 法 及 各 种 方 法 的 混
+
+使 用 的 数 据 来 源 于 英 国 HVPD 公 司 提 供 的 试 验 数
+
+合使用等
+
+[2-4]
+
+。 但统计特征法中的各种方法都涉及
+
+据，即经对比验证的各种类型 PD 的波形数据，试验
+
+到了 PD 信号的相位， 而配电电缆一般为三芯结构
+
+均为局放源已确定的现场试验。 各种典型的放电波
+
+且共一根地线，当两相或三相同时出现 PD 时，检测
+
+形见图 1 。 检测 PD 时采样频率为 100 MHz ，每个波
+
+PD 的相位特征变得几乎不可能。 时域分析法是针
+
+形时域长度为 1 500 个采样点。 电缆本体 PD 为典
+
+对高速采集一次放电产生的时域脉冲所得到的波
+
+型的单极脉冲，基本无震荡；电缆终端头 PD 与电缆
+
+形特征或相应的变换结果进行模式识别。 目前主要
+
+局放相比则表现出明显的震荡；开关柜电晕放电正
+
+有傅里叶分析法，小波分析法及波形参数直接提取
+
+负峰 值 接 近 ，尖 峰 后 有 类 似 正 弦 形 式 的 震 荡 ；开 关
+
+法等 。 由于 PD 脉冲在传输过 程的衰减和 变形以
+
+柜表面放电则具有上升时间极短，正负峰值接近并
+
+及现场严重的电磁干扰等，要准确提取其特征量非
+
+伴有急促震荡等特点。
+
+[5-12]
+
+[4]
+
+常困难，故时域分析法在实际检测中的研究应用还
+相对较少 [13-16]。 文 [13] 设计了 4 种电缆中间接头内部
+典型的绝缘缺陷物理模型， 对获得的各种 PD 信号
+进行离散小波变换， 得到各尺度小波分解系数；基
+于 Birge-Massart 阈 值 策 略 提 取 各 尺 度 系 数 的 有 效
+极大值，构 成 极 大 值 矩 阵 ；再 对 矩 阵 进 行 奇 异 值 分
+解，提取 奇 异 值 作 为 特 征 量 进 行 识 别 ，识 别 率 达 到
+
+91.3% 。 文 [14] 采用波形参数直接提取法，提取了放
+电 脉冲前沿 时 间 、后 沿 时 间 、脉 宽 及 波 形 存 在 时 间
+
+2
+2.1
+
+信号的小波包分解
+小波包分解理论
+小波包变换是基于小波变换的进一步发展，能
+
+够提供比小波变换更高的分辨率。
+由基本小波 ψ(t) 生成的二进离散小波为
+
+ψjk(t)=2 j/2ψ(2 jt-k) ( j，k∈Z)
+(1)
+若二进离散小波簇 {ψjk(t)} 构成 L2(R) 的标准正交
+基，则有 x(t)∈L2(R) 的正交小波分解
+
+等特征量， 成功识别了变压器 PD 检测中常见的各
+
+N
+
+x(t)=ΣΣdkj ψjk(t)+ΣcNkφNK(t)
+
+种放电。 文中的研究应用主要针对配电电缆，选择
+时域分析法对在线检测中不同来源的 PD 信号进行
+研究。
+小波变换能提供良好的时频局部化特性，已在
+
+PD 信号处理领域得到了广泛的应用， 而小波包变
+换是基于小波变换的进一步发展，小波包变换对频
+带进行多层次划分，对小波变换没有细分的高频部
+分进 一步 分 解 ，并 根 据 被 分 析 信 号 的 特 征 ，自 适 应
+
+j=1 k∈Z
+
+(2)
+
+k∈Z
+
+式 (2) 中：N 为分 解 层 数 ；d kj 为 系 数 ；c Nk 为 N 层 的
+尺度系数；φNK(t) 为二进正交尺度函数。
+当 j=N 时，由基本 小 波 ψ(t) 所 得 的 二 进 正 交 尺
+度函数为
+
+φjk(t)=2 j/2φ(2 jt-k)
+
+( j，k∈Z )
+
+(3)
+
+将尺度函数 φ(t) 和小波函数 ψ(t) 分别记为 u0(t)=
+
+φ(t)和 ui(t)=ψ(t)，则有
+
+2013年 11 月
+
+· 112 ·
+
+第 49 卷
+
+图1
+
+第 11 期
+
+各种典型放电波形
+
+Fig. 1 Typical waveforms of different discharge
+
+Σ
+u (t)= 2
+h(k)un(2t-k)
+Σ
+Σ2n 姨 Σ
+k∈Z
+(4)
+Σ
+Σ
+Σ
+u2n+1(t)= 姨 2 Σg(k)un(2t-k)
+k∈Z
+Σ
+所构造的序列 {un(t)}即为由基函数 u0(t)=φ(t) 确定
+的正交小波包。 式(4)中，g(k)=(-1)kh(1-k)，即两系数也
+
+信号在时域上的能量。 即信号在各频带投影序列的
+
+满足正交关系。 这就把多分辨率分析中的正交小波
+
+E =Σ(dlj，n )2 ( j=1，2，…，2n)
+
+能量为
+n
+j
+
+2
+
+( j=1，2，…，2n)
+
+(6)
+
+式(6)中，Snj为小波包分解第 n 层第 j 个频带内的
+特征信号。 根据 Parseval 恒等式[18]可将式(7)改写成
+M
+n
+j
+
+分解推广到小波包分解，得到信号的小波包表示
+
+snj(t)=Σdlj，n·un(2 jt-l)
+
+乙S (t) dt
+
+Enj=
+
+(7)
+
+l=1
+
+式 (7) 中 ： d l j ， n 为 分 解 信 号 序 列 S nj 第 l 个 分 解 系
+
+(5)
+
+l
+
+式(5) 中：dlj，n 为分解所得的系数，n=2l 或 2l+1 ，l=
+
+0 ，1，2…。
+小波包分解中，信号经 n 层小波分解后可以得
+到信号在某一频段内的特征信息，即原始信号的能
+量被分解到 2n 个正交频带上，每个频带内的信号表
+征原信号在该频率范围内的特征信息。 原始信号经
+
+3 层小波包分解得到的分解树见图 2， 图 2 中：S 为
+原始信号；A 、D 分别代表低频和高频； 序号表示小
+波分解层数。
+
+数；M 为分解信号序列 Snj 的离散点个数。 由式 (7) 可
+以看出，小波变换系数具有能量量纲，可以用于能量
+分析。 2n 个能量反映了原始信号的从低到高的各频
+段信息，信息量既无冗余，也不疏漏。
+
+2.3
+
+小波包信息熵特征
+熵是物理系统状态概率的测度， 用来反映系统
+
+状态的无组织或紊乱程度， 信息论中将熵衍生为随
+机信号序列的概率密度的泛函 [19]。 熵越小，随机信号
+序列的不定性程度越低， 从而该序列代表的信息量
+状态也就越稳定。 熵在电力系统中的应用研究已取
+得一定成果 [20-24]。
+熵必须满足以下基本条件
+
+Σ
+Σ
+W=ΣW(Si)
+Σ
+i
+
+(8)
+
+Σ
+
+Σ W(0)=0
+图2
+
+Fig. 2
+
+3 层小波包分解树
+
+Construction of the first four layers decomposing
+tree with wavelet packet
+
+2.2
+
+小波包能量谱
+小波包变换中，信号的 2 范数的平方等于原始
+
+式 (8) 中：W 为 熵 ；S 为 信 号 ( 原 信 号 或 各 层 小 波
+变换系数 ) ；Si 为该信号在某组正交基上的第 i 项系
+数。 式 (8) 表明，熵是一个由每个正交基上的系数的
+某种变换叠加起来的值。 只要满足上述条件的定义
+都可以作为信号规律性的度量。 文中使用的几种熵
+
+研究与分析
+
+罗 新，牛海清，胡日亮，等. 基于小波包分解的 XLPE 配电电缆局部放电波形特征提取与识别
+
+· 113 ·
+
+定义为
+
+1)Shannon 熵
+WSE(S)=-ΣS2i log(S2i )
+
+(9)
+
+i
+
+这里约定 0log(0)=0 。
+
+2)对数能量熵
+WEE(S)=Σlog(S2i )
+
+(10)
+
+WPE(S)=Σ|Si|p=‖S‖pp
+
+(11)
+
+i
+
+3)P 阶标准熵
+
+i
+
+3
+3.1
+
+基于小波包分解的 PD 特征提取
+图4
+
+小波包降噪
+
+Fig. 4
+
+在线检测中， 各高压设备均处于带电运行状
+态，对电缆 PD 信号造成很大干扰，因此去噪是特征
+提取的首要任务。 笔者使用波形数据的噪声干扰主
+要是白噪声， 利用小波包 降噪的算法 流程见图 3 。
+小波包变换可以将原始信号分解为一系列近似分
+
+Denosing results
+
+2)计算各频带的局部能量 E4 j 及熵 W4 j。
+3) 将计算的各个频带的局部能量和熵组成特征
+序列 {Ej j=1，2，…，24}，{Wj j=1，2，…，24} 作为表征
+原始信号的特征向量。
+为 避 免 在 数 据 分 析 上 带 来 的 不 便 ，按 式 (12) 对
+
+量和细节分量， 白噪声信号集中表现在细节分量
+上。 使用一定的阈值处理细节分量，即将小于阈值
+
+去噪效果
+
+特征向量进行归一化。
+
+的小波系数置 0 ， 再经小波包重构即可以得到平滑
+
+E′j=
+
+的信号。
+
+Ej
+
+，W′j=
+
+4
+
+2
+
+ΣE
+i
+
+i
+
+Wj
+
+(12)
+
+4
+
+2
+
+ΣW
+
+i
+
+i
+
+式 (12) 中，E ′j 、W ′j 分 别 为 归 一 化 之 后 的 第 j 个 频
+图3
+
+小波包去噪流程
+
+Fig. 3 Denoising process using wavelet packet
+
+带的局部能量和熵。 提取出的不同类型的典型 PD
+信号能量谱、Shannon 熵谱、对数能量熵谱、1.5 阶标
+
+显然， 阈值的选择关系到整体去噪的效果。
+
+准熵谱，见图 6 ，图 6 中纵轴采用对数坐标。 需要说
+
+Daubechies 系列小波正交、紧支撑，对不规则信号敏
+
+明的是各阶标准熵经归一化之后结果相差不大，此
+
+感， 故文中选用 db4 小波进行小波变换。 利用 db4
+
+处选择 1.5 阶。
+
+小波对长度为 1 500 个采样点的波形进行 4 层小波
+分解，先对各类信号进行默认阈值去噪，重构信号，
+
+4
+
+模式识别与提取特征评价
+
+再根据去噪效果调整阈值，反复操作直至去噪效果
+
+人工神经网络作为一种成功的模式识别技术已
+
+满意为止。 一个典型电缆本体 PD 信号的去噪效果
+
+在很多智能领域得到运用。 笔者使用 BP 神经网络
+
+见图 4 。
+
+对不同放电进行识别。
+
+由 4 图可见，重构波形与原始波形基本相似，保留了
+
+BP 神经网络
+BP 神 经 网 络 是 一 种 多 层 的 前 向 型 神 经 网 络 。
+一个典型的具有一个隐含层的 BP 网络拓扑结构见
+
+绝大部分信息，对白噪声起到了很好的抑制作用。
+
+图 7。
+
+经去噪处理后，重构百分比 ( 即处理后信号剩余
+的能量百分比 ) 为 97.2% ；零系数所占比例为 85.5% 。
+
+3.2
+
+PD 的特征提取
+对于 PD 信号的特征提取步骤如下：
+
+1) 利用 db4 小波对时域信号进行 4 层小波包分
+解，得到 24 个频带特征信号 S4j( j=1，2，…，24) 。 一个
+典型电缆终端头 PD 信号的经小波包分解后在各个
+频带内的信号见图 5 。
+
+4.1
+
+图 7 中 ： x ， y 分 别 为 网 络 输 入 输 出 向 量 ； W1 为
+输 入 层 和 隐 层 之 间 的 权 值 矩 阵 ； W2 为 隐 层 和 输 出
+层 之 间 的 权 值 矩 阵 ；f(x) 为 隐 层 激 活 函 数 ， 一 般 为
+
+sigmoid 函数 , 输出层的激活函数为 purelin 线 性 函
+数，隐层和输出层的输入、输出关系分别为
+
+a1= f(n1)= f(W T1X+b1)
+
+(13)
+
+2013年 11 月
+
+· 114 ·
+
+第 49 卷
+
+图5
+
+第 11 期
+
+小波包分解结果
+
+Fig. 5 Decomposed results using wavelet packet
+
+图6
+
+不同类型 PD 的特征向量谱图
+
+Fig. 6 Spectrogram of different PD eigenvectors
+
+a =Y=purelin(n )=purelin(W 2T a1+b2)
+2
+
+2
+
+(14)
+
+式 (13) 、 (14) 中：n ，n 分别为隐 层 和 输 出 层 的 输
+1
+
+2
+
+入向量；a ，a 分别为隐层和输出层的输出向量；b ，
+1
+
+2
+
+1
+
+b 分别为隐层和输出层的阈值向量。
+2
+
+BP 网络的学习过程属于有导师学习，由信号的
+前向传播和误差的反向传播两部分组成。 文中 BP
+
+算法有很大的提高， 并能确保收敛至全局最优值。
+这种算法的权值调整率为
+
+Δw=(J TJ+ μI)-1J Te
+
+(15)
+式 (15) 中 ： J 为 误 差 对 权 值 微 分 的 Jacobian 矩
+阵；e 为误差向量；μ 为一个自适应调整的标量。
+4.2
+
+放电模式识别
+
+网络的学习算法采用 LM 算法， 它是梯度下降法和
+
+笔 者 使 用 HVPD 公 司 试 验 获 得 的 4 种 典 型 放
+
+高斯—牛顿法的结合， 在收敛速度上比传统的 BP
+
+电的波形数据各 50 组作为样本， 从样本中各随机
+
+研究与分析
+
+罗 新，牛海清，胡日亮，等. 基于小波包分解的 XLPE 配电电缆局部放电波形特征提取与识别
+
+· 115 ·
+
+的表征正好形成互补。 将两种特征向量合并组成一个
+
+32 维的能量谱 -1.5 阶标准熵作为新的特征向量，再
+次对各放电类型进行识别。 BP 神经网络的输入神经
+元个数变为 32，隐层神经元个数变为 16，其他参数不
+变。 训练并检验神经网络，识别结果见表 2。
+表2
+
+Tab. 2
+
+使用组合特征向量的神经网络识别率
+
+Recognition rate of BP neural network using
+assembly eigenvector
+识别率 /%
+
+特征向量
+图7
+
+Fig. 7
+
+电缆本 终端
+
+表面 电晕
+
+体 PD 头 PD 放电 放电
+
+BP 神经网络拓扑图
+
+能量谱 -1.5 阶标准熵
+
+Structure of BP neural network
+
+100
+
+96
+
+92
+
+平均识
+别率 /%
+
+100
+
+97
+
+挑选 25 组共 100 组作为训练样本，另外 100 组作为
+
+由表 2 可以看出， 由于两种特征向量对 PD 信
+
+检验样本。 按照 3.2 中的步骤对波形进行特征提取
+
+号的表征能力形成了互补，以能量谱 -1.5 阶标准熵
+
+并归一化。 对 4 种放电模式进行编码，电缆本体局
+
+作为特征向量对放电进行识别，两种特征向量对 PD
+
+部放电、终端头局部放电、表面放电、电晕放电分别
+
+信号的表征能力形成了互补，平均识别率高达 97% 。
+
+对应 00、01、10、11。 利用提取的特征向量作为神经
+
+识别效果优于单独使用各特征向量进行识别。
+
+网络的输入，特征向量的维数为 16。 由此确定网络
+的输入输出神经元个数分别为 16、2。 隐含层神经元
+
+5
+
+结论
+
+个数多次调试确定为 12。 针对 4 组不同的特征向量
+
+笔者基于 XLPE 配电电缆在线检测中常见的 4 种
+
+分别建立并训练 BP 神经网络。 用检验样本对其进
+
+典型放电波形，运用小波包去噪及特征提取，对波形
+
+行检验。并对网络的输出进行四舍五入处理。各神经
+
+进行识别，得到结论如下：
+
+网络对不同放电的识别率见表 1。
+
+1) 经小波包去噪处理后，信号剩余能量百分 比
+大于 85% ，压缩比 达 到 了 36：1，很 好 地 抑 制 了 噪 声
+
+表1
+
+Tab. 1
+
+BP 神经网络识别率
+识别率 /%
+
+特征向量
+
+的影响。
+
+Recognition rate of BP neural network
+
+2) 提 取 出 了 能 量 谱 、Shannon 熵 ，对 数 能 量 熵 、
+
+平均识
+
+电缆本
+
+终端
+
+表面
+
+电晕
+
+体 PD
+
+头 PD
+
+放电
+
+放电
+
+能量谱
+
+92
+
+96
+
+84
+
+96
+
+92
+
+别率 /%
+
+Shannon 熵
+
+92
+
+96
+
+84
+
+92
+
+91
+
+对数能量熵
+
+88
+
+92
+
+80
+
+92
+
+88
+
+1.5 阶标准熵
+
+88
+
+96
+
+92
+
+96
+
+93
+
+从表 1 可以看出，使用小波包分解提取的各特
+征向量配合 BP 神经网络进行模式识别， 均能够很
+
+1.5 阶标准熵 4 组特征向量，这 4 组特征向量均能很
+好地反映 PD 信号在各个频带上的信息。
+3) 建 立 了 BP 神 经 网 络 分 类 器 ， 使 用 能 量 谱 、
+Shannon 熵、对数能量熵及 1.5 阶标准熵特征向量作
+为网络的输入对 PD 信号进行识别。 研究表明，前 3 种
+特 征 量 对 表 面 放 电 的 识 别 率 相 对 较 低 ， 1.5 阶 标 准
+熵对于表面放电的识别率高但对于电缆本体局放的
+识别率相对较低。
+
+好地对各种类型的放电进行识别，平均识别率都在
+
+4) 提出以能量谱 -1.5 阶标准熵组合特征向量作
+
+90% 附近， 说明 4 种特征向量都很好地反映了原始
+信号的特征。 但还可以发现，以能量谱、Shannon 熵、
+
+为神经网络输入的改进办法，两种特征向量表征的
+
+对数能量熵为特征向量时，对于表面放电的识别率
+
+独使用各特征向量进行识别，平均识别率达到 97% 。
+
+信息形成互补。 对 PD 信号进行识别，识别率高于单
+
+都 较 低 ，分 别 只 有 84% 、84% 、80% ，而 以 1.5 阶 标 准
+致谢：该文的波形数据由英国 HVPD 公司提供，在
+
+熵为特征向量时，可以很好地对表面放电进行识别，
+表面放电识别率达到 92% ， 但 1.5 阶标准熵对于电
+缆本体的局放识别率相对较低。
+考虑到以 1.5 阶标准熵作为特征向量可以很好
+地对表面放电进行识别，而以能量谱作为特征向量可
+以很好地对电缆本体 PD 进行识别，二者对原始信号
+
+此衷心的感谢 HVPD 公司对该文研究的支持与帮助。
+
+参考文献 ：
+[1]
+
+BOGGS S，DENSLE J. Fundamentals of partial discharge in
+the context of field cable testing[J]. IEEE Electrical
+
+2013年 11 月
+
+· 116 ·
+
+[2]
+
+第 49 卷
+
+Insulation Magazine ，2000 ，16(5) ：13-18.
+
+of damage on oil-impregnated insulation paper using
+
+FRUTH B ， NIEMEYER L. The importance of statistical
+
+phase distribution of partial discharge[J]. High Voltage
+
+characteristics
+
+of
+
+partial
+
+discharge
+
+data[J].
+
+IEEE
+
+Transactions on Electrical Insulation ，1992 ，27(1) ：60-69.
+[3]
+
+[6]
+
+法 的 局 部 放 电 模 式 识 别 [J]． 高 电 压 技 术 ， 2010 ， 36(7) ：
+
+Study on
+
+TANG Ju ，LI Wei ，OUYANG You-peng. Partial discharge
+
+pattern spectrum of partial discharge grayscale image[J].
+
+pattern recognition using discrete wavelet transform and
+
+Proceedings of the CSEE ，2004 ，24(5) ：179-183.
+
+singular value decomposition[J]. High Voltage Engineering ，
+
+李
+
+2010 ，36(7) ：1686-1691.
+
+伟 ． 交联聚乙烯电缆中间接头局部放电特征提取与
+
+[14] 郑
+
+别 [J]． 电工电能新技术，2001(2) ：20-24．
+
+recognition
+
+IEEE
+
+ZHENG Chong，TAN Ke-xiong. Partial discharge recognition
+
+Transaction on Dielectrics and Electrical Insulation ，1995 ，
+
+based on time domain features of pulse waveform[J].
+
+2(3) ：352-359.
+
+Advanced Technology of Electrical Engineering and
+
+唐
+
+炬 ，王
+
+3-D
+
+partial
+
+静 ，李
+
+discharge
+
+patterns[J]．
+
+剑 ，等 ． 统 计 参 数 用 于 局 部 放 电 模
+
+Energy ，2001(2) ：20-24.
+[15] 孙 才 新 ，李
+
+新 ，李
+
+俭 ，等 ． 小 波 与 分 形 理 论 的 互 补 性
+
+TANG Ju ，WANG Jing ，LI Jian ，et al. Statistical parameter
+
+及其在局部放电模式识别中的应用研究 [J]． 中国电机 工
+
+method for PD pattern recognition[J]. High Voltage
+
+程学报，2001 ，21(12) ：74-77．
+
+Engineering ，2002 ，28(8) ：4-6.
+
+SUN Cai-xin ，LI Xin ，LI Jian ，et al.
+
+GAO Kai，TAN Ke-xiong，LI Fu-qi，et al. The use of moment
+
+wavelet and fractal theory and relevant application in PD
+
+features of partial discharges in generator stator winding
+
+pattern recognition [J]. Proceedings of the CSEE ，2001 ，21
+
+models[C]//Proceedings of the 6th International Conference
+
+(12) ：74-77.
+[16] 唐
+
+Ntarity between
+
+炬，孙才新，彭文雄，等 ． GIS 局部放电检测中的小波
+
+l.] ：IEEE ，2000 ：290-293.
+
+包变换提取信号 [J]． 电力系统自动化，2004，28(5)：25-29．
+
+李
+
+TANG Ju ，SUN Cai-xin ，PENG Wen-xiong ，et al. Extracting
+
+剑，孙才新，廖瑞金，等 ． 用于局部放电图象识别的统
+
+计特征研究[J]． 中国电机工程学报，2002，22(9)：105-108．
+
+partial discharge signals from white noise by wavelet
+
+LI Jian ，SUN Cai-xin ，LIAO Rui-jin ，et al. Using statistical
+
+packet transform in GIS[J]. Automation of Electric Power
+
+features
+
+for
+
+partial
+
+discharge
+
+image
+
+recognition[J].
+
+Proceedings of the CSEE ，2002 ，22(9) ：105-108.
+[9]
+
+重 ，谈 克 雄 ． 基 于 脉 冲 波 形 时 域 特 征 的 局 部 放 电 识
+
+SATISH L ，ZAENGL W S. Can fractal features be used for
+
+on Properties and Applications of Dielectric Materials． [S.
+[8]
+
+伟，欧阳有鹏 ． 采用小波变换奇异值分解方
+
+1686-1691．
+
+式识别的研究 [J]． 高电压技术，2002 ，28(8) ：4-6．
+
+[7]
+
+炬，李
+
+的研究 [J]． 中国电机工程学报，2004 ，24(5) ：179-183．
+
+模式识别研究 [D]． 重庆：重庆大学，2010．
+
+[5]
+
+Engineering ，2010 ，36(10) ：2488-2493.
+[13] 唐
+
+刘云鹏，律方成，李成榕 ． 局部放电灰度图像数学形态谱
+
+LIU Yun-peng ，L譈 Fang-cheng ，LI Cheng-rong.
+
+[4]
+
+第 11 期
+
+唐
+
+炬 ，魏
+
+钢 ，李
+
+伟 ，等 ． 基 于 双 向 二 维 最 大 间 距 准
+
+则的局部放电灰度图像特征提取 [J]． 电 网 技 术 ，2011 ，35
+
+Systems ，2004 ，28(5) ：25-29.
+[17] 张德丰 ． MATLAB 小波分析 [M]． 北京：机械工业出版社，
+2009．
+[18] 张海燕，周
+
+全，夏金东 ． 超声缺陷回波信号的小波包降
+
+(3) ：129-134．
+
+噪及特征提取 [J]． 仪器仪表学报，2006 ，27(1) ：94-97．
+
+TANG Ju ，WEI Gang ，LI Wei ，et al. Partial discharge gray
+
+ZHANG Hai-yan ，ZHOU Quan ，XIA Jin-dong.
+
+image feature extraction based on bi-directional two-
+
+packet denoising and feature extract ion for flaw echo
+
+dimensional maximum margin criterion[J]. Power System
+
+signal in ultrasonic testing[J]. Chinese Journal of Scientific
+
+Technology ，2011 ，35(3) ：129-134.
+
+Instrument ，2006 ，27(1) ：94-97.
+
+[10] 赵 中 原 ，邱 毓 昌 ，马 翠 姣 ，等 ． 分 形 学 在 局 部 放 电 特 征 提
+取中应用初探 [J]． 高电压技术，2001 ，27(1) ：50-51．
+
+[19] 张静远，张
+
+Wavelet
+
+冰，蒋兴舟 ． 基于小波变换的特征提取方法
+
+分析 [J]． 信号处理，2000 ，16(2) ：156-162．
+
+ZHAO Zhong-yuan ，QIU Yu-chang ，MA Cui-jiao ，et al.
+
+ZHANG
+
+Application of fractals to PD signal recognition[J]. High
+
+Analyses of feature extraction methods based on wavelet
+
+Voltage Engineering ，2001 ，27(1) ：50-51.
+[11] HOOF M ， FREISLEBEN B ， PATSCH R . PD source
+
+Jing-yuan ，ZHANG
+
+Bing ，JIANG
+
+Xing-zhou.
+
+transform[J]. Signal Processing ，2000 ，16(2) ：156-162.
+[20] 何正友，蔡玉梅，钱清泉 ． 小波熵理论及其在电力系统故
+
+identification with novel discharge parameters using
+
+障 检 测 中 的 应 用 研 究 [J]． 中 国 电 机 工 程 学 报 ，2005 ，25
+
+counterpropagation neural networks[J]. IEEE Transaction on
+
+(5) ：40-45．
+
+Dielectrics and Electrical Insulation ， 1997 ，4(1) ：17-32.
+
+HE Zheng-you ，CAI Yu-mei ，QIAN Qing-quan. A study of
+
+[12] 严 家 明 ，廖 瑞 金 ，杨 丽 君 ，等 ． 利 用 局 部 放 电 相 位 分 布 分
+
+wavelet entropy theory and its application in electric power
+
+析 油 浸 绝 缘 纸 损 伤 [J]． 高 电 压 技 术 ，2010 ，36(10) ：2488-
+
+system fault detection[J]. Proceedings of the CSEE ，2005 ，
+
+2493．
+
+25(5) ：40-45.
+
+YAN Jia-ming ，LIAO Rui-jin ，YANG Li-jun ，et al. Analysis
+
+( 下转第 122 页)
+
+2013年 11 月
+
+· 122 ·
+
+第 49 卷
+
+第 11 期
+
+transmission lines[M]. France ：CIGRE Technical Brochure
+
+中 的 复 杂 地 形 地 区 模 型 [J]． 高 电 压 技 术 ， 2010 ， 36(6) ：
+
+63 ，1991.
+
+1501-1505．
+
+[17] DL/T 620 — 1997． 交 流 电 气 装 置 的 过 电 压 保 护 和 绝 缘 配
+合 [S]．
+
+GENG Yi-nan ，ZENG Rong ，LI Yu ，et al. Complex terrain
+area model for lightning performance evaluation of
+
+DL/T 620 — 1997.
+
+Over-voltage protection and insulation
+
+coordination for AC electrical installations[S].
+
+transmission lines [J]. High Voltage Engineering ，2010 ，36
+(6) ：1501-1505.
+
+[18] 袁海燕，傅正财，魏本刚，等 ． 综合考虑风偏、地形和工作
+
+[21] 曹 晓 斌 ， 马 御 棠 ， 吴 广 宁 ， 等 ． 利 用 地 形 参 数 计 算 超 高
+
+电 压 的 特 高 压 交 流 线 路 雷 电 绕 击 性 能 [J]． 电 工 技 术 学
+
+压 输 电 线 路 绕 击 跳 闸 率 [J]． 高 电 压 技 术 ， 2010 ， 36(5) ：
+
+报，2009 ，24(5) ：148-153．
+
+1178-1183．
+
+YUAN
+
+Hai-yan ，FU
+
+al.
+
+CAO Xiao - bin ， MA Yu - tang ， WU Guang - ning ， et al .
+
+Lightning shielding failure analysis of UHVAC transmission
+
+Calculation of the transmission line shielding failure
+
+lines based on improved EGM[J]. Transactions of China
+
+tripout rate by utilized terrain parameters[J]. High Voltage
+
+Electro Technical Society ，2009 ，24(5) ：148-153.
+
+Engineering ，2010 ，36(5) ：1178-1183.
+
+[19] 周 远 翔 ，鲁
+
+Zheng-cai ，WEI
+
+Ben-gang ，et
+
+斌 ，燕 福 龙 ，等 ． 山 区 复 杂 地 形 输 电 线 路 绕
+
+击跳闸率的研究 [J]． 高电压技术，2007 ，33(6) ：45-49．
+
+ZHOU Yuan-xiang ，LU Bin ，YAN Fu-long ，et al. Shielding
+failure flashover rate under conditions of complex landscape
+in a mountainous area[J]. High Voltage Engineering ，2007 ，
+33(6) ：45-49.
+[20] 耿 屹 楠 ， 曾
+
+吕
+
+政 (1984 — ) ，男，工程师，现从事线路运维工作。
+
+郑皓 元 (1989 — ) ，男 ，硕 士 研 究 生 ，主 要 从 事 电 力 系 统 防
+雷保护方面的研究。
+杨
+
+庆 (1981 — ) ，男 ，博 士 ，教 授 ，主 要 从 事 电 力 系 统 过
+
+电压及其绝缘配合和复杂环境下输电线路外绝缘特性及放
+嵘 ，李
+
+雨 ，等． 输 电 线 路 防 雷 性 能 评 估
+
+电机理研究。
+
+( 上接第 116 页)
+[21] 张
+
+举，王兴国，李志雷 ． 小波包能量熵神经网络在电力
+
+理研究及现场缺陷分析 [J]. 电瓷避雷器，2012(3) ：51-56.
+
+系统故障诊断中的应用 [J]． 电网技术，2006 ，30(5) ：72-75．
+
+YAN Yu-ting ，WANG Ya-zhou ，DUAN Shao-hui ，et al.
+
+ZHANG Ju ，WANG Xing-guo ，LI Zhi-lei.
+
+Application of
+
+Study on live test principle of GIS partial discharge and
+
+neural network based on wavelet packet-energy entropy in
+
+analysis of site defects[J]. Insulators and Surge Arresters ，
+
+power system fault diagnosis[J]. Power System Technology ，
+
+2012(3) ：51-56.
+[24] 吕 启 深 ，吴
+
+2006 ，30(5) ：72-75.
+[22] 李 东 敏 ，刘 志 刚 ，蔡
+
+军 ，等 ． 基 于 多 小 波 包 系 数 熵 和 人
+
+磊 ，梁 基 重 ，等 . GA-BP 神 经 网 络 在 GIS 典
+
+型缺陷局部放电识别中的应用 [J]. 电瓷避雷器，2011(4) ：
+
+工 神 经 网 络 的 输 电 线 路 故 障 类 型 识 别 方 法 [J]． 电 网 技
+
+34-38.
+
+术，2008 ，32(24) ：65-69．
+
+L譈 Qi-shen ，WU Lei ，LIANG Ji-chong ，et al. Application of
+
+LI Dong-min ，LIU Zhi-gang ，CAI Jun ，et al.
+
+Transmission
+
+lines fault recognition method based on multi-wavelet
+
+GA-BP-NN in PD pattern recognition of GIS typical
+defects[J]. Insulators and Surge Arresters ，2011(4) ：34-38.
+
+packet coefficient entropy and artificial neural network[J].
+Power System Technology ，2008 ，32(24) ：65-69.
+
+罗
+
+新 (1989 — ) ，男 ，硕 士 ，主 要 从 事 电 气 设 备 外 绝 缘 方
+
+面的研究。
+
+。。
+
+[23] 严 玉 婷 ，王 亚 舟 ，段 绍 辉 ，等 . GIS 局 部 放 电 带 电 测 试 原
+
+简
+
+讯
+
+。。
+
+。。。。。
+
+。。。。。
+
+东源电器子公司东源电力智能设备有限公司一项目列
+中央预算内投资计划
+
+近日，接到江苏省发改委通知，根据国家发改委发改投资（2013 ）1029 号文，东源电器全资子公司东源电
+力智能设备有限公司“电力智能开关设备项目”被列入国家“战略性新兴产业（能源）2013 年第一批中央预算
+内投资计划项目”，该项目获中央预算内资金补助 1 169 万元。
+该项目致力于研发生产高性能、高安全、高可靠的智能电力开关设备，以提高电网系统的供电能力和安
+全可靠性，从而满足国家建设智能电网的需求。 此次中央补助资金的获得对该项目的实施起到了积极的推
+动作用。

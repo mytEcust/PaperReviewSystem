@@ -1,17 +1,22 @@
-电力系统保护与控制
-第 43 卷 第 2 期
-2015 年 1 月 16 日
+
+
+ 43   2 
+2015  1  16 
+
 Power System Protection and Control
+
 Vol.43 No.2
 Jan. 16, 2015
-基于 GA 优化 SVM 的风电功率的超短期预测
-刘爱国，薛云涛，胡江鹭，刘路平
-(南昌大学信息工程学院，江西 南昌 330031)
-摘要：研究风电功率预测技术对于减轻其输出电能的随机性对电力系统的影响具有重要意义。首先结合风电监控系统数据库
-中的历史功率数据和环境参数形成样本数据，同时采用遗传算法优化该模型的核函数类型、核函数参数及错误惩罚因子等参
-数，建立了 GA-SVM 模型，提高了模型参数组合优化选择的效率和预测精度。最后结合实例验证，并与标准 SVM 方法和 BP 神
-经网络方法比较。预测效果表明：所提出的 GA-SVM 优化模型在超短期风电功率预测上具有更优的学习能力和泛化能力。
-关键词：风电场功率预测；支持向量机；遗传算法；超短期预测
+
+ GA  SVM 
+，，，
+(，  330031)
+：。
+，、
+， GA-SVM ，。， SVM  BP 
+。： GA-SVM 。
+：；；；
+
 Ultra-short-term wind power forecasting based on SVM optimized by GA
 LIU Aiguo, XUE Yuntao, HU Jianglu, LIU Luping
 (School of Information Engineering, Nanchang University, Nanchang 330031, China)
@@ -24,104 +29,124 @@ the example verification, the standard SVM method and BP neural network method a
 proposed GA-SVM optimization model on the ultra-short-term wind power prediction has a better learning ability and generalization
 ability.
 Key words: wind farm power prediction; SVM; genetic algorithm; ultra-short-term prediction
-中图分类号： TM715
+： TM715
+
 0
-文献标识码：A
-文章编号： 1674-3415(2015)02-0090-06
-引言
-风电系统输出功率的波动性和间歇性对电网
-的电能质量及其稳定性将产生较大的影响，且给电网
-调度带来了困难与挑战，在目前建设坚强智能电网的
-背景下，风电场功率预测是有效的解决途径[1-3]。
-文献[4-6]分析了风电场的动态特性，并从机理
-分析进行物理建模，但整个建模过程复杂且在实际
-风场中部分参数测取困难，所以实际预测精度难以
-保证。文献[7]通过从分段函数和整体建模两个角度
-比较各种模型的准确程度，得到了基于灰色模型的
-风电功率特性曲线的函数模型，但仅适合在线运行，
-另外，为了减小突变点的误差，需要收集更多的风
-速时间序列数据。文献[8]提出了运用聚类方法对历
-史风速数据进行处理，实现了历史数据的自动分类，
-并按照相似度最大的原则，选择合适的训练样本,
-运用时间序列方法建立风速预测模型，预测精度虽
-有提高，但对数据的挖掘技术提出了更高的要求。
-文献[9]从分析风速序列的非线性和非平稳性特征
-出发，  将一种基于聚类经验模态分解(EEMD)和最
-小二乘支持向量机(LSSVM)的组合预测模型引入到
-风速预测中，但其没有考虑核函数的选取对LSSVM
-预测精度的影响。文献[10]构造了用于风速序列预
-测分析的迟滞神经网络，并采用卡尔曼滤波方法将
-其与ARMA模型相融合，实现了风速序列的混合预
-测，但只能在有效范围内减小了单一预测机理造成
-的误差积累。文献[11]提出了一种基于连续时间段
-聚类的支持向量机风电功率预测方法，在准确度和
-稳定性上都有了一定提升，但其指定分类方案需随
-应用环境而不断改变。文献[12]总结了目前国内外
-对风电功率波动特性的不同描述方法和量化指标，
-归纳了多台风机组成的风场对输出功率波动的平滑
-刘爱国，等
-基于 GA 优化 SVM 的风电功率的超短期预测
-作用和规律，但是其量化指标对持续时间的考虑较
-少，没有重视波动持续时间的影响，因此对风电功
-率在不同时间尺度上的波动情况分析还存在一定的
-缺陷。文献[13]针对光伏电站日前小时短期出力预
-测问题，提出一种基于集合经验模态分解和支持向
-量机的EEMD-SVM 组合模型预测方法，但分解方
-法依赖经验判断，给预测精度带来了一定的不确定
-度。目前常用的预测方法大都是统计模型与物理模
-型的结合，统计模型在短期和超短期预测中有着较
-大的优势，又由于物理模型往往模式固定，训练时
-间长，对硬件要求高，对其优化较困难。故如果对
-风电场功率短期及超短期预测的统计模型算法进行
-研究，预测精度和预测的适应度会有相应改善。
-针对目前的研究现状，本文结合支持向量机非
-线性拟合及小样本学习的优势，并针对 SVM 参数
-的寻找仅凭借经验在寻优方面的问题，提出了采用
-遗传算法优化模型核函数、核函数参数和错误惩罚
-因子等参数的方法，  建立了 GA-SVM 超短期风电
-预测模型。以期提高其运算速度与预测精度。
-1 SVM 方法原理
-支持向量机的回归预测模型最大的优点就是
-能有效地克服常用预测方法预测结果偏差过大和存
-在学习、维数偏高带来的计算问题以及局部极值等问
-题，可为风电功率预测系统提供一个可靠的预测模型。
-1.1 支持向量机回归基本理论
-回归问题即是根据一个新的输入数据样
-本 x，推断得到它对应的实数输出 y。规定的数据样
-本集合为  xi , yi  ,,  xl , yl  。其中：x  R n , y  R,
+
+：A
+
+： 1674-3415(2015)02-0090-06
+
+
+
+
+，
+，
+，[1-3]。
+[4-6]，
+，
+，
+。[7]
+，
+，，
+，，
+。[8]
+，，
+，,
+
+，
+，。
+[9]
+，  (EEMD)
+(LSSVM)
+，LSSVM
+。[10]
+，
+ARMA，
+，
+。[11]
+，
+，
+。[12]
+，
+
+
+，
+
+ GA  SVM 
+
+，
+，，
+
+。[13]
+，
+EEMD-SVM ，
+，
+。
+，
+，，
+，，。
+
+，。
+，
+， SVM 
+，
+、
+，   GA-SVM 
+。。
+
+1 SVM 
+
+
+、
+，。
+1.1 
+
+ x， y。
+  xi , yi  ,,  xl , yl  。：x  R n , y  R,
 i
-s ( xi  R n , yi  R) 。其中 yi 为期望值； s 为数据点的
-总数。
-SVM 通过引入损失函数来解决回归问题。本文
-采用函数 y  f ( x)  [ w ( x)]  b 。对优化目标取极值
+
+s ( xi  R n , yi  R) 。 yi ； s 
+。
+SVM 。
+ y  f ( x)  [ w ( x)]  b 。
 n
 1
 min Q  || w ||2 C  (i   i )
 2
 i 1
+
  yi  [ wk ( xi )]  b    i
 
 s.t. [ wk ( xi )]  b  y   i   i
  ,   0, i  1, l , s
  i i
-式中： C 为错误惩罚因子； i 和  i 为松弛因子；
-为损失函数。损失函数可用稀疏数据点表示决策函
-数。引入具有良好效果的损失函数：
+
+： C ； i   i ；
+。
+。：
 | f ( x)  y | 
 0
 (2)
 L ( y )  
 | f ( x)  y | 
  | f ( x)  y | 
-引入拉格朗日乘子 ai 和 bi ，把凸优化问题简化
-为最大化二次型。
+ ai  bi ，
+。
+
 (1)
+
 n
+
 n
+
 i 1
+
 i 1
+
 max W (ai , bi )   yi (ai  bi )    (ai  ai' ) 
 n
+
 1
 (ai  ai' )(a j  ai' )( xi  x 'j )
 
@@ -136,36 +161,48 @@ i 1
 i
 i
 
+
 (3)
+
 i  1, 2,, n
-式中： C 用于控制模型的复杂度和逼近误差的折
-中， C 越大，拟合度越好；  用于控制回归逼近误
-差和模型的泛化能力。
-用支持向量回归解决非线性问题时，主要采用
-的程序是经过某种变换函数将非线性的数据变量映
-射到高维数据空间，然后再对这个高维的特征空间
-进行线性回归。而实现这种从低维到高维的转换是
-通过核函数 k  x, xi     x    xi  实现的。常用的核
-函数如表 1 所示。引入核函数代替内积计算后，优
-化目标整合为
+
+： C 
+， C ，；  
+。
+，
+
+，
+。
+ k  x, xi     x    xi  。
+ 1 。，
+
 n
+
 n
+
 i 1
+
 i 1
+
 max W (ai , bi )   yi (ai  bi )   '  (ai  ai' ) 
 1 n
  (ai  ai' )(a j  ai' )k ( xi  x'j )
 2 i , j 1
+
 i
+
 n
-i  1, 2,3,,l 。寻找 R 上的一个函数 f ( x) ，继而
-用 x 所对应的 y 值。
-SVM 估计回归的基本思想是通过一个非线性
-的映射将输入空间的数据 x 映射到高维特征空间 G
-中，并在这个空间进行线性回归。
-给 定 的 样 本 数 据 值 为 {xi , yi } ， i  1, 2,3,,
+i  1, 2,3,,l 。 R  f ( x) ，
+ x  y 。
+SVM 
+ x  G
+，。
+         {xi , yi } ， i  1, 2,3,,
+
 - 91 -
+
 (4)
+
 n
  n
 a
@@ -178,34 +215,57 @@ i 1
 i
 i
 
-表 1 常用的核函数
+
+ 1 
 Table 1 Common kernel function
-序号
-名称
+
+
+
+
 1
-线性核函数
+
+
+
 2
-多项式核函数
+
+
+
 k  u, v    r  u  v   coef 0 
+
 3
-REF 核函数
+
+REF 
+
 k  u , v   exp r u  v
+
 4
-Sigmoid 核函数
-表达式
+
+Sigmoid 
+
+
 k  u, v    u  v 
+
 
+
 2
+
 d
+
 
+
 k  u , v   tanh  r  u  v   coef 0 
-1.2 SVM 预测方法
-对于时间序列 {x1 , x2 , x3 ,, xn }，i  1, 2,3,, n ，
-{xn } 是 预 测 的 目 标 值 ， 建 立 自 相 关 输 入 与 输 出
-yn  {xn } 之间的映射关系： R m  R ， m 为嵌入维
-数。得到用于支持向量机学习的样本为
-电力系统保护与控制
+
+1.2 SVM 
+ {x1 , x2 , x3 ,, xn }，i  1, 2,3,, n ，
+
+{xn }        ，          
+yn  {xn } ： R m  R ， m 
+。
+
+
+
 - 92 -
+
  xm 
 x2
  xm 1 
@@ -233,362 +293,587 @@ X
 
  xn  m xn  m 1  xn 1 
  xn 
-回归函数为
-数据预处理
-样本矩阵
-参数编码和初始种群的形成
+
+
+
+
+
+
+
 nm
+
 yi   (ai  ai' )k (ai  a j )  b, j  m  1,, n
+
 (5)
-计算适应度
+
+
+
 (6)
-是否满足最大迭代次数
-或小于给定的精度？
-选择、交叉和变
-异等操作产生新
-一代种群
+
+
+？
+
+、
+
+
+
 i 1
-第一步预测为
+
+
 nm
+
 xn 1   (ai  ai' )k (ai  an  m 1 )  b
 i 1
-式中： an  m 1  {xn  m 1 , xn  m  2 , xn } ，得到一个样本
-an  m  2  {xn  m  2 , xn  m 3 ,, xn , xn 1} ，因此 xn  2 
+
+： an  m 1  {xn  m 1 , xn  m  2 , xn } ，
+
+an  m  2  {xn  m  2 , xn  m 3 ,, xn , xn 1} ， xn  2 
 nm
+
  (a
 i 1
+
 i
+
  ai' )k ( xi , xn  m  2 )  b 。
-是
-计算终止，解码获取最优参数
-预测与比较
-图 1 优化及预测流程图
-经推导可得
+
+
+，
+
+
+
+ 1 
+
+
+
 Fig. 1 Optimization and forecasting flowchart
+
 nm
+
 xn  l   (ai  ai' )k (ai  an  m  l )  b
-否
+
+
+
 (7)
+
 i 1
-式中， xn  m  l  {xn  m  l , xn  m  l 1 ,, xn  l 1} 。
-2 基于遗传算法优化 SVM 的实现
-支持向量机的核函数是将非线性可分样本转
-换到线性可分的特征空间，不同的核选择使 SVM
-产生的分类超平面不同，因此核函数的改变会使
-SVM 产生较大的差异性，对 SVM 的性能有直接的
-影响。而核函数参数 r 的改变实际上是改变映射函
-数参数，改变了函数关系，从而也改变样本映射特
-征空间的复杂程度，所以 SVM 性能的优劣较大程
-度也受到核函数参数 r 的影响[14-15]。同时，惩罚因
-子 C 是实现在错分样本比例和算法复杂程度之间的
-折衷，在确定的特征子空间中调节学习机器置信范
-围和经验风险的比例，对 SVM 的泛化推广能力也
-有较大的影响[16-17]。基于以上分析，针对当前 SVM
-参数选择技术存在的不足，本文试图实现同时对
-SVM 核函数、核函数参数和错误惩罚因子参数组
-合的选择和优化，以期提高参数选择速度和效率，
-提高 SVM 学习能力和泛化能力 [18]。由于遗传算法
-是一种借鉴生物界自然选择和自然遗传机制的随机
-搜索算法，被广泛用于解决优化问题。它的优越性
-主要表现在：具有群体搜索和内在启发式随机搜索
-的特性，不易陷入局部最优；遗传算法固有的并行
-性和并行计算的能力，非常适用于大规模并行计算。
-本文选取该算法对 SVM 参数组合进行优化。总结
-归纳 GA(Genetic Algorithm) 优化 SVM 预测求解过
-程的实现流程图如图 1。
-第一步：数据预处理。对于风电历史功率，
-通过小波分析去噪声处理不良数据和缺失数据。对
-于环境参数，本文采集风速，风向，大气温度、大
-气压等。
-第二步：形成样本矩阵。构造模型训练样本、
-训练目标、测试样本和测试目标，并写成满足运行
-需要的矩阵形式。其中，为不忽略众多环境因素对
-预测的影响，把风速、风向、大气温度、大气压一
-起作为模型的输入数据，即训练样本和测试样本，
-而以历史功率数据作为预测输出值，即训练目标和
-测试目标[19]。
-第三步：编码和初始种群的产生。在本文中，
-对支持向量机的核函数类型、惩罚因子和径向基核
-参数采用了二进制编码方式对其进行编码，且初始
-种群是随机产生的。
-在编码设计时核函数选型编码为其所对应的
-序号采用两位二进制编码，对应核函数类型如表 1
-所示的四种类型; 核函数参数 r 和惩罚因子 C 在取
-值范围采用二进制编码，编码分别为 t1 位和 t2 位的
-二进制串，将 t2  t1  2 位二进制编码组合就得到个
-体染色体基因串，如图 2。
+
+， xn  m  l  {xn  m  l , xn  m  l 1 ,, xn  l 1} 。
+
+2  SVM 
+
+， SVM
+，
+SVM ， SVM 
+。 r 
+，，
+， SVM 
+ r [14-15]。，
+ C 
+，
+， SVM 
+[16-17]。， SVM
+，
+SVM 、
+，，
+ SVM  [18]。
+
+，。
+：
+，；
+，。
+ SVM 。
+ GA(Genetic Algorithm)  SVM 
+ 1。
+
+：。，
+。
+，，，、
+。
+：。、
+、，
+。，
+，、、、
+，，
+，
+[19]。
+：。，
+、
+，
+。
+
+， 1
+;  r  C 
+， t1  t2 
+， t2  t1  2 
+， 2。
 Ct1 1 Ct1  2
+
 Ct1 t2 1
-图 2 基因串结构示意图
+
+ 2 
 Fig. 2 Gene string structure
-第四步：计算适应度。定义测试样本的平均相
-对百分比误差 MAPE 作为适应度函数，评价种群。
-刘爱国，等
-基于 GA 优化 SVM 的风电功率的超短期预测
+
+：。
+ MAPE ，。
+
+，
+
+ GA  SVM 
+
 ^
+
 MAPE 
+
 N
+
 1
 
 N t 1
+
 pt  pt
 pt
+
  100%
+
 (8)
+
 - 93 -
-MAPE 评价预测性能，最后与传统方法进行综合比
-较。
+
+MAPE ，
+。
+
 3
-实例分析
+
+
+
 ^
-式中：N 表示预测个数； pt 表示实际功率值； pt 表
-示预测功率值。并根据个体的适应度值和选择原则
-选择进入下一代的个体。
-第五步：采用交叉、变异等遗传算子对当前一
-代种群进行处理后产生下一代群体。
-第六步：判断终止条件是否满足。若满足则进
-入一下步，否则转到第四步继续执行；继而得到使
-得模型最优化的一组支持向量机参数。
-第七步：预测与比较。使用对应的支持向量机
-的最优参数来实现预测，并用平均相对百分比误差
-预测系统的样本数据包括风电监控系统数据
-库中的历史功率数据和环境参数。风电机组数据取
-自国内某风电场采集与监控系统(SCADA)，采集数
-据以 15 min 为记录间隔，  将 2012 年 8 月 24 日至
-2012 年 9 月 10 日期间的数据作为训练集，将 2012
-年 9 月 11 日至 2012 年 9 月 17 日的数据作为测试集。
-预测提前 15 min 风电场超短期出力，并实现滚动预
-测。最后与该风力发电场预测时刻相同时间点的实
-测运行数据对比，采用平均相对误差(MAPE)评价分
-析模型的精确度。如表 2 所示。
-表 2 标准 SVM 与 GA-SVM 预测结果对比
+
+：N ； pt ； pt 
+。
+。
+：、
+。
+：。
+，；
+。
+：。
+，
+
+
+。
+(SCADA)，
+ 15 min ，   2012  8  24 
+2012  9  10 ， 2012
+ 9  11  2012  9  17 。
+ 15 min ，
+。
+，(MAPE)
+。 2 。
+
+ 2  SVM  GA-SVM 
 Table 2 Comparison between standard SVM and GA-SVM prediction results
-预测类型
-SVM 参数
-核函数类型
-核函数参数
+
+
+SVM 
+
+
+
+
 1
-经验选择
-GA 优化
-错误惩罚因子
-训练正确率/%
-预测准确率/%
+
+
+GA 
+
+
+
+/%
+
+/%
+
 10
+
 81.5
+
 84.33
+
 2
+
 1
+
 10
+
 92
+
 85.45
+
 3
+
 10
+
 1
+
 74
+
 73.75
+
 4
+
 1
+
 10
+
 67.4
+
 94.53
+
 2
+
 7.35
+
 14.91
+
 99.5
+
 99.47
-从表 2 可以看出，基于遗传算法优化支持向量
-机模型的预测结果，无论是训练准确率还是预测准
-确率，都优于经验选择参数的标准支持向量机，可
-以认为优化支持向量机的性能从整体上要优于标准
-支持向量机。图 3 为 GA-SVM 的预测结果图。
-BP 神经网络进行风电功率预测。得到预测数据与实
-际风电值的误差如图 4 所示。
-图 4 预测误差曲线
+
+ 2 ，
+，
+，，
+
+。 3  GA-SVM 。
+
+BP 。
+ 4 。
+
+ 4 
 Fig. 4 Forcasting error curve
-图 3 风能发电功率预测曲线
+
+ 3 
 Fig. 3 Power generation forcasting curve
-为了验证采用 GA-SVM 算法的优越性，在保证
-实验数据不变情况下，同时分别采用标准 SVM 和
-由图 4 可知， SVM 和 GA-SVM 要预测的稳定
-度较高，而且经过 GA 优化后的 GA-SVM 预测精度
-也有明显提高。为了精确计算出各情形中风电功率
-预测的误差值，本文采用了平均相对百分比误差
-MAPE 评价预测性能，如表 3 所示。
-在以上三种方法的风电功率中，通过对平均相
-对误差计算可以看出，经 GA 优化后的 SVM 预测
-电力系统保护与控制
+
+ GA-SVM ，
+， SVM 
+
+ 4 ， SVM  GA-SVM 
+， GA  GA-SVM 
+。
+，
+MAPE ， 3 。
+，
+， GA  SVM 
+
+
+
 - 94 -
-模型的预测能力是最好的，其平均相对百分比误差
-要比 SVM 要低出约 4.0951%，较 BP 神经网络约低
+
+，
+ SVM  4.0951%， BP 
 11.835%。
+
 [5]
-林卫星, 文劲宇, 艾小猛, 等. 风电功率波动特性的概
-率分布研究[J]. 中国电机工程学报, 2012, 32(1): 38-46.
+
+, , , . 
+[J]. , 2012, 32(1): 38-46.
 LIN Weixing, WEN Jinyu, AI Xiaomeng, et al.
-表 3 各预测方法误差
+
+ 3 
+
 Probability density function of wind power variations[J].
+
 Table 3 Forecasting errors
+
 Proceedings of the CSEE, 2012, 32(1): 38-46.
-方法
+
+
+
 GA-SVM
+
 SVM
-BP 神经网络
+
+BP 
+
 MAPE /%
+
 0.530 4
+
 4.625 5
+
 12.365 4
+
 [6]
-曹娜, 赵海翔, 任普春, 等. 风电场动态分析中风速模
-型的建立及应用[J]. 中国电机工程学报, 2007, 27(36):
+
+, , , . 
+[J]. , 2007, 27(36):
 68-72.
+
 4
-结论
+
+
+
 CAO Na, ZHAO Haixiang, REN Puchun, et al.
-本文针对如何降低风电并网对电网的安全经
-济运行影响的问题，采用风电监控系统数据库中的
-历史风电功率数据和环境参数作为实验数据，并考
-虑到 SVM 的核函数、核函数参数 r 和错误惩罚因
-子 C 等难以确定的问题，提出了 GA 优化后的
-GA-SVM 预测模型。结合实例验证，并与标准 SVM
-方法和传统 BP 神经网络方法比较，得出本文提出
-的 GA- SVM 参数优化模型的学习能力和泛化能力
-更优，平均相对百分比误差要比 SVM 要低出约
-4.0951%，较 BP 神经网络减少约 11.835%。
-参考文献
+
+
+，
+，
+ SVM 、 r 
+ C ， GA 
+GA-SVM 。， SVM
+ BP ，
+ GA- SVM 
+， SVM 
+4.0951%， BP  11.835%。
+
 [1]
+
 [7]
-李俊芳, 张步涵, 谢光龙, 等. 基于灰色模型的风速风电功率预测研究[J]. 电力系统保护与控制, 2010,
+
+, , , . [J]. , 2010,
 38(19): 151-159.
 LI Junfang, ZHANG Buhan, XIE Guanglong, et al.
 Grey predictor models for wind speed-wind power
 prediction[J]. Power System Protection and Control,
 2010, 38(19): 151-159.
+
 [8]
-方江晓, 周晖, 黄梅. 基于统计聚类分析的短期风电
+
+, , . 
 67-73.
-系统的功率控制[J]. 电工技术学报, 2011, 26(7): 7-14.
+
+[J]. , 2011, 26(7): 7-14.
+
 FANG Jiangxiao, ZHOU Hui, HUANG Mei. Short-term
+
 ZHANG Kun, MAO Chengxiong, LU Jiming, et al.
+
 wind power prediction based on statistical clustering
+
 Power control strategy of directly driven wind turbine
+
 analysis[J]. Power System Protection and Control, 2011,
+
 with energy storage system[J]. Transactions of China
+
 39(11): 67-73.
 [9]
-王贺, 胡志坚, 张翌晖. 基于聚类经验模态分解和最
-田云飞, 张立涛, 徐昊亮. 大规模风电并网对电力系
-小二乘支持向量机的短期风速组合预测[J]. 电工技术
-统 的 影 响 及 应 对 措 施 [J]. 电 气 自 动 化 , 2013, 35(3):
-学报, 2014, 29(4): 237-245.
+
+, , . 
+
+, , . 
+
+[J]. 
+
+         [J].      , 2013, 35(3):
+
+, 2014, 29(4): 237-245.
+
 54-56.
+
 WANG He, HU Zhijian, ZHANG Yihui. A hybrid model
+
 TIAN Yunfei, ZHANG Litao, XU Haoliang. Impact of
+
 for short-term wind speed forecasting based on ensemble
+
 large scale grid-connected wind power on power system
+
 empirical mode decomposition and least squares support
+
 and countermeasures[J]. Electric Automation, 2013,
+
 vector machines[J]. Transactions of China Electrotechnical
 Society, 2010, 29(4): 237-245.
-李加升, 黄文清, 戴瑜兴. 基于自定义阈值函数的小
-[10] 修春波, 任晓, 李艳晴. 基于卡尔曼滤波的风速序列
-波去噪算法[J]. 电力系统保护与控制, 2008, 36(19):
-短期预测方法[J]. 电工技术学报, 2014, 29(2): 253-259.
+
+, , . 
+
+[10] , , . 
+
+[J]. , 2008, 36(19):
+
+[J]. , 2014, 29(2): 253-259.
+
 21-24.
+
 XIU Chunbo, REN Xiao, LI Yanqing. Short-term
+
 LI Jiasheng, HUANG Wenqing, DAI Yuxing. Wavelet-
+
 prediction method of wind speed series based on Kalman
+
 based
+
 filtering fusion[J]. Transactions of China Electrotechnical
+
 power
+
 quality
+
 disturbances
+
 de-noising
+
 by
+
 customized thresholding[J]. Power System Protection and
 Control, 2008, 36(19): 21-24.
 [4]
+
 2007, 27(36): 68-72.
-张坤, 毛承雄, 陆继明, 等. 基于储能的直驱风力发电
+
+, , , . 
+
 35(3): 54-56.
 [3]
+
 farm dynamic analysis[J]. Proceedings of the CSEE,
-功 率 预 测 [J]. 电 力 系 统 保 护 与 控 制 , 2011, 39(11):
+
+    [J].          , 2011, 39(11):
+
 Electrotechnical Society, 2011, 26(7): 7-14.
 [2]
+
 Establish and application of wind speed model in wind
+
 Society, 2014, 29(2): 253-259.
-[11] 丁志勇, 杨苹, 杨曦, 等. 基于连续时间段聚类的支持
-崔杨, 穆钢, 刘玉, 等. 风电功率波动的时空分布特性[J].
-向量机风电功率预测方法[J]. 电力系统自动化, 2012,
-电网技术, 2011, 35(2): 110-114.
+[11] , , , . 
+
+, , , . [J].
+
+[J]. , 2012,
+
+, 2011, 35(2): 110-114.
+
 36(14): 131-135.
+
 CUI Yang, MU Gang, LIU Yu, et al. Spatiotemporal
+
 DING Zhiyong, YANG Ping, YANG Xi, et al. An
+
 distribution characteristic of wind power fluctuation[J].
+
 analysis on impacts and characteristics of stator voltage
+
 Power System Technology, 2011, 35(2): 110-114.
+
 of DFIG-based wind turbine generator under grid short
-刘爱国，等
-基于 GA 优化 SVM 的风电功率的超短期预测
+
+，
+
+ GA  SVM 
+
 - 95 -
+
 circuit[J]. Automation of Electric Power Systems, 2012,
+
 Computational Statistics Data Analysis, 2007, 52(1):
+
 36(14): 131-135.
+
 335-346.
-[12] 廖旎焕, 胡智宏, 马莹莹, 等. 电力系统短期负荷预测
-方 法 综 述 [J]. 电 力 系 统 保 护 与 控 制 , 2011, 39(1):
+
+[12] , , , . 
+    [J].          , 2011, 39(1):
+
 [17]
+
 KUMAR A. Parameter optimisation using genetic
 algorithm
+
 for
+
 support
+
 vector
+
 machine-based
+
 147-152.
+
 price-forecasting model in National electricity market[J].
+
 LIAO Nihuan, HU Zhihong, MA Yingying, et al. Review
+
 IET Gengeation, Transmission & Distribution, 2010, 4(1):
+
 of the short-term load forecasting methods of electric
+
 310-315.
+
 power system[J]. Power System Protection and Control,
-[18] 夏可青, 赵明奇, 李扬. 用于多目标无功优化的自适
-应遗传算法[J]. 电网技术, 2006, 30(13): 55-60.
+
+[18] , , . 
+[J]. , 2006, 30(13): 55-60.
+
 2011, 39(1): 147-152.
-[13] 茆美琴, 龚文剑, 张榴晨, 等. 基于 EEMD-SVM 方法
+[13] , , , .  EEMD-SVM 
+
 XIA Keqing, ZHAO Mingqi, LI Yang. A self-adaptive
-的 光 伏 电 站 短 期 出 力 预 测 [J]. 中 国 电 机 工 程学报 ,
+
+           [J].       ,
+
 genetic algorithm for multi-objective reactive power
+
 2013, 33(34): 17-24.
+
 optimization[J]. Power System Technology, 2006, 30(13):
+
 MAO Meiqin, GONG Wenjian, CHANG Liuchen, et al.
+
 55-60.
+
 on
-[19] 蒋小亮, 蒋传文, 彭明鸿. 基于时间连续性及季节周
+
+[19] , , . 
+
 EEMD-SVM combined method[J]. Proceedings of the
-期性的风速短期组合预测方法[J]. 电力系统自动化,
+
+[J]. ,
+
 CSEE, 2013, 33(34): 17-24.
+
 2010, 34(15): 75-79.
+
 Short-term
+
 photovoltaic
+
 forecasting
+
 based
+
 [14] FUKUSHI D, SHICHIRI M, SUGIYAMA S, et al.
+
 JIANG Xiaoliang, JIANG Chuanwen, PENG Minghong.
+
 Scanning near-field optical/automatic force microscopy
+
 A short-term combination wind speed forecasting method
+
 detection of fluorescence in Situ hybridization signals
+
 Considering seasonal periodicity and time-continuity[J].
+
 beyond the optical limit[J]. Exp Cell Res, 2003, 289:
+
 Automation of Electric Power Systems, 2010, 34(15):
+
 237-244.
+
 75-79.
+
 [15] HAPELLE O, VAPNIK V, BOUSQET O, et al. Choosing
 multiple parameters for support vector machines[J].
-收稿日期：2014-04-18；
+
+：2014-04-18；
+
 Machine Learning, 2002, 46(1): 131-159.
-作者简介：
+
+：
+
 [16] HUANG C M, LEE Y J, LIN D K J, et al. Model selection
 for support vector machine via uniform design[J].
-修回日期：2014-10-15
-刘爱国(1965-)，男，副教授，研究方向为电力系统分
-析与经济运行。E-mail: liuaiguo@ncu.edu.cn
+
+：2014-10-15
+
+(1965-)，，，
+。E-mail: liuaiguo@ncu.edu.cn

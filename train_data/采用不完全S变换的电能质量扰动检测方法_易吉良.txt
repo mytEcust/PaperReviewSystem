@@ -6,42 +6,58 @@ hve .
 2009.
 10.
 024
-第 35 卷 　第 10 期
-2009 年 10 月 31 日
+ 35  　 10 
+2009  10  31 
+
 2562
-高 　电 　压 　技 　术
+
+ 　 　 　 　
+
 V ol .
 35 N o.
 10
 　　
 O ct .31 , 2009
+
 Hi gh V olt age En gi neering
-采用不完全 S 变换的电能质量扰动检测方法
+
+ S 
 1,2
+
 1
+
 2
-易吉良 , 彭建春 , 谭会生
-(1 .湖南大学电气与信息工程学院 , 长沙 410082 ;
-2 .湖南工业大学电气与信息工程学院 , 株洲 412008)
-摘　要 :S 变换因其优良的时频特性而在电能质量扰动检测和定位 方面获得 了广泛的应 用 , 但 由于 S 变换计算 时
-采用 等间隔采样频率点 , 因而计算量较大 。 为解决此问 题 , 基 于 S 变换的 电能质 量扰动 检测方法 一般通 过提取 模
-时频矩阵的特征量实现而不需要利用 S 变换模时频矩阵 的所有向 量 , 分析了 S 变换 的快速 计算过 程 , 并 据此提 出
-了不完全 S 变换 。 首先根据其运算前提是计算信号的 FF T , 利 用动态测度 方法检测 出功率 谱包络 的峰值 , 以此 确
-定信号的主要频率点 ;
-然后对相应的频率点进行 不完全 S 变换 , 求模得到频 率幅值特征向量 ;
-最后由 这些特征向 量
-进行电能质量扰动的检测 。 仿真结果表明 , 提出的算法能 明显提高检测速度 , 更适合实时应用 。
-关键词 :电能质量 ;不完全 S 变换 ;计算过程 ;动态测度 ;检测 ;特征向量
-中图分类号 :T M 933.
+
+ ,  , 
+(1 . ,  410082 ;
+2 . ,  412008)
+　 :S     ,   S  
+  ,  。   ,   S       
+ S    ,  S     ,   
+ S  。  FF T ,       ,  
+ ;
+  S  ,   ;
+  
+ 。  ,   ,  。
+ : ; S  ; ; ; ;
+ :T M 933.
 4
-文献标 志码 :A
-文章编号 :1003-6520(2009)10-2562-06
+
+  :A
+
+ :1003-6520(2009)10-2562-06
+
 Detection Method of Power Quality Disturbances Using Incomplete S-transform
 YI Ji-liang
+
 1,2
+
 1
+
 , PENG Ji an-chun , T AN H ui-sheng
+
 2
+
 (1 .College o f Elect ri cal and Inf ormat ion Engineering , H unan Universit y , Changsha 410082 , China ;
 2 .Co lleg e of Elect rical and Info rmatio n Engi neeri ng , H unan Unive rsity
 o f T echnolog y , Zhuzho u 412008 , China)
@@ -49,49 +65,73 @@ Abstract :T he de tection me tho ds of pow er quality based on S-t ransfo rm usu
 describe the enve lope of pow er spectrum so as to de tect the valid frequency samples o f F FT .T hen the inco mplete
 transform w as specifically per for med for these sam ples and the modules w ere calculated so a s to g et the feature vecto rs .F inally , these feature v ecto rs w ere used to detect the pow er quality disturbance .The simula tion result s illustrate that the pr oposed method quickens the de tection and is mo re suited fo r real time applicatio n.
 Key words:pow er qua lity ;incom plete S-transfo rm ;computa tional pro cedure ;dy namics ;detectio n;feature vector s
-利用 S 变换分析电能质量扰动 , 通常是采用 S
-0 　引言
-变换模时频矩阵的某些频率幅值向量的特征值进行
+
+ S  ,  S
+
+0 　
+
+
 [ 1 , 2]
-近年来 , 电能质量问题已成为研究的热点
+
+ , 
+
 ,
-有效的电能质量治理 , 首先必须进行准确的检测 。
-长期以来 , 国内外学者在电能质量检测方面作
-了大量的工作 。 以小波为代表的时频分析方法成了
+
+ ,  。
+ , 
+ 。 
 [ 3-5]
-研究的重点
-。 而近期利用 S 变换作为检测工具 ,
+
+
+
+。  S  ,
 [ 6]
-检测 , 实际上只利用了 S 变换的少部分结果 。 而 S
-变换对所有频率点的 F F T 值进行运算 , 因此当信号
-采样点数较大时 , 会影响算法的实时性 。 本文通过
-分析 S 变换的计算过程 , 提出不完全 S 变换 , 利用功
-率谱包络的动态测度检测出主要频率点 , 然后只针
-提出来许多检测方法 。 文献[ 7-13] 利用 S 变换对
-电能质量进行运算后得到模时频矩阵 , 从中提取基
-对主要频率点进行不完全 S 变换 , 得到的不完全 S
-变换模时频矩阵只含有特征频率幅值向量 , 这样可
-频幅值向量 、时间幅值包络 、频率幅值包络以及中高
-以大大减少处理的数据量 , 节省存储空间 。实验仿
-频时间幅值等特征量 , 并分别结合决策树 、支持向量
-真结果验证了不完全 S 变换能够准确检测出电能质
-机和模糊识别等分类器对电能质量扰动进行分类 ,
-取得了较好的效果 。 文献[ 14] 利用幅值平方和均值
-量的特征值 , 同时较之 S 变换大大缩短了运算时间 。
-向量作为特征分析电能质量扰动 , 其在扰动起止时
-刻定位能力方面优势明显 。
-1 　不完全 S 变换
+
+ ,  S  。  S
+ F F T  , 
+ ,  。 
+ S  ,  S  , 
+ , 
+
+ 。 [ 7-13]  S 
+ , 
+
+ S  ,  S
+ , 
+
+ 、 、
+
+ ,  。
+
+ ,  、
+
+ S 
+
+ ,
+ 。 [ 14] 
+
+ ,  S  。
+
+ , 
+ 。
+
+1 　 S 
 1.
-1 　S 变换
+1 　S 
 2
-基金资助项目 :国家自然科学基金(50677015)。
+
+ :(50677015)。
 Project Su pport ed by N ati onal Nat ural Sci ence Foundati on of
 C hina(50677015).
+
 2
-设 h(t)∈ L (R), L (R)表示实数域上的平方
-可积空间 , 则 h(t)的 S 变换定义为[ 15]
+
+ h(t)∈ L (R), L (R)
+ ,  h(t) S [ 15]
 ∞
+
 2 2
+
 -i2πf t
 |f | -(t -τ)2 f
 h(
@@ -102,436 +142,623 @@ e
 dt 。(1)
 -∞
 2π
+
 ∫
+
 S(τ, f )=
-　 2009 年 10 月
-高 　电 　压 　技 　术
-第 35 卷第 10 期
+
+　 2009  10 
+
+ 　 　 　 　
+
+ 35  10 
+
 2563
-式中 , t 为时间 ;f 为 频率 ;
-τ是括 号中高 斯窗的 中
-信号 , FF T 具有共轭对称性 , 完成 S 变换需做 N/2
-心 。S 变换也可以写成 2 个函数的卷积
-+1 次 N 点 的 F F T , FF T 乘 累 加 的 运 算 量 为
+
+ , t  ;f   ;
+τ   
+
+ , FF T  ,  S  N/2
+
+ 。S  2 
+
++1  N   F F T , FF T        
+
 ∞
+
 ∫p(t , f )g(τ-t , f )dt 。
+
 S(τ, f )=
+
 -∞
+
 (2)
-式中 ,
+
+ ,
+
 1.
-3 　不完全 S 变换
+3 　 S 
+
 p(τ, f )=h(τ
 )e -i2πfτ;
 g(τ, f )= |f |e
 2π
+
 2 2
 -τ f
 2
+
 。
-Nlg N , 因而 S 变换的运算量为(N/ 2 +1)Nlg N , 因
-此 , 当 N 很大时明显会影响计算的实时性 。
+
+Nlg N ,  S (N/ 2 +1)Nlg N , 
+ ,  N  。
+
 (3)
-对于 S 变换应用于电能质量扰动识别而言 , 往
-往是从 S 变 换 模时 频 矩阵 (S T MM , S-t ransf o rm
-m odular m at rix)中提取特征向量 , 然后对特征向量
-　　设 B(α, f )是 S(τ, f )的傅立叶变换(从 τ到 α
+
+ S  , 
+ S      (S T MM , S-t ransf o rm
+m odular m at rix) , 
+
+　　 B(α, f ) S(τ, f )( τ α
 ),
-求取特征值 , 再利用这些 特征值对扰动进 行识别 。
-由卷积定理可知
+
+ ,    。
+
+
 B(α, f )=P(α, f )
 G(α, f )。
-所提取的特征向量一般是 S T MM 中对应于信号主
-要频率的分量 , 如基频幅值分量 、检测到的谐波分量
+
+ S T MM 
+ ,  、
+
 (4)
-式中 , P(α, f )和 G(α, f )分别是 p(τ, f )和 g(τ, f )的
-和振荡暂态分量等 ;
-而对于检测谐波往往采用 S T-
-傅立叶变换 。可得
-M M 的频率幅值包络(S T MM 各行中的最大值组成
+
+ , P(α, f ) G(α, f ) p(τ, f ) g(τ, f )
+
+ ;
+ S T-
+
+ 。
+
+M M (S T MM 
 2
 2πα
 - 2
 f
-式中 , H(·)是 h(·)的傅立叶变换 , 因此 , S 变换可
-的向量), 实际上对于扰动信号中存在的主要频率分
-量的检测 , H(m)
-具有最高的频率分辨率 , 更能够检
-由上式的傅里叶反变换得到(由 α到 τ
+
+ , H(·) h(·) ,  , S 
+
+), 
+ , H(m)
+ , 
+
+( α τ
 )
-测出扰 动 信 号中 存 在 的主 要 频率 分 量 。 若能 由
+
+           。  
+
 B(α, f )= H(α+f )e
+
 ∞
+
 ∫
+
 S(τ, f )=
+
 H(α+ f )e
 -∞
+
 2
 -2πα
 f2
+
 。
+
 e i2πατdα。
+
 (5)
+
 (6)
-　　这样 , S 变换就可以利用 FF T 实现快速计算 。
-把上式写成离散表达式(f ※n , τ※j), 即
+
+　　 , S  FF T  。
+(f ※n , τ※j), 
 N-1
+
 S[ j , n] =
+
 ∑(H(m +n)e
+
 -2πm
 n2
+
 2
+
 m =0
+
 )e
+
 i2πmj
 N
+
 N -1
-减少运算量 , 提高算法的实时性 。
-根据上述思想 , 将 S 变换的计算过程作如下改
+
+ ,  。
+ ,  S 
+
 , n ≠0 ;
+
 1
 S[ j , 0] = ∑ h(m), n =0 。
 N m =0
-H(m)检测出主要频率成分 , 然后只针对这些频率
-点做 S 变换 , 得到所需要的特征向量 , 显然可以大大
+
+H(m) , 
+ S  ,  , 
+
 (7)
-式中 , N 是信号序列的总长度 ;
-j 和 n 分别是时间采
-进 , 并称之为不完全 S 变换 :
-1)首先利用 FF T 计算待分析信号的离散傅立
-叶变换 H(m);
-2)确定 H(m)的主要频率点 ;
-3)按照 S 变换计算过程步骤(2)～ (4)分别计算
-样点和频率采样点 ;
-H(m)是信号序列 h(k)的离散
-傅立叶变换 。计算上式得到的是一个二维时频矩阵
-出主要频率点对应的频率分量 。
-(ST M , S-t ransfo rm mat ri x), 列对应时 间采样点 ,
-的数量有关 , 主要频率点的检测也是不完全算法的
-关键所在 。
-行对应频率采样点 。
+
+ , N  ;
+j  n 
+
+ ,  S  :
+1) FF T 
+ H(m);
+2) H(m) ;
+3) S (2)～ (4)
+
+ ;
+H(m) h(k)
+ 。
+
+ 。
+
+(ST M , S-t ransfo rm mat ri x),   ,
+
+ , 
+ 。
+
+ 。
 1.
-2 　S 变换计算过程
-由(7)式可以看出 , S T M 的第 1 行(n =0)代表
-信号的直流分量 , 直接由信号的均值得到 , 而其它频
-率分量(n ≠0)的计算可以采用以下步骤进行 :
-不完全 S 变换的运算量与检测出的主要频率点
-2 　基于不完全 S 变换的电能质量扰动检测
+2 　S 
+(7) , S T M  1 (n =0)
+ ,  , 
+(n ≠0) :
+
+ S 
+
+2 　 S 
 2.
-1 　利用动态测度检测主要频率点
-图 1(a)是由 MA T L AB 产生的 15 个周期的凹
-1)首先利用 F F T 计算待分析信号的离散傅立
-陷加谐波电能质量信号 , 采样频率为 3 .
-2 kH z , 即每
-叶变换 H(
-m), 令 n =1 ;
-2)计算对应于频率采样点 n 的高斯窗 G(n , m)
-周期采样 64 点 , 信号表达式见参考文献[ 16] , 其中
-凹陷幅值为 0 .
-4 , 3 、5 、7 次谐波 系数为 0 .
-02 。 图 1
-(式(7)括号中的高斯窗函数);
-(b)是图 1(a)中信号经 F F T 后得到的功率谱 。 从
-3)将 H (m)移位到 H(m +n), 对 H (m +n)进
-图 1(b)局部图可以看出 , 虽然加入的谐波很弱 , 但
-行加窗处理 , 即将 H (m +n)乘以 G(n , m), 得 到
-仍然可以明显分辨出 3 个谐波所处的频率点 , 同时
-可以发现 , 由于电压凹陷的起止点存在幅值突变 , 功
+1 　
+ 1(a) MA T L AB  15 
+
+1) F F T 
+
+ ,  3 .
+2 kH z , 
+
+ H(
+m),  n =1 ;
+2) n  G(n , m)
+
+ 64  , [ 16] , 
+ 0 .
+4 , 3 、5 、7   0 .
+02 。  1
+
+((7));
+
+(b) 1(a) F F T  。 
+
+3) H (m) H(m +n),  H (m +n)
+
+ 1(b) ,  , 
+
+ ,  H (m +n) G(n , m),  
+
+ 3  , 
+ ,  , 
+
 H(n , m)
-(式(
-5)的离散形式);
-4)求 B(n , m)反傅立叶变换 , 得到 S(j , n)的第
-n +1 行(对应于频率采样点 n , 实际频率为 n/ N T);
-5)令 n =n +1 重复(2)～ (4)步 , 直到计算出 S
-(j , n)所有行 。
-率谱基频附件存在许多幅值大于谐波频率点幅值的
-频率点 , 并且有剧烈振荡 。
-对于图 1 中电能质量信号 , 采用基于 S 变换方
-法进行分析 , 只要知道 ST M M 的基频 以及各次谐
+((
+5));
+4) B(n , m) ,  S(j , n)
+n +1 ( n ,  n/ N T);
+5) n =n +1 (2)～ (4) ,  S
+(j , n) 。
+
+
+ ,  。
+ 1  ,  S 
+ ,  ST M M  
+
 2
-N 点信号的 S 变换经上述计算步骤会得到 N
-点(N 行 N 列)的 S 变换值 , 考虑电能质量信号为实
-波频率点的频率分量即可得到凹陷幅值 、凹陷起止
-点 、各次谐波幅值和波形畸变率等特征值 , 因此只需
+
+N  S  N
+(N  N ) S  , 
+
+ 、
+ 、 , 
+
 Oct .2009
+
 2564
+
 H igh 　Volt age 　Engineering
+
 Vol .
 35 No .
 10 　
-图 2 　图 1 信号功率谱极大点包络
+
+ 2 　 1 
 Fig.
 2　Maximum envelope of power spectrum in Fig.
 1
-图 1 　电压凹陷加谐波信号及其功率谱
+
+ 1 　
 Fig.
 1　Voltage sag with harmonics and
 its power spectrum
-检测出基频和 3 、5 、7 次谐波所在的频率点 。 但从该
-信号的功率谱特性可知 , 若直接采用某阈值对功率
-谱判决 , 在检测出各次谐波频率点的同时也会把基
-频附近的许多频率点检测为主要频率点 , 因此需要
-把这两类频率点区分开来 。
-图 3 　图 2 极大点包络的动态测度
+
+ 3 、5 、7  。 
+ , 
+ , 
+ , 
+ 。
+
+ 3 　 2 
 Fig.
 3　Dynamics of maximum envelope in Fig.
 2
-通过观察图 1(b)可以发现 , 虽然基频附近功率
-谱存在振荡 , 但其极大点的趋势是随着频率的增加
-而逐渐减弱 , 因此本文考虑采用其极大点包络检测
-主要频率点 。
-设 H(m) 2 共有 L 个极大点 , 所有极大值序列
-记为 H[ l]
+
+ 1(b) , 
+ , 
+ , 
+ 。
+ H(m) 2  L  , 
+ H[ l]
+
 2
+
 2
-, l =0 , 1 , 2 , …, L -1 , 若 H(m) 相邻
-图 4 　电能质量扰动检测过程
+
+, l =0 , 1 , 2 , …, L -1 ,  H(m) 
+
+ 4 　
 Fig.
 4 　Recognition process of power quality disturbances
-的极大点 之间 分别有 X 1 , … , X l , …, X L -1 个频 率
+
+   X 1 , … , X l , …, X L -1  
 2
-式中 , inf 表示下确界 ;
-halt 表示高度 ;
-P(M , N)表示同
-点 , 则 H(m) 的极大值包络为 :
+
+ , inf  ;
+halt  ;
+P(M , N)
+
+ ,  H(m)  :
 ～
+
 ～
+
 |H (m)|2 =|H(l -1)|2 +x
+
 ～
+
 |H (l)|2 -|H (l -1)|2
 。
 Xl
+
 (8)
-式中 , x =0 , 1 , …, X l-1 ;
+
+ , x =0 , 1 , …, X l-1 ;
 l =1 , 2 , …, L -1 ;
 l-1
-高度的路径 , 即曲线上两点 M 、N 之间的部分 。
-按上式求得图 2 中功率谱包络的极大点动态测
-度如图 3 所示 。 从图可以看出 , 3 、5 、7 次谐波频率
-点对应的动态测度明显大于其他非主要频率点的动
+
+ ,  M 、N  。
+ 2 
+ 3  。  , 3 、5 、7 
+
+
 m = x + ∑X w 。
 w =0
-由(8)式得到图 1(b)的包络如图 2 所示 , 图中
-包络线能明显刻画出谐波所处的频率点 , 同时可以
-看到 , 在基频附近仍然存在幅值较大的极大值点 , 这
-类极大值点虽然幅值较大 , 但凸起较小 , 为区分这类
-极大值与主要极大值点 , 本文采用动态测度方法 。
-动态测度能解决噪声环境下的极值点 提取问
-题 , 其定义和原理在文献[ 17] 中已有详细论述 , 本文
-只给出极大值点的动态测度定义 。
+
+(8) 1(b) 2  , 
+ , 
+ ,  , 
+ ,  , 
+ ,  。
+ 
+ , [ 17]  , 
+ 。
 2
-态测度 ;
-而基频和 3 次谐波之间的极大点虽然幅值
-较大 , 但其动态测度同样很小 , 只要选择合适的阈值
-便可以将主要频率点和非主要频率点区分开来 。
+
+ ;
+ 3 
+ ,  , 
+ 。
 2.
-2 　基于不完全 S 变换的电能质量扰动检测
-本文提出的电能质量扰动检测过程见图 4 。
-本文对短时电能质量扰动 、周期性扰动 、暂态扰
-动 3 类电能质量进行实验 , 以验证算法的有效性 。
+2 　 S 
+ 4 。
+ 、 、
+ 3  ,  。
 2.
 2.
-1 　短时扰动
-1)电压凹陷/ 中断 　电压凹陷和中断的区别仅
-设 M 为 H (m) 的一个极大点 , 如果 存在比
-在于当凹陷幅值 <0.1 时 , 便定义为电压中断 , 因此
-其更高的极大点 , 则极大点 M 的动态测度等于由点
-M 通向同高度所有路径中最小路径动态测度
-本文仅以电压凹陷为例进行分析 。 如图 5(a)所示
+1 　
+1)/  　
+
+ M  H (m)  ,  
+
+ <0.1  ,  , 
+
+ ,  M 
+M 
+
+ 。  5(a)
+
 D yn (M)=(inf (
 D yn (P(M , N)
 )
 );
 halt (M)=h alt (N)
 )。
+
 (9)
-为电压凹陷信号 , 信噪比为 28 dB , 凹陷幅值为 0.4 ,
-扰动起止点分别为采样点 209 和 738 ;
-对其求 F F T
-得到功率谱如图 5(b)
-所示 , 求得功率谱包络及其动
-　 2009 年 10 月
-高 　电 　压 　技 　术
-第 35 卷第 10 期
+
+ ,  28 dB ,  0.4 ,
+ 209  738 ;
+ F F T
+ 5(b)
+ , 
+
+　 2009  10 
+
+ 　 　 　 　
+
+ 35  10 
+
 2565
-图 6 　不完全 S 变 换基频幅值向量及其差分曲线
+
+ 6 　 S  
 Fig.
 6　Fundamental frequency vector and its difference
 curve of incomplete S-transform
-图 5　电压 凹陷功率谱包络及其动态测度
+ 5　 
 Fig.
 5　Power spectrum envelope and dynamics
 of voltage sag
-态测度如图 5(b)中局部图 。 在功率谱动态测度局
-部图中 , 除基频点的动态测度为102 812.66外 , 其余
-图 7　S 变换 10 倍基频幅值向量
-频率点的动态测度均 <7.5 , 故主要频率点只有基频
+
+ 5(b) 。 
+ , 102 812.66 , 
+
+ 7　S  10 
+
+ <7.5 , 
+
 Fig.
 7　Tenfold fundamental frequency vector
-点 。 对其求不完全 S 变换并求模 , 得基频幅值向量
+
+ 。  S  , 
+
 of S-transform
-曲线如图 6 所示 。
-电压凹陷扰动最重要的特征值是凹陷幅值和凹
-陷起止时刻 。对于凹陷幅值 , 常采用基频幅值向量
-的凹陷程度来检测[ 13]
+
+ 6  。
+
+ 。 , 
+[ 13]
 mi n(A(k , f 1 )
 )
 ;k =0 , 1 , 2 , …, N -1 。 (
 10)
 A sag =
 A norm al
-式中 , A(k , f 1 )是基频 幅值向量 , A normal 表示 标准基
-频幅值 , 这里是 0.5 。 由上式求得算例的凹 陷幅值
-为 0.3981 , 说明能够正确检测凹陷幅值 。
-基于 S 变换的方法通常采用高频幅值向量的两
-个峰值来定位[ 12] , 但该方法容易受噪声影响 , 并且
-当起止时刻没有幅值突变 , 该峰值也不明显 , 如图 7
-为 S 变换的 10 倍基频幅值向量 , 在扰动终止点由于
-没有幅值突变 , 峰值并不明显 , 因而很难准确定位 。
-为此 , 本文提出基频幅值差分向量检测扰动起止点
-的方法 , 差分向量定义为
+ , A(k , f 1 )  , A normal  
+ ,  0.5 。  
+ 0.3981 ,  。
+ S 
+[ 12] ,  , 
+ ,  ,  7
+ S  10  , 
+ ,  ,  。
+ , 
+ , 
+
 (k , f i )
 );
-②基频幅值差分曲线的最大值对应扰动开
+②
+
 D iff (k)= A(k , f 1 )-A(k -1 , f 1);
 k =1 , 2 , …, N -1 。
-图 8 　电压隆起扰动检测
+
+ 8 　
 Fig.
 8 　Detection of voltage swell
+
 (
 11)
-　　由上式求得图 6(a)
-的差分向量如图 6(b)所示 ,
-图中最小值和最大值分别对应扰动的开始点和终止
-点 , 显然 , 采用该方法克服了采用高频幅值向量定位
-的缺陷 。
-2)电压隆起 　电压隆起信号如图 8(a)所示 , 其
-检测过程和电压凹陷类似 , 但需要注意两点 :①隆起
-幅值检测要将(10)中的 mi n(A(k , f i )改为 max(A
-始点而最小值对应扰动的终止点 , 如图 8(c)所示 。
-原始信号 的 隆起 幅值 为 1.4 , 检测 的 隆起 幅 值为
-1.3994 , 起止点定位也与扰动的起止点完全吻合 。
+
+　　 6(a)
+ 6(b) ,
+
+ ,  , 
+ 。
+2) 　 8(a) , 
+ ,  :①
+(10) mi n(A(k , f i ) max(A
+
+ ,  8(c) 。
+     1.4 ,     
+1.3994 ,  。
 2.
 2.
-2 　周期性扰动
-图 9(a)所示为谐波信号 , 其中含有 3 、5 、7 次谐
-波含有率分别为 0.03 、0.06 、0.09 , 求该信号功率谱
-包络及其动态测度如图 9(b)所示 , 基频点和谐波频
-率点中 3 次谐波的动态测 度最小 , 其值为 207.36 ,
+2 　
+ 9(a) ,  3 、5 、7 
+ 0.03 、0.06 、0.09 , 
+ 9(b) , 
+ 3   ,  207.36 ,
+
 2566
+
 Oct .2009
+
 H igh 　Volt age 　Engineering
+
 Vol .
 35 No .
 10 　
-图 11　振荡暂态信号功率谱包络及其 动态测度
-图 9 　谐波信号功率谱包络及其动态测度
+
+ 11　 
+ 9 　
+
 Fig.
 11　Power spectrum envelope and
+
 Fig.
 9　Power spectrum envelope and dynamics
+
 dynamics of transient
+
 of harmonics
-图 12 　振荡暂态信号不完全 S 变换频率幅值向量
+
+ 12 　 S 
 Fig.
 12 　Vectors of incomplete ST of transient
-图 10　谐波信号各次频率幅值 向量
+ 10　 
 Fig.
 10 　Vectors of 3 rd , 5 th and 7th harmonics
-表 1 　不完全 S 变换和 S 变换算法 时间比较
+
+ 1 　 S  S  
 Tab .
 1 　Operation time of incomplete ST and ST
-而其余频率点的动态测度均接近于零 , 所以检测到
-的主要频率点有 4 个 , 对所有主要频率点求不完全
-S 变换并求模 , 得到 4 个频率幅值向量见图 10 。
-对于谐波信号而言 , 最重要的特征值是谐波含
-有率 , 利用各次谐波的幅值向量均值可以很容易获
-取该值[ 7]
+
+ , 
+ 4  , 
+S  ,  4  10 。
+ , 
+ , 
+[ 7]
 Mfi
+
 1
 =2 ×
 N
-S 变换算法
-不完全 S 变换
-时间/ m s
-算法时间/ ms
+
+S 
+
+ S 
+
+/ m s
+
+/ ms
+
 1
+
 328
+
 15
-隆起
+
+
+
 1
+
 328
+
 15
-谐波
+
+
+
 4
+
 313
+
 16
-振荡暂态
+
+
+
 2
+
 312
+
 16
-扰动类型
-主要频率点数
-凹陷/ 中断
+
+
+
+
+
+/ 
+
 N -1
+
 ∑ A(k , f );
 i
+
 k =0
+
 (
 12)
 Mfi
 HR(f i )=
 。
 M fi
-式中 , A(k , f i )是 i 次谐波幅值向量 。 根据(12)计算
-得到的 3 、5 、7 次谐 波含有率分别为 0.03 、0.06 和
-0.0904 , 说明由不完全 S 变换模向量求得的谐波含
-有率是准确的 。
+ , A(k , f i ) i  。 (12)
+ 3 、5 、7   0.03 、0.06 
+0.0904 ,  S 
+ 。
 2.
 2.
-3 　暂态扰动
-图 11(a)所示为振荡 暂态信号 , 在采样点 209
-处开始有振荡 , 逐渐衰减至 232 采样点处结束 。
-图 11(b)为该 信号的功 率谱包络 及其动态 测
-度 , 从动态测度图可以看出 , 除基频点动态测度外 ,
-只有 230 频率点(对应高频振动的频率)处的动态测
-度(28.76)明显大于其余频率点 , 因而该信号的主要
-频率点只有两个 。 对相应主要频率点做不完全 S 变
-换并求模 , 得到 2 个频率幅值向量如图 12 所示 , 图
-中高频幅值向量的凸起部分反映了震荡暂态的强度
-和持续时间 。
+3 　
+ 11(a)  ,  209
+ ,  232  。
+ 11(b)    
+ ,  ,  ,
+ 230 ()
+(28.76) , 
+
+ 。  S 
+ ,  2  12  , 
+
+ 。
 2.
-3 　不完全 S 变换与 S 变换的算法时间比较
-为了比较不完全 S 变换和 S 变换的运算效率 ,
-在配置为 Celeron 1.6 GH z 、512 MB 内存的计算机
-上利用 Ma tlab7 分别对 S 变换和不完全 S 变换算法
-进行测试 , 表 1 列出了二者的运算时间 , 可以看出 ,
-不完全 S 变换大大缩短了运算时间 。
-3 　结语
-S 变换具有优良的时频特性 , 但其运算时间随
-　 2009 年 10 月
-高 　电 　压 　技 　术
-信号序列的总长度的增加而增长 , 当信号长度较长
-时 , 会影响算法的实时性 。 对于只需要提取 S 变换
-模时频矩阵频率幅值特征向量的应用场合 , 不需要
-进行完整的 S 变换 , 基于此提出了不完全 S 变换 。
-提出的功率谱包络的动态测度检测方法 , 能够准确
-的检测出主要频率点 ;
-对主要频率点做不完全 S 变
-换 , 求模得到的频率幅值向量能准确检测各电能质
-量扰动的特征值 。本文提出的基频幅值差分向量在
-检测电压凹陷 、中断和隆起的起止时刻更具有稳健
-性 。 通过仿真实验验证了本文提出的不完全 S 变换
-大大缩短了算法时间 。
-参
-考
-文
-献
-[ 1] 程浩忠 , 艾 　芊 , 张志刚 , 等 .电能质量[ M ] .北京 :
-清华 大学出
-第 35 卷第 10 期
+3 　 S  S 
+ S  S  ,
+ Celeron 1.6 GH z 、512 MB 
+ Ma tlab7  S  S 
+ ,  1  ,  ,
+ S  。
+
+3 　
+S  , 
+
+　 2009  10 
+
+ 　 　 　 　
+
+ , 
+ ,  。  S 
+ , 
+ S  ,  S  。
+ , 
+ ;
+ S 
+ , 
+ 。
+ 、
+ 。  S 
+ 。
+
+
+
+
+
+
+
+
+
+[ 1]  ,  　 ,  ,  .[ M ] . :
+ 
+
+ 35  10 
+
 2567
-方[ J] .高电压技术 , 2009 , 35(4):
+
+[ J] . , 2009 , 35(4):
 817-822 .
 XIA O Xian-yong , LI Feng , D EN G Wu-ju n .Ident if icati on method of ligh tni ng s troke and sho rt-circui t f au lt s u sing S-t ransf ormed charact eris ti cs[ J] .H igh V ol tage Engineering , 2009 , 35
 (4):
@@ -540,108 +767,141 @@ XIA O Xian-yong , LI Feng , D EN G Wu-ju n .Ident if icati on method of ligh tni
 fuz zy recogni tion sys tem fo r pow er qualit y event s[ J] .IEE E
 Transact ions on Pow er D eli very , 2004 , 19(1):
 323-330 .
-[ 11] 刘 　鑫 , 杨洪耕 , 赵 　俊 .基于 S 变换 模时频 矩阵局 部相似 度
-的短时电能质量扰动分类[ J] .电 力系统自动 化 , 2009 , 33(8):
+[ 11]  　 ,  ,  　 . S     
+[ J] .   , 2009 , 33(8):
 62-66 .
 LIU Xin , Y A N G Hong-geng , ZHA O Jun .Clas si ficat ion f or
 short du rat ion pow er quali ty di st urbance b as ed on S-t ran sfo rm
 wi th modul e ti me-f requency mat ri x partial simi lari ty [ J] .A utomati on of Elect ri c Pow er Sy st ems , 2009 , 33(8):
 62-66 .
-[ 12] 杨洪耕 , 刘守亮 , 肖先 勇 .利 用 S 变换 时频等 值线图 与幅值 包
-络向量实现电压凹陷的分类[ J] .电工技术学 报 , 2006 , 21(8):
+[ 12]  ,  ,   .  S     
+[ J] .  , 2006 , 21(8):
 75-80 .
-版社 , 2006 .
+
+ , 2006 .
+
 YA N G Hong-geng , LIU Sh ou-li ang , X IA O Xian-yong .Classi-
+
 CH EN G Hao-z hong , A I Q ian , ZH A NG Zhi-gang , et al .Power
+
 f icat ion of volt age dips usin g ti me-f requency cont our and ampli-
+
 qualit y[ M] .Beijing :T singhua U niversit y Press , 2006 .
-[ 2] 吕广强 , 赵剑锋 , 程 　明 , 等 .配电网 动态电 能质量 问题及 其解
-决方[ J] .高电压技术 , 2007, 33(1):
+[ 2]  ,  ,  　 ,  .    
+[ J] . , 2007, 33(1):
 53-56 .
+
 tude envelope vect ors b y S-t ran sfo rm [ J] .Transact ions of Chin a Elect rot ech nical S ociety , 2006 , 21(8):
 75-80 .
 [ 13] Dash P K , Panigrahi B K , Panda G .Pow er qu ali ty analysi s u-
+
 G uang-qiang , ZH A O Jian-f eng , C HEN G M ing , et al .Dy-
+
 si ng S-t ransf orm [ J] .IEEE T rans on Pow er Delivery , 2003, 18
+
 namic quali ty of pow er supp ly and i t s s oluti on f or di st ribut ion
+
 (2):
 406-411 .
-[ 14] 全惠敏 , 戴瑜兴 .基于 S 变换模矩阵的电能 质量扰动信号检 测
+[ 14]  ,  . S   
+
 L
+
 sy stem[ J] .H igh V olt age En gi neering , 2007 , 33(1):
 53-56 .
-[ 3] 陈祥训 .
-采用小波技术的几 种电能质 量扰动的 测量与分 类方法
+[ 3]  .
+    
 [ J] .
-中国电机工程学报 , 2002 , 22(10):
+ , 2002 , 22(10):
 1-6 .
-与定位[ J] .电工技术学报 , 2007 , 22(8):
+
+[ J] . , 2007 , 22(8):
 119-125 .
 Q U A N Hui-min , D AI Y u-xi ng .D et ecti on and localizati on of
+
 CH EN Xi ang-xun .W avelet-based measuremen ts and classif ica-
+
 pow er qualit y di st urbances based on S-t ransf orm m odu le mat ri-
+
 ti on of sh ort durati on pow er qualit y dis tu rban ces [ J] .Proceed-
+
 xes[ J] .Transacti ons of China Elect rot echnical S ociety , 2007 ,
+
 ings of t he CS EE , 2002 , 22(10):1-6 .
-[ 4] 李 　玲 , 金国彬 , 黄绍平 .基于时频平 面脊信息提取的 电能质量
-扰动检[ J] .高电压技术 , 2008 , 34(4):
+[ 4]  　 ,  ,  .  
+[ J] . , 2008 , 34(4):
 772-776 .
 LI Li ng , J IN G uo-bi n , H U A NG S hao-ping .Pow er qualit y di st urbances det ecti on based on ridges ti me-f requency plain [ J] .
 H igh V olt age E ngi neering , 2008 , 34(4):772-776 .
-[ 5] 崔 　雪 , 刘会金 , 张全明 , 等 .基于形态-复小波 暂态电能 质量扰
-动检测及定[ J] .高电压技术, 2008 , 34(5):
+[ 5]  　 ,  ,  ,  .-  
+[ J] ., 2008 , 34(5):
 989-994 .
 CU I Xu e, LIU Hui-jin , ZH A N G Q uan-mi ng , et al .Detect ion
 and locat ion of transient pow er qualit y dist urbances b ased on
 morph ology-com plex w avelet [ J] .Hi gh V olt age E ngi neering ,
 2008 , 34(5):
 989-994 .
-[ 6] 唐 　轶 , 刘 　昊 , 方永 丽 .基于 时域特 征分析 的电能 质量 分类
-[ J] .电力系统自动化 , 2008 , 32(17):
+[ 6]  　 ,  　 ,   .     
+[ J] . , 2008 , 32(17):
 50-54 .
+
 22(8):
 119-125 .
 [ 15] S t ockw ell R G , M ansinha L, Lowe R P .Localizat ion of t he
 complex s pect ru m :
 t he S-t rans form[ J] .IEEE Transact ions on
 Si gnal Process , 1996 , 44(4):998-1001 .
-[ 16] 易 吉良 , 彭 建春 .基 于广义 S 变 换的电 能质量 扰动信 号分 类
-[ J] .电网技术 , 2009 , 33(5), 22-27 .
+[ 16]   ,   .  S      
+[ J] . , 2009 , 33(5), 22-27 .
 YI Ji- liang , PENG Jian-chun .Cl as sifi cation of sh ort-t ime power qualit y di st urbance signals based on generali zed S-t ran sfo rm
 [ J] .Pow er Sys tem Technol ogy , 2009 , 33(5), 22-27 .
-[ 17] 刘应梅 , 白晓民 , 张红斌 , 等 .基于动态测度的电能质量 扰动检
-测[ J] .中国电机工程学报 , 2003 , 23(10):
+[ 17]  ,  ,  ,  . 
+[ J] . , 2003 , 23(10):
 57-62 .
 LIU Ying-mei , BA I Xiao-mi n , ZH A NG H ong-bi n , et al .The
 det ecti on of pow er qualit y dis tu rb an ce b ased on dyn amics[ J] .
 Proceedi ngs of t he CSE E , 2003 , 23(10):
 57-62 .
+
 TA N G Yi , LIU Hao , FA NG Y ong-li .A pow er quali ty di stu rb-
-易吉良
+
+
+
 ance classif icati on m et hod based on th e analysis in tim e domain
-1972 — , 男 , 博士生 , 讲师
+
+1972 — ,  ,  , 
+
 [ J] .A u tomat ion of Elect ric Pow er Syst ems , 2008 , 32(17):5054.
-研究方向为电能质量分析和信号处理
+
+
 E-mai l :ji liang yi @sina .
 com
-彭建春
+
+
 [ 7] Zhao Fengz han , Y ang Rengang .Power qu ali ty dis tu rban ce recogniti on u sing S-t ran sf orm [ J] .IE EE T ran sacti on s on Power
-1964 — , 男 , 博士 , 教授 , 博导
+
+1964 — ,  ,  ,  , 
+
 Delivery , 2007 , 22(2):
 944-950 .
-主要从事电 力系统 及其 自动 化专 业的 教
-[ 8] 占 　勇 , 程浩忠 , 丁屹峰 , 等 .基 于 S 变换的 电能质 量扰动 支持
-向量机分类识别[ J] .中国电机工程学报 , 2005 , 25(4):
+
+      
+
+[ 8]  　 ,  ,  ,  .  S    
+[ J] . , 2005 , 25(4):
 51-56 .
 ZHA N Y ong , CH ENG H ao-zh ong , D ING Y i-f eng , et al .St ransf orm b ased classifi cation of pow er qualit y dis tu rban ce signals by support vect or machin es[ J] .Proceeding s of t he CS EE ,
 2005 , 25(4):51-56 .
-[ 9] 肖先勇 , 李 　逢 , 邓武军 .雷击与短路故障的 S 变换特 征量识别
+[ 9]  ,  　 ,  . S  
+
 Y I Ji-liang
 Ph .
 D .can di dat e
-学和研究工作
-谭会生
-1966 — , 男 , 硕士 , 副教授
-主要从事电 子信息 和计 算机 应用 专业 的
-教学和研究工作
-收稿日期 　2009-07-01 　修回日期 　2009-09-27 　编辑 　蒋英圣
+
+
+
+1966 — ,  ,  , 
+      
+
+
+ 　2009-07-01 　 　2009-09-27 　 　

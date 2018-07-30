@@ -1,0 +1,988 @@
+DOI:10.13225/j.cnki.jccs.2012.12.027
+
+　 第 37 卷第 12 期
+　 2012 年
+
+12 月
+
+煤　 　 炭　 　 学　 　 报
+
+JOURNAL OF CHINA COAL SOCIETY
+
+Vol. 37　 No. 12　
+Dec. 　
+
+2012　
+
+　 　 文章编号:0253-9993(2012)12-1999-07
+
+基于 GA - SVM 的露天矿抛掷爆破抛掷率预测
+刘希亮1 ,赵学胜2 ,陆　 锋1 ,孙文彬2
+
+(1． 中国科学院 地理科学与资源研究所 资源与环境信息系统国家重点实验室,北京　 100101;2． 中国矿业大学( 北京) 地球科学与测绘工程学
+院,北京　 100083)
+
+摘　 要:分析了高台阶抛掷爆破的机理过程,并从自然地质、爆破设计和人为操作 3 个角度出发,结
+合某矿区的实际开采情况,提取其中 10 个参数作为影响该矿区抛掷爆破效果的主要因素,以爆破
+领域中广泛接受的抛掷率作为抛掷爆破效果的评价因子,采用此矿区爆破生产中的实际数据建立
+了基于遗传算法优化的支持向量机模型 GA - SVM。 基于建立的 GA - SVM 模型,采用平均影响值
+( Mean Impact Value, MIV) 作 为 评 价 标 准, 对 各 因 素 的 影 响 程 度 进 行 了 评 定。 结 果 表 明: ①
+GA -SVM 模型能够比较快速、准确地根据此矿区的爆破设计参数预测出抛掷爆破的抛掷率,平均
+预测精度稳定在 83． 75% ,与其他智能算法如 BP,RBF,GRNN 相比,GA -SVM 具有更好的鲁棒性和
+更佳的预测精度。 由于计算流程的统一性和预测方法的普适性,GA - SVM 模型对于其他抛掷爆破
+参数( 如最远抛距、松散系数等) 也具有良好的外推性;② 对于此露天矿区而言,在其自然因素( 如
+岩性等) 和爆破设计因素( 如炸药类型、起爆顺序、装药结构等) 已确定的情况下,台阶高度、炸药单
+耗与抛掷率正相关,且台阶高度比炸药单耗对抛掷率的影响更大;而最小抵抗线、坡面角和剖面宽
+对于抛掷率呈现负相关,其他影响因素对于此露天矿抛掷率的影响较弱。
+关键词:高台阶抛掷爆破;抛掷率;GA -SVM 模型;平均影响值;遗传算法;支持向量机
+中图分类号:TD824　 　 　 文献标志码:A
+
+A GA-SVM based model for throwing rate prediction in
+the open-pit cast blasting
+LIU Xi-liang1 ,ZHAO Xue-sheng2 ,LU Feng1 ,SUN Wen-bin2
+
+(1． State Key Laboratory of Resources and Environmental Information System,Institute of Geographic Sciences and Natural Resources Research,Chinese Academy
+of Sciences,Beijing　 100101,China;2． College of Geoscience and Surveying Engineering,China University of Mining and Technology ( Beijing) , Beijing 　
+
+100083,China)
+
+Abstract:This paper probed into the whole height bench cast blasting process and described the influence factors from
+
+3 major perspectives:natural geological,blasting scheming and factitious ones,and selected the throwing rate which
+
+was generally accepted in the cast blasting field to assess the blasting performance. Then a novel GA-SVM model was
+constructed to analyze the real collected explosion data from open pit mining,and verified in a certain open-pit. Also
+the MIV method was employed to analyze the influence factor at each input factor. The study indicate that:① the pres-
+
+ented GA-SVM model performs more robust and accurate than other artificial intelligence models such as BP,RBF,
+GRNN and GA-BP,which has a more stable prediction accuracy of 83. 75% . Moreover,due to the ubiquitous paradigm
+of the presented approach, it provides a single, unified approach to evaluating other blasting performance
+factors such as the longest thrown distance and loose coefficient etc;② for this certain open pit which maintains a
+steady lithological character and design parameters,the bench height,explosive specific charge possess a positive cor-
+
+relation coefficient with the throwing rate,while line of least resistance,the slope angle and the profile width perform
+收稿日期:2011 - 12 - 06　 　 责任编辑:韩晋平
+　 　 基金项目:国家自然科学基金资助项目(41171306)
+　 　 作者简介:刘希亮(1983—) ,男,河北衡水人,博士研究生。 Tel:010-64889015,E-mail:liuxl@ lreis． ac． cn
+
+煤　 　 炭　 　 学　 　 报
+
+2000
+
+the opposite.
+
+2012 年第 37 卷
+
+Key words:height bench cast blasting;throwing rate;GA-SVM model;MIV;GA;SVM
+　 　 高台阶露天抛掷爆破 [1] 是目前露天矿开采中比
+
+的预测效果的 BP 神经网络模型,在露天矿抛掷爆破
+
+试验条件的有限性,在实际的露天矿抛掷爆破过程中
+
+本文采用专门研究小样本事件的支持向量机
+
+较流行的技术方法。 由于爆破过程的复杂性和现场
+
+方面的应用亦受到一定限制。
+
+主要存在以下两个问题:
+
+( Support Vector Machine, SVM ) 作 为 建 模 的 理 论 基
+
+地质、爆破设计以及人为操作施工等诸多因素,很难
+
+论中发展出来的机器学习算法,将低维空间下不能线
+
+(1) 高台阶抛掷爆破的影响参数众多,涉及自然
+
+础 [4] 。 SVM 是近年来比较流行的一种从统计学习理
+
+利用传统的数学建模方式将爆破过程归结为一个统
+
+性分割的学习样本通过不同的核函数映射到一个高
+
+一的数学方程;
+
+维空间,得到一个高维空间下惟一的最优超平面,从
+
+(2) 高台阶抛掷爆破 效 果 的 评 价 体 系 不 惟 一。
+
+而使得原始分类问题得到解决。 值得注意的是,在由
+
+如何结合工矿企业的实际情况,选择一个合适的抛掷
+
+低维空间向高维空间映射的过程中,不同类型核函数
+
+爆破效果评价因子成为目前露天矿业开采的当务之
+
+以及核函数参数的选择将对最后的结果产生较大的
+
+急。
+本文从露天矿开采的实际需求出发,选取抛掷率
+作为露天矿抛掷爆破设计的评价因子。 抛掷率是反
+映露天矿抛掷爆破效果的重要因子,直接影响露天矿
+一次抛掷爆破作业之后采掘工作的展开。 抛掷率的
+计算如图 1 所示。
+
+影响,同时惩罚项的大小直接决定了 SVM 用于回归
+预测效果的优劣,因此在将 SVM 用于回归预测就必
+须考 虑 其 参 数 惩 罚 项 与 核 函 数 参 数 的 选 择 与 优
+化 [5] 。 在 参 数 寻 优 策 略 上, 直 接 采 用 试 凑 法 调
+节 SVM 参数进行预测的效果并不理想,目前研究的
+重点 集 中 在 启 发 式 算 法 与 SVM 参 数 优 化 的 结
+合 [6-8] 。
+
+本文首先对 SVM 和 GA 进行简单的回顾,提出
+
+GA - SVM 模型的优化原理和流程;在分析露天矿抛
+掷爆破过程机理基础上,从自然地质因素、爆破设计
+因素以及人为施工因素 3 个方面出发,结合某矿区爆
+破设计与实际开采的操作流程,提炼出适用于此矿区
+
+图 1　 抛掷率计算示意
+
+Fig． 1　 Throwing rate calculation schemes
+
+图 1 为一次抛掷爆破前后地形的侧剖面叠加,实
+
+线表示爆前地形面,点划线表示爆后地形面,右侧为
+岩石的 38°自然安息角面。 抛掷率即为 A 部分岩石
+所占抛掷爆破破碎岩石总体积的百分比,表示如下:
+Ea =
+
+VA
+× 100%
++
+VA VB + VC
+
+(1)
+
+　 　 目前,有关论述露天矿抛掷爆破抛掷率预测的文
+献仍然十分稀少,李祥龙验证了 BP 神经网络用于露
+天矿抛掷爆破中抛掷率预测的可行性,但建模过程复
+杂,不利于实际操作
+
+[2]
+
+。 刘希亮进一步完善了露天
+
+矿抛掷爆破 BP 神经网络的建模流程,并采用遗传算
+
+法对 BP 神经网络的初始权值进行了进一步的优化,
+大大提高了 BP 神经网络在露天矿抛掷爆破抛掷率
+预测方面的精度
+
+[3]
+
+。 但由于 BP 神经网络初始权值
+
+赋值的随机性,GA - BP 神经网络模型并不能保证最
+终预测结果的惟一性。 同时由于露天矿抛掷爆破数
+据的稀缺性,对于需要大量训练数据才能得到比较好
+
+实际抛掷爆破作业的 10 个参数作为影响因子,利用
+其 2009—2010 年实际爆破数据,采用 GA - SVM 模型
+对抛掷率进行预测。 一方面论证了 GA - SVM 模型在
+此矿区露天矿抛掷率预测中的可行性与优越性,同
+时,由于计算流程的统一性,GA - SVM 模型对于露天
+矿区其他抛掷爆破参数( 如最远抛距、松散系数等)
+
+也具有良好的适用性;另一方面,以神经网络领域普
+遍采用的平均影响值( Mean Impact Value,MIV) 作为
+评价标准,分析了各个影响因素对抛掷率的敏感度和
+作用大小,以便指导进一步的实际生产。 最后,给出
+研究结论及进一步的工作方向。
+
+1　 GA -SVM 算法
+1． 1　 SVM 用于回归预测的理论基础
+
+支持向量机是 20 世纪 90 年代由 Vapnik 等提出
+
+的一种研究小样本、小概率事件的神经网络模型,能
+够根据有限的样本信息在模型的复杂性和学习能力
+之间寻求最优解。 设样本训练集包含 d - 维特征空间
+
+的 N 个向量,x i ∈R d ( i = 1,2,…,N) ,目标 y i ∈{ - 1,
+
+第 12 期
+
+刘希亮等:基于 GA-SVM 的露天矿抛掷爆破抛掷率预测
+
+1} 与每个向量 x i 相关联。 寻找最优超平面的问题转
+化为解决凸二次方程的问题,即
+
+{
+
+Minimize:
+
+2001
+
+1． 3　 GA -SVM 原理
+
+Fernandez 等归纳了 GA 用于 SVM 参数寻优的一
+
+般策略 [10] 。 本文结合露天矿区的具体特点,提出基
+
+1
+‖w‖2
+2
+
+Subject to:y i( w·x i + b) ≥ 1,i = 1,2,…,N
+
+(2)
+
+于 SGA 优化 SVM 回归预测模型参数的流程。
+(1) 染色体编码、解码与种群的初始化。
+
+采用基于实数的编码方式,首先对原始 SVM 的
+
+其中,w,b 代表超平面方程 f ( x) = w ·x + b 的系数。
+
+惩罚项 C 与 SVM 所采用的核函数参数 r 给定一个较
+
+函数,即
+
+行性的惩罚项 C 与核函数参数 r 的值转换为能够被
+
+按照最优化理论中凸二次规划的解法,构造 Lagrange
+L( w,α,b) =
+
+1
+‖w‖2 2
+
+( w·x i + b) +
+
+N
+
+N
+
+αi yi
+∑
+i=1
+
+遗传算法所接受的具体的染色体,完成了从可行性解
+
+×
+
+αi
+∑
+i=1
+
+式中,α i( i = 1,2,…,N) 为引入的拉格朗日乘子。
+
+空间到染色体搜索处理空间的转化。 在原始数据集
+(3)
+
+为了将支持向量机用于回归分析,Cortes 等通过
+
+向目标函数中加入惩罚项 C,并设定阈值控制一定的
+错分比例将上述方程转化 [4] 为
+
+N
+
+N
+
+　 　 α i α j y i y j( x i ·x j ) K( x i ,x j )
+í
+N
+Subject to:∑ α i y i = 0 and
+
+中随即抽取 p 个个体对完成种群的初始化处理。
+(2) 种群个体适应度的确定。
+
+种群个体适应度体现了种群中某个染色体相对
+于其他染色体在进化过程中的优劣性。 结合准格尔
+露天矿区的实际需求,以预测模型在训练过程中的标
+准差作为个体适应度评价标准。 某个染色体适应度
+
+1
+ìMaximize:
+αi - ∑ ∑ ×
+∑
+2 i=1 j=1
+i=1
+N
+
+宽的搜索范围,其次在此预设范围之内将各个具有可
+
+越高,其参与下一次遗传迭代的几率就越大,从而使
+得整个种群向最优染色体即全局最优解进化。
+(4)
+
+i=1
+
+î　 　 0 ≤ α i ≤ C,i = 1,2,…,N
+其中,K( x i ,x j ) 代表支持向量机由低维空间向高维空
+间转换所采用的核函数类型,这就得到了 SVM 用于
+回归预测最一般的表述。
+
+1． 2　 GA 原理
+
+遗传算法 [9] 是 Holland 等 1975 年提出的一种基
+
+(3) 染色体的选择、交叉、变异。
+
+为了消除超级个体的影响,避免 GA 过早收敛,
+
+本文按照锦标赛原则来进行个体的选择。 当个体的
+选择概率给定后,产生[0,1] 之间的均匀随机数来决
+定个体的交配几率,使种群中生命力强、适应度高的
+个体参与新群体生成的过程,同时对原有群体中的个
+体进行优胜劣汰,使群体中每个个体的适应度值均迭
+代接近全局最优解。
+交叉算子决定了遗传算法的全局搜索能力,交叉
+
+于生物遗传和进化机制的适用于复杂系统优化自适
+
+算子按照个体适应度值的大小以较大的概率从原始
+
+应概率优化技术。 与传统的搜索算法不同,遗传算法
+
+群体中选出适应度较大的两个个体,并对这两个个体
+
+并不是基于单一的评估函数的梯度或者较高次统计,
+
+的某些基因位进行随机交换,从而产生出具有父代的
+
+以产生一个确定性的试验解序列,而是通过模拟自然
+
+基本数据特征的新生子代。 变异算子模拟自然进化
+过程中的小概率基因位的突变,通过 GA - SVM 模型
+
+界的进化过程来搜索全局最优解。 遗传算法是一种
+普遍适用的优化技术,发展极为迅速,影响范围也越
+来越大。
+
+本文 采 用 标 准 遗 传 算 法 ( Simple Generic Algo-
+
+rithm,SGA ) 对 SVM 回 归 预 测 模 型 的 参 数 进 行 寻
+优。 SGA 给出了所有适用于遗传算法求解的基本框
+架,是其他遗传算法的基础。 SGA 可以表示为
+SGA = ( C,E,P0 ,M,φ,Γ,ψ,T)
+
+(5)
+
+式中,C 为遗传算法中染色体的编码方法;E 为遗传
+算法中的个体适应度函数;P0 为生成的初始种群;M
+
+为初始种群的规模;φ 为遗传算法选择算子;Γ 为遗
+传算法交叉算子;ψ 为遗传算法变异算子;T 为给定
+的遗传算法终止条件。
+
+中设定的较小的概率改变个体染色体编码串上的基
+因位,从而产生一个新的个体,决定了遗传算法的局
+部搜索能力。
+
+综合以上论述,给出 GA - SVM 回归预测模型的
+
+具体流程,如图 2 所示。
+
+2　 实　 　 验
+
+2． 1　 研究区域及爆破效果影响因素分析
+实验对象选择为内蒙古自治区某露天矿。 该矿
+
+采用 MDL 三维激光仪进行爆前爆后的地形扫描,同
+时根据以往地质勘探资料在 AutoCAD 平台下进行爆
+破设计。 结合矿区实际的数据观测方案,从自然地
+
+煤　 　 炭　 　 学　 　 报
+
+2002
+
+2012 年第 37 卷
+
+将岩性条件视为同质,本文提取台阶高度、煤层厚度、
+采掘带宽度( 可细化为采空区上口宽和采空区下口
+宽) 以及设计区域的剖面宽度和坡面角作为自然地
+质方面的影响因素,此处剖面宽度是指过前排每个炮
+孔垂直于设计区域后排预裂孔组成的边界线所做的
+剖面与设计区域坡顶面的交线长度;在爆破设计方
+面,结合矿区实际爆破施工流程,每次现场作业中的
+装药结构、炸药类型、起爆顺序、起爆网路方案、炮孔
+倾角等爆破设计因素基本不变,而每次抛掷爆破设计
+方案的不同主要体现在炸药单耗、装药量、孔距、排
+距、最小抵抗线等爆破参数上,因此主要采取这几个
+爆破参数作为影响抛掷率的爆破设计参数。 人为因
+素主要是指实际的施工质量,包括钻孔质量、炸药的
+装载和填塞质量等,作为同质因素处理。
+
+图 2　 GA 优化 SVM 流程
+
+综合以上论述, 选定 以 下 10 个 参 数 作 为 GA -
+
+Fig． 2　 Flow chart of optimizing SVM with
+
+SVM 回归预测模型的输入层:① 炸药单耗;② 台阶
+
+genetic algorithm
+
+高度;③ 煤层厚度;④ 采空区上口宽;⑤ 采空区下口
+
+质、爆破设计和人为操作 3 个角度描述露天矿抛掷爆
+
+宽;⑥ 最小抵抗线;⑦ 坡面角;⑧ 孔距;⑨ 排距;⑩
+
+破效果的影响因素。
+
+剖面宽。
+
+自然地质条件是露天矿抛掷爆破设计中需要考
+
+2009—2010 年该矿共进行了 16 次有效爆破,通
+
+虑的首要因素,此露天煤矿地层由上至下由第四系
+
+(Q) 、第三系( N) 、二叠系( P) 、石炭系( C) 地层组成,
+
+过对矿区两年来的现场抛掷爆破实验进行数据搜集
+和处理,获得了 188 组可用数据,见表 1。
+
+地质构造及岩石特性较为单一,故在抛掷爆破设计中
+
+表 1　 GA-SVM 数据集( 部分)
+
+Table 1　 GA-SVM data set ( part)
+输入层
+
+输出层
+
+炸药单耗 q /
+( kg·m -3 )
+
+台阶高
+度 H/ m
+
+煤层厚度
+Hc / m
+
+采空区上口
+宽 L k1 / m
+
+采空区下口
+宽 L k2 / m
+
+抵抗线
+W/ m
+
+坡面角
+α1
+
+孔距
+a/ m
+
+排拒
+b/ m
+
+剖面宽
+c/ m
+
+抛掷率
+
+09e1-2
+
+0． 72
+
+34． 61
+
+28． 50
+
+131． 38
+
+95． 91
+
+8
+
+56
+
+11． 20
+
+7． 11
+
+66． 50
+
+0． 28
+
+09e1-4
+
+0． 72
+
+30． 60
+
+35． 11
+
+132． 99
+
+99． 50
+
+7
+
+63
+
+11． 00
+
+8． 25
+
+74． 56
+
+0． 37
+
+剖面
+
+09e1-3
+09e1-5
+…
+
+0． 72
+0． 72
+…
+
+31． 40
+30． 36
+…
+
+30． 35
+30． 88
+…
+
+128． 37
+133． 50
+…
+
+92． 96
+98． 70
+
+2． 2　 GA -SVM 回归预测模型
+
+采用 LIBSVM 工具箱 作为 SVM 计算基础,首
+先将式(4) 中核函数 K 设置为 RBF 类型,采用此核
+[11]
+
+函数将 10 个输入向量投影到一个高维的 Hilbert 空
+间进行分析,以降低整个模型的分析复杂度。 为了使
+模型达到较高的预测精度,需要对 RBF 核函数的参
+数 g 和式(4) 中惩罚项 C 进行智能优化选取。 将两
+者代入式(5) 中的标准遗传算法 SGA,此时,以 10 个
+影响因素“ 炸药单耗 q、台阶高度 H、煤层厚度 H c 、采
+空区上口宽 L k1 、采空区下口宽 L k2 、最小抵抗线 W、坡
+面角 α1 、孔距 a、排距 b、剖面宽 c” 作为原数据集输入
+层的每条记录( 行向量) 对应于 SGA 算法中一个染色
+
+…
+
+7
+7
+
+…
+
+59
+66
+
+…
+
+11． 00
+11． 01
+…
+
+8． 18
+8． 01
+…
+
+75． 11
+74． 19
+…
+
+ζ
+
+0． 35
+0． 33
+…
+
+体,采用实数编码的方式将所有的染色体整体归一化
+到[ -3,3] 范围,同时,设置 SGA 初始化种群规模 M
+为 30,即随机将所有输入数据按照初始化种群规模
+M 分成多组作为初始的分析组群,采用锦标赛选择
+方法,锦标赛规模为 10,即每个种群中染色体的抽选
+概率 φ 为 0． 33 (10 / 30) ;种群中个体的交叉概率 Γ
+
+为 0． 4,变异概率 ψ 设定为 0． 1,将 GA 模型优化后的
+参数 γ 和惩罚项 C 代入原 SVM 模型,选择其预测精
+
+度作为 GA 模型的适应度函数 E。 为了保证 GA 算法
+的收敛性,设定最大迭代次数作为遗传算法的终止条
+件 T,本文最大迭代次数设置为 T = 150,这样,通过不
+同组群之间的选择交叉和种群内个体之间的交叉变
+
+第 12 期
+
+2003
+
+刘希亮等:基于 GA-SVM 的露天矿抛掷爆破抛掷率预测
+
+异,所有数据向全局最优解迭代进化,最终得到全局
+最优解。
+在数据预处理方面,为了消除原始样本数量级之
+
+间较大的差异,对原始数据集进行[ - 1,1] 区间归一
+化处理。 由于智能算法的观测样本来源于 16 次爆破
+试验的 188 组数据,而每次爆破试验所面对的实际地
+形、地质条件、人员操作、施工质量等方面均略有不
+同,因此,为了消除样本集差异对结果的影响,随机选
+取 172 组观测数据作为 GA - SVM 网络的训练集数
+据,剩下的 16 组观测数据作为最后的测试数据,并对
+训练数据集进行随机排序,然后代入 GA - SVM 模型
+进行计算。
+GA -SVM 回归预测模型经过 150 次进化计算得
+到一个最佳适应度的稳定迭代值,如图 3 所示。
+
+图 4　 GA-SVM 训练结果和测试结果
+
+Fig． 4　 GA-SVM training and forecasting results
+表 2　 不同模型效果对比
+
+Table 2　 Comparison of different model effects
+
+图 3　 GA-SVM 进化代数曲线
+
+Fig． 3　 GA-SVM evolution graph
+
+通过图 3 可知,适用于 GA - SVM 模型的最佳惩
+
+罚项 C 与核函数参数 r 的值各为 8． 248 7 和 2． 216 1,
+
+此时训练集的最小均方差为 0． 097 3。 将这两个参数
+代入 SVM 模型进行计算,得到训练数据集的训练结
+果如图 4( a) 所示。
+
+采用 GA -SVM 回归预测模型对测试集的测试结
+
+果如图 4( b) 所示。
+
+由图 4 可以直观地看出,GA - SVM 能够较好地
+
+拟合训练数据集,其最小均方差接近于零(9． 904 56 ×
+
+10 -5 ) 。 而 GA - SVM 的对测试样本模拟的最小均方
+差为 0． 034 6,预测结果与真实值比较一致。
+
+2． 3　 不同模型回归预测效果对比
+
+为了测试 GA -SVM 回归预测模型是否较其他智
+
+能算法模型在露天矿抛掷爆破预测方面具有优越性,
+本文选 择 常 用 的 BP 神 经 网 络、 RBF 神 经 网 络 [12] 、
+Wavelet 神经网络
+GR) 神经网络
+
+[14]
+
+[13]
+
+和广义回归( General Regression,
+
+以及 GA - BP 神经网络模型与 GA -
+
+SVM 模型进行回归预测精度对比,从训练标准差、预
+测标准差和预测精度 3 个角度对模型的精度进行描
+述,结果见表 2。
+
+算法类型
+
+训练集标准差
+
+测试集标准差
+
+BP
+
+0． 03
+
+0． 07
+
+SVM
+
+0． 04
+
+0． 04
+
+GA-BP
+GA-SVM
+RBF
+
+Wavelet
+GR
+
+0． 53
+0
+0
+
+0． 05
+0． 05
+
+0． 05
+0． 03
+0． 12
+0． 06
+0． 04
+
+预测精度 / %
+56． 25
+75． 00
+87． 50
+93． 75
+31． 25
+81． 25
+81． 25
+
+　 　 从表 2 可以看出,RBF 与 GA - SVM 对原始训练
+数据的拟合效果最好。 RBF 产生了 “ 过学习” 的 现
+象,造成了很大的误差。 GR 神经网络、Wavelet 神经
+网络虽然在训练时间和模拟精度上较一般的神经网
+络和 GA -BP 神经网络有一定的优势,但劣于原始未
+经优化的 SVM 与 GA - SVM 回归预测模型。 从整体
+的训练精度和预测精度分析,GA - SVM 回归预测模
+型的效果为最佳,反映出 GA - SVM 回归预测模型在
+
+露天矿抛掷爆破抛掷率预测方面具有很好的适用性。
+为了进一步验证 GA -SVM 预测模型的有效性和
+稳定性,对原始数据集进行了 10 次 10 - 折交叉验证。
+在每一次的每一折验证过程中将原始数据集等分为
+
+10 份,选取其中 1 份作为测试样本集,剩余 9 份数据
+作为训练样本,分别代入 BP 神经网络、RBF 神经网
+络、Wavelet 神经网络和 GR 神经网络、GA - BP 神经
+网络与 GA -SVM 模型进行回归预测精度分析,记录
+
+煤　 　 炭　 　 学　 　 报
+
+2004
+
+每次试验中训练集标准差、测试集标准差和预测精
+度,最后以 10 次 10 - 折交叉验证的均值作为对各个
+
+2012 年第 37 卷
+
+了 100 次 MIV 实验,结果如图 6 所示。
+
+模型有效性和稳定性的描述,结果如图 5 所示。
+
+图 6　 输入向量对抛掷率的权重影响分布
+
+图 5　 10 次 10-折交叉验证结果
+
+Fig． 5　 Results of 10-time 10-fold cross validations
+
+由图 5 可以直观地看出,RBF 神经网络和小波神
+
+Fig． 6　 Weight affect distribution of input vectors to
+throwing rate
+
+由图 6 可以看出,对于此露天煤矿而言,台阶高
+
+度对抛掷率的影响最大,其次是炸药单耗和采空区下
+
+经网络在露天矿抛掷爆破效果的预测方面表现不佳。
+GA - BP 神经网络模型虽然对原始 BP 神经网络的性
+
+口宽,三者与抛掷率正相关;最小抵抗线、坡面角和抛
+
+络和 SVM 神经网络。 从训练标准差和测试标准差角
+
+大。 台阶高度、炸药单耗以及最小抵抗线权值绝对值
+
+能有了一定程度的提高,但效果明显劣于 GR 神经网
+度分析,虽然 GR 神经网络与 SVM 神经网络效果相
+当,但是 GR 神经网络的预测精度明显低于 SVM 神
+经网络。 GA -SVM 通过对惩罚项 C 与核函数参数 g
+的优化,在对训练样本的拟合和预测精度方面与原始
+SVM 模型相比均有了显著的提高,并且预测精度稳
+定在 83． 75% ,这有力地证明了 GA -SVM 模型在露天
+
+掷爆破设计排距均与抛掷率呈负相关,并且最小抵抗
+线的负面影响最大;其余变量对于抛掷率的作用不
+的累加值已经超过了 70% ,这 3 个元素可以作为影
+响此矿区抛掷爆破效果的主要因素。 因此,对于此矿
+区而言,为了达到较高的抛掷率,在实际抛掷爆破设
+计和施工中应该保证台阶高度和炸药单耗,同时在一
+定范围减小最小抵抗线,这将在一定程度上提高抛掷
+爆破的有效抛掷率,从而改进爆破效果,这对于实际
+
+矿抛掷爆破抛掷率预测方面的稳定性。
+
+生产具有一定的指导意义。
+
+3　 抛掷爆破影响因素权重分析
+
+4　 结论与展望
+
+采用 神 经 网 络 领 域 广 泛 接 受 的 平 均 影 响 值
+
+( Mean Impact Value,MIV) 作为评价指标,分析各个
+影响因素对抛掷率的敏感度和作用效果。 MIV 评价
+方法被认为是神经网络中评价变量相关性最好的指
+标之一 [15] ,具体计算过程如下:在 GA - SVM 模型训
+练成熟后,将训练样本 P 中的每一个自变量特征在
+其原值的基础上分别加减某个比率,构成两个新的训
+
+(1) GA - SVM 回归预测模型对露天矿抛掷爆破
+
+抛掷率预测具有很强的适用性,在训练精度和预测精
+度上优于传统的 BP 神经网络、 GA - BP 神 经 网 络、
+GRNN 广义回归神经网络、RBF 神经网络、小波神经
+网络以及未优化的原始 SVM 模型,其平均预测精度
+稳定在 83． 75% ,具有良好的推广性。
+
+(2) 对于此露天矿区而言,在其自然因素( 如岩
+
+练样本 P 1 和 P 2 ,将 P 1 和 P 2 分别作为仿真样本,利
+
+性等) 和爆破设计因素( 如炸药类型、起爆顺序、装药
+
+和 A2 ,求 A1 和 A2 的差值,即为变动后该自变量对输
+
+掷率正相关,且台阶高度比炸药单耗对抛掷率的影响
+
+用已经建成的网络进行仿真,得到两个仿真结果 A1
+
+出产生的影响变化值( Impact Value,IV) ,最后将 IV
+
+值按照观测样本数进行平均,得出该自变量对应于应
+变量的网络输出 MIV。 按照上述步骤依次计算各个
+自变量的 MIV,根据其绝对值的大小进行排序,得到
+
+结构等) 已确定的情况下,台阶高度、炸药单耗与抛
+更大;而最小抵抗线、坡面角和剖面宽对于抛掷率呈
+现负相关,其他影响因素对于此露天矿抛掷率的影响
+较弱。 因此在实际抛掷爆破设计和施工中应该保证
+台阶高度和炸药单耗,同时在一定范围减小最小抵抗
+
+各自变量对于网络输出影响的相对重要性的位次表,
+
+线,这将在一定程度上提高抛掷爆破的有效抛掷率,
+
+从而判断出输入向量对于网络结果的影响程度。
+基于 Matlab 平台,利用训练成熟的 GA - SVM 模
+
+从而改进爆破效果。 这对于实际生产具有一定的指
+
+型,将 MIV 变化率 delta 设置为 10% ,对抛掷率进行
+
+导意义。
+下一步工作主要研究真三维条件下矿区模型参
+
+第 12 期
+
+2005
+
+刘希亮等:基于 GA-SVM 的露天矿抛掷爆破抛掷率预测
+
+数的提取和其他设计参数的加入,使得 GA - SVM 模
+
+Conversion and Management,2009,50:105-117.
+
+型能够在三维矿山爆破设计中得到更加广泛的应用。
+
+[9] 　 Holland J. Adaptation in natural and artificial systems[ M] . Michi-
+
+参考文献:
+
+[10] 　 Fernandez M,Caballero J,Fernandez L,et al. Genetic algorithm op-
+
+gan:University of Michigan Press,1975.
+
+timization in drug design QSAR:bayesian-regularized genetic neural
+
+[1] 　 潘井澜. 北美露天煤矿开采中抛掷爆破法的应用[ J] . 世界煤炭
+技术,1993(10) :19-22.
+
+networks ( BRGNN) and genetic algorithm optimized support vectors machines( GA-SVM) [ J] . Mol Divers,2011,15:269-289.
+
+Pan Jinglan. Cast blasting used in North America ’ s surface coal
+
+[11] 　 Chang C C,Lin C J. LIBSVM:a library for support vector machines
+
+[2] 　 李祥龙. 高台阶抛掷爆破技术与效果预测模型研究[ D] . 北京:
+
+[12] 　 张旭隆,谭国俊,蒯松岩,等. 基于径向基神经网络的无位置传
+
+mine[ J] . World Coal Mine Technology,1993(10) :19-22.
+中国矿业大学( 北京) ,2010.
+
+[ R] . Taiwan:National Taiwan University,2001.
+
+感器开关磁阻 电机采煤机牵引系统 [ J] . 煤炭 学 报,2011,36
+
+[3] 　 刘希亮. 基于 GA-BP 神经网络抛掷爆破效果预测与分析[ D] .
+
+(9) :1570-1574.
+
+北京:中国矿业大学( 北京) ,2011.
+
+Zhang Xulong,Tan Guojun,Kuai Songyan,et al. Position sensorless
+
+[4] 　 Corinna C,Vapnik V. Support-vector networks[ J] . Machine Learn-
+
+control of switched reluctance motor for shearer traction system
+
+ing,1995,20(3) :273-297.
+
+[5] 　 Fröhlich H,Chapelle O,Schölkopf B. Feature selection for support
+
+based on RBF neural network[ J] . Journal of China Coal Society,
+
+2011,36(9) :1570-1574.
+
+vector machines by means of genetic algorithms[ A] . Proceedings of
+
+[13] 　 谷　 松,崔洪庆,冯文丽. 基于灰色理论的小波神经网络对瓦斯
+
+gence[ C ] , Sacramento, California, USA, 2003, 11 ( 3 - 5 ) : 142 -
+
+Gu Song,Cui Hongqing,Feng Wenli. Mine gas gushing forecasting
+
+15th IEEE International Conference on Tools with Artificial Intelli-
+
+涌出量的预测[ J] . 煤炭学报,2007,32(9) :964-966.
+
+148.
+
+[6] 　 Chen K Y,Wang C H. Support vector regression with genetic algo-
+
+based on grey model and wavelet neural network [ J] . Journal of
+China Coal Society,2007,32(9) :964-966.
+
+rithms in forecasting tourism demand [ J ] . Tourism Management,
+
+[14] 　 付小平,薛新华,李洪涛. GRNN 模型在煤与瓦斯突出及瓦斯含
+
+[7] 　 Lin S W,Ying K C,Chen S C,et al. Particle swarm optimization for
+
+Fu Xiaoping,Xue Xinhua,Li Hongtao. Application of GRNN model
+
+2007,28:215-226.
+
+量预测中的应用[ J] . 中国安全科学学报,2012,22(1) :24-28.
+
+parameter determination and feature selection of support vector ma-
+
+chines [ J ] . Expert Systems with Applications, 2008, 35: 1817 1824.
+
+[8] 　 Hong W C. Chaotic particle swarm optimization algorithm in a sup-
+
+in predicting coal and gas outburst and gas content[ J] . China Safety Science Journal,2012,22(1) :24-28.
+
+[15] 　 Dombi G W,Nandi P,Saxe J M,et al. Predication of rib fracture in-
+
+port vector regression electric load forecasting model [ J ] . Energy
+
+jury outcome by an artifical neural network [ J ] . The Journal of
+Trauma,1995,39(5) :915-921.
+
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+
+更　 　 正
+《 煤炭学报》2011 年第 4 期第 655 页 1． 1 节第 1 段中“ 粉煤灰来自当地燃煤电厂” 应改为“ 粉煤灰来自美国
+
+西弗吉尼亚大学当地( 摩根城) 燃煤电厂” 。
+
+本刊编辑部

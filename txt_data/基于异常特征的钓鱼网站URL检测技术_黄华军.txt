@@ -1,0 +1,519 @@
+2012年第01期
+
+技
+
+术
+
+研
+
+究
+
+doi ：
+10.3969/j.issn.1671-1122.2012.01.006
+
+基于异常特征的
+
+钓鱼网站 URL 检测技术
+黄华军，钱亮，王耀钧
+（中南林业科技大学计算机与信息工程学院，湖南长沙 410004）
+摘　要 ：典型的网络钓鱼是采用群发垃圾邮件，欺骗用户点击钓鱼网站 URL 地址，登录并输入个人机密信息
+的一种攻击手段。文章通过分析钓鱼网站 URL 地址的结构和词汇特征，提出一种基于异常特征的钓鱼网站 URL 检
+测方法。抽取钓鱼网站 URL 地址中 4 个结构特征、8 个词汇特征，组成 12 个特征的特征向量，用 SVM 进行训练和
+分类。对 PhishTank 上 7291 条钓鱼网站 URL 分类实验，检测出 7134 条钓鱼网站 URL，准确率达到 97.85%。
+关键词 ：网络钓鱼 ；钓鱼网站 URL ；支持向量机 ；特征向量
+中图分类号 ：TP393.08
+
+文献标识码 ：A
+
+文章编号 ：1671-1122（2012）01-0023-03
+
+Detection of Phishing URL Based on Abnormal Feature
+HUANG Hua-Jun, QIAN Liang, WANG Yao-Jun
+( Department of computer and information engineering Central South University of Forestry and Technology,
+Changsha Hunan 410004, China )
+Abstract: Phishing tries to lure her victim into clicking a phishing URL pointing to a spoof page via spamemail to harvest financial information. In this paper, a novel method is proposed to detect phishing URL based
+on abnormal feature. The feature vector is constructed with 12 features to model the SVM, which 4 features are
+the structure feature of the phishing URL, 8 features are lexical feature. The method can correct to classify 7134
+phishing URLs of 7291downloaded in PhishTank achieve, and the correct ratio of detection is 97.85%.
+Key words: Phishing; Phishing URL; SVM; feature vector
+
+0 引言
+网络钓鱼（Phishing）是基于社会工程学的一种攻击手段 [1，2]。它通过垃圾邮件、即时聊天工具、手机短信或网页虚假广告
+发送声称来自于银行或其他知名机构的欺骗性信息，意图引诱用户登录看起来极其真实的假冒网站，给出敏感信息（如用户名、
+口令、账号 ID、ATM PIN 码、信用卡）的一种攻击方式。最典型的网络钓鱼攻击将用户引诱到一个通过精心设计与目标组织的
+网站非常相似的钓鱼网站上，并获取用户在该网站上输入的个人敏感信息。
+网络钓鱼防御是网络钓鱼的对抗技术，现主要集中在钓鱼网站检测 [3]、垃圾邮件过滤 [4]、钓鱼网站追踪 [5]、网络钓鱼行为
+分析 [6]、终止钓鱼网站域名解析 [7] 等多个研究领域，以钓鱼网站检测最活跃。钓鱼网站检测是在浏览器中安装检测插件，当用
+户浏览可疑钓鱼网站时，浏览器的插件将提醒用户当前网站为钓鱼网站。插件的检测算法采用 URL 检测技术 [8-17]、基于启发式
+检测技术 [18]、基于视觉相似检测技术 [19] 等判别钓鱼网站。
+URL 检测技术直接分析钓鱼网站 URL 地址，判断是否为钓鱼网站链接，具备不需要下载钓鱼网站的网页内容进行分析，检
+测性能高等优点。本文在已有相关文献基础上，分析的钓鱼网站 URL 地址的结构特征和词汇特征，选取 4 个结构特征、8 个词
+汇特征，构建特征向量，使用 libSVM [20] 作为分类的模型。通过对 PhishTank上 7291 条钓鱼网站 URL 分类实验，检测出 7134 条
+钓鱼网站 URL，准确率达到 97.85%。
+
+收稿时间 ：
+2011-12-15
+基金项目 ：
+国家自然科学基金项目 [ 61073191]、湖南省自然科学基金资助项目 [10J J4043,10J J5062]、湖南省教育厅资助项目 [08B091]、湖南省科技
+重大专项项目 [2010J05]、湖南省科技计划重点项目 [2010NK2003]、湖南省科技计划项目 [2010TZ4012]
+作者简介 ：
+黄华军（1978-）
+，男，湖南，硕士生导师，副教授，中国计算机学会会员，博士，主要研究方向 ：网络与信息安全、网页信息隐藏、网络钓鱼检测 ；
+钱亮（1985-）
+，男，安徽，硕士研究生，主要研究方向 ：网络钓鱼检测 ；王耀钧（1976-）
+，男，湖南，硕士研究生，主要研究方向 ：网络钓鱼检测。
+
+23
+
+技
+
+术
+
+研
+
+究
+
+2012年第01期
+
+1 相关研究工作
+1.1 基于URL黑名单检测技术[8-11]
+基于 URL 检测是指利用 URL 地址，判断当前的网站是
+否为钓鱼网站。最初的方法是利用黑名单中存储被确认的钓
+鱼网站 URL 地址，当浏览器浏览时，提醒用户当前网站为钓
+鱼网站。Microsoft IE、Google Safe Browser、Netcraft Tool Bar、
+eBay Tool Bar、McAfee SiteAdvisor 等知名 IT 企业采用黑名单
+防御钓鱼网站。为验证黑名单性能，先后收集了三周内 10000
+条钓鱼网站的 URL 地址，测试微软 IE 浏览器和谷歌安全浏
+览器的检测性能。经分析发现，Google 能够识别 90% 的钓鱼
+网站 URL 地址 [8]。Sheng 等人使用钓鱼网站 URL，测试 8 种
+网络钓鱼防御工具中黑名单更新速度。他们发现小于 20% 的
+网络钓鱼防御工具能在短时间内（Hour Zero）识别钓鱼网站。
+尽管 URL 黑名单检测技术简单、检测率精确，但存在无法检
+测不在黑名单内的钓鱼网站，且确认黑名单需要人工验证费
+时耗力的问题 [9]。
+
+1.2 基于机器学习的检测技术[12-17]
+基于机器学习的 URL 检测技术是直接利用 URL 检测钓
+鱼网站，主要流程如下 ：选择钓鱼网站 URL 特征向量，生成
+训练数据，训练构建分类器模型，应用分类器分类 URL。此
+类检测特征选取和分类器构建是关键。
+1）Garera 算 法 [12]。Garera 等人分析 钓 鱼 网站 URL 结
+构，详细介绍特征集合选取过程，利用回归滤波器（Logistic
+Regression Filter）分类 URL。对钓鱼网站 URL 结构进行分析，
+
+考虑到批量学习（Batch Learning）和在线学习（Online
+Learning）性能要求，对于批量学习，Ma 等人分析了朴素贝叶
+斯（Na ve Bayes）、支持向量机（SVM）和回归滤波（Logistic
+Regression） 的 分 类 性 能 [17] ；在 线 学 习中， 研 究了感 知 器
+（Perceptron）、随机梯度下降回归滤波（Logistic Regression with
+Stochastic Gradient Descent）、被动贪婪算法（Passive-Aggressive
+Algorithm）和秘密权证算法（Confidence-Weighted Algorithm）
+的分类性能。
+与 Ma 相类似的算法还包括 Blum 等人提出的基于词汇特
+征的钓鱼 URL 的分类算法，详细分析参见文献 [17]。
+
+2 检测流程与特征向量
+2.1 检测流程
+McGrath 等人经过详细实验，分析了钓鱼者做法，剖析钓
+鱼 URL 结构和域名、钓鱼网站域名注册信息、域名注册到使
+用的时间、钓鱼网站主机以及钓鱼网站生存周期 [6]。他们的实
+验分析对检测钓鱼 URL 起到前提依据。分析 Garera 算法和
+Ma 算法的特点和 PhishTank 中确认的钓鱼 URL 地址，基于
+SVM，设计一种钓鱼网站 URL 检测技术。
+图 1 是钓鱼网站 URL 检测的基本流程，包括以下步骤 ：1）
+获取大量的测试 URL 并且确定 URL 是否为钓鱼网站 URL 地
+址 ；2）抽取 URL 的 12 个特征向量 ；3）在抽取完特征值后，
+生成训练样本，训练 SVM ；4）对可疑 URL，生成判别的特征
+向量，用 SVM 进行分类检测，以最终判断是否为钓鱼网站的
+URL 地址。
+
+得出 4 种类型的 URL 结构。特征集合由页面特征、域名特征、
+类型特征和单词特征共 18 个特征构成。页面特征借助谷歌
+搜索引擎，选取 URL 页面排名（Page Rank of URL）、域名页
+面排名（Page Rank of Host）、页面排名存在爬行数据库（Page
+Rank Present in Crawl Database）、页面存在索引数据库（Page
+Present in Index）、两个页面质量评价（Page Quality Score）共
+6 个特征 ；域名特征选择域名在白名单表 1 个特征 ；类型特
+征选择类型 I、II、和 III，3 个特征 ；单词特征选择 secure、
+
+图1 钓鱼网站URL检测流程图
+
+2.2 特征向量
+特征向量关系到分类的性能。通过对已有钓鱼网站 URL
+
+account、webscr、login、ebayiapi、signin、banking 和 confirm
+
+和相关文献分析的基础上，选取钓鱼网站 URL 地址的 4 个结
+
+8 个单词。
+
+构特征、8 个词汇特征，共 12 个特征组成特征向量 FV:
+
+2）Ma 算法 [14-16]。与 Garera 等人采用 18 个特征作为分类
+网络钓鱼 URL 不同的是，Ma 等人分析可疑 URL 的词汇
+（Lexical
+Features）和主机属性（Host-Based Features），采用词袋模型
+（Bag-of-Words）表示特征，获得了成千上万的特征。在词汇
+
+FV=<F1,F2,F3,F4,F5,F6,F7,F8,F9,F10,F11,F12>………………
+（1）
+F1 ：URL 为 IP 地址 ；
+F2 ：URL 中存在 @ 符号 ；
+F3 ：URL
+F4 ：URL 域名长度不超过 7 个字符，F5 ：
+长度超过 23 个字符 ；
+F6 ：URL 中存在 webscr ；
+F7 ：URL 中存
+URL 中存在 secure ；
+
+特征中，一方面考虑主机名长度、URL 长度、URL 中点号数等 ；
+
+F8 ：URL 中存在 login ；
+F9 ：URL 中存在 ebayisapi ；
+在 account ；
+
+另一方面，对于 URL 中主机和路径中每一个词汇符号，采用
+
+F10 ：URL 中存在 signin ；
+F11 ：URL 中存在 banking ；
+F12 ：URL
+
+词袋模型建立一个二值特征。在主机特征中，考虑了 IP 地址
+
+中存在 confirm。
+
+属性、WHOIS 属性、域名属性和地理位置属性。
+24
+
+特征 F1 到 F4 是钓鱼网站 URL 的结构特征，图 2 给出了
+
+2012年第01期
+
+技
+
+术
+
+研
+
+几种常见的钓鱼网站 URL 结构特点。特征 F5 到 F12 是钓鱼网
+站 URL 的词汇特征，文献 [12] 给出了 8 个特征在白名单和黑
+名单中出现的比例，见表 1。
+表1 钓鱼网站URL词汇特征(%)
+
+图3 正常网站URL的特征向量
+
+ratio in
+whitelist
+
+图4 钓鱼网站URL的特征向量
+
+ratio in
+blacklist
+
+features
+
+ratio in
+whitelist
+
+ratio in
+blacklist
+
+features
+
+confirm
+
+0.23
+
+4.25
+
+ebayisapi
+
+1.5
+
+13.9
+
+account
+
+1.5
+
+4.9
+
+webscr
+
+0.32
+
+14.2
+
+banking
+
+0.87
+
+7.95
+
+login
+
+2.61
+
+21.53
+
+secure
+
+0.16
+
+9.88
+
+signin
+
+0.95
+
+23.29
+
+在抽取这 12 个特征值以后并赋值，其中赋“1”代表为钓
+鱼网站 ；
+赋
+“0”代表为非钓鱼网站。结构特征 F1 到 F4 如下所示 ：
+……………………………（2）
+图5 训练样本集
+
+………………………………（3）
+
+通过对 PhishTank上 7291 条钓鱼网站 URL 分类实验，检
+…………………………………（4）
+……………………………………（5）
+公式 4、公式 5 中 Length 函数是求字符长度，文献 [6] 给
+出钓鱼网站 URL 的长度特征。
+对钓鱼网站 URL 的字符特征，采用公式 6 统一表示 :
+……………………………………（6）
+
+测出 7134 条钓鱼网站 URL，准确率达到 97.85%。
+
+4 结束语
+网络钓鱼除了带来经济损失，同时也使网民对电子商务
+产生不信任心理，减少甚至避免使用某些网络应用，从而阻
+碍我国互联网的深入发展。网络钓鱼防御不仅仅是技术问题，
+它还涉及提高网民的安全防范意识和技能，商家、各种支付系
+统和 Internet 服务提供商要对用户负责任，有很好的配套措施，
+法律、政府安全部门尽快制订相关管理细则，加大打击与惩
+
+，
+
+罚力度，共同营造一个安全、可信的互联网环境。
+本文分析钓鱼网站 URL 地址的结构和词汇特征，构建 12
+
+Phishing URL #1
+http://210.80.154.30/~test3/.signin.ebay.com/ebayisapidllsignin.html
+http://0xd3.0xe9.0x27.0x91:8080/.www.paypal.com/uk/login.html
+Phishing URL #2
+http://21photo.cn/https://cgi3.ca.ebay.com/eBayISAPI.dllSignIn.php
+http://2-mad.com/hsbc.co.uk/index.html
+Phishing URL #3
+http://www.volksbank.de.custsupportref1007.dllconf.info/r1/vm/
+http://sparkasse.de.redirector.webservices.aktuell.lasord.info
+Phishing URL #4
+http://www.wamuweb.com/IdentityManagement/
+http://mujweb.cz/Cestovani/iom3/SignIn.html?r=7785
+
+图2 钓鱼网站URL结构特征
+
+3 实验结果
+特 征 提 取 算 法 利 用 Java 编 程 实 现， 分 类 算 法 利 用
+libSVM。图 3 为一条 URL 特征值的抽取，当输入为 http://
+www.baidu.com 时，因为百度网址为非钓鱼网站，所以抽取的
+
+个特征的特征向量，采用 libSVM 进行分类，实验结果表明该
+方法能很好的检测出钓鱼网站 URL 地址，可应用在 IE 插件
+过滤钓鱼网站的 URL 地址。 （责编 程斌）
+参考文献：
+[1] Anti-Phishing Working Group [EB/OL]. http://www.antiphishing.
+org, 2008-01/2011-12-15.
+[2] PhishTank [EB/OL]. http://www.phishtank.com, 2011-04/2011-12-15.
+[3] Engin Kirda, Christopher Kruegel. Protecting Users against Phishing
+Attacks[J]. The Computer Journal, 2006, 49(05):554-561.
+[4] Ian Fette, Norman Sadeh, Anthony Tomasic. Learning to Detect
+Phishing Emails[C]. In Proc. of the WWW 2007, Alberta, Canada, May
+8-12, 2007: 649-656.
+[5] Chenfeng Vincent Zhou, Christopher Leckie, Shanika Karunasekera.
+Collaborative Detection of Fast Flux Phishing Domains[J]. Journal of
+Networks, 2009, 4(01):75-84.
+
+特征向量全为 0。当输入的地址为 http://210.80.154.30/ 的时候，
+
+[6] D. Kevin McGrath, Minaxi Gupta. Behind Phishing: An Examination of
+
+特征向量中第一个值为 1，如图 4 所示。图 5 是 libSVM 训练
+
+Phisher Modi Operandi[C]. In Proc. of the 1st Usenix Workshop on Large-
+
+集的部分截图。
+
+Scale Exploits and Emergent Threats, California USA, April 15 2008:1-8.
+下转第 67 页
+
+25
+
+究
+
+2012年第01期
+
+的关系，Mail capture 采用限制蜜罐系统同时连接数，周期性
+的允许定量的数据传出等方法来降低对系统的影响。
+
+4.2 Honeyd部署位置的选取
+Mail capture 配置的位置选取在防火墙的 DMZ 区，相对
+于防火墙外来说，这样可以有效与防火墙内部的系统进行数据
+交互并且处于相对安全的环境中，而相对于防火墙内部来说，
+这样会接受到更多的信息，因为防火墙的保护，内部的主机只
+
+技
+
+术
+
+研
+
+5 结束语
+蜜罐在安全领域的应用已经越来越广泛，相对于其他机
+制，蜜罐系统部署简单，配置灵活，收集到的数据有很大的
+针对价值，本文就是根据蜜罐技术模拟出 SMTP 的开放中继
+服务和开放代理服务，然后构建出一个用于收集垃圾邮件的
+系统，用于反网络钓鱼探测系统的研究。 （责编 张岩）
+
+能接受到很少的攻击信息，不利于蜜罐的正常工作。综上所
+述，最为合适的位置应该部署在防火墙的 DMZ 内。但部署在
+DMZ 内的难度很大，一旦蜜罐被攻陷，攻击者会使用蜜罐作
+为跳板来攻击其他的服务，所以要使其他服务与蜜罐安全的
+隔离，这样也会增加 DMZ 部署的负担。
+
+4.3 Honeyd采集数据的方式
+Mail capture 所使用的数据采集方式为 ARP 欺骗方式，
+
+参考文献：
+[1] 中国反钓鱼网站联盟 . 2011 年 4 月钓鱼网站处理简报 [R]. 2011.4.
+[2] 孙言 . 反网络钓鱼技术研究 [D]. 北京 ：中国人民公安大学，2009.
+[3] 刘晓娟 . 基于邮件信息提取与分析的反网络钓鱼技术研究 [D]. 北
+京 : 中国人民公安大学，2010.
+[4] 孙言、杜彦辉 反网络钓鱼中 UNICODE 字符相似度评估算法研
+究 [J]. 计算机工程与应用，2008，（26）：86-87.
+
+相对而言以 ARP 欺骗方式进行数据采集的蜜罐系统更容易配
+
+[5] 翟 继 强， 叶 飞 . 利 用 Honeyd 构 建 虚 拟 网 络 [J]. 计 算 机 安 全，
+
+置在一个现有的网络之中。Honeyd 采集数据的方式大体上分
+
+2006，（03）：46-48.
+
+为两种，第一种方法称之为 Blackholing，一般用于一个没有
+
+[6] Steding-Jessen, K., Vijaykumar, N. L., and Montes, A. Using low-
+
+任何活动系统的完整网络，这意味着攻击者所瞄准的是特定
+网络中的任意 IP 地址，都可以视为攻击。因此这种方法就是
+
+interaction honeypots to study the abuse of open proxies to send spam[J] .
+INFOCOMP Journal of Computer Science 2008.
+[7] Roshen Chandran, Sangita Pakala. Simulating Networks with Honeyd[
+
+将整个网络的流量都直接路由到 Honeyd 主机上 ；第二种方法
+
+EB /OL] . http://www. paladion. net/ papers/ simulating_networks_with
+
+为 ARP 欺骗，这种方法应用在一个网络中同时具有实际存在
+
+_Honeyd.pdf, 2011-12-15.
+[8] Lance Spitzner honeypots ：追踪黑客 [M]. 北京 ：清华大学出版社，
+2004.
+
+的系统和虚拟的系统，其目的在于将所有非存在的系统的流量
+都转发给 Honeyd 主机 [8]。
+上接第 25 页
+[7] Tyler Moore, Richard Clayton. The Impact of Incentives on Notice
+
+Learning to Detect Malicious Web Sites from Suspicious URLs[C]. In
+
+and Take-down[C]. In Proc. of the 7th Workshop on the Economics of
+
+Proc. of the KDD’09, Paris France, June 28-July 1, 2009:1245-1254.
+
+Information Security, New Hampshire USA, June 25-28 2007: 1-24.
+
+[15] Justin Ma, Lawrence K. Saul, Stefan Savage, et al. Identifying
+
+[8] Christian Ludl, Sean McAllister, Engin Kirda,et al.. On the Effectiveness
+
+Suspicious URLs: an Application of Large-scale Online Learning[C].
+
+of Techniques to Detect Phishing Sites[C]. In Proc. of the 4th International
+
+InProc. of the 26th International Conference on Machine Learning,
+
+Conference on Detection of Intrusions and Malware, and Vulnerability
+
+Montreal Canada, June, 14-18, 2009.
+
+Assessment, Lucerne Switzerland, July 12-13 2007:20-39.
+
+[16] Kurt Thomas, Chris Grier, Justin Ma, et al. Design and Evaluation
+
+[9] Steve Sheng, Brad Wardman, Gary Warner, et al.. An Empirical
+
+of a Real-Time URL Spam Filtering Service[C]. In Proc. of the IEEE
+
+Analysis of Phishing Blacklists[C]. In Proc. of the sixth Conference on
+
+Symposium on Security and Privacy, California USA, May, 22-25, 2011.
+
+Email and Anti-Spam, California USA, July 16-17 2009.
+
+[17] Aaron Blum, Brad Wardman, Thamar Solorio, et al. Lexical Feature
+
+[10] Pawan Prakash, Manish Kumar, Ramana Rao Kompella, et al..
+
+based Phishing URL Detection using online Learning[C]. In: Proc. of the
+
+PhishNet: Predictive Blacklisting to Detect Phishing Attacks[C]. In Proc.
+
+AISec'10, Chicago USA, Oct. 8 2010:54-60.
+
+of the IEEE INFOCOM, San Diego Canada, March 14-19 2010:1-5.
+
+[18] Yue Zhang, Jason Hong, Lorrie Cranor. CANTINA: A Content-
+
+[11] Ye Cao, Weili Han, Yueran Le. Anti-phishing Based on Automated Individual
+
+Based Approach to Detecting Phishing Web Sites[C]. In Proc. of
+
+White-List[C]. In Proc. of the DIM'08, Virginia, USA, Oct. 31, 2008:51-59.
+
+WWW2007, Alberta Canada, May 8-12, 2007: 639-648.
+
+[12] Sujata Garera, Niels Provos, Monica Chew, et al.. A Framework
+
+[19] Anthony Y. Fu Liu Wenyin, Xiaotie Deng, et al.. Detecting Phishing
+
+for Detection and Measurement of Phishing Attacks[C]. In Proc. of the
+
+Web Pages with Visual Similarity Assessment Based on Earth Mover's
+
+WORM’07, Virginia USA, Nov. 2, 2007:1-8.
+
+Distance (EMD)[J]. IEEE Transaction on Dependable and Secure
+
+[13] Colin Whittaker, Brian Ryner, Marria Nazif. Large-Scale Automatic
+
+Computer, 2007, 3(04):301-311.
+
+Classification of Phishing Pages [C]. In Proc. of 17th Annual Network and
+
+[20] Chih-Chung Chang, Chih-Jen Lin. LIBSVM: a Library for Support
+
+Distributed System, California USA, Feb. 28-March 3 2010.
+
+Vector Machines[J]. ACM Transactions on Intelligent Systems and
+
+[14] Justin Ma, Lawrence K. Saul, Stefan Savage, et al. Beyond Blacklists:
+
+Technology, 2011, 3(02):1-27.
+
+67
+
+究

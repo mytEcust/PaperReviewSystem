@@ -1,49 +1,70 @@
-仪
-第 34 卷 第 5 期
-2013 年 5 月
-器
-仪
-表
-学
-报
+
+
+ 34   5 
+2013  5 
+
+
+
+
+
+
+
+
+
+
+
 Vol. 34 No. 5
 May． 2013
+
 Chinese Journal of Scientific Instrument
-小波脊线解调与两次 EMD 分解相结合的
+
+ EMD 
 *
-故障识别方法及应用研究
+
 1，
 2
 1，
 2
-姜万录 ，刘云杰 ，朱
-勇
+ ， ，
+
+
+
 1，
 2
-（ 1． 燕山大学河北省重型机械流体动力传输与控制重点实验室
-2． 燕山大学先进锻压成形技术与科学教育部重点实验室
-摘
-秦皇岛 066004；
-秦皇岛 066004）
-要： 提出了一种基于小波脊线解调与两次经验模态分解（ EMD） 相结合的故障识别方法，用于轴向柱塞泵的故障诊断。结
-合 EMD 与小波脊线法在处理非平稳信号方面的优势，首先对故障原始信号进行了 EMD 分解，利用边际谱发现故障发生时的共
-振频带范围并据此找出对故障敏感的固有模态函数（ IMF） 分量，然后对该敏感 IMF 分量分别进行小波脊线解调和 Hilbert 解
-调，最后通过比较两种解调方法解调后敏感分量的时频谱和三维谱图发现，小波脊线解调比 Hilbert 解调具有更高的时频定位
-精度和抗干扰能力。此后，分别对小波脊线解调与 Hilbert 解调后的敏感分量进行 EMD 再分解，利用所得的各阶二次 IMF 分量
-的归一化特征能量来构造特征向量，得到液压泵 5 种典型状态的样本集，结合 K 均值聚类算法对故障状态进行识别。研究结果
-表明，与采用 Hilbert 解调处理方法相比，利用 2 次 EMD 分解与小波脊线解调相结合的故障特征向量提取方法显著提高了故障
-识别准确率，故障确诊率可高达 92% 。
-关键词： EMD； 小波脊线； IMF 分量； 特征向量； K 均值聚类
-中图分类号： TH137
+
+（ 1． 
+2． 
+
+
+ 066004；
+
+ 066004）
+
+： （ EMD） ，。
+
+ EMD ， EMD ，
+（ IMF） ， IMF  Hilbert 
+，， Hilbert 
+。， Hilbert  EMD ， IMF 
+， 5 ， K 。
+， Hilbert ， 2  EMD 
+， 92% 。
+： EMD； ； IMF ； ； K 
+： TH137
+
 TH17
-文献标识码： A
-国家标准学科分类代码： 460． 45
+
+： A
+
+： 460． 45
+
 Ｒesearch on wavelet ridge demodulation and twice EMD-based fault
 identification method and its application
 Jiang Wanlu1，2 ，Liu Yunjie1，2 ，Zhu Yong1，2
 （ 1． Hebei Provincial Key Laboratory of Heavy Machinery Fluid Power Transmission and Control，Yanshan University，
 Qinhuangdao 066004，China； 2． Key Laboratory of Advanced Forging ＆ Stamping Technology and Science
 Yanshan University，Ministry of Education of China，Qinhuangdao 066004，China）
+
 Abstract： A novel fault identification method based on wavelet ridge demodulation and twice empirical mode decomposition （ EMD） is proposed，and applied to the fault diagnosis of the axial plunger pump． The method integrates the
 advantages of EMD and wavelet ridge demodulation in the non-stationary signal processing． Firstly，the original fault
 signal is decomposed by means of EMD，and the marginal spectrum is used to determine the resonance frequency
@@ -51,216 +72,294 @@ band range when the fault occurs． According to the marginal spectrum，the fau
 （ IMF） components are found． Then，the sensitive IMF components are demodulated by means of wavelet ridge demodulation and Hilbert demodulation． Finally，through comparing the time-frequency spectrums and three-dimensional
 spectrums of the demodulated sensitive IMF components obtained using the two kinds of demodulation methods，it is
 found that the wavelet ridge demodulation has higher time-frequency locating accuracy and anti-noise ability than Hilbert demodulation． Furthermore，the sensitive IMF components demodulated with the wavelet ridge demodulation and
-Hilbert demodulation are decomposed again usintang the EMD method，the normalized feature energies of the secondary IMF components are used to construct the feature vectors． Then the sample set of the five typical states of the hy收稿日期： 2012-11
+Hilbert demodulation are decomposed again usintang the EMD method，the normalized feature energies of the secondary IMF components are used to construct the feature vectors． Then the sample set of the five typical states of the hy： 2012-11
+
 Ｒeceived Date： 2012-11
-* 基金项目： 国家自然科学基金项目（ 51075349） 、河北省自然科学基金项目（ E2013203161） 资助
-仪
+
+* ： （ 51075349） 、（ E2013203161） 
+
+
+
 1132
-器
-仪
-表
-学
-报
-第34 卷
+
+
+
+
+
+
+
+
+
+
+
+34 
+
 draulic pump is acquired． The K means clustering algorithm is used to recognize the pump fault states． The study results show that compared with the fault identification method adopting Hilbert demodulation，the proposed feature vector extraction method combining twice empirical mode decomposition and wavelet ridge demodulation obviously improves the fault correct recognition rate，and the fault correct recognition rate reaches as high as 92% ．
 Keywords： empirical mode decomposition （ EMD） ； wavelet ridge； intrinsic mode function （ IMF） ； feature vector；
 K means clustering
+
 1
-引
-量提取及特征向量构造形成状态样本集。依据两种处理方
-法构造的特征向量采用 K 均值聚类算法进行故障分类识别，
-言
-液压泵等旋转机械在发生故障时其振动信号往往表
+
+
+
+。
+ K ，
+
+
+
+
 ［1］
-现出非平稳、非线性特征 ，因此从非平稳信号中准确地
+、 ，
 ［2］
-提取瞬时频率
-小波分析
+
+
+
+
+
 ［4］
-理论的小波脊线法能够准确地提
+
+
 ［5］
-取信号瞬时频率和瞬时幅值等瞬时特征 ，对于窄带非
-平稳信号具有很好的分析效果。但是将该方法用于宽带
-非平稳信号分析时，尺度的离散间隔大小对分析结果具
+ ，
+
+。
+，
 ［6］
-有较大影响 。而当设备发生故障时，故障特征信号往
-往分布在一个较宽的频段范围，利用该方法进行故障特
+ 。，
+，
 ［7］
+
 2
-小波脊线解调
-是近年来发展起来的一种新的信号处理
-方法，基于小波变换
-征提取
-准确率有显著提高。
-识别时，
-与瞬时幅值等物理量，得到信号完整精
-确的时频分布是液压泵故障诊断的关键。
+
+
+
+
+
+，
+
+
+
+。
+，
+
+，
+
+。
 ［3］
-结果表明与采用 Hilbert 解调处理方法相比，利用小波脊线
-解调与 EMD 再分解处理方法构造的故障特征向量进行故障
-时需要在分析精度和运算量之间进行折中，因
-此影响了故障诊断结果的准确性。
-经验模态分解（ empirical mode decomposition，EMD） 基
-于信号的局部特征尺度，
-可以把信号分解为若干个固有模态
-IMF） 之和［8］。分解得到的各个
-函数（ intrinsic mode function，
-IMF 分量突出了数据的局部特征，
-弥补了小波分析尺度离散
-间隔选择对分析结果的影响。因此 EMD 方法非常适合处理
-非平稳、
-非线性信息过程。EMD 方法就是将信号中不同尺
-度的波动逐级分解出来，
-得到多个具有不同特征尺度的 IMF
-分量。EMD 过程本质上是一个筛分过程，其具体的筛分步
-骤请参阅文献［9］。这样信号就可以分解为有限个 IMF 分
-量和一个剩余分量之和，
-各 IMF 分量分别包含了信号从高到
-低不同频率段的成分。通常 EMD 方法分解出来的前几个
-IMF 分量集中了原信号中最重要的信息，
-因此 EMD 方法也
-可以理解为是一种主成分分析法。
-本文融合 EMD 与小波脊线解调二者的优势，
-对轴向柱
-塞泵典型故障状态下的泵壳振动加速度信号进行了分析。
-首先对信号进行 EMD 分解，
-将信号分解为多个局部特征明
-显的 IMF 分量； 根据边际谱找出故障发生时的共振频带范围
-与对应的故障敏感 IMF 分量； 然后对找到的敏感 IMF 分量
-针对两种解调方法
-分别进行小波脊线解调与 Hilbert 解调，
+
+ Hilbert ，
+ EMD 
+
+，
+
+。
+（ empirical mode decomposition，EMD） 
+，
+
+IMF） ［8］。
+（ intrinsic mode function，
+IMF ，
+
+。 EMD 
+、
+。EMD 
+，
+ IMF
+。EMD ，
+［9］。 IMF 
+，
+ IMF 
+。 EMD 
+IMF ，
+ EMD 
+。
+ EMD ，
+
+。
+ EMD ，
+
+ IMF ； 
+ IMF ；  IMF 
+
+ Hilbert ，
 ［10］
-得到的包络信号分别进行时频分析 ，
-结果发现，
-小波脊线
-解调能更有效地提高故障特征频率的时频定位精度和抗干
-扰能力。对两种解调方法得到的解调信号分别进行 EMD 再
-分解，
-以此处理方法对液压泵 5 种典型状态信号进行特征能
+ ，
+，
+
+
+。 EMD 
+，
+ 5 
+
 2． 1
-小波脊线
+
+
+
 ［11］
-小波脊线能够提取调制信号的频率和幅值信息 ，
-是由在时-频平面上满足在各个时刻 b 处小波系数的模极
-大值点（ 小波脊点） 所形成的集合。由于各尺度 a 的小波
-函数具有不同的频带范围，并有一个频率中心，小波脊点
-处是信号在该频率成分能量的集中点，研究小波脊线能
-够更清楚地发现故障特征频率。
-任意单分量实信号 s（ t） 可表示为：
+ ，
+- b 
+
+（ ） 。 a 
+，，
+，
+。
+ s（ t） ：
 s（ t） = A（ t） cos（ φ（ t） ）
-式中： A（ t） 称为瞬时幅值，φ（ t） 称为瞬时相位。
-s（ t） 的解析信号定义为：
-珓
+： A（ t） ，φ（ t） 。
+s（ t） ：
+
 s（ t） = （ 1 + iH） s（ t） = A s （ t） ［expiφ s （ t） ］
+
 （ 1）
+
 （ 2）
-式中： H 表示信号的 Hilbert 变换。
-若 s（ t） 为渐进信号，则信号的瞬时频率远大于幅值
-调制频率，即有 φ'（ t） ＞ ＞ | A'（ t） / A（ t） | 。式（ 2） 可近似
-表示为：
-珓
+
+： H  Hilbert 。
+ s（ t） ，
+， φ'（ t） ＞ ＞ | A'（ t） / A（ t） | 。（ 2） 
+：
+
 s（ t） = A s （ t） ［expiφ s （ t） ］≈ A（ t） exp（ iφ（ t） ）
-渐进单分量信号 s（ t） 的瞬时频率定义为：
+ s（ t） ：
 1
 f s （ t） =
 φ' （ t）
 2π s
+
 （ 3）
 （ 4）
-选择具有渐进性质的母小波 ψ（ t） ，它对应的解析小
-波为：
-珘 t） = （ 1 + iH） ψ（ t） = A ψ （ t） ［expiφ ψ （ t） ］ （ 5）
+
+ ψ（ t） ，
+：
+ t） = （ 1 + iH） ψ（ t） = A ψ （ t） ［expiφ ψ （ t） ］ （ 5）
 ψ（
-珘 t） 对 珓
-s（ t） 进行连续小波变换得：
-用 ψ（
-W珓
+ t）  
+s（ t） ：
+ ψ（
+W
 b） =
 s （ a，
 1
 |
-槡 a|
+ a|
+
 ∫
+
 +∞
+
 －∞
+
 1
 |
-槡 a|
+ a|
+
 ∞
+
 ∫
+
 －∞
+
 (
+
 )
-珓
-珘* t － b dt =
+
+
+* t － b dt =
 s（ t） ψ
 a
+
 A a，b （ t） exp［jφ a，b （ t） ］dt
+
 (
+
 )
+
 （ 6）
+
 (
+
 )
+
 t － b ， （ t） = （ t） －
 t －b 。
-式中： Aa，b （ t） = As （ t） Aψ
+： Aa，b （ t） = As （ t） Aψ
 φa，b
 φs
 φψ
 a
 a
-对于有限长信号，式（ 6） 积分值主要由两端点处积
-第5 期
-姜万录 等： 小波脊线解调与两次 EMD 分解相结合的故障识别方法及应用研究
+，（ 6） 
+
+5 
+
+ ：  EMD 
 ［12］
-分及相 位 驻 点 处 积 分 值 确 定
-φ' a，b （ t s ） = 0，即：
+
+         
+φ' a，b （ t s ） = 0，：
 φ' s （ t s ） =
+
 (
+
 1
 ts － b
 φ'
 a ψ
 a
-。相 位 驻 点 t s 满 足
-小波脊线 a r （ b） 被提取出来后，由式（ 8） 和式（ 16） 得到
-信号 s（ t） 在时刻 t 的瞬时频率 f s （ t） 和瞬时 包 络 幅 值
+
+。    t s  
+
+ a r （ b） ，（ 8） （ 16） 
+ s（ t）  t  f s （ t）     
+
 )
+
 （ 7）
-A s （ t） 分别为：
+
+A s （ t） ：
+
 φ' （ 0）
 （ 8）
 a = a r （ b） = ψ
 φ' s （ b）
-式中： φ's （ b） 即为信号的瞬时圆频率。
-由式（ 8） 可知，
-当小波
+： φ's （ b） 。
+（ 8） ，
+
 a
 （
 b）
-确定后，
-可以方便地求出信号的瞬时频率。
-脊线 r
-基于小波脊线的信号解调
-设实对称窗函数 g（ t） 及其 Fourier 变换为：
+，
+。
+ r
+
+ g（ t）  Fourier ：
 2
 g（ t） = exp － t
 2
+
 (
+
 ^ ω） =
 g（
+
 )
 ω
-槡2 πexp ( － 2 )
+2 πexp ( － 2 )
 2
+
 )
+
 [
-^ ω） = 槡2 πexp － （ ω － ω0 ）
+
+^ ω） = 2 πexp － （ ω － ω0 ）
 ψ（
 2
+
 2
+
 ]
-则相应的小波母函数为：
+
+：
 1
 g t － b exp iω0 t － b
 ψ a，b （ t） =
@@ -269,158 +368,243 @@ a
 |
 a
 |
-槡
+
+
 (
+
 ) [
+
 ]
-3 基于 EMD 与小波脊线解调的特征向量
-提取
-特征向量提取步骤如下：
-分量突出了信号的局部特征；
-2） 根据信号边际谱选取敏感 IMF 分量，针对该敏感
-IMF 分量进行小波脊线解调得到包络信号；
-3） 由于液压泵故障特征频率主要集中在 0 ～ 1 000 Hz
-频段，
-所以降低包络信号采样频率到 2 kHz，
-这样分析频率
+
+3  EMD 
+
+：
+；
+2）  IMF ，
+IMF ；
+3）  0 ～ 1 000 Hz
+，
+ 2 kHz，
+
+
 （ 12）
-（ Nyquist 频率） 的上限是 1 kHz；
-4） 对 降 低 采 样 频 率 后 的 包 络 信 号 再 次 进 行 EMD
+
+（ Nyquist ）  1 kHz；
+4）                  EMD
+
 （ 13）
-分解；
-5） 利用第二次 EMD 分解后前四阶 IMF 分量的归一
-化能量构成特征向量。
-根据以上步骤，设第二次 EMD 分解后各 IMF 分量 s k
-对应的信号能量为 E k ，则有：
-号频率分量的相位信息。
+
+；
+5）  EMD  IMF 
+。
+， EMD  IMF  s k
+ E k ，：
+
+。
 ［13］
-被分析信号 s（ t） 的 Morlet 连续小波变换为 ：
+ s（ t）  Morlet  ：
+
 {[
+
 N
+
 Ek =
+
 1
 a
-W珓（ a，b） = 槡 A（ b） exp［iφ（ b） ］
+W（ a，b） =  A（ b） exp［iφ（ b） ］
 2 s
 2
+
 ]}
+
 （ 14）
+
 ∑|
+
 （ 19）
+
 M
+
 ∑E
+
 （ 20）
+
 k
+
 k =1
+
 （ 15）
-式中： M 为 IMF 分量个数。
-当设备出现故障时，会对各特征尺度下的信号具有
-不同的影响，因此可以用分解后信号各 IMF 分量的能量
-占总能量的百分比作为归一化特征向量，令：
-^ ω） 的模值在 ω = 0 时最
-已知窗函数傅里叶变换 g（
-大，由上式可知只要满足 φ'（ b） = ω0 / a，则信号小波变换
+
+： M  IMF 。
+，
+， IMF 
+，：
+
+^ ω）  ω = 0 
+ g（
+， φ'（ b） = ω0 / a，
+
 W k = E k / E（ k = 1，
 2，…，M）
-的模最大。因此只要找到信号小波变换的模极大值点就
+
+。
+
 T = ［W1
-可以确定小波脊线，而小波脊线与被分析信号的瞬时频
-率是一一对应的关系。结合式（ 15） 可以求出对应当前时
-刻 b 的振幅包络：
+
+，
+。（ 15） 
+ b ：
 | W s （ a，b） |
 A（ b） = 2
 ^ 0） |
-槡a | g（
+a | g（
+
 x km | 2
+
 m =1
-数据长度； x km 代表信号 s k 的离散点幅值。信号总能量 E
-等于各阶 IMF 分量的能量之和，即：
+
+； x km  s k 。 E
+ IMF ，：
 E =
+
 1
 a
-| W珓
-b） | = 槡 | A（ b） |·
+| W
+b） | =  | A（ b） |·
 s （ a，
 2
 2
+
 ^ a［ω0 － φ'（ b） ］｝ |
 | g｛
 a
+
 ∫
+
 | s k （ t） | 2 dt =
-式中： k 代表信号 EMD 分解后的第 k 个 IMF 分量； N 代表
-相应的连续小波变换模为：
+
+： k  EMD  k  IMF ； N 
+
+：
 | W s （ a，b） | =
+
 （ 18）
-因此，可以利用小波脊线进行解调分析。
-因为 Morlet 小波为复值小波，因此对信号进行小波
+
+，。
+
+ Morlet ，
+
 ω
 g^ a 0 － φ'（ b）
 a
+
 | W s （ a r （ t） ，b） |
 ^ 0） |
-槡a r （ t） | g（
+a r （ t） | g（
+
 （ 11）
-变换后不仅能反映信号频率分量模的大小，还能反映信
+
+，
+
 W s （ a，b） =
+
 （ 17）
-1） 信号经 EMD 分解得到一系列 IMF 分量，各 IMF
-构造单频复正弦高斯小波 Morlet 小波，其相应的时
+
+1）  EMD  IMF ， IMF
+
+ Morlet ，
+
 (
+
 A s （ t） ≈ 2
+
 （ 9）
 （ 10）
-域和频域表达式分别为：
+
+：
 t2 exp（ iω t）
 ψ（ t） = exp －
 0
 2
+
 1 ω0
 2π a r （ t）
+
 f s （ t） =
-小波脊线为在相平面上满足 t s （ a，b） = b 的所有点
-（ a，b） 的集合，因此由式（ 7） 可得：
+
+ t s （ a，b） = b 
+（ a，b） ，（ 7） ：
+
 2． 2
+
 1133
+
 （ 16）
-对渐进信号，有 φ'（ b） ≈ φ' s （ b） ，A（ b） ≈ A s （ b） 。当
+
+， φ'（ b） ≈ φ' s （ b） ，A（ b） ≈ A s （ b） 。
+
 （ 21）
-则归一化后的特征向量为：
+
+：
+
 4
+
 W2
+
 W3
+
 …
+
 Wk ］
+
 （ 22）
-K 均值聚类
-聚类分析是指将对象的集合按类内相似、类间相异
+
+K 
+、
 ［14］
-分为不同类的分组过程。K 均值聚类
-（ K-means） 算法
-具有原理简单、处理速度快等优点，是一种广泛应用的聚
-仪
+
+。K 
+
+（ K-means） 
+
+、，
+
+
+
 1134
-器
-仪
-表
-学
-报
-第34 卷
-类分析方法。
-用 K 均值聚类算法对数据进行聚类时包括如下 3 个
+
+
+
+
+
+
+
+
+
+
+
+34 
+
+。
+ K  3 
+
 10 MPa，
-分别采集泵在正常、滑靴磨损、松靴、斜盘磨损以
-及中心弹簧失效 5 种状态下的泵端盖振动加速度信号。
-要点：
-1） 选择欧氏距离作为数据间的相似性度量。假设给
+、、、
+ 5 。
+
+：
+1） 。
 2，
 …，
 N｝ ，
-X 中每个样本 X i 都有
-定数据集 X = ｛ X i | i = 1，
-每种状态采集 5 组数据，采样频率选为 50 kHz，每组数据
-采样时间为 1． 2 s；
-P 个描述属性。设有数据样本 X i = （ x i1 ，
+X  X i 
+ X = ｛ X i | i = 1，
+
+ 5 ， 50 kHz，
+ 1． 2 s；
+
+P 。 X i = （ x i1 ，
 x i2 ，
 …，
 x iP ） 、
@@ -430,621 +614,991 @@ Xj =
 x jP ） ，
 x i2 ，
 …，
-x iP 和 x j1 ，
+x iP  x j1 ，
 x j2 ，
 …，
-x jP 分别是
-其中 x i1 ，
-样本 X i 和 X j 之间的
-每个样本的 P 个描述属性的具体取值。
-X j ） 来表示：
-相似性度量用它们之间的欧氏距离 d（ X i ，
-2） 信号处理： 截取数据中 0． 6 s 的一段进行分析，通
-过对原始数据做 EMD 分解，得到前六阶 IMF 分量。计算
-前六阶 IMF 分量重构信号与原信号间互相关系数以及重
-构信号占原始信号能量的百分比，可以证明原始信号能
-量主要集中在前六阶 IMF 分量。计算前六阶 IMF 分量
-欧氏距离越小两个样本越相似，差异度越小； 欧氏距
-的边际谱，找出对故障敏感的 IMF 分量；
-3） 特征向量提取： 对第 2 步中找到的敏感 IMF 分量分
-别进行小波脊线解调与 Hilbert 解调得到该分量信号的包络
-离越大，样本差异度越大。
-2） 选择评价聚类性能的准则函数。K 均值聚类算法
-信号； 将包络信号采样频率降低到 2 kHz，
-对降低采样频率后
-的包络信号再次进行 EMD 分解； 根据再次 EMD 分解后的
-使用误差平方和准则函数来评价聚类性能。给定数据集
-X，其中只包含描述属性，不包含类别属性。假设 X 包含 k
-IMF 分量重构信号占降频后包络信号能量的百分比及二者
+x jP 
+ x i1 ，
+ X i  X j 
+ P 。
+X j ） ：
+ d（ X i ，
+
+2） ：  0． 6 s ，
+ EMD ， IMF 。
+ IMF 
+，
+ IMF 。 IMF 
+
+，； 
+
+， IMF ；
+3） ：  2  IMF 
+ Hilbert 
+
+，。
+2） 。K 
+
+；  2 kHz，
+
+ EMD ；  EMD 
+
+。
+X，，。 X  k
+
+IMF 
+
 P
+
 d（ X i ，X j ） =
+
 ∑（ x
-槡
+
+
+
 im
+
 － x jm ）
+
 2
+
 （ 23）
+
 m =1
-个聚类子集 C1 ，C2 ，…，C k ； 各个聚类子集的样本数量分
-别为 n1 ，n2 ，…，n k ； 各个聚类子集的聚类中心分别为 M1 ，
-M2 ，…，M k ，则误差平方和准则函数为：
+
+ C1 ，C2 ，…，C k ； 
+ n1 ，n2 ，…，n k ；  M1 ，
+M2 ，…，M k ，：
 k
+
 E =
+
 i =1
+
 ij
+
 － M i ‖2
+
 （ 24）
+
 j =1
+
 2，…，k，
-式中： X ij 代表聚类子集 C i 中的各个样本，i = 1，
+： X ij  C i ，i = 1，
 j = 1，
 2，…，n i 。
-3） 相似度的计算是根据一个类中对象的平均值来进
-行。利用标准样本计算各个类别的均值作为初始聚类中
-心，这样可以减小初始聚类中心选择不当造成的误差。
-K 均值聚类算法的一般步骤：
-1） 从 n 个数据对象任意选择 k 个对象作为初始聚类
-中心；
-2） 计算每个对象与这些聚类中心的距离，并根据最
-小距离重新对所有对象进行划分；
-3） 重新计算每个有变化聚类的均值作为新的聚类中心；
-4） 循环步骤 2 ～3 直到每个聚类不再发生变化为止。
+3） 
+。
+，。
+K ：
+1）  n  k 
+；
+2） ，
+；
+3） ；
+4）  2 ～3 。
+
 5
 5． 1
-故障诊断实验及分析
-实验及分析步骤
-实验对象为斜盘式轴向柱塞泵 MCY14-1B，柱塞数
-为 7，电机转速为 1 470 r / min，泵转轴频率为 24． 5 Hz，滑
-靴撞击斜盘的冲击振动基频为 24． 5 × 7 = 171． 5 Hz，根据
+
+
+
+
+ MCY14-1B，
+ 7， 1 470 r / min， 24． 5 Hz，
+ 24． 5 × 7 = 171． 5 Hz，
 ［15］
-泵的流量脉动频率计算公式 ：
+ ：
 f Q = 2nZ
-解后的前四阶 IMF 分量构造归一化能量特征向量。
+
+ IMF 。
 5． 2
+
 ni
+
 ∑ ∑ ‖X
-的互相关系数，可以证明包络信号能量主要集中在第二次
-EMD 分解后的前四阶 IMF 分量。因此，
-利用第二次 EMD 分
+
+，
+EMD  IMF 。，
+ EMD 
+
 （ 25）
-式中： n 为泵的转轴频率，Z 为柱塞数。因此计算出流量
-脉动频率为 343 Hz。
-数据采集及分析步骤如下：
-1） 信 号 采 集： 通 过 溢 流 阀 将 泵 出 口 压 力 调 定 为
-故障敏感 IMF 分量提取
-下面以滑靴磨损故障为例来说明故障信号处理的步骤。
-分别截取泵在正常状态与滑靴磨损状态下端盖振动信号长
-（ b） 所示。
-度为 0． 6 s 的各一段，
-二者的边际谱如图 1（ a） 、
-通过边际谱差值图 1 （ c） 可以看到当发生滑靴磨损
-故障时边际谱 5 ～ 10 kHz 频段的谱线幅值有明显增加，
-说明发生滑靴磨损故障时故障特征主要以这一频段的振
-动向外传递。故对 EMD 分解后处于该频段的 IMF 分量
-进行研究更能有效地提取故障特征。
-第5 期
-姜万录 等： 小波脊线解调与两次 EMD 分解相结合的故障识别方法及应用研究
+
+： n ，Z 。
+ 343 Hz。
+：
+1）    ：              
+
+ IMF 
+。
+
+
+（ b） 。
+ 0． 6 s ，
+ 1（ a） 、
+ 1 （ c） 
+ 5 ～ 10 kHz ，
+
+。 EMD  IMF 
+。
+
+5 
+
+ ：  EMD 
+
 1135
-对 IMF2 分量进行小波脊线包络解调，然后降低采样
-频率到 2 kHz，求降低采样频率后包络信号的功率谱，如
-图 4 所示。
-图1
-正常与滑靴磨损信号边际谱
+
+ IMF2 ，
+ 2 kHz，，
+ 4 。
+
+1
+
+
+
 Fig． 1 Normal and slipper abrasion signal marginal spectrums
-图4
-IMF2 分量小波脊线解调功率谱
-对滑靴磨损故障原始信号进行 EMD 分解，前六阶
-IMF 分量如图 2 所示。经过计算，前六阶 IMF 分量重构
+4
+
+IMF2 
+
+ EMD ，
+IMF  2 。， IMF 
+
 Fig． 4 Wavelet ridge demodulation spectrums of IMF2
-信号的能量占原始信号能量的百分比大于 95% ，且互相
-关系数大于 0． 96。因此在前六阶分量中寻找对滑靴磨
-由图 4 功率谱对比可以发现，当发生滑靴磨损故障
+
+ 95% ，
+ 0． 96。
+
+ 4 ，
 3、
-时，在滑靴撞击斜盘的冲击振动基频 171． 5 Hz 及其 2、
-损故障敏感的 IMF 分量。
-4 倍频处的能量明显增加，在转轴基频 24． 5 Hz 及其倍频
-处的能量有所增加。
-为了对比小波脊线解调与 Hilbert 解调对滑靴磨损
-故障的分析效果，对原始信号 EMD 分解后的 IMF2 分量
-分别进行 Hilbert 解调与小波脊线解调得到包络信号，然
-后降低采样频率到 2 kHz，然后对降低采样频率后的包络
-信号再次进行 EMD 分解，做出 Hilbert 解调与小波脊线
-解调的时频图和三维谱图，分别如图 5 和图 6 所示。
-图2
-EMD 分解前六阶 IMF 分量
+， 171． 5 Hz  2、
+
+ IMF 。
+
+4 ， 24． 5 Hz 
+。
+ Hilbert 
+， EMD  IMF2 
+ Hilbert ，
+ 2 kHz，
+ EMD ， Hilbert 
+， 5  6 。
+
+2
+
+EMD  IMF 
+
 Fig． 2 The first six IMFs of EMD
-通过计算各阶 IMF 分量的边际谱发现，正常信号的
-IMF2 分量与滑靴磨损信号的 IMF2 分量主要包含 5 ～
-10 kHz频段信息，是对滑靴磨损故障敏感的 IMF 分量，其
-边际谱如图 3 所示。
-图5
-IMF2 分量时频谱
+
+ IMF ，
+IMF2  IMF2  5 ～
+10 kHz， IMF ，
+ 3 。
+
+5
+
+IMF2 
+
 Fig． 5 Time frequency spectrums of IMF2
-图3
-IMF2 分量边际谱
+3
+
+IMF2 
+
 Fig． 3 The marginal spectrums of IMF2
-由图 5（ b） 及图 6（ b） 可以看出，
-与 Hilbert 解调图 5（ a）
-仪
+
+ 5（ b）  6（ b） ，
+ Hilbert  5（ a）
+
+
+
 1136
-器
-仪
-表
-学
-和图 6（ a） 对比，
-小波脊线解调故障特征频率更加清晰，
-说明
-其在时频定位精度和抗干扰能力方面有明显的优势。
-报
-第34 卷
-利用 K 均值聚类算法对提取的 5 种状态各 10 个待
-检测样本进行故障模式识别，以各种状态 10 个标准样本
-的均值作为初始聚类中心。
-设 X iy 为标准样本，则每种状态 10 个标准样本初始
-聚类中心为：
+
+
+
+
+
+
+
+
+
+ 6（ a） ，
+，
+
+。
+
+
+
+34 
+
+ K  5  10 
+， 10 
+。
+ X iy ， 10 
+：
 10
+
 X ic =
+
 1
 X ij
 10 ∑
 j =1
+
 （ 26）
-5 种状态的聚类中心如表 2，其中 1 表示由小波脊线
-解调所处理的样本得到的初始聚类中心，2 表示由 Hilbert 解调所处理的样本得到的初始聚类中心。
-表2
-标准样本计算的初始聚类中心
+
+5  2， 1 
+，2  Hilbert 。
+2
+
+
+
 Table 2 Initial clustering center of standard samples
-状态
-正常
-中心
+
+
+
+
 1
+
 E1 / E
+
 E2 / E
+
 E3 / E
+
 E4 / E
+
 0． 303 3
+
 0． 368 6
+
 0． 187 8
+
 0． 140 4
+
 2
+
 0． 319 2
+
 0． 332 8
+
 0． 221 6
+
 0． 126 4
-滑靴
+
+
+
 1
+
 0． 297 3
+
 0． 329 8
+
 0． 255 3
+
 0． 117 6
-磨损
+
+
+
 2
+
 0． 321 9
+
 0． 325 1
+
 0． 246 3
+
 0． 106 7
+
 1
+
 0． 294 7
+
 0． 381 2
+
 0． 172 3
+
 0． 151 8
+
 2
+
 0． 313 1
+
 0． 360 2
+
 0． 191 4
+
 0． 135 3
-斜盘
+
+
+
 1
+
 0． 339 1
+
 0． 346 3
+
 0． 190 2
+
 0． 124 5
-磨损
-中心弹簧
+
+
+
+
 2
+
 0． 358 3
+
 0． 340 6
+
 0． 195 9
+
 0． 105 2
+
 1
+
 0． 346 2
+
 0． 326 8
+
 0． 235 0
+
 0． 092 0
-失效
+
+
+
 2
+
 0． 328 7
+
 0． 317 6
+
 0． 236 2
+
 0． 117 4
-松靴
+
+
+
 5． 4
-故障识别
-对每种状态的 10 个待检测样本利用 K 均值聚类方
-图6
-IMF2 分量三维谱图
-法进行识别，识别结果如表 3 和表 4 所示。其中 1-10 代
-11-20 代表滑靴磨损故障样本号，
-21-30 代
-表正常样本号，
+
+
+ 10  K 
+
+6
+
+IMF2 
+
+， 3  4 。 1-10 
+11-20 ，
+21-30 
+，
+
 Fig． 6 Three dimensional spectrums of IMF2
-特征向量提取
+
+
+
 5． 3
-按照第 4 节中特征向量的提取步骤，分别提取正常、
-滑靴磨损、松靴、斜盘磨损、中心弹簧失效 5 种状态每种
-状态各 10 个标准样本与 10 个待检测样本。表 1 列出了
-5 种状态下各 1 组标准样本，其中 1 表示利用小波脊线解
-2 表示利用 Hilbert 解调处理的样本。
-调处理的样本，
-表1
-分别利用两种方法处理得到的 5 种状态的标准样本
+
+ 4 ，、
+、、、 5 
+ 10  10 。 1 
+5  1 ， 1 
+2  Hilbert 。
+，
+1
+
+ 5 
 Table 1 The standard samples of 5 states
 for the two methods
-状态
-31-40 代表斜盘磨损故障样本号，
-41表松靴故障样本号，
-50 代表中心弹簧失效故障样本号。斜体加粗数字表示
-被正确识别出的样本号，正体数字表示被错分的样本号。
-表3
+
+
+
+31-40 ，
+41，
+50 。
+，。
+3
+
 Table 3 Ｒecognition results of wavelet ridge demodulation
-状态
-正常
-松靴
+
+
+
+
 0
+
 31 33 34 35 36 37 38 39 40
+
 9
+
 0
+
 41 42 43 44 45 47 48 49 50 8
+
 9
+
 1
-斜盘磨损
-中心弹簧失效
+
+
+
+
 E4 / E
+
 0． 284 6
+
 0． 322 2
+
 0． 253 5
+
 0． 139 7
+
 2
+
 0． 297 8
+
 0． 315 2
+
 0． 248 7
+
 0． 138 3
-滑靴
+
+
+
 1
+
 0． 308 6
+
 0． 337 7
+
 0． 266 1
+
 0． 087 6
-磨损
+
+
+
 2
+
 0． 285 6
+
 0． 328 9
+
 0． 260 8
+
 0． 124 7
+
 1
+
 0． 284 8
+
 0． 368 3
+
 0． 224 0
+
 0． 122 9
+
 2
+
 0． 312 4
+
 0． 334 2
+
 0． 246 5
+
 0． 106 9
-正常
-斜盘
+
+
+
+
+
 1
+
 0． 302 4
+
 0． 325 8
+
 0． 256 3
+
 0． 115 5
-滑靴磨损
-磨损
-中心弹簧
+
+
+
+
+
+
 2
+
 0． 298 5
+
 0． 325 6
+
 0． 285 5
+
 0． 090 5
-松靴
+
+
+
 1
+
 0． 285 2
+
 0． 334 4
+
 0． 249 1
+
 0． 131 3
-斜盘磨损
+
+
+
 0． 118 9
-中心弹簧失效
+
+
+
 0． 313 2
+
 0． 305 9
+
 0． 262 0
+
 1
+
 9
 10
+
 E3 / E
+
 2
-错误
+
+
 2
+
 21 22 23 24 25 26 27 28 29 30
+
 E2 / E
-失效
-正确
+
+
+
+
 9
+
 11 12 14 15 16 17 18 19 20 32
+
 E1 / E
-松靴
-样本
+
+
+
+
 1 2 3 4 5 6 7 9 10 13 46
-滑靴磨损
-样本
+
+
+
+
 1
-正常
-小波脊线解调处理样本的识别结果
-表4
-Hilbert 解调处理样本的识别结果
+
+
+
+
+
+4
+
+Hilbert 
+
 Table 4 Ｒecognition results of Hilbert demodulation
-状态
-样本
+
+
+
 1 2 4 6 7 8 11 15 16 36
-正确
+
+
 6
-错误
+
+
 4
+
 12 13 14 18 19 20 3 5 9 22 24 50
+
 6
+
 6
+
 21 23 25 26 27 29 30 32 33
+
 7
+
 2
+
 31 34 35 37 39 10 28 43 47
+
 5
+
 4
+
 41 42 44 45 46 48 49 17 38 40
+
 7
+
 3
-第5 期
+
+5 
+
 5． 5
-姜万录 等： 小波脊线解调与两次 EMD 分解相结合的故障识别方法及应用研究
+
+ ：  EMD 
+
 1137
-盘磨损、中心弹簧失效等 5 种典型故障状态进行了识别。
-实验结果对比分析
-为了进一步比较小波脊线解调与 Hilbert 解调处理
-研究结果表明本文提出的特征向量提取方法可以有效地
-样本的故障识别效果，对二者的识别结果进行了对比分
-析，如表 5 所示。
-识别轴向柱塞泵的各种故障，而且利用小波脊线解调构
-造特征向量进行故障识别的准确率明显高于利用 Hilbert
-表5
-解调构造特征向量进行识别的结果，故障识别准确率可
-高达 92% 。
-小波脊线解调与 Hilbert 解调处理样本的
-识别结果对比
+
+、 5 。
+
+
+ Hilbert 
+
+
+
+，
+， 5 。
+
+，
+ Hilbert
+
+5
+
+，
+ 92% 。
+
+ Hilbert 
+
+
 Table 5 Ｒecognition result comparison between wavelet
+
 %
+
 ridge demodulation and Hilbert demodulation
-小波脊线解调
-Hilbert 解调
-参考文献
-［1 ］ 陆爽，李萌． 基于双谱估计的轴承非线性振动信号模
+
+
+Hilbert 
+
+
+［1 ］ ，． 
 2006，
 27（ 6） ： 2140-2141．
-式识别［J］． 仪器仪表学报，
-正确率
+［J］． ，
+
+
 90
-错误率
+
+
 10
-正确率
+
+
 60
-错误率
+
+
 40
-滑靴磨损
+
+
+
 90
+
 10
+
 60
+
 40
+
 vibration signals based on bispectrum［J］． Chinese Jour-
-松靴
+
+
+
 100
+
 0
+
 70
+
 30
-斜盘磨损
+
+
+
 90
+
 10
+
 50
+
 50
+
 nal of Scientific Instrument，
 2006，
 27（ 6） ： 2140-2141．
-中心弹簧失效
+
+
+
 90
+
 10
+
 70
+
 30
-平均识别准确率
+
+
+
 92
+
 —
+
 62
+
 —
-正常
+
+
+
 LU SH，LI M． Pattern recognition for bearing non-linear
-［2 ］ 刘立君，王奇，杨克己，等． 基于 EMD 和频谱校正的故
-障 诊 断 方 法 ［J］． 仪 器 仪 表 学 报，2011，32 （ 6 ） ：
+
+［2 ］ ，，，．  EMD 
+     ［J］．      ，2011，32 （ 6 ） ：
 1278-1283．
-由表 3 和表 5 可知，通过小波脊线解调处理得到的
-50 个待检测样本，采用 K 均值聚类算法进行识别时，正
-确识别出了 46 个，错误识别 4 个，其中松靴故障样本全
-部识别正确。平均识别准确率为 92% 。
-由表 4 和表 5 可知，通过 Hilbert 变换解调处理得到
-的 50 个待检测样本，采用 K 均值聚类算法进行识别时，
-只正确识别出了 31 个，平均识别准确率仅为 62% 。
-通过以上对比可以发现，与采用 Hilbert 解调和 EMD
-再分解构造故障特征向量的方法相比，采用小波脊线解
-调和 EMD 再分解构造故障特征向量用于 K 均值聚类故
-障识别时，故障识别准确率更高，可高达 92% 。
+
+ 3  5 ，
+50 ， K ，
+ 46 ， 4 ，
+。 92% 。
+ 4  5 ， Hilbert 
+ 50 ， K ，
+ 31 ， 62% 。
+， Hilbert  EMD
+，
+ EMD  K 
+，， 92% 。
+
 LIU L J，WANG Q，YANG K J，et al． EMD and spectrum
 correction-based fault diagnosis method［J］． Chinese Journal of Scientific Instrument，
 2011，
 32（ 6） ： 1278-1283．
-［3 ］ 姜万录，SPUＲGEON S K，JOHN A，等． 基于小波簇的
-包络解调方法及其在故障诊断中的应用［J］． 仪器仪
+［3 ］ ，SPUＲGEON S K，JOHN A，． 
+［J］． 
 2007，
 28（ 6） ： 973-980．
-表学报，
+，
 JIANG W L，SPUＲGEON S K，JOHN A，et al． Wavelet
 cluster based envelope demodulation approach and its application to fault diagnosis［J］． Chinese Journal of Scientific Instrument，
 2007，
 28（ 6） ： 973-980．
-［4 ］ 张景超，
-张金敏，
-张淑清，
-等． 基于小波及非线性预测的轴
-承 故 障 诊 断 方 法［J］． 仪 器 仪 表 学 报，2012，33 （ 1） ：
+［4 ］ ，
+，
+，
+． 
+      ［J］．      ，2012，33 （ 1） ：
 127-131．
+
 6
-结
-论
+
+
+
+
+
 ZHANG J CH，ZHANG J M，ZHANG SH Q，et al． Bearing
 fault diagnosis method based on wavelet analysis and non-
-本文通过理论研究及实验验证，深入研究了 EMD 分
+
+， EMD 
+
 linear prediction［J］． Chinese Journal of Scientific Instru-
-解与小波脊线解调在信号处理方面的优势。并将二者的
-优势进行融合，提出了一种新的利用两次 EMD 分解与小
-［5 ］ 秦毅，秦树人，毛永芳． 基于小波脊线的解调方法及其
-波脊线解调相结合的故障特征向量提取方法，并将其成
-功应用于轴向柱塞泵典型故障的诊断分析中。通过理论
-与实验分析，得出了以下结论：
-1） 提出了一种新的故障特征向量提取方法： 对第一
+
+。
+， EMD 
+
+［5 ］ ，，． 
+
+，
+。
+，：
+1） ： 
 EMD
-次
-分解得到的故障敏感 IMF 分量进行小波脊线解
-调，然后进行 EMD 再分解得到 IMF 分量，利用二次 IMF
-分量的归一化能量构建特征向量。
-2） 通过对第一次 EMD 分解后得到的故障敏感 IMF 分
-量分别利用小波脊线解调与 Hilbert 解调得到的时频图与三
+
+ IMF 
+， EMD  IMF ， IMF
+。
+2）  EMD  IMF 
+ Hilbert 
+
 ment，
 2012，
 33（ 1） ： 127-131．
-在旋转机械故障诊断中的应用［J］． 机械工程学报，
+［J］． ，
 2009，
 45（ 2） ： 231-237．
 QIN Y，QIN SH Ｒ，MAO Y F． Demodulation approach
 based on wavelet ridge and its application in fault diagnosis of rotating machinery［J］． Journal of Mechanical Engineering，
 2009，
 45（ 2） ： 231-237．
-［6 ］ 程军圣，于德介，杨宇． 基于 EMD 的信号瞬时特征小
+［6 ］ ，，．  EMD 
 2004，
 24（ 2） ：
-波分析方法［J］． 地震工程与工程振动，
+［J］． ，
 182-186．
 CHENG J SH，YU D J，YANG Y． Signal instantaneous
-维图对比发现，小波脊线解调较 Hilbert 解调具有更高的时
+
+， Hilbert 
+
 attribute analysis usintang wavelet transform based on
-频定位精度和抗干扰能力，
-故障特征频率更加清晰。
-3） 利用本文提出的故障特征向量提取方法结合 K
+
+，
+。
+3）  K
+
 bration，
 2004，
 24（ 2） ： 182-186．
-均值聚类算法，对轴向柱塞泵的正常、滑靴磨损、松靴、斜
-EMD［J］． Earthquake Engineering and Engineering Vi［7 ］ 姜万录，吴胜强． 基于 SVM 和证据理论的多数据融合
-仪
+
+，、、、
+
+EMD［J］． Earthquake Engineering and Engineering Vi［7 ］ ，．  SVM 
+
+
+
 1138
-器
-仪
-故障 诊 断 方 法［J］． 仪 器 仪 表 学 报，2010，31 （ 8 ） ：
-表
-学
-报
-第34 卷
+
+
+
+
+
+    ［J］．      ，2010，31 （ 8 ） ：
+
+
+
+
+
+
+
+34 
+
 TANG K，SU Y． Ｒesearch on vibration fault analysis
+
 1738-1743．
+
 based on continuous wavelet transform［J］． Foreign Elec-
+
 JIANG W L，WU SH Q． Multi-data fusion fault diagnosis
+
 tronic Measurement Technology，
 2011，
 30（ 6） ： 18-20．
+
 method based on SVM and evidence theory［J］． Chinese
 Journal of
+
 Scientific
+
 Instrument， 2010， 31 （ 8 ） ：
+
 1738-1743．
-［8 ］ 聂永红，
-程军圣，
-张亢，
-等． 基于 EMD 与响度的有源噪声
+［8 ］ ，
+，
+，
+．  EMD 
 2012，
 33（ 4） ： 801-808．
-控制系统 ［J］． 仪器仪表学报，
-［14］ 孙庚，冯艳红，郭显久，等． K-means 聚类算法研究［J］．
+ ［J］． ，
+
+［14］ ，，，． K-means ［J］．
 2011，
 30（ 1） ： 1-3．
-长春师范学院学报，
+，
 SUN G，FENG Y H，GUO X J． K-means clustering algorithm［J］． Journal of Changchun Normal University，
 2011，
 30（ 1） ： 1-3．
+
 NIE Y H，CHENG J SH，ZHANG K，et al． Active noise
-［15］ 郭生荣，卢岳良． 液压能源系统压力脉动分析及抑制
+
+［15］ ，． 
+
 control system based on EMD and loudness［J］． Chinese
+
 2011，（ 11） ： 49-51．
-方法研究［J］． 液压与气动，
+［J］． ，
+
 Journal of Scientific Instrument，
 2012，
 33（ 4） ： 801-808．
+
 GUO SH Ｒ，LU Y L． Pressure fluctuation analysis and
+
 ［9 ］ HUANG N E，LONG S Ｒ，WU M C，et al． The empirical
 mode decomposition and the Hilbert spectrum for nonlinear and nonstationary time series analysis［J］． Proc． Ｒ．
 Soc． London Series A，
 1998，
 454 （ 1971） ： 903-999．
+
 suppression of hydraulic energy system［J］． Chinese Hydraulics ＆ Pneumatics，
 2011，（ 11） ： 49-51．
-作者简介
-2001 年于燕山大学获得博士学
-姜万录，
-［10］ 董红生，
-张爱华，
-邱天爽，
-等． 基于 Hilbert 谱的心率变异信
-位，现为燕山大学教授、博士生导师，主要研
-号 时 频 分 析 方 法［J］． 仪 器 仪 表 学 报，2011，32 （ 2） ：
-究方向为现代检测技术、故障诊断与智能信
+
+
+2001 
+，
+
+［10］ ，
+，
+，
+．  Hilbert 
+
+，、，
+
+      ［J］．      ，2011，32 （ 2） ：
+
+、
+
 271-278．
-息处理、控制理论与应用、冷轧工艺及厚度
+
+、、
+
 DONG H SH，ZHANG AI H，QIU T SH． Time-frequency
-控制。
+
+。
+
 analysis method of heart rate variability signal based on
 the Hilbert spectrum［J］． Chinese Journal of Scientific Instrument，
 2011，
 32（ 2） ： 271-278．
 ［11］ DELPＲAT N P，ESCUDIE B，GUILLEMAIN P，et al． As-
+
 E-mail： wljiang@ ysu． edu． cn
 Jiang Wanlu received Ph． D． from Yanshan University in
 2001． Now he is a professor and supervisor of Ph． D． candidates in
 Yanshan University． His main research interests are modern test
+
 ymptotic wavelet and Gabor analysis： Extraction of instan-
+
 and measurement technology，fault diagnosis and intelligent infor-
+
 taneous frequencies［J］． IEEE Transaction on Information
+
 mation processing，control theory and applications，and cold roll-
+
 1992，
 38（ 2） ： 644-644．
 Theory，
+
 ing technology and thickness control．
-［12］ 张映南，郑毅． 基于小波脊线的单分量 LFM 信号参数
-刘云杰，现为燕山大学硕士研究生，主
+
+［12］ ，．  LFM 
+
+，，
+
 2005，
 21（ 2） ： 44-46．
-估计［J］． 航天电子对抗，
-要研究方向为故障诊断与智能信息处理。
+［J］． ，
+
+。
+
 ZHANG X N，ZHENG Y． Based on wavelet ridge sintan-
+
 E-mail： lyj_19860623@ 163． com
+
 gle component LFM signal parameter estimation［J］． Aerospace Electronic Warfare，
 2005，
 21（ 2） ： 44-46．
-［13］ 唐凯，苏越． 基于连续小波变换的振动故障分析方法
+［13］ ，． 
 2011，
 30（ 6） ： 18-20．
-研究［J］． 国外电子测量技术，
+［J］． ，
+
 Liu Yunjie is a master student in Yanshan
 University． His main research interests are fault
 diagnosis and intelligent information processing．
