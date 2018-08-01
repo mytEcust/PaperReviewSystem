@@ -3,174 +3,81 @@
 入口函数
 """
 
+__author__ = 'myt'
+
 import os
-import shutil
-import json
-import textract
 import numpy as np
+from components import pre_work as pw
+from gensim.test.utils import common_texts
+from gensim.test.utils import get_tmpfile
+from gensim.models.doc2vec import Doc2Vec, TaggedDocument
 
 PAPER_DIR = './paper_data/'
 TXT_DIR = './txt_data/'
 TRAIN_DIR = './train_data/'
 FORMAT_DIR = './format_data/'
 
-if os.path.isdir(TXT_DIR):
-    shutil.rmtree(TXT_DIR)
-os.makedirs(TXT_DIR)
+pw.init_dir([TXT_DIR, TRAIN_DIR, FORMAT_DIR])
+pw.switch_pdf(PAPER_DIR, TXT_DIR)
+pw.format_paper(TXT_DIR, FORMAT_DIR)
+pw.format_train_data(TXT_DIR, TRAIN_DIR)
 
-if os.path.isdir(TRAIN_DIR):
-    shutil.rmtree(TRAIN_DIR)
-os.makedirs(TRAIN_DIR)
-
-if os.path.isdir(FORMAT_DIR):
-    shutil.rmtree(FORMAT_DIR)
-os.makedirs(FORMAT_DIR)
+# https://blog.csdn.net/juanjuan1314/article/details/75124046/
 
 
-def is_chinese(word):
-    """
-    判断是否为中文字符
-    """
-    if word >= u'\u4e00' and word <= u'\u9fff':
-        return True
-    else:
-        return False
+def get_datasest():
+    docs = []
+    for paper in os.listdir(TRAIN_DIR):
+        with open(TRAIN_DIR+paper, 'r', encoding="utf-8") as train_data:
+            _train_data = train_data.read()
+            docs.append(_train_data)
+    x_train = []
+    for i, text in enumerate(docs):
+        word_list = text.split(' ')
+        w_len = len(word_list)
+        word_list[w_len-1] = word_list[w_len-1].strip()
+        document = TaggedDocument(word_list, tags=[i])
+        x_train.append(document)
+
+    return x_train
 
 
-def word_counter(file_data):
-    """
-    get word count
-    中文字算一个字
-    是之前是字母且后一个不是字母算一个单词
-    """
-    count = 0
-    is_word = False
-    for char in file_data:
-        if char.isalpha():
-            is_word = True
-            continue
-        if is_word:
-            count += 1
-            is_word = False
-        if is_chinese(char):
-            count += 1
-    return count
+def getVecs(model, corpus, size):
+    vecs = [np.array(model.docvecs[z.tags[0]].reshape(1, size))
+            for z in corpus]
+    return np.concatenate(vecs)
 
 
-def paragraph_counter(file_data):
-    """
-    get paragraph count
-    由于解析出来的文本会有很多无意义的回车
-    所以使用[句号回车]结尾的标注为一段
-    """
-    if file_data.count('。\n') > 0:
-        return file_data.count('。\n')
-    else:
-        return file_data.count('.\n')
+def train(x_train, size=200, epoch_num=1):
+    model_dm = Doc2Vec(x_train, min_count=1, window=3,
+                       size=size, sample=1e-3, negative=5, workers=4)
+    model_dm.train(x_train, total_examples=model_dm.corpus_count, epochs=70)
+    model_dm.save('./model')
+
+    return model_dm
 
 
-def find_time(file_data, start):
-    """
-    获取参考文献发表年限
-    由于文献的排版问题，会导致文件序号和发表年限无法对应
-    但总的年限集合数据不会有问题
-    暂时会有个别年份匹配错误，还未解决 正确率90%
-    """
-    year = 0
-    year_location = 200000000
-    for i in range(1990, 2019):
-        location = file_data.find(str(i), start, start+20000)
-        if location != -1 and location < year_location:
-            year_location = location
-            year = i
-    return year
+def test():
+    model_dm = Doc2Vec.load("./model")
+    test_text = []
+    with open(TRAIN_DIR+'对主成分分析法三个问题的剖析_许淑娜.txt', 'r', encoding="utf-8") as td:
+        _td = td.read()
+        test_text.append(_td)
+    inferred_vector_dm = model_dm.infer_vector(test_text)
+    print(inferred_vector_dm)
+    sims = model_dm.docvecs.most_similar([inferred_vector_dm], topn=10)
+    print(sims)
+    return sims
 
 
-def reference_counter(file_data):
-    """
-    get reference data
-    由\n[1]或\n［1］来判定参考文件
-    """
-    counter = 1
-    years = []
-    while True:
-        start1 = file_data.rfind('\n['+str(counter)+']')
-        start2 = file_data.rfind('\n['+str(counter)+' ]')
-        start3 = file_data.rfind('\n［'+str(counter)+'］')
-        start4 = file_data.rfind('\n［'+str(counter)+' ］')
-        start = np.amax([start1, start2, start3, start4])
-        if start > 0:
-            years.append(find_time(file_data, start))
-            counter += 1
-            continue
-        break
-    return {"counter": counter, "years": years}
-
-
-def publish_date(file_data):
-    """
-    get publish data
-    从文章头部开始查找最先出现的年份
-    """
-    year = 0
-    publish_year_location = 200000000
-    for i in range(1800, 2019):
-        location = file_data.find(str(i), 0, 20000)
-        if location != -1 and location < publish_year_location:
-            publish_year_location = location
-            year = i
-    return year
-
-
-def out_of_date(_publish_year, reference_years):
-    """
-    参考文献过时程度
-    发表论文年限-参考文献发表年限
-    """
-    times = []
-    for year in reference_years:
-        times.append(_publish_year-year)
-    return times
-
-
-print("[START] switch paper to txt")
-for paper in os.listdir(PAPER_DIR):
-    text = textract.process(PAPER_DIR+paper)
-    content = str(text, encoding="utf-8").strip()
-    with open(TXT_DIR+paper.split(".")[0]+'.txt', 'w') as f:
-        f.write(content)
-print("[DONE] switch paper to txt")
-
-
-print("[START] format paper")
-for paper in os.listdir(TXT_DIR):
-    with open(TXT_DIR+paper, 'r', encoding="utf-8") as f:
-        f = f.read()
-        FORMAT_OBJ = {}
-        FORMAT_OBJ['words'] = word_counter(f)
-        FORMAT_OBJ['paragraph'] = paragraph_counter(f)
-        referenceObj = reference_counter(f)
-        FORMAT_OBJ['reference_counter'] = referenceObj['counter']
-        FORMAT_OBJ['reference_years'] = referenceObj['years']
-        publish_year = publish_date(f)
-        FORMAT_OBJ['publish_year'] = publish_year
-        FORMAT_OBJ['out_of_date'] = out_of_date(
-            publish_year, referenceObj['years'])
-    with open(FORMAT_DIR+paper.split(".")[0]+'.json', 'w') as f_format:
-        f_format.write(json.dumps(FORMAT_OBJ))
-print("[DONE] format paper")
-
-print("[START] format train data")
-for paper in os.listdir(TXT_DIR):
-    with open(TXT_DIR+paper, 'r', encoding="utf-8") as f:
-        f = f.read()
-        content_list = list(f)
-        i = 0
-        while i < len(content_list):
-            if is_chinese(content_list[i]):
-                content_list[i] = ''
-            i += 1
-        content = ''.join(content_list)
-    with open(TRAIN_DIR+paper.split(".")[0]+'.txt', 'w') as f_train:
-        f_train.write(content)
-print("[DONE] format train data")
+print("[START] doc2vec")
+_x_train = get_datasest()
+model_dm = train(_x_train)
+sims = test()
+for count, sim in sims:
+    sentence = _x_train[count]
+    words = ''
+    for word in sentence[0]:
+        words = words + word + ' '
+        print(sim)
+print("[DONE] doc2vec")
