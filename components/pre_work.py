@@ -7,7 +7,7 @@ import os
 import shutil
 import json
 import textract
-import format_tool as ftool
+from . import format_tool as ftool
 
 
 def init_dir(dirs):
