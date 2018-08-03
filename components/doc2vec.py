@@ -62,7 +62,26 @@ def load_paper_index():
         return paper_dict
 
 
-def run_model(test_dir):
+def set_similar_paper(paper_similar, format_dir):
+    """
+    保存文献最相似的文献及相似程度
+    """
+    for paper in os.listdir(format_dir):
+        p_name = paper.split('.json')[0]
+        # print(p_name)
+        with open(format_dir+paper, 'r+', encoding="utf-8") as p_json:
+            _p_json = p_json.read()
+            # print(_p_json)
+            # _p_json=json.loads(_p_json)
+            # print(_p_json)
+            _p_json['similar_paper'] = {
+                'name': paper_similar[p_name]['similar_paper'],
+                'sim': paper_similar[p_name]['sim']
+            }
+            p_json.write(json.dumps(_p_json))
+
+
+def run_model(test_dir, format_dir):
     """
     检测论文相似度
     """
@@ -70,6 +89,8 @@ def run_model(test_dir):
     model_dm = Doc2Vec.load('./model/model.txt')
     # 加载文献字典
     paper_dict = load_paper_index()
+    # 文档相似程度
+    paper_similar = {}
     for paper in os.listdir(test_dir):
         with open(test_dir+paper, 'r', encoding="utf-8") as test_d:
             test_d = test_d.read()
@@ -77,7 +98,15 @@ def run_model(test_dir):
             inferred_vector_dm = model_dm.infer_vector(test_text)
             # topn 降序显示相似度最大的10个taggeddocument
             sims = model_dm.docvecs.most_similar([inferred_vector_dm], topn=2)
-            print('-------'+paper+'***相似文献***-------')
+            i = 0
             for index, sim in sims:
-                print(paper_dict[str(index)])
-                print(sim)
+                # 第一个是自己不插入
+                if i == 0:
+                    i += 1
+                    continue
+                paper_name = paper.split('.txt')[0]
+                paper_similar[paper_name] = {
+                    'similar_paper': paper_dict[str(index)],
+                    'sim': sim
+                }
+    set_similar_paper(paper_similar, format_dir)
