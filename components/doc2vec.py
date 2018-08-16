@@ -68,16 +68,14 @@ def set_similar_paper(paper_similar, format_dir):
     """
     for paper in os.listdir(format_dir):
         p_name = paper.split('.json')[0]
-        # print(p_name)
         with open(format_dir+paper, 'r+', encoding="utf-8") as p_json:
             _p_json = p_json.read()
-            # print(_p_json)
-            # _p_json=json.loads(_p_json)
-            # print(_p_json)
-            _p_json['similar_paper'] = {
-                'name': paper_similar[p_name]['similar_paper'],
-                'sim': paper_similar[p_name]['sim']
-            }
+            print('===============')
+            print(p_json)
+            print(json.loads(_p_json))
+            print('===============')
+            _p_json = json.loads(_p_json)
+            _p_json['similar_paper'] = paper_similar[p_name]
             p_json.write(json.dumps(_p_json))
 
 
@@ -85,6 +83,7 @@ def run_model(test_dir, format_dir):
     """
     检测论文相似度
     """
+    print("[START] run_model")
     # 加载训练的模型
     model_dm = Doc2Vec.load('./model/model.txt')
     # 加载文献字典
@@ -106,7 +105,8 @@ def run_model(test_dir, format_dir):
                     continue
                 paper_name = paper.split('.txt')[0]
                 paper_similar[paper_name] = {
-                    'similar_paper': paper_dict[str(index)],
+                    'name': paper_dict[str(index)],
                     'sim': sim
                 }
     set_similar_paper(paper_similar, format_dir)
+    print("[DONE] run_model")
