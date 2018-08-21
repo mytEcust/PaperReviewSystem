@@ -14,10 +14,11 @@ TEST_DIR = './test_data/'
 TXT_DIR = './txt_data/'
 TRAIN_DIR = './train_data/'
 FORMAT_DIR = './format_data/'
+MODEL_DIR = './model/'
 
 if __name__ == '__main__':
     # 初始化工作
-    pw.init_dir([TXT_DIR, TRAIN_DIR, FORMAT_DIR])
+    pw.init_dir([TXT_DIR, TRAIN_DIR, FORMAT_DIR, MODEL_DIR])
     pw.switch_pdf(PAPER_DIR, TXT_DIR)
     pw.format_paper(TXT_DIR, FORMAT_DIR)
     pw.format_train_data(TXT_DIR, TRAIN_DIR)
