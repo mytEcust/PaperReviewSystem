@@ -15,12 +15,13 @@ TXT_DIR = './txt_data/'
 TRAIN_DIR = './train_data/'
 FORMAT_DIR = './format_data/'
 
-# 初始化工作
-# pw.init_dir([TXT_DIR, TRAIN_DIR, FORMAT_DIR])
-# pw.switch_pdf(PAPER_DIR, TXT_DIR)
-# pw.format_paper(TXT_DIR, FORMAT_DIR)
-# pw.format_train_data(TXT_DIR, TRAIN_DIR)
+if __name__ == '__main__':
+    # 初始化工作
+    pw.init_dir([TXT_DIR, TRAIN_DIR, FORMAT_DIR])
+    pw.switch_pdf(PAPER_DIR, TXT_DIR)
+    pw.format_paper(TXT_DIR, FORMAT_DIR)
+    pw.format_train_data(TXT_DIR, TRAIN_DIR)
 
-# 段落向量计算相似度
-# dv.train_datasest(TRAIN_DIR)
-dv.run_model(TRAIN_DIR, FORMAT_DIR)
+    # 段落向量计算相似度
+    dv.train_datasest(TRAIN_DIR)
+    dv.run_model(TRAIN_DIR, FORMAT_DIR)

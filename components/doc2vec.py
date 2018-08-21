@@ -34,7 +34,8 @@ def train_datasest(train_dir):
 
     # 保存文献字典
     with open('./model/paper_dict.json', 'w') as f_json:
-        f_json.write(json.dumps(paper_dict))
+        # json字符化时不让中文转换为unicode
+        f_json.write(json.dumps(paper_dict, ensure_ascii=False))
 
     # 模型的初始化，设置参数
     # min_cout 忽略总频率低于这个的所有单词
@@ -70,13 +71,11 @@ def set_similar_paper(paper_similar, format_dir):
         p_name = paper.split('.json')[0]
         with open(format_dir+paper, 'r+', encoding="utf-8") as p_json:
             _p_json = p_json.read()
-            print('===============')
-            print(p_json)
-            print(json.loads(_p_json))
-            print('===============')
             _p_json = json.loads(_p_json)
             _p_json['similar_paper'] = paper_similar[p_name]
-            p_json.write(json.dumps(_p_json))
+            # 将写入指针指向开头,即覆盖源文件
+            p_json.seek(0, 0)
+            p_json.write(json.dumps(_p_json, ensure_ascii=False))
 
 
 def run_model(test_dir, format_dir):
@@ -88,14 +87,13 @@ def run_model(test_dir, format_dir):
     model_dm = Doc2Vec.load('./model/model.txt')
     # 加载文献字典
     paper_dict = load_paper_index()
-    # 文档相似程度
     paper_similar = {}
     for paper in os.listdir(test_dir):
         with open(test_dir+paper, 'r', encoding="utf-8") as test_d:
             test_d = test_d.read()
             test_text = list(jieba.cut(test_d))
             inferred_vector_dm = model_dm.infer_vector(test_text)
-            # topn 降序显示相似度最大的10个taggeddocument
+            # topn 降序显示相似度最大的2个taggeddocument
             sims = model_dm.docvecs.most_similar([inferred_vector_dm], topn=2)
             i = 0
             for index, sim in sims:
