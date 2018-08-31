@@ -7,6 +7,7 @@ __author__ = 'myt'
 
 from components import pre_work as pw
 from components import doc2vec as dv
+from components import clean_data as cd
 
 
 PAPER_DIR = './paper_data/'
@@ -18,11 +19,14 @@ MODEL_DIR = './model/'
 
 if __name__ == '__main__':
     # 初始化工作
-    pw.init_dir([TXT_DIR, TRAIN_DIR, FORMAT_DIR, MODEL_DIR])
-    pw.switch_pdf(PAPER_DIR, TXT_DIR)
-    pw.format_paper(TXT_DIR, FORMAT_DIR)
-    pw.format_train_data(TXT_DIR, TRAIN_DIR)
+    # pw.init_dir([TXT_DIR, TRAIN_DIR, FORMAT_DIR, MODEL_DIR])
+    # pw.switch_pdf(PAPER_DIR, TXT_DIR)
+    # pw.format_paper(TXT_DIR, FORMAT_DIR)
+    # pw.format_train_data(TXT_DIR, TRAIN_DIR)
 
-    # 段落向量计算相似度
-    dv.train_datasest(TRAIN_DIR)
-    dv.run_model(TRAIN_DIR, FORMAT_DIR)
+    # # 段落向量计算相似度
+    # dv.train_datasest(TRAIN_DIR)
+    # dv.run_model(TRAIN_DIR, FORMAT_DIR)
+
+    # 数据预处理
+    cd.clean_out_of_date(FORMAT_DIR)
