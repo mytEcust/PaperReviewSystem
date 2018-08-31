@@ -1,4 +1,4 @@
 textract==1.6.1
 jieba==0.39
-gensim==3.5.0
 numpy==1.13.0
+gensim==3.5.0

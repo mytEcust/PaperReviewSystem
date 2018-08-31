@@ -94,7 +94,9 @@ def run_model(test_dir, format_dir):
             test_text = list(jieba.cut(test_d))
             inferred_vector_dm = model_dm.infer_vector(test_text)
             # topn 降序显示相似度最大的2个taggeddocument
-            sims = model_dm.docvecs.most_similar([inferred_vector_dm], topn=2)
+            sims = model_dm.docvecs.most_similar([inferred_vector_dm], topn=11)
+            paper_name = paper.split('.txt')[0]
+            paper_similar[paper_name] = []
             i = 0
             for index, sim in sims:
                 # 第一个是自己不插入
@@ -102,9 +104,9 @@ def run_model(test_dir, format_dir):
                     i += 1
                     continue
                 paper_name = paper.split('.txt')[0]
-                paper_similar[paper_name] = {
+                paper_similar[paper_name].append({
                     'name': paper_dict[str(index)],
                     'sim': sim
-                }
+                })
     set_similar_paper(paper_similar, format_dir)
     print("[DONE] run_model")
