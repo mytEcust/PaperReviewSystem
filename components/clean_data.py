@@ -30,6 +30,8 @@ def clean_out_of_date(format_dir):
     # scores_pred = clf.negative_outlier_factor_
     # for i, _d in enumerate(origin_dates):
     #     show_datas.append([_d, y_pred[i]])
+    # 参考文献
+    # https://zhuanlan.zhihu.com/p/37753692
     a = clf.kneighbors(origin_dates)[0].max(axis=1)
     print('离群系数')
     print(a)
