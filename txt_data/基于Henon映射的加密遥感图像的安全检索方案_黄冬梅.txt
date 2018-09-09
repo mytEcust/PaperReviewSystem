@@ -524,10 +524,9 @@ Extraction of feature vector in remote sensing image
 本地用户
 明文图像
 
-特征向量提取 
+特征向量提取
 
 特征向量的匹配
- 
 ...
 
 密文遥感图像

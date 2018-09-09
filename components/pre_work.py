@@ -26,6 +26,7 @@ def switch_pdf(paper_dir, txt_dir):
     """
     print("[START] switch paper to txt")
     for paper in os.listdir(paper_dir):
+        print(paper_dir+paper)
         text = textract.process(paper_dir+paper)
         content = str(text, encoding="utf-8").strip()
         with open(txt_dir+paper.split(".")[0]+'.txt', 'w') as f:
