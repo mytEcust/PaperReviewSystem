@@ -109,3 +109,21 @@ def out_of_date(_publish_year, reference_years):
     for year in reference_years:
         times.append(_publish_year-year)
     return times
+
+def author_date(file_data):
+    """
+    get author data
+    获取论文作者,及作者信息，简介
+    """
+    start = file_data.find('(', 0, 500)
+    end = file_data.find(' ', start, start + 50)
+    if end >= -1:
+
+    pass
+
+def journal_date(file_data):
+    """
+    get journal data
+    获取论文期刊信息
+    """
+    pass
