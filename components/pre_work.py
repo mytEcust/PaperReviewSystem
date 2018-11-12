@@ -48,12 +48,17 @@ def format_paper(txt_dir, format_dir):
             reference_obj = ftool.reference_counter(f_txt)
             format_obj['reference_counter'] = reference_obj['counter']
             format_obj['reference_years'] = reference_obj['years']
-            publish_year = ftool.publish_date(f_txt)
+            publish_year = ftool.publish_data(f_txt)
             format_obj['publish_year'] = publish_year
             format_obj['out_of_date'] = ftool.out_of_date(
                 publish_year, reference_obj['years'])
+            institutions_data = ftool.author_institutions_data(f_txt)
+            format_obj['author_institutions_data'] = institutions_data
+            authors_data = ftool.authors_data(f_txt, paper, institutions_data)
+            format_obj['first_author']=authors_data['first_author']
+            format_obj['authors']=authors_data['authors']
         with open(format_dir+paper.split(".")[0]+'.json', 'w') as f_format:
-            f_format.write(json.dumps(format_obj))
+            f_format.write(json.dumps(format_obj, ensure_ascii=False))
     print("[DONE] format paper")
 
 

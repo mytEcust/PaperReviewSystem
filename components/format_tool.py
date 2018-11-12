@@ -5,6 +5,7 @@
 
 import numpy as np
 
+
 def is_chinese(word):
     """
     判断是否为中文字符
@@ -85,7 +86,7 @@ def reference_counter(file_data):
     return {"counter": counter, "years": years}
 
 
-def publish_date(file_data):
+def publish_data(file_data):
     """
     get publish data
     从文章头部开始查找最先出现的年份
@@ -110,20 +111,192 @@ def out_of_date(_publish_year, reference_years):
         times.append(_publish_year-year)
     return times
 
-def author_date(file_data):
+
+def search_start(file_data, start=0, end=1000, mark='('):
+    """
+    search start
+    根据文献确定寻找作者单位信息的起始点
+    """
+    _start = start
+    while 1:
+        if _start < 0:
+            return -1
+        _start = file_data.find(mark, _start, end)
+        has_chinese = False
+        _count = 1  # 计数器
+        while 1:
+            if _count > 5:
+                break
+            has_chinese = has_chinese or is_chinese(file_data[_start+_count])
+            if has_chinese:
+                break
+            _count += 1
+        if has_chinese:
+            return _start
+        else:
+            _start = file_data.find(mark, _start+1, end)
+
+
+def find_institutions(file_data, start, end):
+    """
+    find institutions
+    根据文献，开始标记，结束标记寻找作者单位信息
+    """
+    institutions = []
+    _instit = ''
+    if start < 0:
+        return []
+    while 1:
+        if file_data[start] == ')' or file_data[start] == '）':
+            return institutions
+        elif is_chinese(file_data[start]):
+            _instit = _instit+file_data[start]
+        else:
+            if len(_instit) > 0:
+                if(len(_instit) > 4):
+                    institutions.append(_instit)
+                _instit = ''
+        start += 1
+        if(start > end):
+            return institutions
+
+
+def author_institutions_data(file_data):
     """
     get author data
     获取论文作者,及作者信息，简介
+    90%左右的文献的作者单位信息都由()包含，故已此为标准进行截取
+    并去除其中一些干扰信息
+    剩余10%不到的文献没有作者单位信息，或者单位信息排版较为独特
+    故不做多余的强耦合的获取方式
     """
-    start = file_data.find('(', 0, 500)
-    end = file_data.find(' ', start, start + 50)
-    if end >= -1:
+    _start = 0
+    while 1:
+        if(_start > 500):
+            return []
+        start = search_start(file_data, _start, _start+1000, '(')
+        end = start+1000
+        institutions = find_institutions(file_data, start, end)
+        if(len(institutions)):
+            return institutions
 
-    pass
+        start = search_start(file_data, _start, _start+1000, '（')
+        end = start+1000
+        institutions = find_institutions(file_data, start, end)
+        if(len(institutions)):
+            return institutions
 
-def journal_date(file_data):
+        _start += 100
+
+
+def filter_authors(_authors):
+    """
+    过滤不合格的作者名字
+    去除大于6个作者的作者们
+    去除大于五个字的作者名字
+    """
+    if len(_authors) > 6:
+        _authors = []
+    _authors = [_auth for _auth in _authors if len(_auth) < 5]
+    return _authors
+
+
+def get_comma_authors(file_data, paper_title, first_author, institution):
+    """
+    获取全部作者
+    情况1：以,分隔的作者
+    """
+    _authors = []
+    _author = ''
+    _file_data = file_data.replace(' ', '')
+    _file_data = _file_data.replace('\n', '')
+
+    _authors_start = _file_data.find(first_author)
+    if _authors_start > 1000:
+        _authors_start = _file_data.find(paper_title)+len(paper_title)
+    _authors_end = _file_data.find(institution, _authors_start)
+
+    _authors_str = _file_data[_authors_start:_authors_end-1]
+    _sentry = 0
+    _space = 0
+    while _sentry < len(_authors_str):
+        if is_chinese(_authors_str[_sentry]):
+            _author += _authors_str[_sentry]
+            if _sentry == (len(_authors_str)-1):
+                _authors.append(_author)
+        elif _authors_str[_sentry] == ',' or _authors_str[_sentry] == '，' or _space > 0:
+            if len(_author) > 1:
+                _authors.append(_author)
+                _space = 0
+                _author = ''
+        _sentry += 1
+        _space += 1
+
+    return _authors
+
+
+def get_space_authors(file_data, first_author, institution):
+    _authors = []
+    _author = ''
+
+    _authors_start = file_data.find(first_author)
+    _authors_end = file_data.find(institution, _authors_start)
+    _authors_str = file_data[_authors_start:_authors_end-1]
+
+    _sentry = 0
+    _space = 0
+    while _sentry < len(_authors_str):
+        if is_chinese(_authors_str[_sentry]):
+            _author += _authors_str[_sentry]
+            if _sentry == (len(_authors_str)-1):
+                _authors.append(_author)
+        elif len(_author) > 1:
+            _authors.append(_author)
+            _space = 0
+            _author = ''
+        _sentry += 1
+        _space += 1
+
+    return _authors
+
+
+def authors_data(file_data, paper_name, institutions_data=[]):
+    """
+    get author data
+    获取作者信息
+    例如 基于word2vec的关键词提取算法_李跃鹏.txt
+    根据_和.txt截取李跃鹏
+    """
+    _start = paper_name.rfind('_')
+    _end = paper_name.find('.txt')
+    paper_title = paper_name[:_start]
+    first_author = paper_name[_start+1:_end] 
+
+    if not len(institutions_data):
+        return {
+            'authors': [],
+            'first_author': first_author
+        }
+    
+    institution = institutions_data[0]
+
+    authors = get_comma_authors(
+        file_data, paper_title, first_author, institution)
+
+    if len(authors) == 1 and len(authors[0]) > 4:
+        authors = get_space_authors(file_data, first_author, institution)
+
+    authors = filter_authors(authors)
+
+    return {
+        'authors': authors,
+        'first_author': first_author
+    }
+
+
+def journal_data(file_data):
     """
     get journal data
-    获取论文期刊信息
+    获取论文期刊信息,名称
     """
     pass
