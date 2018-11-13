@@ -57,6 +57,10 @@ def format_paper(txt_dir, format_dir):
             authors_data = ftool.authors_data(f_txt, paper, institutions_data)
             format_obj['first_author']=authors_data['first_author']
             format_obj['authors']=authors_data['authors']
+            format_obj['journal_data']=ftool.journal_data(f_txt, paper)
+            print('------------------')
+            print(paper)
+            format_obj['fund_project']=ftool.fund_project(f_txt)
         with open(format_dir+paper.split(".")[0]+'.json', 'w') as f_format:
             f_format.write(json.dumps(format_obj, ensure_ascii=False))
     print("[DONE] format paper")

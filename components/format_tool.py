@@ -16,6 +16,15 @@ def is_chinese(word):
         return False
 
 
+def format_paper(file_data):
+    """
+    格式化文献，去除空格和换行
+    """
+    _file_data = file_data.replace(' ', '')
+    _file_data = _file_data.replace('　', '')
+    return _file_data.replace('\n', '')
+
+
 def word_counter(file_data):
     """
     get word count
@@ -204,12 +213,13 @@ def filter_authors(_authors):
 def get_comma_authors(file_data, paper_title, first_author, institution):
     """
     获取全部作者
-    情况1：以,分隔的作者
+    情况1：以,分隔的作者，作者姓名间包含空格
     """
     _authors = []
     _author = ''
-    _file_data = file_data.replace(' ', '')
-    _file_data = _file_data.replace('\n', '')
+    _file_data = format_paper(file_data)
+    # _file_data = file_data.replace(' ', '')
+    # _file_data = _file_data.replace('\n', '')
 
     _authors_start = _file_data.find(first_author)
     if _authors_start > 1000:
@@ -236,6 +246,10 @@ def get_comma_authors(file_data, paper_title, first_author, institution):
 
 
 def get_space_authors(file_data, first_author, institution):
+    """
+    获取全部作者
+    情况2：以空格分隔的作者，作者姓名间不含空格
+    """
     _authors = []
     _author = ''
 
@@ -270,14 +284,14 @@ def authors_data(file_data, paper_name, institutions_data=[]):
     _start = paper_name.rfind('_')
     _end = paper_name.find('.txt')
     paper_title = paper_name[:_start]
-    first_author = paper_name[_start+1:_end] 
+    first_author = paper_name[_start+1:_end]
 
     if not len(institutions_data):
         return {
             'authors': [],
             'first_author': first_author
         }
-    
+
     institution = institutions_data[0]
 
     authors = get_comma_authors(
@@ -294,9 +308,102 @@ def authors_data(file_data, paper_name, institutions_data=[]):
     }
 
 
-def journal_data(file_data):
+def journal_data(file_data, paper_name):
     """
     get journal data
     获取论文期刊信息,名称
+    从最开始的中文到论文标题
     """
-    pass
+    EXCEPT_FIRST_WORDS = ['第', '卷', '期', '年', '月', '日']
+
+    _start = paper_name.rfind('_')
+    paper_title = paper_name[:_start]
+
+    _file_data = format_paper(file_data)
+    _journal_end = _file_data.find(paper_title)
+    if _journal_end < 0:
+        return ''
+    _j_data = _file_data[:_journal_end]
+    _count = -1
+    journal_name = ''
+    while 1:
+        _count += 1
+        if _count >= len(_j_data):
+            break
+        if len(journal_name) == 0 and (_j_data[_count] in EXCEPT_FIRST_WORDS):
+            continue
+        if is_chinese(_j_data[_count]):
+            journal_name += _j_data[_count]
+        elif len(journal_name):
+            break
+
+    return journal_name
+
+
+
+def find_fund_project(format_data, mark_name):
+    fund_name = mark_name
+    funds_list = []
+    maybe_words = ''
+    besides_words = ['(', ')', '（', '）']
+
+    _start = format_data.find(mark_name)
+    _start -= 1
+
+    if _start < 0:
+        return funds_list
+
+    # 向前补全
+    while 1:
+        if is_chinese(format_data[_start]):
+            # print(format_data[_start])
+            fund_name = format_data[_start]+maybe_words+fund_name
+            # print(fund_name)
+            maybe_words = ''
+            _start -= 1
+        else:
+            if (format_data[_start] in besides_words) or format_data[_start].isalnum():
+                maybe_words = format_data[_start]+maybe_words
+                # 如果不是中文切不超过5个依旧插入，如A类，135计划,(...备注)
+                if len(maybe_words) < 6:
+                    _start -= 1
+                    continue
+            if len(fund_name):
+                if fund_name != mark_name:
+                    funds_list.append(fund_name)
+                # 回到基金名称的最尾端
+                _end = _start+len(fund_name)+len(maybe_words)
+                if format_data.find(mark_name, _end) > -1:
+                    fund_name = mark_name
+                    maybe_words=''
+                    _start = format_data.find(mark_name, _end) - 1
+                    continue
+
+            break
+
+    return funds_list
+
+def filter_funds(fund,fundlist):
+    for _fund in fundlist:
+        if _fund != fund and _fund.find(fund) > -1:
+            return False
+    return True
+
+def fund_project(file_data):
+    """
+    获取文献基金项目
+    """
+    _file_data = format_paper(file_data)
+    funds_list = []
+
+    funds_list += find_fund_project(_file_data, '资助项目')
+    funds_list += find_fund_project(_file_data, '启动项目')
+    funds_list += find_fund_project(_file_data, '科研基金')
+    funds_list += find_fund_project(_file_data, '科学基金')
+    funds_list += find_fund_project(_file_data, '发展计划')
+    funds_list += find_fund_project(_file_data, '计划项目')
+
+    # 过滤相互包含的基金名称
+    funds_list = list(filter(lambda _fund: filter_funds(_fund,funds_list) , funds_list))
+
+    return funds_list
