@@ -249,27 +249,34 @@ l(θ) = log L(θ) =
 图1
 Fig. 1
 
-917
+arg max
+
+1
+v
+
+s
 
 词向量语义分类模型
 
 Model of semantical categorization by word embeddings
 
-Ã Tj
-!
-s
-1X X
-arg max
+Tj
+
+克尔 · 乔丹” 所对应的向量, 通过公式
+
 log p(wij |contextij )
-v j=1 ij=1
+j=1
+
+917
+
+arg max(cos(mi , C))
+
+ij=1
+
 (2)
 通过随机梯度下降对目标函数求解, 即可将语
 料库中 V 个词表示为含有深层语义特征的分布式向
 量.
-
-克尔 · 乔丹” 所对应的向量, 通过公式
-
-arg max(cos(mi , C))
 
 (3)
 
@@ -349,15 +356,18 @@ x, y ) 为一个观测样本. 可以得出 y = ci (ci 是第
 则 (x
 1.2.3 节选取的特征, 取值范围为 [0, 1, 2, · · · , k − 1])
 的条件概率:
-P (y = ci |x) =
-
 egei (x)
-k−1
-P ge (x)
+
+P (y = ci |x) =
 1+
-e i
+
+k−1
+
+e
 
 (6)
+
+gei (x)
 
 学
 
@@ -388,7 +398,7 @@ gci (x) = log
 
 (7)
 
-l(β) =
+同义词表举例
 
 Examples of synonym lexicon
 
@@ -407,9 +417,6 @@ Examples of synonym lexicon
 观测样本记作 (Xi , Yji ), i = 1, 2, · · · , n. 利用上面
 规定, 得出如下似然函数:
 n
-Y
-
-同义词表举例
 
 篮球之神
 迈克尔 · 杰弗里 · 乔丹
@@ -422,26 +429,27 @@ Michael Jeffrey Jordan
 
 (π0 (Xi )y0i π1 (Xi )y1i · · · πk−1 (Xi )yk−1i )
 
+l(β) =
 i=1
 
 (8)
 其中, πj (Xi ) = P (y = j|Xi ). 对等式两端取对数整
 理可以得到如下的对数似然函数:
-
-L(β) =
-
-k−1 X
-n
-X
-
-yji log(πj (Xi ))
-
-(9)
+k−1
 
 将实体指称标准化之后, 需要为待消歧的命名
 实体构建一个候选实体列表. 本文构建了歧义词表
 (见表 3), 表 3 中存储的是实体的标准形式 (Key) 及
 其对应的无歧义实体列表 (List).
+
+n
+
+L(β) =
+
+yji log(πj (Xi ))
+
+(9)
+
 表3
 Table 3
 
@@ -484,8 +492,7 @@ categorization by word embeddings, SCWE) 和实
 程表述如下:
 
 E ∗ = arg max [λ cos(SCW Emi , eij ) +
-ei
-∀eij ²e
+∀eij e i
 
 (10)
 
@@ -1001,7 +1008,8 @@ of word representations in vector space. arXiv: 1301.3781,
 2013.
 12 Hartigan J A, Wong M A. Algorithm AS 136: a k-means
 clustering algorithm. Journal of the Royal Statistical Society — Series C (Applied Statistics), 1979, 28(1): 100−108
-13 Fernández-Delgado M, Cernadas E, Barro S, Amorim D. Do
+13 Fern´
+andez-Delgado M, Cernadas E, Barro S, Amorim D. Do
 we need hundreds of classifiers to solve real world classification problems? Journal of Machine Learning Research,
 2014, 15: 3133−3181
 14 Mao Yi, Chen Wen-Lin, Guo Bao-Long, Chen Yi-Xin. A

@@ -340,8 +340,10 @@ def journal_data(file_data, paper_name):
     return journal_name
 
 
-
 def find_fund_project(format_data, mark_name):
+    """
+    根据基金名称标记mark_name，找到其对应的所有基金名称
+    """
     fund_name = mark_name
     funds_list = []
     maybe_words = ''
@@ -356,9 +358,7 @@ def find_fund_project(format_data, mark_name):
     # 向前补全
     while 1:
         if is_chinese(format_data[_start]):
-            # print(format_data[_start])
             fund_name = format_data[_start]+maybe_words+fund_name
-            # print(fund_name)
             maybe_words = ''
             _start -= 1
         else:
@@ -375,19 +375,22 @@ def find_fund_project(format_data, mark_name):
                 _end = _start+len(fund_name)+len(maybe_words)
                 if format_data.find(mark_name, _end) > -1:
                     fund_name = mark_name
-                    maybe_words=''
+                    maybe_words = ''
                     _start = format_data.find(mark_name, _end) - 1
-                    continue
-
             break
 
     return funds_list
 
-def filter_funds(fund,fundlist):
+
+def filter_funds(fund, fundlist):
+    """
+    过滤相互包含的基金名称
+    """
     for _fund in fundlist:
         if _fund != fund and _fund.find(fund) > -1:
             return False
     return True
+
 
 def fund_project(file_data):
     """
@@ -395,15 +398,93 @@ def fund_project(file_data):
     """
     _file_data = format_paper(file_data)
     funds_list = []
+    FUND_MARK_NAMES = ['资助项目', '启动项目', '科研基金', '科学基金', '发展计划', '计划项目']
 
-    funds_list += find_fund_project(_file_data, '资助项目')
-    funds_list += find_fund_project(_file_data, '启动项目')
-    funds_list += find_fund_project(_file_data, '科研基金')
-    funds_list += find_fund_project(_file_data, '科学基金')
-    funds_list += find_fund_project(_file_data, '发展计划')
-    funds_list += find_fund_project(_file_data, '计划项目')
+    for _m_name in FUND_MARK_NAMES:
+        funds_list += find_fund_project(_file_data, _m_name)
 
-    # 过滤相互包含的基金名称
-    funds_list = list(filter(lambda _fund: filter_funds(_fund,funds_list) , funds_list))
+    # 过滤相互包含的基金名称,列表解析
+    funds_list = [
+        _fund for _fund in funds_list if filter_funds(_fund, funds_list)]
 
     return funds_list
+
+
+def find_ref_source(file_data, mark):
+    """
+    根据mark标记，获取参考文献来源
+    """
+    besides_words = [' ', ':', '\n', '：']
+    source_list = []
+    source_name = ''
+    _start = 0
+    # 逐个寻找参考文献
+    while 1:
+        if _start >= len(file_data):
+            break
+        _start = file_data.find(mark, _start)
+        if _start < 0:
+            break
+        _start += len(mark)
+        # 有参考文献拼接文献来源
+        while 1:
+            _char = file_data[_start]
+            if is_chinese(_char) or _char.isalnum() or _char in besides_words:
+                source_name += _char
+                _start += 1
+                continue
+            if len(source_name):
+                source_list.append(source_name)
+                source_name = ''
+                _start += 1
+            break
+    return source_list
+
+
+def filter_reference_source(item):
+    """
+    格式化参考文献
+    中文间不需要空格
+    英语间的空格要保留
+    """
+    item = item.replace('\n', '')
+    if item and item[0]==' ':
+        item=item[1:]
+    for _char in item:
+        if is_chinese(_char):
+            item = item.replace(' ', '')
+            return item
+        if _char.isalpha():
+            return item
+    return ''
+
+
+def references_source(file_data):
+    """
+    获取参考文献来源
+    M代为专著
+    J为期刊文章
+    Z为未定义类型的文献
+    C为论文集
+    D为学位论文
+    N为报纸文章
+    R为报告
+    P为专利
+    """
+    REF_MRAK_LIST = ['［J］．', '[J].', '[J]．',
+                     '［M］．', '[M].', '[M]．',
+                     '［Z］．', '[Z].', '[Z]．',
+                     '［C］．', '[C].', '[C]．',
+                     '［D］．', '[D].', '[D]．',
+                     '［N］．', '[N].', '[N]．',
+                     '［R］．', '[R].', '[R]．',
+                     '［P］．', '[P].', '[P]．']
+
+    source_list = []
+    for _m_name in REF_MRAK_LIST:
+        source_list += find_ref_source(file_data, _m_name)
+
+    # 过滤不需要的空格和小于4个字符的来源,列表解析
+    source_list = [filter_reference_source(_source) for _source in source_list]
+    source_list = [_source for _source in source_list if len(_source) > 4]
+    return source_list

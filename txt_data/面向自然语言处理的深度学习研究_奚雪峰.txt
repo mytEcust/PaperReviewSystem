@@ -216,7 +216,7 @@ MNIST 是一个包含手写数字图片的数据集 http://yann.lecun.com/exdb/m
 图 1 (a) 所 示 流 图 表 示 计 算 函 数: f (x) =
 x × sin(x × a + a/b), 该结构具有深度 4. 图 1 (b)
 所示多层人工神经网络 (Artificial neural network,
-x) = tanh(b + w0x ), 该结构
+x) = tanh(b + w x ), 该结构
 ANN) 表示计算函数 f (x
 具有深度 3. 对于输出层而言, 传统 BP 神经网络的
 深度一般定义为隐层数加 1, 如图 1 (c) 的结构具有
@@ -932,9 +932,10 @@ x ; 网络的第二层 (隐藏层) 基于 d + Hx
 个节点, 使用 sof tmax 激活函数将输出值 y 归一
 化, 如式 (1) 所示.
 
+Pˆ (wt = i|w1t−1 ) =
+
 e yi
-P̂ (wt = i|w1t−1 ) = P yj
-e
+e yj
 
 (1)
 
@@ -986,11 +987,9 @@ Log-bilinear 语言模型
 度学习应用的尝试. 他们从最基本的受限玻尔兹曼
 机 (Restricted Boltzmann machines, RBM) 开始,
 不断调整修改模型的能量函数, 最终获得了 Logbilinear 模型. 采用神经网络的形式可以表示为:
+t−1
 
 h=
-
-t−1
-X
 
 Hic (w)
 
@@ -1038,13 +1037,11 @@ Mikolov 等提出了一种循环神经网络语言模型 (Recurrent neural netwo
 (4)
 
 式 (3) 和 (4) 可以合并表示为:
-
-yj =
-
 t−1
-X
 
 c (wj )T Hic (w)
+
+yj =
 
 (5)
 
@@ -1112,24 +1109,10 @@ s (1) = s (0).
 果一旦在实际使用中优化不足, 就可能丢失长距离
 信息, 导致预测词的性能甚至可能还比不上取 n 个
 词的窗口模式. 为了降低最后隐藏层到输出层的复
-杂计算量, Mikolov 等[47] 采用了一种分组的方法
-:
-p
-|V
-|
-组
-,
-先通过
-基于词频特点
-,
-将
-|V
-|
-个词分成
-p
+杂计算量, Mikolov 等[47] 采用了一种分组的方法:
+基于词频特点, 将 |V | 个词分成 |V | 组, 先通过
 |V | 次判断, 判断下一个词所属组别; 再通过若干
-次判断p
-, 找出其属于组内的元素; 最后均摊复杂度约
+次判断, 找出其属于组内的元素; 最后均摊复杂度约
 为 O( |V |), 略差于 Mnih 和 Hinton 所提模型[29]
 的复杂度 O(log(|V |)). 但是这种方法最大的优点是
 结构比较简单, 可以减少误差传递.
@@ -1149,9 +1132,10 @@ f 分值低, 表明这句话不合理. 极端情况, 如果随机
 基于此, Collobert 和 Weston 使用 Pair-wise
 方法来训练词向量[30] . 其中, 需要最小化目标函数
 如下.
-XX
 max{0, 1 − f (x) + f (x(w))}
+
 (7)
+
 x∈X w∈D
 
 式中, X 为训练集中的所有连续的 n 元短语, D 是
@@ -1423,9 +1407,7 @@ f (z) = max(z, 0)
 2.3.3 模型初始化
 模型的初始化, 首先设置隐藏层的偏置量为 0,
 并设置输出层的偏置量为假定权重值 w 都为 0 的
-情况下的最优值
-; 其次, 设置权重 w ∈ (−r, r), r =
-p
+情况下的最优值; 其次, 设置权重 w ∈ (−r, r), r =
 6/(f anin + f anout ), 其中 f anin 为前一层网络的
 结点数, f anout 为后一层网络的结点数; 最后, 完成
 预训练过程.
@@ -1717,16 +1699,14 @@ c = q ({h1 , · · · , hTx })
 其中, ht ∈ Rn 表示时刻 t 时的隐藏状态, c 是由
 多个隐藏状态序列生成的向量, f 和 q 是非线性函
 数. 例如 Sutskever 等使用多层 LSTM (Long shortterm memory) 表示 f 函数[83] . 在给定上下文向量
-c 和前续已经预测得到的词序列 {y1 , · · · , yt0 −1 } 的
+c 和前续已经预测得到的词序列 {y1 , · · · , yt −1 } 的
 前提下, 循环神经网络训练的编码器用来预测下一
-个词 yt0 . 表示如下:
-
-p(y) =
-
+个词 yt . 表示如下:
 T
-Y
 
 p(yt |{y1 , · · · , yt−1 }, c )
+
+p(y) =
 
 (18)
 
@@ -1782,7 +1762,7 @@ Python、C++、C 或 Java 等不同程序设计语言
 
 2.5.1 函数库/工具包
 最早出现的, 较为完整实现深度学习框架的
-库函数包是由加拿大 Montreal 大学 LISA (Laboratoire d0 Informatique des Systèmes Adaptatifs)
+库函数包是由加拿大 Montreal 大学 LISA (Laboratoire d Informatique des Syst`emes Adaptatifs)
 实 验 室 Bergstra 等 开 发 的 Theano, 是 一 个 基 于
 Python 语言的库, 实现了深度学习相关模型及算
 法, 如 RBM/DBN 等, 可有效支持涉及多维矩阵相
@@ -1883,7 +1863,7 @@ representation 词向量表示方式, 通过一个三层的神
 
 2.5.4 深度神经网络组件
 最早由 Ruslan Salakhutdinov 基于 Matlab 开
-发的一类小型函数库 (Matrbm、Estimating partition functions of RBM0 s、Learning deep Boltzmann machines)[35] , 主 要 用 于 训 练 构 成 深 度 学
+发的一类小型函数库 (Matrbm、Estimating partition functions of RBM s、Learning deep Boltzmann machines)[35] , 主 要 用 于 训 练 构 成 深 度 学
 习网络的组件, 如 RBM, 规模不大. 随后出现的
 Deeplearning4j 是一个规模较大, 完整实现深度学
 习框架的平台工具, 支持 GPU, 可以运行在 Hadoop
@@ -2060,7 +2040,7 @@ Overview of deep learning. Application Research of Computers, 2012, 29(8): 2806�
 (孙志军, 薛磊, 许阳明, 王正. 深度学习研究综述. 计算机应用研究,
 2012, 29(8): 2806−2810)
 3 Bengio Y. Learning deep architectures for AI. Foundations
-and Trendsr in Machine Learning, 2009, 2(1): 1−127
+and Trends in Machine Learning, 2009, 2(1): 1−127
 4 Hinton G E, Osindero S, Teh Y W. A fast learning algorithm for deep belief nets. Neural Computation, 2006, 18(7):
 1527−1554
 5 Hinton G E, Salakhutdinov R R. Reducing the dimensionality of data with neural networks. Science, 2006, 313(5786):
@@ -2068,16 +2048,16 @@ and Trendsr in Machine Learning, 2009, 2(1): 1−127
 6 Bengio Y, Lamblin P, Popovici D, Larochelle H. Greedy
 layer-wise training of deep networks. In: Proceedings of the
 2007 Advances in Neural Information Processing Systems 19
-(NIPS0 06). Vancouver, Canada: MIT Press, 2007. 153−160
+(NIPS 06). Vancouver, Canada: MIT Press, 2007. 153−160
 7 Ranzato M A, Poultney C, Chopra S, LeCun Y. Efficient
 learning of sparse representations with an energy-based
 model. In: Proceedings of the 2007 Advances in Neural
-Information Processing Systems 19 (NIPS0 06). Vancouver,
+Information Processing Systems 19 (NIPS 06). Vancouver,
 Canada: MIT Press, 2007. 1137−1144
-8 Weston J, Ratle F, Collobert R. Deep learning via semisupervised embedding. In: Proceedings of the 25th International Conference on Machine Learning (ICML0 08). New
+8 Weston J, Ratle F, Collobert R. Deep learning via semisupervised embedding. In: Proceedings of the 25th International Conference on Machine Learning (ICML 08). New
 York, USA: ACM Press, 2008. 1168−1175
 9 Srivastava N, Mansimov E, Salakhutdinov R. Unsupervised
-learning of video representations using LSTMs. In: Proceedings of the 32nd International Conference on Machine Learning (ICML0 15). Lille, France: Omni Press, 2015. 843−852
+learning of video representations using LSTMs. In: Proceedings of the 32nd International Conference on Machine Learning (ICML 15). Lille, France: Omni Press, 2015. 843−852
 
 化
 
@@ -2101,7 +2081,8 @@ Research, 2014, 15(1): 1929−1958
 14 Dosovitskiy A, Springenberg J T, Riedmiller M, Brox T.
 Discriminative unsupervised feature learning with convolutional neural networks. In: Proceedings of the 2014
 Advances in Neural Information Processing Systems 27
-(NIPS0 14). Montréal, Quebec, Canada: MIT Press, 2014.
+(NIPS 14). Montr´
+eal, Quebec, Canada: MIT Press, 2014.
 766−774
 15 Sun Y, Wang X G, Tang X O. Deep learning face representation from predicting 10 000 classes. In: Proceedings
 of the 2014 IEEE Conference on Computer Vision and
@@ -2111,26 +2092,27 @@ Pattern Recognition. Columbus, Ohio, USA: IEEE, 2014.
 application of continuous deep belief network. Acta Automatica Sinica, 2015, 41(12): 2138−2146
 (乔俊飞, 潘广源, 韩红桂. 一种连续型深度信念网的设计与应用. 自
 动化学报, 2015, 41(12): 2138−2146)
-17 Längkvist M, Karlsson L, Loutfi A. A review of unsupervised
+17 L¨
+angkvist M, Karlsson L, Loutfi A. A review of unsupervised
 feature learning and deep learning for time-series modeling.
 Pattern Recognition Letters, 2014, 42: 11−24
 18 Han X F, Leung T, Jia Y Q, Sukthankar R, Berg A
 C. MatchNet: unifying feature and metric learning for
 patch-based matching. In: Proceedings of the 2015 IEEE
 Conference on Computer Vision and Pattern Recognition
-(CVPR0 15). Boston, Massachusetts, USA: IEEE Press,
+(CVPR 15). Boston, Massachusetts, USA: IEEE Press,
 2015. 3279−3286
 19 Szegedy C, Liu W, Jia Y Q, Sermanet P, Reed S, Anguelov
 D, Erhan D, Vanhoucke V, Rabinovich A. Going deeper with
 convolutions. In: Proceedings of the 2015 IEEE Conference
-on Computer Vision and Pattern Recognition (CVPR0 15).
+on Computer Vision and Pattern Recognition (CVPR 15).
 Boston, Massachusetts, USA: IEEE, 2015. 1−9
 20 Denton E L, Chintala S, Szlam A, Fergus R. Deep generative image models using a Laplacian pyramid of adversarial
-networks. In: Proceedings of the 2015 Advances in Neural Information Processing Systems 28 (NIPS0 15). Montreal,
+networks. In: Proceedings of the 2015 Advances in Neural Information Processing Systems 28 (NIPS 15). Montreal,
 Canada: MIT Press, 2015. 1486−1494
 21 Dong C, Loy C C, He K M, Tang X O. Learning a deep
 convolutional network for image super-resolution. In: Proceedings of the 13th European Conference on Computer
-Vision (ECCV0 14). Zurich, Switzerland: Springer International Publishing, 2014. 184−199
+Vision (ECCV 14). Zurich, Switzerland: Springer International Publishing, 2014. 184−199
 
 10 期
 
@@ -2144,13 +2126,13 @@ data modeling. Computer Vision and Image Understanding,
 
 35 Salakhutdinov R R, Hinton G. Deep Boltzmann machines.
 In: Proceedings of the 12th International Conference on
-Artificial Intelligence and Statistics (AISTATS0 09). Florida,
+Artificial Intelligence and Statistics (AISTATS 09). Florida,
 USA: Omni Press, 2009. 448−455
 
 23 Jain A, Tompson J, LeCun Y, Bregler C. Modeep: a deep
 learning framework using motion features for human pose
 estimation. In: Proceedings of the 12th Asian Conference
-on Computer Vision (ACCV0 2014). Singapore: Springer International Publishing, 2015. 302−315
+on Computer Vision (ACCV 2014). Singapore: Springer International Publishing, 2015. 302−315
 
 36 Bengio Y, Ducharme R, Vincent P, Jauvin C. A neural probabilistic language model. The Journal of Machine Learning
 Research, 2003, 3: 1137−1155
@@ -2160,7 +2142,7 @@ recognition based on deep collaborative sparse coding network. Acta Automatica S
 (耿杰, 范剑超, 初佳兰, 王洪玉. 基于深度协同稀疏编码网络的海洋
 浮筏 SAR 图像目标识别. 自动化学报, 2016, 42(4): 593−604)
 25 Erhan D, Szegedy C, Toshev A, Anguelov D. Scalable object detection using deep neural networks. In: Proceedings
-of the 2014 IEEE Conference on Computer Vision and Pattern Recognition (CVPR0 14). Columbus, Ohio, USA: IEEE,
+of the 2014 IEEE Conference on Computer Vision and Pattern Recognition (CVPR 14). Columbus, Ohio, USA: IEEE,
 2014. 2155−2162
 26 Qi Y J, Das S G, Collobert R, Weston J. Deep learning
 for character-based information extraction. In: Proceedings
@@ -2175,10 +2157,10 @@ scratch. The Journal of Machine Learning Research, 2011,
 12: 2493−2537
 29 Mnih A, Hinton G E. A scalable hierarchical distributed
 language model. In: Proceedings of the 2009 Advances in
-Neural Information Processing Systems 21 (NIPS0 08). Vancouver, Canada: MIT Press, 2009. 1081−1088
+Neural Information Processing Systems 21 (NIPS 08). Vancouver, Canada: MIT Press, 2009. 1081−1088
 30 Collobert R, Weston J. A unified architecture for natural
 language processing: deep neural networks with multitask
-learning. In: Proceedings of the 25th International Conference on Machine Learning (ICML0 08). Helsinki, Finland:
+learning. In: Proceedings of the 25th International Conference on Machine Learning (ICML 08). Helsinki, Finland:
 ACM Press, 2008. 160−167
 31 Olshausen B A, Field D J. Emergence of simple-cell receptive field properties by learning a sparse code for natural
 images. Nature, 1996, 381(6583): 607−609
@@ -2186,32 +2168,37 @@ images. Nature, 1996, 381(6583): 607−609
 20, 2016
 33 Hastad J. Computational Limitations for Small Depth Circuits. Cambridge, MA, USA: Massachusetts Institute of
 Technology, 1987
-34 Serre C, Mellot-Draznieks C, Surblé S, Audebrand N, Filinchuk Y, Férey G. Role of solvent-host interactions that
+34 Serre C, Mellot-Draznieks C, Surbl´
+e S, Audebrand N, Filinchuk Y, F´
+erey G. Role of solvent-host interactions that
 lead to very large swelling of hybrid frameworks. Science,
 2007, 315(5820): 1828−1831
 
-37 Mikolov T, Deoras A, Kombrink S, Burget L, Černocký J H.
+ˇ
+37 Mikolov T, Deoras A, Kombrink S, Burget L, Cernock´
+y J H.
 Empirical evaluation and combination of advanced language
-modeling techniques. In: Proceedings of the 2011 Conference of the International Speech Communication Association (INTERSPEECH0 2011). Florence, Italy: ISCA Press,
+modeling techniques. In: Proceedings of the 2011 Conference of the International Speech Communication Association (INTERSPEECH 2011). Florence, Italy: ISCA Press,
 2011. 605−608
 38 Schwenk H, Rousseau A, Attik M. Large, pruned or continuous space language models on a GPU for statistical machine translation. In: Proceedings of the NAACL-HLT 2012
 Workshop: Will We ever Really Replace the N -gram Model?
-on the Future of Language Modeling for HLT. Montréal,
+on the Future of Language Modeling for HLT. Montr´
+eal,
 Canada: ACL Press, 2012. 11−19
 39 Socher R, Huang E H, Pennington J, Ng A Y, Manning C D.
 Dynamic pooling and unfolding recursive autoencoders for
 paraphrase detection. In: Proceedings of the 2011 Advances
-in Neural Information Processing Systems 24 (NIPS0 11).
+in Neural Information Processing Systems 24 (NIPS 11).
 Granada, Spain: MIT Press, 2011. 801−809
 40 Socher R, Huval B, Manning C D, Ng A Y. Semantic compositionality through recursive matrix-vector spaces. In: Proceedings of the 2012 Joint Conference on Empirical Methods
 in Natural Language Processing and Computational Natural
 Language Learning. Jeju Island, Korea: ACL Press, 2012.
 1201−1211
 41 Le Q, Mikolov T. Distributed representations of sentences
-and documents. In: Proceedings of the 31st International Conference on Machine Learning (ICML0 14). Beijing,
+and documents. In: Proceedings of the 31st International Conference on Machine Learning (ICML 14). Beijing,
 China: ACM Press, 2014. 1188−1196
 42 Kim Y. Convolutional neural networks for sentence classification. In: Proceedings of the 2014 Conference on Empirical
-Methods in Natural Language Processing (EMNLP0 2014).
+Methods in Natural Language Processing (EMNLP 2014).
 Doha, Qatar: ACL Press, 2014. 1746−1751
 43 Dahl G E, Yu D, Deng L, Acero A. Context-dependent pretrained deep neural networks for large vocabulary speech
 recognition. IEEE Transactions on Audio, Speech, and Language Processing, 2012, 20(1): 30−42
@@ -2219,9 +2206,9 @@ recognition. IEEE Transactions on Audio, Speech, and Language Processing, 2012, 
 using deep belief networks. IEEE Transactions on Audio,
 Speech, and Language Processing, 2012, 20(1): 14−22
 45 Mikolov T, Yih W T, Zweig G. Linguistic regularities in continuous space word representations. In: Proceedings of the
-2013 Conference of the North American Chapter of the Association for Computational Linguistics (NAACL-HLT0 2013).
+2013 Conference of the North American Chapter of the Association for Computational Linguistics (NAACL-HLT 2013).
 Atlanta, Georgia: ACL Press, 2013. 746−751
-46 Mikolov T, Sutskever I, Chen K, Corrado G S, Dean J. Distributed representations of words and phrases and their compositionality. In: Proceedings of the 2013 Advances in Neural Information Processing Systems 26 (NIPS0 13). Nevada,
+46 Mikolov T, Sutskever I, Chen K, Corrado G S, Dean J. Distributed representations of words and phrases and their compositionality. In: Proceedings of the 2013 Advances in Neural Information Processing Systems 26 (NIPS 13). Nevada,
 USA: MIT Press, 2013. 3111−3119
 
 1464
@@ -2238,26 +2225,33 @@ USA: MIT Press, 2013. 3111−3119
 
 42 卷
 
-47 Mikolov T, Karafiát M, Burget L, Černocký, Khudanpur S.
+ˇ
+47 Mikolov T, Karafi´
+at M, Burget L, Cernock´
+y, Khudanpur S.
 Recurrent neural network based language model. In: Proceedings of the 2010 International Conference on Spoken
-Language Processing (ICSLP0 2010). Chiba, Japan: Speech
+Language Processing (ICSLP 2010). Chiba, Japan: Speech
 Communication Press, 2010. 1045−1048
 
 59 Zheng X Q, Chen H Y, Xu T Y. Deep learning for Chinese word segmentation and POS tagging. In: Proceedings
 of the 2013 Conference on Empirical Methods in Natural
-Language Processing (EMNLP0 2013). Seattle, Washington,
+Language Processing (EMNLP 2013). Seattle, Washington,
 USA: ACL Press, 2013. 647−657
 
-48 Mikolov T, Kombrink S, Burget L, Černocký J H, Khudanpur S. Extensions of recurrent neural network language model. In: Proceedings of the 2011 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP). Prague, Czech Republic: IEEE, 2011.
+ˇ
+48 Mikolov T, Kombrink S, Burget L, Cernock´
+y J H, Khudanpur S. Extensions of recurrent neural network language model. In: Proceedings of the 2011 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP). Prague, Czech Republic: IEEE, 2011.
 5528−5531
 
 60 Xu W, Rudnicky A I. Can artificial neural networks
 learn language models?
 In: Proceedings of 2000 International Conference on Spoken Language Processing
-(ICSLP0 2000). Beijing, China: Speech Communication
+(ICSLP 2000). Beijing, China: Speech Communication
 Press, 2000. 202−205
 
-49 Mikolov T, Deoras A, Povey D, Burget L, Černocký J H.
+ˇ
+49 Mikolov T, Deoras A, Povey D, Burget L, Cernock´
+y J H.
 Strategies for training large scale neural network language
 models. In: Proceedings of the 2011 IEEE Workshop on
 Automatic Speech Recognition and Understanding (ASRU).
@@ -2268,15 +2262,16 @@ Conference on Spoken Language Technology (SLT). Miami,
 Florida, USA: IEEE, 2012. 234−239
 51 Socher R, Perelygin A, Wu J Y, Chuang J, Manning C D,
 Ng A Y, Potts C. Recursive deep models for semantic compositionality over a sentiment treebank. In: Proceedings of
-the 2013 Conference on Empirical Methods in Natural Language Processing (EMNLP0 2013). Seattle, USA: ACL Press,
+the 2013 Conference on Empirical Methods in Natural Language Processing (EMNLP 2013). Seattle, USA: ACL Press,
 2013. 1631−1642
 
-61 Mnih A, Hinton G. Three new graphical models for statistical language modelling. In: Proceedings of the 24th International Conference on Machine Learning (ICML0 07). Corvallis, Oregon: ACM Press, 2007. 641−648
+61 Mnih A, Hinton G. Three new graphical models for statistical language modelling. In: Proceedings of the 24th International Conference on Machine Learning (ICML 07). Corvallis, Oregon: ACM Press, 2007. 641−648
 62 Morin F, Bengio Y. Hierarchical probabilistic neural network language model. In: Proceedings of the 10th International Workshop on Artificial Intelligence and Statistics
-(AISTATS0 2005). Barbados: Omni Press, 2005. 246−252
-63 Bordes A, Usunier N, Garcia-Durán A, Weston J,
+(AISTATS 2005). Barbados: Omni Press, 2005. 246−252
+an A, Weston J,
+63 Bordes A, Usunier N, Garcia-Dur´
 Yakhnenko O. Translating embeddings for modeling multirelational data. In: Proceedings of the 2013 Advances
-in Neural Information Processing Systems 26 (NIPS0 13).
+in Neural Information Processing Systems 26 (NIPS 13).
 Nevada, USA: MIT Press, 2013. 2787−2795
 64 Bengio Y. Deep learning of representations for unsupervised
 and transfer learning. In: Proceedings of the ICML2011
@@ -2286,12 +2281,12 @@ Washington, USA: ACM Press, 2012. 17−37
 52 Turian J, Ratinov L, Bengio Y. Word representations: a
 simple and general method for semi-supervised learning. In:
 Proceedings of the 48th Annual Meeting of the Association
-for Computational Linguistics (ACL0 2010). Uppsala, Sweden: ACL Press, 2010. 384−394
+for Computational Linguistics (ACL 2010). Uppsala, Sweden: ACL Press, 2010. 384−394
 
 65 Le Q V, Ngiam J, Coates A, Lahiri A, Prochnow B, Ng A Y.
 On optimization methods for deep learning. In: Proceedings
 of the 28th International Conference on Machine Learning
-(ICML0 11). Bellevue, Washington, USA: ACM Press, 2011.
+(ICML 11). Bellevue, Washington, USA: ACM Press, 2011.
 67−105
 
 53 Firth J R. A synopsis of linguistic theory 1930-55. Studies
@@ -2299,7 +2294,7 @@ in Linguistic Analysis. Oxford: Philological Society, 1957.
 1−32
 
 66 Henderson J. Neural network probability estimation for
-broad coverage parsing. In: Proceedings of the 10th Conference on European Chapter of the Association for Computational Linguistics (EACL0 03). Budapest, Hungary: ACL
+broad coverage parsing. In: Proceedings of the 10th Conference on European Chapter of the Association for Computational Linguistics (EACL 03). Budapest, Hungary: ACL
 Press, 2003. 131−138
 
 54 Hinton G E. Learning distributed representations of concepts. In: Proceedings of the 8th Annual Conference of the
@@ -2314,20 +2309,21 @@ supervision. In: Proceedings of the 21st International Conference on Computation
 Meeting of the Association for Computational Linguistics
 (COLING and ACL 2006). Sydney, Australia: ACL Press,
 2006. 313−320
-58 Manning C D, Raghavan P, Schütze H. Introduction to
+utze H. Introduction to
+58 Manning C D, Raghavan P, Sch¨
 Information Retrieval. Cambridge: Cambridge University
 Press, 2008.
 
 67 Henderson J. Discriminative training of a neural network statistical parser. In: Proceedings of the 42nd Annual Meeting on Association for Computational Linguistics
-(ACL0 2004). Barcelona, Spain: ACL Press, 2004. 95−102
+(ACL 2004). Barcelona, Spain: ACL Press, 2004. 95−102
 68 Titov I, Henderson J. Porting statistical parsers with datadefined kernels. In: Proceedings of the 10th Conference on
 Computational Natural Language Learning (CoNLL-2006).
 New York, USA: ACL Press, 2006. 6−13
 69 Titov I, Henderson J. Constituent parsing with incremental sigmoid belief networks. In: Proceedings of the 45th
-Annual Meeting on Association for Computational Linguistics (ACL0 2007). Prague, Czech Republic: ACL Press, 2007.
+Annual Meeting on Association for Computational Linguistics (ACL 2007). Prague, Czech Republic: ACL Press, 2007.
 632−639
 70 Collobert R. Deep learning for efficient discriminative parsing. In: Proceedings of the 14th International Conference on
-Artificial Intelligence and Statistics (AISTATS0 2011). Fort
+Artificial Intelligence and Statistics (AISTATS 2011). Fort
 Lauderdale, Florida, USA: Omni Press, 2011. 224−232
 71 Costa F, Frasconi P, Lombardo V, Soda G. Towards incremental parsing of natural language using recursive neural
 networks. Applied Intelligence, 2003, 19(1−2): 9−25
@@ -2343,28 +2339,30 @@ Letters, 2005, 26(12): 1896−1906
 589−637
 74 Socher R, Bauer J, Manning C D, Ng A Y. Parsing with
 compositional vector grammars. In: Proceedings of the 51st
-Annual Meeting on Association for Computational Linguistics (ACL0 2013). Sofia, Bulgaria: ACL Press, 2013. 455−465
+Annual Meeting on Association for Computational Linguistics (ACL 2013). Sofia, Bulgaria: ACL Press, 2013. 455−465
 75 Legrand J, Collobert R. Recurrent greedy parsing with neural networks. In: Proceedings of the 2014 European Conference on Machine Learning and Knowledge Discovery in
 Databases. Nancy, France: Springer Press, 2014. 130−144
 
 1465
 
-84 Cho K, van Merriënboer B, Gulcehre C, Bahdanau D,
+84 Cho K, van Merri¨
+enboer B, Gulcehre C, Bahdanau D,
 Bougares F, Schwenk H, Bengio Y. Learning phrase representations using RNN encoder-decoder for statistical machine translation. In: Proceedings of the 2014 Conference on Empirical Methods in Natural Language Processing
-(EMNLP0 2014). Doha, Qatar: ACL Press, 2014. 1724−1734
-85 Cho K, van Merriënboer B, Bahdanau D, Bengio Y. On the
+(EMNLP 2014). Doha, Qatar: ACL Press, 2014. 1724−1734
+85 Cho K, van Merri¨
+enboer B, Bahdanau D, Bengio Y. On the
 properties of neural machine translation: encoder-decoder
 approaches. In: Proceedings of the 8th Workshop on Syntax,
 Semantics and Structure in Statistical Translation (SSST8). Doha, Qatar: ACL Press, 2014. 103−111
 86 Bahdanau D, Cho K, Bengio Y. Neural machine translation
 by jointly learning to align and translate. In: Proceedings
-of the 3rd International Conference on Learning Representations (ICLR0 2015). San Diego, California, USA: arXiv Press,
+of the 3rd International Conference on Learning Representations (ICLR 2015). San Diego, California, USA: arXiv Press,
 2015. 1409.0473V7
 
 76 Huang E H, Socher R, Manning C D, Ng A Y. Improving
 word representations via global context and multiple word
 prototypes. In: Proceedings of the 50th Annual Meeting of
-the Association for Computational Linguistics (ACL0 2012).
+the Association for Computational Linguistics (ACL 2012).
 Jeju Island, Korea: ACL Press, 2012. 873−882
 
 87 Dong D X, Wu H, He W, Yu D H, Wang H F. Multi-task
@@ -2374,38 +2372,39 @@ Press, 2015. 1723−1732
 
 77 Zhou S S, Chen Q C, Wang X L. Active deep networks for
 semi-supervised sentiment classification. In: Proceedings of
-the 23rd International Conference on Computational Linguistics (COLING0 2010). Beijing, China: ACL Press, 2010.
+the 23rd International Conference on Computational Linguistics (COLING 2010). Beijing, China: ACL Press, 2010.
 1515−1523
 
 88 Pinheiro P O, Collobert R. Recurrent convolutional neural networks for scene labeling. In: Proceedings of the 31st
-International Conference on Machine Learning (ICML0 14).
+International Conference on Machine Learning (ICML 14).
 Beijing, China, 2014. 82−90
 
 78 Glorot X, Bordes A, Bengio Y. Domain adaptation for largescale sentiment classification: a deep learning approach.
 In: Proceedings of the 28th International Conference on
-Machine Learning (ICML0 11). Bellevue, Washington, USA:
+Machine Learning (ICML 11). Bellevue, Washington, USA:
 Omni Press, 2011. 513−520
 79 Socher R, Pennington J, Huang E H, Ng A Y, Manning
 C D. Semi-supervised recursive autoencoders for predicting
 sentiment distributions. In: Proceedings of the 2011 Conference on Empirical Methods in Natural Language Processing
-(EMNLP0 2011). Edinburgh, UK: ACL Press, 2011. 151−161
+(EMNLP 2011). Edinburgh, UK: ACL Press, 2011. 151−161
 80 Liu L M, Watanabe T, Sumita E, Zhao T J. Additive neural
 networks for statistical machine translation. In: Proceedings
-of the 51st Annual Meeting of the Association for Computational Linguistics (ACL0 2013). Sofa, Bulgaria: ACL Press,
+of the 51st Annual Meeting of the Association for Computational Linguistics (ACL 2013). Sofa, Bulgaria: ACL Press,
 2013. 791−801
 81 Yang N, Liu S J, Li M, Zhou M, Yu N H. Word alignment
 modeling with context dependent deep neural network. In:
 Proceedings of the 51st Annual Meeting of the Association
-for Computational Linguistics (ACL0 2013). Sofa, Bulgaria:
+for Computational Linguistics (ACL 2013). Sofa, Bulgaria:
 ACL Press, 2013. 166−175
 82 Kalchbrenner N, Blunsom P. Recurrent continuous translation models. In: Proceedings of the 2013 Conference
 on Empirical Methods in Natural Language Processing
-(EMNLP0 2013). Seattle, Washington, USA: ACL Press,
+(EMNLP 2013). Seattle, Washington, USA: ACL Press,
 2013. 1700−1709
 83 Sutskever I, Vinyals O, Le Q V. Sequence to sequence
 learning with neural networks. In: Proceedings of the 2014
 Advances in Neural Information Processing Systems 27
-(NIPS0 14). Montréal, Quebec, Canada: MIT Press, 2014.
+(NIPS 14). Montr´
+eal, Quebec, Canada: MIT Press, 2014.
 3104−3112
 
 89 Le Q V. Building high-level features using large scale unsupervised learning. In: Proceedings of the 2013 IEEE International Conference on Acoustics, Speech and Signal Processing. Vancouver, BC: IEEE, 2013. 8595−8598

@@ -525,10 +525,10 @@ vector(“中国”) - vector(“北京”) +
 当 L  M 时，按照下两式计算二者的语义相似度：
 L
 
-Sim(V event V new ) = å MSim ij × W (ci d event ) ×
+Sim(V event V new )  = å MSim ij × W (ci d event )  ×
 i=1
 
-W (w j d new ) j Î[1 M ]
+W (w j d new )  j Î[1 M ]
 
 本 d event 的关键词，具体计算方法如下：
 W (ci d event ) =
@@ -551,14 +551,14 @@ ci pos =
 
 {
 
-P “v” or “n”
+P “v”     or     “n”
 Q otherwise
 
 （9）
 
-MSim(v(ci ) v(w j ))   MSim(v(ci ) v(w M ))} （14）
+MSim(v(ci ) v(w j ))   MSim(v(ci ) v(w M ))} （14）
 
-其中，W (ci d event ) 和 W (w j d new ) 分别表示初始事件 V event
+其中，W (ci d event )  和 W (w j d new )   分别表示初始事件 V event
 和微博 V new 中关键词 ci 和 w j 的权重，MSim ij 表示关键
 词 ci 和 w j 具有最大的语义相似度，MSim(v(ci ) v(w j )) 表
 示两个词的语义相似度，v(ci ) 和 v(w j ) 分别表示关键词
@@ -604,7 +604,7 @@ W (w j d m) =
 
 （13）
 
-MSim ij = max{MSim(v(ci ) v(w1)) MSim(v(ci ) v(w 2)) 
+MSim ij = max{MSim(v(ci ) v(w1))  M Sim(v(ci ) v(w 2)) 
 
 其中，当 ci 为名词或者动词的时候权重取 P ，当 ci 为其
 
@@ -635,12 +635,13 @@ j
 示词性标注加权值，设置方法参照 3.3.1 节。
 通过计算得到微博 d m 的关键词后，建立微博表示
 
-å (MSimij) k ×W (ci devent) × W (w j d new)
+å (MSimij) k ×W (ci devent)  × W (w j d new) 
 k=1
 
-（16）
+  （16）
 T
 该计算方法适合长度较短的微博，特征非常稀疏，
+
 通 常 只 有 少 量 的 关 键 词 相 似 。 因 此 只 对 MSim ij  0.01
 （此时本文认为两个词语的语义很接近）的关键词进行
 语义相似度计算，且进行了归一化，避免了无关特征削
