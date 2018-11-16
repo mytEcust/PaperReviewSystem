@@ -53,8 +53,10 @@ def paragraph_counter(file_data):
     """
     if file_data.count('。\n') > 0:
         return file_data.count('。\n')
-    else:
+    elif file_data.count('.\n')>0:
         return file_data.count('.\n')
+    else:
+        return file_data.count('．\n')
 
 
 def find_time(file_data, start):
@@ -448,8 +450,8 @@ def filter_reference_source(item):
     英语间的空格要保留
     """
     item = item.replace('\n', '')
-    if item and item[0]==' ':
-        item=item[1:]
+    if item and item[0] == ' ':
+        item = item[1:]
     for _char in item:
         if is_chinese(_char):
             item = item.replace(' ', '')
@@ -488,3 +490,25 @@ def references_source(file_data):
     source_list = [filter_reference_source(_source) for _source in source_list]
     source_list = [_source for _source in source_list if len(_source) > 4]
     return source_list
+
+
+def add_proportion(model_dict, data_dict, key_name, pro_name):
+    """
+    "first_author": "郭蓝天",
+    "authors": ["郭蓝天", "李扬", "慕德俊", "杨涛", "李哲"]
+    ===>
+    "fir_auth_pro":3 # 百分比制
+    "authors":5 #对于list，百分比相加，百分比制
+    """
+
+    if isinstance(data_dict[key_name], list):
+        num = 0
+        for item in data_dict[key_name]:
+            _num = model_dict[key_name]['list'].get(item)
+            num += _num if _num else 0
+    else:
+        num = model_dict[key_name]['list'].get(data_dict[key_name])
+
+    data_dict[pro_name] = num/model_dict[key_name]['total_num'] if num else 0
+    data_dict[pro_name] = round(data_dict[pro_name]*100, 5)
+    return data_dict

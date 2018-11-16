@@ -33,7 +33,7 @@ def train_datasest(train_dir):
         paper_train.append(document)
 
     # 保存文献字典
-    with open('./model/paper_dict.json', 'w') as f_json:
+    with open('./model/paper-dict.json', 'w') as f_json:
         # json字符化时不让中文转换为unicode
         f_json.write(json.dumps(paper_dict, ensure_ascii=False))
 
@@ -57,7 +57,7 @@ def load_paper_index():
     """
     读取文献字典
     """
-    with open('./model/paper_dict.json', 'r', encoding="utf-8") as f_json:
+    with open('./model/paper-dict.json', 'r', encoding="utf-8") as f_json:
         paper_dict = f_json.read()
         paper_dict = json.loads(paper_dict)
         return paper_dict
@@ -75,6 +75,7 @@ def set_similar_paper(paper_similar, format_dir):
             _p_json['similar_paper'] = paper_similar[p_name]
             # 将写入指针指向开头,即覆盖源文件
             p_json.seek(0, 0)
+            p_json.truncate()
             p_json.write(json.dumps(_p_json, ensure_ascii=False))
 
 
@@ -106,7 +107,7 @@ def run_model(test_dir, format_dir):
                 paper_name = paper.split('.txt')[0]
                 paper_similar[paper_name].append({
                     'name': paper_dict[str(index)],
-                    'sim': sim
+                    'sim': sim*100 # 百分制
                 })
     set_similar_paper(paper_similar, format_dir)
     print("[DONE] run_model")

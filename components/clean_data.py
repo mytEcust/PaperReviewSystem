@@ -48,8 +48,9 @@ def _clean_out_of_date(format_dir, outlier):
             _format_data = format_data.read()
             _format_data = json.loads(_format_data)
             out_of_date = _format_data["out_of_date"]
-            out_of_date = list(filter(lambda x: x <= outlier, out_of_date))
+            out_of_date = list(filter(lambda x: x <= outlier and x>=0, out_of_date))
             _format_data["out_of_date"] = out_of_date
             # 将写入指针指向开头,即覆盖源文件
-            format_data.seek(0, 0)
+            format_data.seek(0,0)
+            format_data.truncate()
             format_data.write(json.dumps(_format_data, ensure_ascii=False))
