@@ -31,7 +31,7 @@ if __name__ == '__main__':
     dv.run_model(TRAIN_DIR, FORMAT_DIR)
 
     # 数据预处理
-    # cd.clean_out_of_date(FORMAT_DIR)
+    cd.clean_out_of_date(FORMAT_DIR)
 
     pw.model_proportion(FORMAT_DIR, MODEL_DIR)
     pw.average_data(FORMAT_DIR, MODEL_DIR)
