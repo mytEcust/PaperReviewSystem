@@ -18,23 +18,66 @@ TRAIN_DIR = './train_data/'
 FORMAT_DIR = './format_data/'
 MODEL_DIR = './model/'
 
-if __name__ == '__main__':
+EXEC_DIR = './predict/paper/'
+EXEC_TXT_DIR = './predict/txt/'
+EXEC_FORMAT_DIR = './predict/format/'
+EXEC_TRAIN_DIR = './predict/train/'
+
+
+def creat_model():
+    """
+    段落向量及OCSVM的建模
+    """
+    print('--- START CREATE MODEL ---')
     # 初始化工作
     pw.init_dir([TXT_DIR, TRAIN_DIR, FORMAT_DIR, MODEL_DIR])
     pw.switch_pdf(PAPER_DIR, TXT_DIR)
     pw.format_paper(TXT_DIR, FORMAT_DIR)
     pw.format_train_data(TXT_DIR, TRAIN_DIR)
-    
 
     # 段落向量计算相似度
-    dv.train_datasest(TRAIN_DIR)
-    dv.run_model(TRAIN_DIR, FORMAT_DIR)
+    dv.train_datasest(TRAIN_DIR, MODEL_DIR)
+    dv.run_model(TRAIN_DIR, FORMAT_DIR, MODEL_DIR)
 
     # 数据预处理
-    cd.clean_out_of_date(FORMAT_DIR)
-
+    cd.trian_out_of_date(FORMAT_DIR, MODEL_DIR)
+    cd.clean_out_of_date(FORMAT_DIR, MODEL_DIR)
     pw.model_proportion(FORMAT_DIR, MODEL_DIR)
+    pw.proportion_data(FORMAT_DIR, MODEL_DIR)
     pw.average_data(FORMAT_DIR, MODEL_DIR)
-    pw.svm_matrix(FORMAT_DIR, MODEL_DIR)
 
-    svm.one_class_svm(MODEL_DIR)
+    # 单分类svm
+    pw.svm_matrix(FORMAT_DIR, MODEL_DIR, 'train')
+    svm.create_ocsvm_model(MODEL_DIR)
+    print('--- DONE CREATE MODEL ---')
+
+
+def predict_model():
+    """
+    预测数据
+    """
+    print('--- START PREDICT MODEL ---')
+    # 1. clean model data
+    pw.init_dir([EXEC_TXT_DIR, EXEC_FORMAT_DIR, EXEC_TRAIN_DIR])
+    # 2. pdf2txt
+    pw.switch_pdf(EXEC_DIR, EXEC_TXT_DIR)
+    # 3. get basic feature
+    pw.format_paper(EXEC_TXT_DIR, EXEC_FORMAT_DIR)
+    # 4. format txt to train's data for doc2dev
+    pw.format_train_data(EXEC_TXT_DIR, EXEC_TRAIN_DIR)
+    # 5. doc2dev
+    dv.run_model(EXEC_TRAIN_DIR, EXEC_FORMAT_DIR, MODEL_DIR)
+    # 6. clean out of data
+    cd.clean_out_of_date(EXEC_FORMAT_DIR, MODEL_DIR)
+    # 7. format data to proportion data
+    pw.proportion_data(EXEC_FORMAT_DIR, MODEL_DIR)
+    # 8. create svm matrix
+    pw.svm_matrix(EXEC_FORMAT_DIR, MODEL_DIR, 'predict')
+    # 9. run ocsvm
+    svm.run_ocsvm(MODEL_DIR)
+    print('--- DONE PREDICT MODEL ---')
+
+
+if __name__ == '__main__':
+    # creat_model()
+    predict_model()

@@ -177,33 +177,17 @@ def model_proportion(format_dir, model_dir):
     funds['total_num'] = funds_count
     ref_sources['total_num'] = ref_sources_count
 
-    with open(model_dir+'journals.json', 'w') as data:
-        data.write(json.dumps(journals, ensure_ascii=False))
-
-    with open(model_dir+'authors.json', 'w') as data:
-        data.write(json.dumps(authors, ensure_ascii=False))
-
-    with open(model_dir+'first-authors.json', 'w') as data:
-        data.write(json.dumps(fir_auth, ensure_ascii=False))
-
-    with open(model_dir+'author-institutions.json', 'w') as data:
-        data.write(json.dumps(author_instits, ensure_ascii=False))
-
-    with open(model_dir+'fund-projects.json', 'w') as data:
-        data.write(json.dumps(funds, ensure_ascii=False))
-
-    with open(model_dir+'ref-journals.json', 'w') as data:
-        data.write(json.dumps(ref_sources, ensure_ascii=False))
-
-    proportion_data(format_dir, {
+    all_data = {
         'authors': authors,
         'first_author': fir_auth,
         'author_institutions': author_instits,
         'journal': journals,
         'fund_project': funds,
         'references_source': ref_sources
-    })
+    }
 
+    with open(model_dir+'sum-data.json', 'w') as data:
+        data.write(json.dumps(all_data, ensure_ascii=False))
     print("[DONE] format proportion")
 
 
@@ -231,15 +215,20 @@ def average_data(format_dir, model_dir):
 
     with open(model_dir+'average-data.json', 'w') as data:
         data.write(json.dumps(av_dict, ensure_ascii=False))
-    
+
     print("[DONE] average data")
 
 
-def proportion_data(format_dir, pro_dict):
+def proportion_data(format_dir, model_dir):
     """
     将文本数据量化为百分比
     """
     print("[START] proportion data")
+    pro_dict = {}
+    with open(model_dir+'sum-data.json', 'r') as data:
+        pro_dict = data.read()
+        pro_dict = json.loads(pro_dict)
+
     PRO_ELEMENT = [
         {'key_name': 'authors', 'pro_name': 'authors_pro'},
         {'key_name': 'first_author', 'pro_name': 'first_author_pro'},
@@ -281,7 +270,7 @@ def proportion_data(format_dir, pro_dict):
     print("[DONE] proportion data")
 
 
-def svm_matrix(format_dir, model_dir):
+def svm_matrix(format_dir, model_dir, method='train'):
     """
     生成svm多维矩阵
     """
@@ -291,6 +280,7 @@ def svm_matrix(format_dir, model_dir):
         av_dict = json.loads(av_dict)
 
     X = []
+    paper_list = []
     for paper in os.listdir(format_dir):
         per_x = []
         with open(format_dir+paper, 'r', encoding="utf-8") as txt:
@@ -298,17 +288,26 @@ def svm_matrix(format_dir, model_dir):
             _f_json = json.loads(f_txt)
 
             # 训练数据前最后的数据清理
-            if _f_json['words'] < 1000:
+            if _f_json['words'] < 1000 and method == 'train':
                 continue
 
             for _key in keys:
                 # 没有获取到值的取平均数据
-                _value=_f_json[_key] if _f_json[_key] else av_dict[_key]
+                _value = _f_json[_key] if _f_json[_key] else av_dict[_key]
                 per_x.append(_f_json[_key])
 
         X.append(per_x)
+        paper_list.append(paper.split(".")[0])
+        
+    file_name = 'svm-matrix.json'
+    if method != 'train':
+        file_name = 'predict-svm-matrix.json'
+        X = {
+            'X': X,
+            'paper_list': paper_list
+        }
 
-    with open(model_dir+'svm-matrix.json', 'w') as data:
+    with open(model_dir+file_name, 'w') as data:
         data.write(json.dumps(X, ensure_ascii=False))
 
     print("[DONE]] creat svm matrix")

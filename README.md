@@ -27,6 +27,7 @@ python3 index.py
 - train_data 中是经过处理的文献资料用于词向量的训练集
 - model 文件夹中是训练完成的模型数据
 - format_data 中存放的是最后分析得出的文献数据
+- predict 文件夹为预测数据集
 
 ### 模块说明
 

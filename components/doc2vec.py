@@ -9,7 +9,7 @@ import jieba
 from gensim.models.doc2vec import Doc2Vec, TaggedDocument
 
 
-def train_datasest(train_dir):
+def train_datasest(train_dir, model_dir):
     """
     训练语料预处理至TaggedDocument
     """
@@ -33,7 +33,7 @@ def train_datasest(train_dir):
         paper_train.append(document)
 
     # 保存文献字典
-    with open('./model/paper-dict.json', 'w') as f_json:
+    with open(model_dir+'paper-dict.json', 'w') as f_json:
         # json字符化时不让中文转换为unicode
         f_json.write(json.dumps(paper_dict, ensure_ascii=False))
 
@@ -49,15 +49,15 @@ def train_datasest(train_dir):
     # epochs 训练次数
     model_dm.train(
         paper_train, total_examples=model_dm.corpus_count, epochs=70)
-    model_dm.save('./model/model.txt')
+    model_dm.save(model_dir+'doc2vec-model')
     print("[DONE] train doc2vec")
 
 
-def load_paper_index():
+def load_paper_index(model_dir):
     """
     读取文献字典
     """
-    with open('./model/paper-dict.json', 'r', encoding="utf-8") as f_json:
+    with open(model_dir+'paper-dict.json', 'r', encoding="utf-8") as f_json:
         paper_dict = f_json.read()
         paper_dict = json.loads(paper_dict)
         return paper_dict
@@ -79,35 +79,38 @@ def set_similar_paper(paper_similar, format_dir):
             p_json.write(json.dumps(_p_json, ensure_ascii=False))
 
 
-def run_model(test_dir, format_dir):
+def run_model(train_dir, format_dir, model_dir):
     """
     检测论文相似度
     """
     print("[START] run_model")
     # 加载训练的模型
-    model_dm = Doc2Vec.load('./model/model.txt')
+    model_dm = Doc2Vec.load(model_dir+'doc2vec-model')
     # 加载文献字典
-    paper_dict = load_paper_index()
+    paper_dict = load_paper_index(model_dir)
     paper_similar = {}
-    for paper in os.listdir(test_dir):
-        with open(test_dir+paper, 'r', encoding="utf-8") as test_d:
+    for paper in os.listdir(train_dir):
+        with open(train_dir+paper, 'r', encoding="utf-8") as test_d:
             test_d = test_d.read()
             test_text = list(jieba.cut(test_d))
             inferred_vector_dm = model_dm.infer_vector(test_text)
-            # topn 降序显示相似度最大的2个taggeddocument
-            sims = model_dm.docvecs.most_similar([inferred_vector_dm], topn=11)
+            # topn 降序显示相似度最大的15个taggeddocument
+            sims = model_dm.docvecs.most_similar([inferred_vector_dm], topn=15)
             paper_name = paper.split('.txt')[0]
             paper_similar[paper_name] = []
             i = 0
             for index, sim in sims:
-                # 第一个是自己不插入
-                if i == 0:
-                    i += 1
+                # 是自己则跳过
+                if paper_dict[str(index)] == paper_name:
                     continue
                 paper_name = paper.split('.txt')[0]
                 paper_similar[paper_name].append({
                     'name': paper_dict[str(index)],
-                    'sim': sim*100 # 百分制
+                    'sim': sim*100  # 百分制
                 })
+                # 获取10篇后结束
+                if len(paper_similar[paper_name]) == 10:
+                    break
+
     set_similar_paper(paper_similar, format_dir)
     print("[DONE] run_model")

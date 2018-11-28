@@ -3,17 +3,23 @@
 单分类SVM
 """
 
+import json
 import numpy as np
 from sklearn import svm
-import json
+from sklearn.externals import joblib
+from . import pre_work as pw
 
-keys = ['words', 'paragraph', 'reference_counter', 'authors_pro', 'first_author_pro',
-        'author_institutions_pro', 'journal_pro', 'fund_project_pro',
-        'references_source_pro', 'out_of_date_pro',
-        'most_similar', 'sims_pro']
+keys = pw.keys
+
+# 由于OCSVM具有边界敏感的性质，故给予一定负阈值，
+# 使得边界附近点不会被拒绝
+THRESHOLD = -0.0001
 
 
-def one_class_svm(model_dir):
+def create_ocsvm_model(model_dir):
+    """
+    单分类SVM训练模型
+    """
     X = []
     with open(model_dir+'svm-matrix.json', 'r', encoding="utf-8") as txt:
         f_txt = txt.read()
@@ -22,12 +28,27 @@ def one_class_svm(model_dir):
     # https://scikit-learn.org/stable/modules/generated/sklearn.svm.OneClassSVM.html
     clf = svm.OneClassSVM(nu=0.05, kernel="rbf", gamma=1/(len(keys)*X.std()))
     clf.fit(X)
-    X_train = clf.predict(X)
-    X_detail = clf.decision_function(X)
+    # 保存训练完的model
+    joblib.dump(clf, model_dir+'clf-svm.pkl')
 
-    count = 0
-    for item in X_detail:
-        if item*-10000 > 1:
-            print(item*-10000)
-            count += 1
-    print(count)
+
+def run_ocsvm(model_dir):
+    """
+    运行单分类svm
+    """
+    # 读取Model
+    clf = joblib.load(model_dir+'clf-svm.pkl')
+    X = []
+    with open(model_dir+'predict-svm-matrix.json', 'r', encoding="utf-8") as txt:
+        f_txt = txt.read()
+        data = json.loads(f_txt)
+    paper_list = data['paper_list']
+    X = np.array(data['X'])
+    # X_train = clf.predict(X)
+    X_detail = clf.decision_function(X)
+    for i, score in enumerate(X_detail):
+        print(score)
+        if score > THRESHOLD:
+            print(paper_list[i]+'：通过')
+        else:
+            print(paper_list[i]+'：失败')
