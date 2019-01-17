@@ -63,21 +63,21 @@ def predict_model():
     """
     print('--- START PREDICT MODEL ---')
     # 1. clean model data
-    # pw.init_dir([EXEC_TXT_DIR, EXEC_FORMAT_DIR, EXEC_TRAIN_DIR])
-    # # 2. pdf2txt
-    # pw.switch_pdf(EXEC_DIR, EXEC_TXT_DIR)
-    # # 3. get basic feature
-    # pw.format_paper(EXEC_TXT_DIR, EXEC_FORMAT_DIR)
-    # # 4. format txt to train's data for doc2dev
-    # pw.format_train_data(EXEC_TXT_DIR, EXEC_TRAIN_DIR)
-    # # 5. doc2dev
-    # dv.run_model(EXEC_TRAIN_DIR, EXEC_FORMAT_DIR, MODEL_DIR)
-    # # 6. clean out of data
-    # cd.clean_out_of_date(EXEC_FORMAT_DIR, MODEL_DIR)
-    # # 7. format data to proportion data
-    # pw.proportion_data(EXEC_FORMAT_DIR, MODEL_DIR)
-    # # 8. create svm matrix
-    # pw.svm_matrix(EXEC_FORMAT_DIR, MODEL_DIR, 'predict')
+    pw.init_dir([EXEC_TXT_DIR, EXEC_FORMAT_DIR, EXEC_TRAIN_DIR])
+    # 2. pdf2txt
+    pw.switch_pdf(EXEC_DIR, EXEC_TXT_DIR)
+    # 3. get basic feature
+    pw.format_paper(EXEC_TXT_DIR, EXEC_FORMAT_DIR)
+    # 4. format txt to train's data for doc2dev
+    pw.format_train_data(EXEC_TXT_DIR, EXEC_TRAIN_DIR)
+    # 5. doc2dev
+    dv.run_model(EXEC_TRAIN_DIR, EXEC_FORMAT_DIR, MODEL_DIR)
+    # 6. clean out of data
+    cd.clean_out_of_date(EXEC_FORMAT_DIR, MODEL_DIR)
+    # 7. format data to proportion data
+    pw.proportion_data(EXEC_FORMAT_DIR, MODEL_DIR)
+    # 8. create svm matrix
+    pw.svm_matrix(EXEC_FORMAT_DIR, MODEL_DIR, 'predict')
     # 9. run ocsvm
     data_list = svm.run_ocsvm(MODEL_DIR)
     # 10. make report
@@ -86,5 +86,5 @@ def predict_model():
 
 
 if __name__ == '__main__':
-    # creat_model()
+    creat_model()
     predict_model()
