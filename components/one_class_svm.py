@@ -13,6 +13,7 @@ keys = pw.keys
 
 # 由于OCSVM具有边界敏感的性质，故给予一定负阈值，
 # 使得边界附近点不会被拒绝
+# https://scikit-learn.org/stable/auto_examples/plot_anomaly_comparison.html#sphx-glr-auto-examples-plot-anomaly-comparison-py
 THRESHOLD = -0.0001
 
 
@@ -46,9 +47,19 @@ def run_ocsvm(model_dir):
     X = np.array(data['X'])
     # X_train = clf.predict(X)
     X_detail = clf.decision_function(X)
+    result_list = []
     for i, score in enumerate(X_detail):
-        print(score)
         if score > THRESHOLD:
-            print(paper_list[i]+'：通过')
+            result_list.append({
+                "paper_name":paper_list[i],
+                "score": score,
+                "result":'通过'
+            })
         else:
-            print(paper_list[i]+'：失败')
+            result_list.append({
+                "paper_name":paper_list[i],
+                "score": score,
+                "result":'失败'
+            })
+    
+    return result_list
