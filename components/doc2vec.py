@@ -98,7 +98,6 @@ def run_model(train_dir, format_dir, model_dir):
             sims = model_dm.docvecs.most_similar([inferred_vector_dm], topn=15)
             paper_name = paper.split('.txt')[0]
             paper_similar[paper_name] = []
-            i = 0
             for index, sim in sims:
                 # 是自己则跳过
                 if paper_dict[str(index)] == paper_name:
