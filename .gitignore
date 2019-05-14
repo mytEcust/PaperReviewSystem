@@ -4,3 +4,15 @@ txt_data
 test_data
 predict
 .vscode
+test_dir/ceaj/format
+test_dir/ceaj/report
+test_dir/ceaj/train
+test_dir/ceaj/txt
+test_dir/ecice/format_data
+test_dir/ecice/model
+test_dir/ecice/train_data
+test_dir/ecice/txt_data
+test_dir/jos/format
+test_dir/jos/report
+test_dir/jos/train
+test_dir/jos/txt

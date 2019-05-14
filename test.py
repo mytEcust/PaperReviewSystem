@@ -4,15 +4,14 @@
 """
 
 from configobj import ConfigObj
-import sys 
-sys.path.append("..") 
+
 from components import pre_work as pw
 from components import doc2vec as dv
 from components import clean_data as cd
 from components import one_class_svm as svm
 from components import report as rp
 
-config = ConfigObj('../config/default.conf')
+config = ConfigObj('./config/default.conf')
 
 PAPER_DIR = config['ecice']['paper_dir']
 TXT_DIR = config['ecice']['txt_dir']

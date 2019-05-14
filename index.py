@@ -13,7 +13,7 @@ from components import clean_data as cd
 from components import one_class_svm as svm
 from components import report as rp
 
-config = ConfigObj('../config/default.conf')
+config = ConfigObj('./config/default.conf')
 
 PAPER_DIR = config['train']['paper_dir']
 TEST_DIR = config['train']['test_dir']

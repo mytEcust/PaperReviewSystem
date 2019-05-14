@@ -115,18 +115,32 @@ def _get_avg_data(model_dir):
 def generate_report(data_list, format_dir, model_dir, report_dir):
     print("[START] generate report")
     av_dict = _get_avg_data(model_dir)
+    sum_report = ""
+    sum_num = 0
+    sum_result = 0
+    sum_most_similar = 0
+    sum_similar_pro = 0
     for _data in data_list:
         report = ""
+        sum_num += 1
         with open(format_dir+_data["paper_name"].split(".")[0]+'.json', 'r', encoding="utf-8") as format_data:
             format_data = format_data.read()
             format_data = json.loads(format_data)
             _report = "评审建议："+str(_data['result']) + \
                 "；评审系数："+str(_data['score'][0])+"\n"
             report += _report
+            sum_result += abs(_data['score'][0])
+            sum_most_similar += format_data['most_similar']
+            sum_similar_pro += format_data['sims_pro']
             for _key in format_data.keys():
-                if _key in _map_report:  
+                if _key in _map_report:
                     report = _map_report[_key](
                         format_data[_key], av_dict, report)
         with open(report_dir+_data["paper_name"].split(".")[0]+'.txt', 'w', encoding="utf-8") as r_data:
             r_data.write(report)
+    sum_report += "总体评审系数："+str(round(sum_result/sum_num, 5)) + \
+        "\n"+"平均最大相似系数："+str(round(sum_most_similar/sum_num, 5)) + \
+        "\n"+"总体平均前十相似系数："+str(round(sum_similar_pro/sum_num, 5))
+    with open(report_dir+'sum-report.txt', 'w', encoding="utf-8") as sum_data:
+        sum_data.write(sum_report)
     print("[DONE] agenerate report")
